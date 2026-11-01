@@ -9,8 +9,8 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-username = os.environ["test-hammel"]
-password = os.environ["123456"]
+username = os.environ["DEMO_USERNAME"]
+password = os.environ["DEMO_PASSWORD"]
 
 user, created = User.objects.get_or_create(
     username=username,
