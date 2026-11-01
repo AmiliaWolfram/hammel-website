@@ -1,0 +1,30 @@
+
+/* HAMMEL corporate yellow from the original logo (#FFED00).
+   Only small section overlines, not headlines, CTA buttons or red accents. */
+:root {
+  --hammel-yellow: #FFED00;
+}
+.eyebrow,
+.kicker,
+.global-network__eyebrow,
+.material__eyebrow,
+.cinema-panel__eyebrow,
+.news-panel__tag,
+.news-panel__eyebrow,
+.section-eyebrow,
+.section-kicker {
+  color: var(--hammel-yellow) !important;
+}
+/* Restore original dark labels on light backgrounds. */
+.section.white .kicker,
+.section.white .eyebrow,
+.section.white .section-eyebrow,
+.section.white .section-kicker,
+.why-section .kicker,
+.why-section .eyebrow,
+.news-section .kicker,
+.news-section .eyebrow,
+.news-panel__tag,
+.news-panel__eyebrow {
+  color: #171717 !important;
+}

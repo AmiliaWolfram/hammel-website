@@ -1,0 +1,6 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% block title %}HAMMEL | Messenverwaltung{% endblock %}
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" href="{% static 'css/hammel-admin.css' %}">{% endblock %}
+{% block branding %}<div class="hammel-admin-brand"><img src="{% static 'img/hammel-logo-light.svg' %}" alt="HAMMEL" /><span>MESSENVERWALTUNG</span></div>{% endblock %}
+{% block nav-global %}{% endblock %}

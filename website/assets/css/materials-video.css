@@ -1,0 +1,80 @@
+
+/* HAMMEL / EINSATZBEREICHE — cinematic video tiles */
+.materials-section .material--video {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #191b1e;
+  color: #fff;
+  min-width: 0
+}
+.material--video .material__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  filter: contrast(1.04) brightness(.77);
+  transform: scale(1.025);
+  transition: transform .9s cubic-bezier(.2,.8,.2,1),filter .65s ease;
+  pointer-events: none
+}
+.material--video .material__shade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg,rgba(10,11,13,.34) 0%,rgba(10,11,13,.05) 40%,rgba(10,11,13,.84) 100%);
+  pointer-events: none
+}
+.material--video .material__eyebrow {
+  position: absolute;
+  left: clamp(14px,1.4vw,24px);
+  top: clamp(17px,1.5vw,26px);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .15em;
+  color: #fff;
+  opacity: .85;
+  z-index: 2
+}
+.materials-section .material--video h3 {
+  position: relative;
+  z-index: 2;
+  color: white;
+  text-shadow: 0 2px 18px rgba(0,0,0,.4)
+}
+.materials-section .material--video .material__arrow {
+  position: relative;
+  z-index: 2;
+  color: white
+}
+.material--video:hover .material__video,.material--video:focus-visible .material__video {
+  transform: scale(1.07);
+  filter: contrast(1.07) brightness(.98)
+}
+.material--video:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: #e30613;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .55s ease;
+  pointer-events: none
+}
+.material--video:hover:after,.material--video:focus-visible:after {
+  transform: scaleX(1)
+}
+@media(prefers-reduced-motion:reduce) {
+  .material--video .material__video {
+    transition: none;
+    transform: none
+  }
+  .material--video:after {
+    transition: none
+  }
+}

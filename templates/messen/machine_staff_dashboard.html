@@ -1,0 +1,24 @@
+{% extends "messen/base.html" %}
+{% block title %}Maschinenverwaltung{% endblock %}
+{% block content %}
+<div class="eyebrow">HAMMEL / VERTRIEB</div>
+<h1>MASCHINEN<span class="red">VERWALTUNG</span></h1>
+<p class="subtitle">Baureihen und einzelne Maschinenvarianten zentral bearbeiten.</p>
+<div class="machine-staff-actions">
+{% if can_add_product %}<a href="{% url 'staff_machine_product_create' %}">+ NEUE BAUREIHE</a>{% endif %}
+{% if can_add_variant %}<a href="{% url 'staff_machine_variant_create' %}">+ NEUE VARIANTE</a>{% endif %}
+<a href="{% url 'staff_home' %}">← VERTRIEBSPORTAL</a>
+</div>
+<p><a href="{% url 'showcase_dashboard' %}" style="display:inline-block;background:#e30613;color:white;padding:18px 24px;text-decoration:none;font-weight:800">STARTSEITEN-SHOWCASE VERWALTEN</a></p>
+<h2>BAUREIHEN</h2><p class="subtitle">Allgemeine Informationen zur Serie. Technische Daten und Einsatzmaterialien bearbeiten Sie unter Modellvarianten.</p>
+<div class="machine-staff-list">
+{% for p in products %}<div class="machine-staff-item"><div><strong>{{ p.model_name }}</strong><small>{{ p.get_category_display }} · {% if p.published %}Veröffentlicht{% else %}Entwurf{% endif %} · {{ p.variants.count }} Varianten</small></div>{% if perms.messen.change_machineproduct %}<a href="{% url 'staff_machine_product_edit' p.pk %}">BEARBEITEN</a>{% endif %}</div>{% empty %}<p>Noch keine Baureihen angelegt.</p>{% endfor %}
+</div>
+<h2>MODELLVARIANTEN</h2>
+<div class="machine-staff-list">
+{% for v in variants %}<div class="machine-staff-item"><div><strong>{{ v.name }}</strong><small>{{ v.product.model_name }} · {% if v.published %}Veröffentlicht{% else %}Entwurf{% endif %}</small></div>{% if perms.messen.change_machinevariant %}<a href="{% url 'staff_machine_variant_edit' v.pk %}">BEARBEITEN</a>{% endif %}</div>{% empty %}<p>Noch keine Varianten angelegt.</p>{% endfor %}
+</div>
+<style>
+.machine-staff-actions{display:flex;flex-wrap:wrap;gap:12px;margin:32px 0 45px}.machine-staff-actions a{padding:14px 18px;border:1px solid #242424;text-decoration:none;color:#181818;font-weight:800}.machine-staff-actions a:hover{background:#181818;color:#fff}.machine-staff-list{margin:20px 0 50px}.machine-staff-item{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:20px 0;border-bottom:1px solid #d6d6d6}.machine-staff-item strong{display:block;font-size:23px}.machine-staff-item small{display:block;margin-top:6px;color:#666}.machine-staff-item a{font-weight:800;color:#e30613;text-decoration:none}@media(max-width:600px){.machine-staff-item{align-items:flex-start;flex-direction:column}}
+</style>
+{% endblock %}

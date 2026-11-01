@@ -1,0 +1,442 @@
+
+/* HAMMEL / ÜBER UNS — EDITORIAL FLOW 2026
+   A single restrained visual narrative; photos cross chapter boundaries.
+   This stylesheet loads LAST and supersedes legacy collage rules. */
+:root {
+  --hc-edge: clamp(24px,4.7vw,96px);
+  --hc-red: #e30613;
+  --hc-cream: #f5f4f0;
+  --hc-dark: #151719
+}
+body .hc-story,body .hc-journey {
+  background: var(--hc-cream)!important;
+  border: 0!important;
+  overflow: visible!important
+}
+body .hc-journey:before,body .hc-journey:after,body .hc-story:before,body .hc-story:after,body .hc-chapter:before,body .hc-chapter:after {
+  display: none!important;
+  content: none!important
+}
+body .hc-chapter {
+  position: relative!important;
+  isolation: isolate;
+  min-height: 0!important;
+  height: auto!important;
+  max-height: none!important;
+  overflow: visible!important;
+  display: block!important;
+  border: 0!important;
+  box-shadow: none!important;
+  padding: clamp(65px,7vw,112px) 0!important;
+  background: var(--hc-cream)!important;
+  color: #17191a!important
+}
+body .hc-chapter-inner {
+  position: relative!important;
+  width: calc(100% - 2 * var(--hc-edge))!important;
+  max-width: 1560px!important;
+  margin: 0 auto!important;
+  padding: 0!important;
+  min-height: 0!important;
+  display: grid!important;
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr)!important;
+  gap: clamp(34px,5vw,95px)!important;
+  align-items: center!important
+}
+body .hc-chapter h3 {
+  font-size: clamp(35px,4.15vw,74px)!important;
+  line-height: 1.03!important;
+  letter-spacing: -.045em!important;
+  margin: 18px 0 23px!important;
+  max-width: 800px!important;
+  color: inherit!important;
+  overflow-wrap: normal!important;
+  word-break: normal!important
+}
+body .hc-chapter h3 em {
+  font-style: normal!important;
+  color: var(--hc-red)!important
+}
+body .hc-chapter p {
+  font-size: clamp(16px,1.12vw,19px)!important;
+  line-height: 1.7!important;
+  max-width: 620px!important;
+  color: inherit!important;
+  opacity: .78!important;
+  margin: 0 0 22px!important
+}
+body .hc-chapter .hc-index {
+  font-size: 12px!important;
+  font-weight: 800!important;
+  letter-spacing: .13em!important;
+  color: var(--hc-red)!important
+}
+body .hc-chapter .hc-index span {
+  color: inherit!important
+}
+body .hc-chapter .hc-footnote {
+  font-size: 11px!important;
+  letter-spacing: .12em!important;
+  color: inherit!important;
+  opacity: .56!important
+}
+body .hc-chapter .hc-media {
+  border: 0!important;
+  box-shadow: none!important;
+  background: transparent!important;
+  overflow: visible!important;
+  transform: none!important
+}
+body .hc-chapter .hc-media img,body .hc-chapter .hc-innovation-photo img {
+  display: block;
+  width: 100%!important;
+  max-height: 440px!important;
+  height: auto!important;
+  object-fit: contain!important;
+  filter: none!important;
+  mix-blend-mode: normal!important;
+  transform: none!important;
+  clip-path: none!important
+}
+body .hc-chapter .hc-media-caption {
+  font-size: 11px!important;
+  letter-spacing: .1em!important
+}
+body .hc-chapter .hc-watermark {
+  font-size: clamp(90px,12vw,210px)!important;
+  opacity: .035!important;
+  pointer-events: none!important;
+  right: 0!important;
+  left: auto!important
+}
+body .hc-chapter-bg,body .hc-machine-glow,body .hc-innovation-halo,body .hc-world-light {
+  display: none!important
+}
+/* Continuous photo transitions: the visual extends over the next chapter boundary. */
+body .hc-begin {
+  background: var(--hc-cream)!important;
+  padding-bottom: 100px!important
+}
+body .hc-begin .hc-media-one {
+  position: relative;
+  z-index: 4;
+  transform: translateY(35px)!important
+}
+body .hc-workshop {
+  background: #1a1c1e!important;
+  color: #fff!important;
+  padding-top: 115px!important
+}
+body .hc-workshop .hc-chapter-inner {
+  grid-template-columns: 1.06fr .94fr!important
+}
+body .hc-workshop .hc-chapter-copy {
+  grid-column: 2;
+  grid-row: 1
+}
+body .hc-workshop .hc-media-stack {
+  grid-column: 1;
+  grid-row: 1;
+  position: relative;
+  display: grid!important;
+  grid-template-columns: 1fr 1fr!important;
+  align-items: end;
+  gap: 16px!important
+}
+body .hc-workshop .hc-media-stack figure {
+  position: relative!important;
+  inset: auto!important;
+  top: auto!important;
+  left: auto!important;
+  right: auto!important;
+  bottom: auto!important;
+  width: auto!important;
+  margin: 0!important;
+  transform: none!important;
+  box-shadow: none!important
+}
+body .hc-workshop .hc-media-stack figure:first-child {
+  transform: translateY(-55px)!important;
+  z-index: 5
+}
+body .hc-workshop .hc-media-stack figure:last-child {
+  transform: translateY(30px)!important
+}
+body .hc-workshop .hc-media-stack img {
+  height: 280px!important;
+  object-fit: cover!important;
+  max-height: none!important
+}
+body .hc-workshop h3 em,body .hc-metal h3 em,body .hc-innovation h3 em {
+  color: #fff!important
+}
+body .hc-workshop .hc-index,body .hc-metal .hc-index,body .hc-innovation .hc-index {
+  color: #ff5a63!important
+}
+/* Solid red machine feature: not a muddy gradient, never full-screen. */
+body .hc-machine {
+  background: var(--hc-red)!important;
+  color: white!important;
+  padding: 75px 0 85px!important
+}
+body .hc-machine .hc-chapter-inner {
+  grid-template-columns: .92fr 1.08fr!important
+}
+body .hc-machine h3 em,body .hc-machine .hc-index {
+  color: white!important
+}
+body .hc-machine .hc-media img {
+  max-height: 390px!important;
+  filter: drop-shadow(0 20px 28px rgba(0,0,0,.22))!important
+}
+body .hc-machine .hc-media {
+  z-index: 4;
+  transform: translateY(42px)!important
+}
+/* Technical drawing overlay, subtle, using CSS vector grid and concentric rings. */
+body .hc-innovation {
+  background: #f7f7f5!important;
+  color: #141719!important;
+  padding: 115px 0 90px!important
+}
+body .hc-innovation .hc-chapter-inner {
+  grid-template-columns: 1fr 1fr!important
+}
+body .hc-innovation-visual {
+  position: relative!important;
+  min-height: 340px!important;
+  display: flex!important;
+  align-items: center!important;
+  justify-content: center!important;
+  background: repeating-linear-gradient(0deg,transparent 0 35px,rgba(21,28,32,.06) 36px),repeating-linear-gradient(90deg,transparent 0 35px,rgba(21,28,32,.06) 36px)!important;
+  border: 1px solid #e1e2df!important;
+  clip-path: none!important
+}
+body .hc-innovation-visual:before {
+  content: ''!important;
+  display: block!important;
+  position: absolute;
+  inset: 9%;
+  border: 1px dashed rgba(227,6,19,.22);
+  border-radius: 50%;
+  pointer-events: none
+}
+body .hc-innovation-photo {
+  position: relative!important;
+  inset: auto!important;
+  width: 90%!important;
+  height: auto!important;
+  transform: none!important;
+  clip-path: none!important;
+  background: transparent!important;
+  z-index: 2
+}
+body .hc-innovation-photo img {
+  max-height: 320px!important
+}
+body .hc-innovation-vertical {
+  display: none!important
+}
+body .hc-innovation-photo-label {
+  position: absolute!important;
+  left: 14px!important;
+  bottom: 10px!important;
+  right: auto!important;
+  color: #555!important;
+  font-size: 10px!important
+}
+body .hc-innovation .hc-chapter-copy h3 em {
+  color: var(--hc-red)!important
+}
+body .hc-innovation-details {
+  display: flex!important;
+  flex-wrap: wrap!important;
+  gap: 12px!important;
+  margin-top: 26px!important
+}
+body .hc-innovation-details>div {
+  background: white!important;
+  border: 1px solid #e4e4e1!important;
+  padding: 12px!important;
+  min-width: 110px!important;
+  flex: 1!important;
+  color: #161719!important
+}
+/* Dark editorial metal-processing section. */
+body .hc-metal {
+  background: #181a1c!important;
+  color: white!important;
+  padding: 88px 0!important
+}
+body .hc-metal .hc-chapter-inner {
+  display: block!important
+}
+body .hc-metal-heading {
+  max-width: 900px!important;
+  margin-bottom: 30px!important
+}
+body .hc-metal-stage {
+  display: grid!important;
+  grid-template-columns: 1.1fr .9fr!important;
+  gap: clamp(30px,5vw,95px)!important;
+  align-items: center!important;
+  min-height: 0!important
+}
+body .hc-metal-media {
+  position: relative!important;
+  inset: auto!important;
+  max-width: none!important;
+  transform: none!important
+}
+body .hc-metal-media img {
+  max-height: 360px!important
+}
+body .hc-metal-note {
+  position: relative!important;
+  inset: auto!important;
+  width: auto!important;
+  padding: 0!important;
+  background: transparent!important;
+  box-shadow: none!important;
+  border: 0!important;
+  transform: none!important
+}
+body .hc-metal-note p {
+  max-width: 570px!important
+}
+body .hc-note-line {
+  display: none!important
+}
+/* RED GIANT: clean light editorial layout */
+body .hc-giant {
+  background: var(--hc-cream)!important;
+  color: #17191a!important;
+  padding: 80px 0!important
+}
+body .hc-giant .hc-chapter-inner {
+  grid-template-columns: 1fr 1fr!important
+}
+body .hc-giant-head {
+  max-width: 700px!important
+}
+body .hc-giant-media {
+  position: relative!important;
+  inset: auto!important;
+  transform: translateY(30px)!important
+}
+body .hc-giant-media img {
+  max-height: 400px!important
+}
+/* Associations part of narrative, not a separate unrelated card page. */
+body .hc-associations {
+  background: #fff!important;
+  color: #161719!important;
+  padding: 75px 0 95px!important
+}
+body .hc-associations .hc-chapter-inner {
+  grid-template-columns: .95fr 1.05fr!important
+}
+body .hc-associations-cards {
+  display: grid!important;
+  grid-template-columns: repeat(2,minmax(0,1fr))!important;
+  gap: 14px!important
+}
+body .hc-association-card {
+  padding: 24px!important;
+  min-width: 0!important;
+  box-shadow: none!important;
+  border: 1px solid #ddd!important;
+  background: #f6f6f4!important;
+  color: #151719!important
+}
+/* Solid red 30-year finale. */
+body .hc-world {
+  background: var(--hc-red)!important;
+  color: white!important;
+  padding: 90px 0 105px!important
+}
+body .hc-world .hc-chapter-inner {
+  grid-template-columns: 1fr 1fr!important
+}
+body .hc-world h3 em,body .hc-world .hc-index {
+  color: white!important
+}
+body .hc-world .hc-world-number {
+  font-size: clamp(70px,9vw,150px)!important;
+  color: white!important
+}
+body .hc-world-media img {
+  max-height: 340px!important;
+  object-fit: cover!important
+}
+body .hc-world .about-arrow {
+  color: white!important
+}
+/* Move associations before red finale in DOM so the red chapter closes the story. */
+body .hc-opening {
+  border: 0!important
+}
+/* Keep photo overlap and scroll reveal without imposing transforms on layout elements. */
+@media(prefers-reduced-motion:no-preference) {
+  body .hc-story .hc-reveal {
+    transition: opacity .75s cubic-bezier(.2,.7,.2,1),translate .75s cubic-bezier(.2,.7,.2,1)!important
+  }
+  body .hc-story .hc-reveal:not(.is-visible):not(.hc-visible) {
+    opacity: 1!important;
+    translate: 0 0!important
+  }
+  body .hc-chapter .hc-media img {
+    transition: scale .8s ease!important
+  }
+  body .hc-chapter .hc-media:hover img {
+    scale: 1.025!important
+  }
+}
+@media(max-width:900px) {
+  body .hc-chapter-inner,body .hc-workshop .hc-chapter-inner,body .hc-machine .hc-chapter-inner,body .hc-innovation .hc-chapter-inner,body .hc-giant .hc-chapter-inner,body .hc-world .hc-chapter-inner,body .hc-associations .hc-chapter-inner {
+    grid-template-columns: 1fr!important;
+    gap: 30px!important
+  }
+  body .hc-workshop .hc-chapter-copy,body .hc-workshop .hc-media-stack {
+    grid-column: 1!important;
+    grid-row: auto!important
+  }
+  body .hc-metal-stage {
+    grid-template-columns: 1fr!important
+  }
+  body .hc-chapter {
+    padding: 65px 0!important
+  }
+  body .hc-chapter .hc-media img {
+    max-height: 320px!important
+  }
+  body .hc-workshop .hc-media-stack img {
+    height: 210px!important
+  }
+  body .hc-machine .hc-media,body .hc-begin .hc-media-one,body .hc-giant-media {
+    transform: none!important
+  }
+}
+@media(max-width:540px) {
+  :root {
+    --hc-edge: 22px
+  }
+  body .hc-chapter h3 {
+    font-size: clamp(32px,9vw,48px)!important
+  }
+  body .hc-chapter {
+    padding: 52px 0!important
+  }
+  body .hc-workshop .hc-media-stack {
+    gap: 9px!important
+  }
+  body .hc-workshop .hc-media-stack img {
+    height: 150px!important
+  }
+  body .hc-associations-cards {
+    grid-template-columns: 1fr!important
+  }
+  body .hc-innovation-visual {
+    min-height: 250px!important
+  }
+}

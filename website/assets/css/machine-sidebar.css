@@ -1,0 +1,135 @@
+
+/* Category navigation is a compact editorial list, not a second top navigation. */
+@media(min-width:851px) {
+  .machine-premiere .machine-cinema__heading {
+    margin-bottom: clamp(28px,3vw,46px)
+  }
+  .cinema-premiere-layout {
+    display: grid;
+    grid-template-columns: clamp(175px,17vw,245px) minmax(0,1fr);
+    gap: clamp(20px,3vw,54px);
+    align-items: stretch
+  }
+  .machine-premiere .cinema-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    align-self: center;
+    overflow: visible;
+    border-bottom: 0;
+    border-left: 1px solid #38383b;
+    padding: 7px 0;
+    scrollbar-width: none
+  }
+  .machine-premiere .cinema-tab {
+    width: 100%;
+    text-align: left;
+    letter-spacing: .025em;
+    font-size: clamp(12px,.95vw,14px);
+    font-weight: 650;
+    padding: 15px 12px 15px 21px;
+    border: 0;
+    white-space: normal;
+    line-height: 1.4;
+    transition: color .3s,padding-left .35s
+  }
+  .machine-premiere .cinema-tab:after {
+    left: -2px;
+    right: auto;
+    bottom: 8px;
+    top: 8px;
+    width: 3px;
+    height: auto;
+    transform: scaleY(0);
+    transform-origin: center
+  }
+  .machine-premiere .cinema-tab.is-active:after {
+    transform: scaleY(1)
+  }
+  .machine-premiere .cinema-tab.is-active {
+    padding-left: 28px;
+    color: #fff
+  }
+  .machine-premiere .cinema-tab:hover {
+    padding-left: 28px
+  }
+  .machine-premiere .cinema-premiere-stage {
+    min-width: 0;
+    height: clamp(420px,35vw,570px)
+  }
+  .machine-premiere .cinema-panel {
+    grid-template-columns: minmax(0,1.15fr) minmax(220px,.75fr);
+    gap: clamp(12px,2vw,34px)
+  }
+  .machine-premiere .cinema-panel__machine {
+    width: 117%
+  }
+  .machine-premiere .cinema-panel__info h3 {
+    font-size: clamp(32px,3.9vw,67px)
+  }
+}
+@media(max-width:850px) {
+  .cinema-premiere-layout {
+    display: block
+  }
+  .machine-premiere .cinema-tabs {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    overflow: visible;
+    border: 0;
+    margin-bottom: 16px
+  }
+  .machine-premiere .cinema-tab {
+    font-size: 11px;
+    padding: 9px 12px;
+    border: 1px solid #3b3c40;
+    border-radius: 3px
+  }
+  .machine-premiere .cinema-tab:after {
+    display: none
+  }
+  .machine-premiere .cinema-tab.is-active {
+    border-color: #e30613;
+    background: #e3061318
+  }
+}
+/* User-supplied transparent equipment photography */
+#cinema-panel-3 .cinema-panel__machine img,#cinema-panel-4 .cinema-panel__machine img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 28px 30px rgba(0,0,0,.65))
+}
+#cinema-panel-4 .cinema-panel__machine {
+  width: 118%;
+  transform-origin: center
+}
+
+/* HOME / PRODUKTE
+   Align the machine details farther right, with the editorial description
+   above. Unlike margin-right, a positive left offset moves the text right.
+   Keep the original reveal transforms and all category transitions intact.
+*/
+@media (min-width: 851px) {
+  .machine-premiere .cinema-panel__info {
+    position: relative;
+    left: clamp(70px, 8vw, 145px);
+    margin-right: 0;
+    min-width: 0;
+  }
+}
+
+/* HOME / PRODUKTE — long product names
+   Preserve the right-aligned editorial column and the original size of
+   short machine names. Scale only the long Anlagenbau heading so that
+   both words remain visible within the available right column.
+*/
+@media (min-width: 851px) {
+  .machine-premiere #cinema-panel-4 .cinema-panel__info h3 {
+    font-size: clamp(32px, 3.05vw, 53px);
+    line-height: 1.08;
+    max-width: 100%;
+    overflow-wrap: normal;
+  }
+}

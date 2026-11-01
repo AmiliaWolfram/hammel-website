@@ -1,0 +1,56 @@
+/* HOME — section palette, scoped to the intended sections only.
+   ABOUT uses its original photo-based design; PRODUKTE stays graphite.
+   EINSATZBEREICHE uses HAMMEL red with a dark video stage. */
+
+/* EINSATZBEREICHE: corporate-red section with readable white typography. */
+#materials.materials-showcase {
+  background: #e30613;
+  color: #fff;
+}
+#materials .materials-showcase__heading .title,
+#materials .kicker { color: #fff; }
+#materials .materials-showcase__intro { color: rgba(255,255,255,.88); }
+
+/* Keep the category navigation legible on the red background. */
+#materials .materials-showcase__tabs { border-left-color: rgba(255,255,255,.36); }
+#materials .materials-showcase__tab { color: rgba(255,255,255,.78); }
+#materials .materials-showcase__tab:hover,
+#materials .materials-showcase__tab:focus-visible {
+  color: #fff;
+  background: rgba(0,0,0,.12);
+}
+#materials .materials-showcase__tab.is-active {
+  color: #fff;
+  border-left-color: #fff;
+  background: rgba(0,0,0,.10);
+}
+
+/* Dark inset panel ensures video and white copy remain readable. */
+#materials .materials-showcase__panels {
+  background: #111214;
+  border-radius: 5px;
+  padding: clamp(18px,2.6vw,44px);
+  box-shadow: 0 22px 60px rgba(55,0,0,.22);
+}
+#materials .materials-showcase__details h3 { color: #fff; }
+#materials .materials-showcase__details p { color: #c6c6c6; }
+#materials .materials-showcase__eyebrow { color: #f2df00; }
+#materials .materials-showcase__cta { color: #fff !important; }
+#materials .materials-showcase__cta .cinematic-link__icon {
+  color: #fff;
+  border-color: rgba(255,255,255,.55);
+}
+#materials .materials-showcase__cta .cinematic-link__icon svg { stroke: currentColor; }
+#materials .materials-showcase__media { background: #111214; }
+#materials .materials-showcase__pending-label { color: #fff; }
+
+@media (max-width: 720px) {
+  #materials .materials-showcase__tabs {
+    border-left: 0;
+    border-bottom-color: rgba(255,255,255,.36);
+  }
+  #materials .materials-showcase__tab.is-active {
+    border-left-color: transparent;
+    border-bottom-color: #fff;
+  }
+}

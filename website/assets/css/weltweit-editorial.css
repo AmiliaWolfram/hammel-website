@@ -1,0 +1,315 @@
+
+/* HAMMEL WELTWEIT — editorial page with alternating light and dark sections */
+.weltweit-hero {
+  position: relative;
+  overflow: hidden;
+  background: #101112;
+  color: #fff;
+  min-height: 610px;
+  display: flex;
+  align-items: center;
+  padding: 130px 0 85px
+}
+.weltweit-hero__glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 76% 45%,rgba(113,29,29,.24),transparent 52%);
+  pointer-events: none
+}
+.weltweit-hero__content {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  align-items: center;
+  gap: 40px;
+  width: 100%
+}
+.weltweit-eyebrow {
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: .18em;
+  color: #ffed00;
+  margin-bottom: 26px
+}
+.weltweit-hero h1 {
+  font-size: clamp(3.7rem,7vw,8.3rem);
+  line-height: .94;
+  letter-spacing: -.055em;
+  font-weight: 900;
+  margin: 0 0 30px
+}
+.weltweit-hero h1 span {
+  color: #e30613
+}
+.weltweit-hero p {
+  max-width: 440px;
+  color: #c5c5c5;
+  font-size: clamp(15px,1.35vw,19px);
+  line-height: 1.7;
+  margin: 0 0 30px
+}
+.weltweit-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .1em
+}
+.weltweit-link__circle {
+  width: 43px;
+  height: 43px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 19px;
+  transition: background .25s,color .25s,border-color .25s
+}
+.weltweit-link:hover .weltweit-link__circle {
+  background: #e30613;
+  border-color: #e30613;
+  color: #fff
+}
+.weltweit-hero__visual {
+  min-height: 390px;
+  position: relative;
+  display: grid;
+  place-items: center
+}
+.weltweit-globe {
+  width: min(38vw,460px);
+  height: min(38vw,460px);
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #404348;
+  background: radial-gradient(circle at 33% 28%,#33373a,#191d20 47%,#080a0b 82%);
+  box-shadow: inset -30px -25px 65px #000,0 0 95px rgba(227,6,19,.10)
+}
+.weltweit-globe__core {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: repeating-radial-gradient(ellipse 34% 100% at 50% 50%,transparent 0 27px,rgba(154,161,167,.23) 28px,transparent 29px),repeating-linear-gradient(0deg,transparent 0 43px,rgba(154,161,167,.16) 44px,transparent 45px);
+  transform: rotate(-17deg)
+}
+.weltweit-globe__rings {
+  position: absolute;
+  inset: 9%;
+  border: 1px solid rgba(227,6,19,.3);
+  border-radius: 50%;
+  transform: rotate(-25deg) scaleX(.8)
+}
+.weltweit-globe__pin {
+  position: absolute;
+  top: 30%;
+  left: 49%;
+  width: 11px;
+  height: 11px;
+  background: #e30613;
+  border: 2px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 0 12px rgba(227,6,19,.13),0 0 38px #e30613
+}
+.weltweit-hero__coordinate {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  text-align: right;
+  color: #9fa2a4;
+  font-size: 10px;
+  letter-spacing: .1em;
+  line-height: 1.9
+}
+.weltweit-intro {
+  background: #f1f1ee;
+  color: #151515;
+  padding: 85px 0
+}
+.weltweit-intro__layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 65px;
+  align-items: end
+}
+.weltweit-eyebrow--light {
+  color: #171717
+}
+.weltweit-intro h2,.weltweit-partners-section h2 {
+  font-size: clamp(2.7rem,5.3vw,6rem);
+  line-height: .99;
+  letter-spacing: -.055em;
+  margin: 0;
+  font-weight: 900
+}
+.weltweit-intro p,.weltweit-partners-section p {
+  font-size: clamp(16px,1.4vw,19px);
+  line-height: 1.7;
+  color: #555;
+  max-width: 540px;
+  margin: 0
+}
+body .global-network {
+  background: #151719!important;
+  color: #fff;
+  padding: 80px 0 95px
+}
+body .global-network .global-cinema__head {
+  margin-bottom: 32px
+}
+body .global-network .global-network__stage {
+  display: grid!important;
+  grid-template-columns: minmax(0,1fr)!important;
+  gap: 22px!important;
+  align-items: stretch!important;
+  min-height: 0!important
+}
+body .global-network .global-network__sidebar {
+  grid-row: 1;
+  grid-column: 1;
+  align-self: auto;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+  padding: 0!important
+}
+body .global-network .global-network__eyebrow {
+  margin: 0;
+  white-space: nowrap;
+  color: #ffed00
+}
+body .global-network .global-network__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px
+}
+body .global-network .global-network__tabs button {
+  width: auto;
+  min-height: 38px;
+  padding: 9px 13px;
+  font-size: 11px
+}
+body .global-network .global-network__map {
+  grid-row: 2;
+  grid-column: 1;
+  width: 100%!important;
+  max-width: 100%;
+  min-height: 0!important;
+  margin: 0!important
+}
+body .global-network .global-network__map svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 620px
+}
+body .global-network .global-network__panel {
+  grid-row: 3;
+  grid-column: 1;
+  width: 100%;
+  max-height: none!important;
+  height: auto!important;
+  overflow: visible!important;
+  align-self: auto!important;
+  margin: 0!important
+}
+body .global-network .global-network__detail {
+  max-width: 100%
+}
+body .global-network .global-network__partners {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 10px 20px
+}
+body .global-network .global-network__partner {
+  min-width: 0
+}
+.weltweit-partners-section {
+  background: #f1f1ee;
+  color: #161616;
+  padding: 95px 0
+}
+.weltweit-partners-section__heading {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: end;
+  margin-bottom: 34px
+}
+.weltweit-link--dark {
+  color: #171717
+}
+.weltweit-contact {
+  background: #171717;
+  color: white;
+  padding: 105px 0
+}
+.weltweit-contact__inner {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 45px
+}
+.weltweit-contact h2 {
+  font-size: clamp(2.8rem,5vw,6rem);
+  line-height: 1;
+  letter-spacing: -.055em;
+  margin: 0 0 20px
+}
+.weltweit-contact p {
+  font-size: 17px;
+  color: #bcbcbc;
+  line-height: 1.6;
+  margin: 0
+}
+@media(max-width:850px) {
+  .weltweit-hero__content {
+    grid-template-columns: 1fr
+  }
+  .weltweit-hero {
+    padding: 120px 0 60px
+  }
+  .weltweit-hero__visual {
+    min-height: 280px
+  }
+  .weltweit-globe {
+    width: 300px;
+    height: 300px
+  }
+  .weltweit-intro__layout,.weltweit-partners-section__heading {
+    grid-template-columns: 1fr;
+    gap: 25px
+  }
+  body .global-network .global-network__partners {
+    grid-template-columns: repeat(2,minmax(0,1fr))
+  }
+  .weltweit-contact__inner {
+    flex-direction: column;
+    align-items: flex-start
+  }
+}
+@media(max-width:540px) {
+  .weltweit-hero h1 {
+    font-size: clamp(3rem,12vw,5rem)
+  }
+  .weltweit-globe {
+    width: 250px;
+    height: 250px
+  }
+  .weltweit-intro,.weltweit-partners-section,.weltweit-contact {
+    padding: 65px 0
+  }
+  body .global-network .global-network__partners {
+    grid-template-columns: 1fr
+  }
+  body .global-network .global-network__sidebar {
+    display: block
+  }
+  body .global-network .global-network__eyebrow {
+    margin-bottom: 15px
+  }
+}

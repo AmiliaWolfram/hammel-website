@@ -1,0 +1,23 @@
+/* Keep long machine names inside their own cards; preserve all model names. */
+#maschinen-katalog .machine-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;align-items:stretch}
+#maschinen-katalog .machine-card{min-width:0!important;max-width:100%!important;overflow:hidden!important;box-sizing:border-box!important;display:flex;flex-direction:column}
+#maschinen-katalog .machine-media{min-width:0;width:100%;box-sizing:border-box}
+#maschinen-katalog .machine-body{min-width:0;width:100%;max-width:100%;box-sizing:border-box;display:flex;flex:1;flex-direction:column}
+#maschinen-katalog .machine-body h3{min-width:0;max-width:100%;font-size:clamp(22px,2.2vw,37px)!important;line-height:1.12!important;overflow-wrap:anywhere!important;word-break:normal!important;hyphens:auto!important;white-space:normal!important}
+#maschinen-katalog .machine-body p{min-width:0;max-width:100%;overflow-wrap:anywhere;hyphens:auto}
+#maschinen-katalog .machine-body .cinematic-link{margin-top:auto!important;padding-top:24px!important}
+/* Home footer, rather than the short catalog placeholder footer. */
+body>footer{padding:0!important;background:#111719;color:#fff}
+body>footer .wrap{box-sizing:border-box}
+body>footer .foot{display:grid;grid-template-columns:minmax(200px,2fr) repeat(3,minmax(130px,1fr));gap:clamp(22px,4vw,70px);padding-top:clamp(65px,7vw,112px);padding-bottom:clamp(55px,6vw,100px)}
+body>footer .foot>div{min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+body>footer .foot h4{margin:0 0 8px;font-size:12px;letter-spacing:.12em;color:#fff}
+body>footer .foot a{color:#d7d9d9;text-decoration:none}
+body>footer .foot a:hover,body>footer .footer-legal a:hover{color:#fff}
+body>footer .footer-brand img{width:210px;max-width:100%;height:auto}
+body>footer .copy{color:#aaa;line-height:1.7}
+body>footer .footer-bottom{border-top:1px solid rgba(255,255,255,.18);padding-top:25px;padding-bottom:30px;display:flex;justify-content:space-between;gap:25px;flex-wrap:wrap;color:#aeb2b2;font-size:12px}
+body>footer .footer-legal{display:flex;gap:20px;flex-wrap:wrap}
+body>footer .footer-legal a{color:#d7d9d9;text-decoration:none}
+@media(max-width:1000px){#maschinen-katalog .machine-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}body>footer .foot{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){#maschinen-katalog .machine-grid{grid-template-columns:minmax(0,1fr)!important}body>footer .foot{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 20px}body>footer .foot>div:first-child{grid-column:1/-1}#maschinen-katalog .machine-body h3{font-size:clamp(23px,6vw,33px)!important}}

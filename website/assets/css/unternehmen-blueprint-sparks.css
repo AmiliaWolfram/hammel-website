@@ -1,0 +1,159 @@
+
+/* Technical-drawing sparks: precise, restrained, and confined to machine photographs */
+.story__art {
+  isolation: isolate
+}
+.story__schematic {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 4;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity .18s linear
+}
+.story__schematic .schematic__geometry {
+  fill: none;
+  stroke: rgba(227,6,19,.26);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke
+}
+.story__chapter--dark .story__schematic .schematic__geometry {
+  stroke: rgba(255,255,255,.32)
+}
+.story__chapter--red .story__schematic .schematic__geometry {
+  stroke: rgba(255,255,255,.55)
+}
+.story__schematic .schematic__dimension {
+  fill: none;
+  stroke: rgba(227,6,19,.15);
+  stroke-width: .7;
+  stroke-dasharray: 3 7;
+  vector-effect: non-scaling-stroke
+}
+.story__chapter--dark .story__schematic .schematic__dimension,.story__chapter--red .story__schematic .schematic__dimension {
+  stroke: rgba(255,255,255,.2)
+}
+.story__schematic .schematic__spark {
+  fill: none;
+  stroke: #ff263c;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 3px rgba(255,20,40,.9)) drop-shadow(0 0 7px rgba(255,20,40,.6));
+  vector-effect: non-scaling-stroke
+}
+.story__chapter--red .story__schematic .schematic__spark {
+  stroke: white;
+  filter: drop-shadow(0 0 4px rgba(255,255,255,.85))
+}
+.story__schematic .schematic__core {
+  fill: #fff;
+  stroke: #ff1a36;
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 4px #ff263c)
+}
+.story__chapter--red .story__schematic .schematic__core {
+  stroke: #fff;
+  fill: #fff
+}
+.story__schematic .schematic__glint {
+  stroke: #fff;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  opacity: .8
+}
+.story__schematic .schematic__node {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  opacity: .24
+}
+.story__schematic .schematic__label {
+  font: 9px monospace;
+  letter-spacing: 1.3px;
+  fill: currentColor;
+  opacity: .36
+}
+.story__chapter--dark .story__schematic,.story__chapter--red .story__schematic {
+  color: #fff
+}
+.story__chapter--light .story__schematic {
+  color: #e30613
+}
+/* Fully disable previous thick scribbles and unrelated overlays */
+.story__pulse,.story__blueprint {
+  display: none!important
+}
+@media(prefers-reduced-motion:reduce) {
+  .story__schematic {
+    display: none!important
+  }
+}
+/* Final office photo: bridge drawing is placed only over its photo, never over copy */
+.story__end .story__wrap>div:last-child {
+  position: relative;
+  isolation: isolate
+}
+.story__end .story__schematic {
+  color: #fff
+}
+.story__end .story__schematic .schematic__geometry {
+  stroke: rgba(255,255,255,.65)
+}
+.story__end .story__schematic .schematic__dimension {
+  stroke: rgba(255,255,255,.22)
+}
+.story__end .story__schematic .schematic__spark {
+  stroke: #fff;
+  filter: drop-shadow(0 0 4px white) drop-shadow(0 0 8px #e30613)
+}
+.story__end .story__schematic .schematic__core {
+  stroke: #fff;
+  fill: #fff
+}
+.story__end .story__schematic .schematic__label {
+  fill: white
+}
+
+
+/* Refined technical overlays: no permanent decorative circles around machinery. */
+.story__chapter--red .story__art::before,
+.story__chapter--dark .story__art::after {
+  content: none !important;
+  display: none !important;
+}
+/* Technical sketches are deliberately legible during the reveal, then fade away. */
+.story__schematic {
+  transform: scale(1.12);
+  transform-origin: center center;
+}
+.story__schematic .schematic__geometry {
+  stroke-width: 1.85;
+  stroke: rgba(227,6,19,.60);
+}
+.story__chapter--dark .story__schematic .schematic__geometry {
+  stroke: rgba(255,255,255,.67);
+}
+.story__chapter--red .story__schematic .schematic__geometry {
+  stroke: rgba(255,255,255,.84);
+}
+.story__schematic .schematic__dimension {
+  stroke-width: 1.1;
+  stroke: rgba(227,6,19,.42);
+}
+.story__chapter--dark .story__schematic .schematic__dimension,
+.story__chapter--red .story__schematic .schematic__dimension {
+  stroke: rgba(255,255,255,.48);
+}
+.story__schematic .schematic__spark {
+  stroke-width: 3.8;
+  filter: drop-shadow(0 0 5px rgba(255,255,255,.9)) drop-shadow(0 0 12px rgba(255,40,50,.95));
+}
+.story__schematic .schematic__core {
+  filter: drop-shadow(0 0 5px #fff) drop-shadow(0 0 12px #ff263c);
+}
+@media (max-width: 760px) {
+  .story__schematic { transform: scale(1.04); }
+}

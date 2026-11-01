@@ -1,0 +1,1 @@
+HAMMEL Cinematic Reveal — open index.html. Wide Unbounded Black, soft metallic light sweep, restrained red IT. Original hero video, 8 pages and four-photo lightbox preserved. Respects reduced-motion accessibility preference.

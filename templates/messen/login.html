@@ -1,0 +1,24 @@
+{% extends 'messen/base.html' %}{% load static %}
+{% block title %}Anmelden{% endblock %}
+{% block content %}
+<section class="staff-login" aria-label="HAMMEL Mitarbeiteranmeldung">
+  <video class="staff-login-video" autoplay muted loop playsinline preload="metadata" poster="{% static 'video/hammel-poster.jpg' %}" aria-hidden="true"><source src="{% static 'video/hammel-hero.mp4' %}" type="video/mp4"></video>
+  <div class="staff-login-visual">
+    <div class="staff-login-visual-top"><span class="staff-login-kicker">HAMMEL RECYCLINGTECHNIK</span></div>
+    <div class="staff-login-visual-bottom"><h2>THE ORIGINAL<br><em>SINCE 1996</em></h2><span class="staff-login-visual-caption">JUST SHRED IT</span></div>
+  </div>
+  <div class="staff-login-panel"><div class="staff-login-panel-inner">
+    <div class="staff-login-overline">GESCHÜTZTER MITARBEITERBEREICH</div>
+    <h1>WILLKOMMEN</h1>
+    <p class="staff-login-intro">Keine Sorge, Ihr Passwort wird nicht geschreddert</p>
+    {% if form.errors %}<div class="staff-login-error" role="alert">Benutzername oder Passwort ist nicht korrekt.</div>{% endif %}
+    {% if form.non_field_errors %}<div class="staff-login-error" role="alert">{{ form.non_field_errors }}</div>{% endif %}
+    <form method="post" class="staff-login-form">{% csrf_token %}<input type="hidden" name="next" value="{{ next|default:'' }}">
+      <div class="staff-login-field"><label for="id_username">BENUTZERNAME</label><input id="id_username" name="username" type="text" autocomplete="username" required autofocus value="{{ form.username.value|default_if_none:'' }}" placeholder="Benutzername eingeben"></div>
+      <div class="staff-login-field"><label for="id_password">PASSWORT</label><div class="staff-login-password"><input id="id_password" name="password" type="password" autocomplete="current-password" required placeholder="Passwort eingeben"><button type="button" class="staff-login-reveal" id="staff-toggle-password" aria-label="Passwort anzeigen" aria-pressed="false">ANZEIGEN</button></div></div>
+      <button type="submit" class="staff-login-submit"><span class="staff-login-submit-text">ANMELDEN</span><span class="staff-login-submit-circle" aria-hidden="true"><span></span></span></button>
+    </form><p class="staff-login-note">Zugang ausschließlich für berechtigte Mitarbeitende.</p>
+  </div></div>
+</section>
+<script>document.addEventListener('DOMContentLoaded',function(){const b=document.getElementById('staff-toggle-password'),p=document.getElementById('id_password');if(b&&p)b.addEventListener('click',function(){const show=p.type==='password';p.type=show?'text':'password';b.textContent=show?'VERBERGEN':'ANZEIGEN';b.setAttribute('aria-pressed',String(show));b.setAttribute('aria-label',show?'Passwort verbergen':'Passwort anzeigen');});});</script>
+{% endblock %}

@@ -1,0 +1,19 @@
+
+/* HAMMEL global eyebrow palette — light red, dark yellow, red white.
+   Only section microheadings, never buttons, form labels or navigation. */
+:root { --hammel-eyebrow-light:#E30613; --hammel-eyebrow-dark:#F2B705; --hammel-eyebrow-red:#FFFFFF; }
+:is(.kicker,.eyebrow,.hammel-page-hero__eyebrow,.hr-eyebrow,.service-kicker,.story__eyebrow,.mf-eyebrow,.mf-side__eyebrow,.messe-kicker,.world-network-intro__eyebrow,.weltweit-eyebrow,.atlas-profile-kicker,.atlas-idle-panel__eyebrow,.cinema-panel__eyebrow,.materials-showcase__eyebrow,.ausbildung-promo__eyebrow,.used-kicker,.related-kicker) {
+  color:var(--hammel-eyebrow-light);
+}
+:is(.dark,.theme-dark,.section-dark,.bg-dark,.black,.theme-black,.hr-tips-band,.hr-journey-scroll,.cinema-panel,.machine-cinema,.why-section,.news-section,.ausbildung-promo,.staff-login-hero,.staff-login-panel,.service-hero,.hammel-page-hero,.hr-initiative-dark,.hr-promo-card,.hr-tips-card,.story--dark,.partner-atlas,.atlas-idle-panel) :is(.kicker,.eyebrow,.hammel-page-hero__eyebrow,.hr-eyebrow,.service-kicker,.story__eyebrow,.mf-eyebrow,.mf-side__eyebrow,.messe-kicker,.world-network-intro__eyebrow,.weltweit-eyebrow,.atlas-profile-kicker,.atlas-idle-panel__eyebrow,.cinema-panel__eyebrow,.materials-showcase__eyebrow,.ausbildung-promo__eyebrow,.used-kicker,.related-kicker) {
+  color:var(--hammel-eyebrow-dark);
+}
+:is(.red,.theme-red,.section-red,.bg-red,.hr-initiative-band,.hr-initiative-red,.red-cta,.cta-red) :is(.kicker,.eyebrow,.hammel-page-hero__eyebrow,.hr-eyebrow,.service-kicker,.story__eyebrow,.mf-eyebrow,.mf-side__eyebrow,.messe-kicker,.world-network-intro__eyebrow,.weltweit-eyebrow,.atlas-profile-kicker,.atlas-idle-panel__eyebrow,.cinema-panel__eyebrow,.materials-showcase__eyebrow,.ausbildung-promo__eyebrow,.used-kicker,.related-kicker) {
+  color:var(--hammel-eyebrow-red);
+}
+
+/* Red Home material section: override legacy brand-yellow-labels !important. */
+#materials.materials-showcase .materials-showcase__heading .kicker { color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; }
+
+/* All red background section microheadings are white; legacy yellow uses !important. */
+:is(.red,.theme-red,.section-red,.bg-red,.hr-initiative-band,.hr-initiative-red,.red-cta,.cta-red,#materials.materials-showcase) :is(.kicker,.eyebrow,.section-eyebrow,.section-kicker,.global-network__eyebrow,.material__eyebrow,.cinema-panel__eyebrow,.news-panel__tag,.news-panel__eyebrow,.hammel-page-hero__eyebrow,.hr-eyebrow,.service-kicker,.story__eyebrow,.mf-eyebrow,.messe-kicker,.materials-showcase__eyebrow) { color:#FFFFFF !important; -webkit-text-fill-color:#FFFFFF !important; }

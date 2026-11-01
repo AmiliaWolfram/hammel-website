@@ -1,0 +1,82 @@
+
+/* EINSATZBEREICHE: cinematic link controls layered over real footage. */
+.materials-section .material--video {
+  padding: clamp(16px,1.5vw,26px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  transform: none!important;
+  transition: background .35s ease
+}
+.materials-section .material--video:hover {
+  background: #191b1e
+}
+.materials-section .material--video .material__eyebrow {
+  position: relative;
+  left: auto;
+  top: auto;
+  display: block;
+  font-size: 9px;
+  letter-spacing: .14em;
+  z-index: 2
+}
+.materials-section .material--video .material__cta {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+  padding: 13px 0 14px;
+  border-bottom: 1px solid rgba(255,255,255,.42);
+  transition: border-color .35s ease
+}
+.materials-section .material--video .material__cta-label {
+  color: #fff;
+  font-family: 'Space Grotesk',Arial,sans-serif;
+  font-size: clamp(20px,2vw,34px);
+  font-weight: 750;
+  line-height: 1.05;
+  letter-spacing: -.045em;
+  overflow-wrap: anywhere;
+  text-shadow: 0 3px 16px rgba(0,0,0,.5)
+}
+.materials-section .material--video .material__cta-circle {
+  width: clamp(34px,2.8vw,45px);
+  height: clamp(34px,2.8vw,45px);
+  flex: none;
+  border: 1px solid rgba(255,255,255,.7);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 1;
+  transition: background .3s,border-color .3s,transform .35s
+}
+.materials-section .material--video:hover .material__cta,.materials-section .material--video:focus-visible .material__cta {
+  border-bottom-color: #e30613
+}
+.materials-section .material--video:hover .material__cta-circle,.materials-section .material--video:focus-visible .material__cta-circle {
+  background: #e30613;
+  border-color: #e30613;
+  transform: translate(3px,-3px)
+}
+.materials-section .material--video:focus-visible {
+  outline: 2px solid #e30613;
+  outline-offset: -2px
+}
+@media(max-width:850px) {
+  .materials-section .material--video .material__cta-label {
+    font-size: clamp(21px,5vw,30px)
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  .materials-section .material--video .material__cta,.materials-section .material--video .material__cta-circle {
+    transition: none
+  }
+}

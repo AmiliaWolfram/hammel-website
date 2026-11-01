@@ -1,0 +1,201 @@
+{% extends "messen/base.html" %}
+{% block title %}Feldverwaltung
+<style>
+/* Gleiche Feldhöhe und kompakte, einzeilige Hilfeknöpfe */
+.fv-global-settings>label,.fv-add-form>label{min-width:0;display:flex!important;flex-direction:column;align-items:stretch;}
+.fv-label-heading{display:inline-flex!important;align-items:center!important;justify-content:flex-start;gap:10px;min-height:25px;max-width:100%;white-space:nowrap;margin-bottom:9px;line-height:1.2;}
+.fv-label-heading .fv-help-button{margin:0!important;flex:none;}
+.fv-global-settings input:not([type=checkbox]),.fv-global-settings select,.fv-add-form input:not([type=checkbox]),.fv-add-form select{height:60px!important;min-height:60px!important;max-height:60px!important;margin-top:0!important;padding:0 16px!important;line-height:normal;box-sizing:border-box;}
+.fv-global-settings input[type=number]{appearance:textfield;-moz-appearance:textfield;}
+.fv-global-settings input[type=number]::-webkit-inner-spin-button,.fv-global-settings input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0;}
+.fv-option>div:first-child .fv-label-heading{margin:0 0 5px!important;}
+.fv-option>div:first-child .fv-label-heading strong{margin:0!important;}
+.fv-option>div:first-child small{margin-top:0!important;}
+.fv-option>div:first-child>.fv-help-content{margin-top:9px!important;}
+@media(max-width:650px){.fv-global-settings{grid-template-columns:minmax(0,1fr)!important;} .fv-label-heading{white-space:normal;}}
+</style>
+{% endblock %}
+{% block content %}
+<main class="fv-page">
+  <a class="fv-back" href="{% url 'staff_machine_dashboard' %}">← ZURÜCK ZU MASCHINEN</a>
+  <div class="eyebrow">VERTRIEB / MASCHINEN</div>
+  <h1>FELDVERWALTUNG</h1>
+  <p class="fv-intro">Legen Sie fest, welche Informationen auf der Website und im Maschinenvergleich erscheinen. Änderungen können Sie für jedes Feld einzeln speichern.</p>
+  <div class="fv-scope"><span>AKTUELLER BEREICH</span><strong>{% if scope == 'global' %}Alle Maschinen{% else %}{{ target }}{% endif %}</strong>{% if scope != 'global' %}<a href="?scope=global">Alle Maschinen verwalten</a>{% endif %}</div>
+  <details class="fv-add"><summary><span class="fv-plus">+</span><span><strong>NEUES FELD ANLEGEN</strong><small>Zusätzliche technische Angaben oder Dokumente ergänzen</small></span><span class="fv-chevron">⌄</span></summary>
+    <form method="post" class="fv-add-form">{% csrf_token %}<input type="hidden" name="action" value="add">
+      <label>FELDBEZEICHNUNG<input name="label" maxlength="150" placeholder="z. B. Rotordurchmesser" required></label>
+      <label>FELDTYP<select name="field_type">{% for key,label in types %}<option value="{{ key }}">{{ label }}</option>{% endfor %}</select></label>
+      <label>BEREICH<select name="section">{% for key,label in sections %}<option value="{{ key }}">{{ label }}</option>{% endfor %}</select></label>
+      <button type="submit" class="fv-primary">FELD HINZUFÜGEN</button>
+    </form>
+  </details>
+  <div class="fv-list">
+  {% for row in rows %}
+    <article class="fv-card {% if row.field.archived %}fv-archived{% endif %}">
+      <form method="post" class="fv-edit">{% csrf_token %}
+        <input type="hidden" name="action" value="save"><input type="hidden" name="field_id" value="{{ row.field.pk }}">
+        <header class="fv-card-head"><div class="fv-name"><strong>{{ row.field.label }}</strong><span class="fv-tag">{% if row.field.is_system %}SYSTEMFELD{% else %}EIGENES FELD{% endif %}</span>{% if row.field.archived %}<span class="fv-tag">ARCHIVIERT</span>{% endif %}</div>
+          <button type="submit" class="fv-save">ÄNDERUNGEN SPEICHERN</button>
+        </header>
+        {% if scope == 'global' %}
+        <div class="fv-global-settings">
+          <label>FELDNAME<input name="label" value="{{ row.field.label }}" aria-label="Feldname"></label>
+          <label>BEREICH<select name="section">{% for key,label in sections %}<option value="{{ key }}" {% if row.field.section == key %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+          <label>REIHENFOLGE<input name="position" type="number" min="0" value="{{ row.field.position }}" aria-label="Reihenfolge"></label>
+        </div>
+        <div class="fv-options">
+          <div class="fv-option"><div><strong>AUF DER WEBSITE</strong><small>Im Maschinenprofil anzeigen</small></div><label class="fv-toggle"><input type="checkbox" name="show_public" {% if row.field.show_public %}checked{% endif %}><span class="fv-track"></span><span class="fv-toggle-label">SICHTBAR</span></label></div>
+          <div class="fv-option"><div><strong>IM VERGLEICH</strong><small>In der Vergleichstabelle anzeigen</small></div><label class="fv-toggle"><input type="checkbox" name="show_compare" {% if row.field.show_compare %}checked{% endif %}><span class="fv-track"></span><span class="fv-toggle-label">SICHTBAR</span></label></div>
+        </div>
+        {% else %}
+        <div class="fv-options">
+          <div class="fv-option"><div><strong>AUF DER WEBSITE</strong><small>Sichtbarkeit auf der Produktseite</small></div><div class="fv-segment" role="group" aria-label="Website: {{ row.field.label }}">
+            <label><input type="radio" name="show_public" value="inherit" {% if row.public_setting == 'inherit' %}checked{% endif %}><span>↳ Übernehmen</span></label>
+            <label><input type="radio" name="show_public" value="yes" {% if row.public_setting == 'yes' %}checked{% endif %}><span>✓ Anzeigen</span></label>
+            <label><input type="radio" name="show_public" value="no" {% if row.public_setting == 'no' %}checked{% endif %}><span>⊘ Ausblenden</span></label>
+          </div></div>
+          <div class="fv-option"><div><strong>IM VERGLEICH</strong><small>In der Vergleichstabelle anzeigen</small></div><div class="fv-segment" role="group" aria-label="Vergleich: {{ row.field.label }}">
+            <label><input type="radio" name="show_compare" value="inherit" {% if row.compare_setting == 'inherit' %}checked{% endif %}><span>↳ Übernehmen</span></label>
+            <label><input type="radio" name="show_compare" value="yes" {% if row.compare_setting == 'yes' %}checked{% endif %}><span>✓ Anzeigen</span></label>
+            <label><input type="radio" name="show_compare" value="no" {% if row.compare_setting == 'no' %}checked{% endif %}><span>⊘ Ausblenden</span></label>
+          </div></div>
+        </div>
+        {% endif %}
+      </form>
+      {% if not row.field.is_system %}<form method="post" class="fv-archive">{% csrf_token %}<input type="hidden" name="field_id" value="{{ row.field.pk }}"><button name="action" value="{% if row.field.archived %}restore{% else %}archive{% endif %}">{% if row.field.archived %}↺ FELD WIEDERHERSTELLEN{% else %}ARCHIVIEREN{% endif %}</button></form>{% endif %}
+    </article>
+  {% empty %}<p>Für diesen Bereich sind noch keine Felder vorhanden.</p>{% endfor %}
+  </div>
+</main>
+<style>
+.fv-page{max-width:1200px;margin:0 auto;padding:40px 28px 110px;color:#191919}.fv-page h1{font-size:clamp(36px,5vw,68px);line-height:1.05;margin:14px 0 20px}.fv-back{display:inline-block;margin-bottom:45px;color:#555;font-size:12px;font-weight:800;text-decoration:none;letter-spacing:.05em}.fv-intro{max-width:730px;color:#666;line-height:1.6;margin-bottom:30px}.fv-scope{display:flex;align-items:center;flex-wrap:wrap;gap:14px;background:#f3f3f3;border-left:4px solid #e30613;padding:16px 20px;margin-bottom:22px}.fv-scope>span,.fv-scope a{font-size:11px;font-weight:800;letter-spacing:.05em}.fv-scope>span{color:#777}.fv-scope a{margin-left:auto;color:#202020}.fv-add{border:1px solid #d9d9d9;background:white;margin-bottom:28px}.fv-add summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:16px;padding:20px}.fv-add summary::-webkit-details-marker{display:none}.fv-add summary strong,.fv-add summary small{display:block}.fv-add summary small{font-size:12px;color:#777;margin-top:4px}.fv-plus{background:#e30613;color:white;font-size:24px;display:grid;place-items:center;width:42px;height:42px}.fv-chevron{margin-left:auto;font-size:25px}.fv-add[open] .fv-chevron{transform:rotate(180deg)}.fv-add-form{display:grid;grid-template-columns:2fr 1fr 1fr auto;align-items:end;gap:14px;padding:20px;border-top:1px solid #eee}.fv-add-form label,.fv-global-settings label{font-size:11px;letter-spacing:.04em;font-weight:800}.fv-add-form input,.fv-add-form select,.fv-global-settings input,.fv-global-settings select{display:block;width:100%;box-sizing:border-box;margin-top:8px;background:white;border:1px solid #ccc;padding:13px;font-size:14px;min-height:46px}.fv-primary{background:#e30613;color:white;border:0;padding:15px 20px;font-weight:900;cursor:pointer}.fv-list{display:grid;gap:18px}.fv-card{background:#fff;border:1px solid #ddd;padding:24px 26px;box-shadow:0 3px 14px rgba(0,0,0,.025)}.fv-card:focus-within{border-color:#999}.fv-card-head{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:20px}.fv-name{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.fv-name>strong{font-size:21px}.fv-tag{font-size:10px;font-weight:900;letter-spacing:.05em;background:#f0f0f0;color:#777;padding:6px 9px}.fv-save{background:#171717;border:1px solid #171717;color:white;font-size:12px;font-weight:900;letter-spacing:.02em;padding:14px 17px;cursor:pointer;white-space:nowrap}.fv-save:hover{background:#e30613;border-color:#e30613}.fv-save span{padding-left:8px}.fv-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.fv-option{background:#f8f8f8;border:1px solid #e9e9e9;padding:16px;display:flex;flex-direction:column;gap:15px}.fv-option>div:first-child strong{font-size:12px;letter-spacing:.06em}.fv-option>div:first-child small{display:block;color:#777;margin-top:5px;font-size:12px}.fv-segment{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;background:#e9e9e9;border-radius:7px;padding:5px}.fv-segment label{position:relative;min-width:0;cursor:pointer}.fv-segment input{position:absolute;opacity:0;width:1px;height:1px}.fv-segment span{display:flex;align-items:center;justify-content:center;min-height:43px;padding:7px 5px;box-sizing:border-box;border-radius:5px;text-align:center;font-size:12px;font-weight:800;color:#666;transition:background .15s,color .15s}.fv-segment input:checked+span{background:#171717;color:white;box-shadow:0 1px 5px #0002}.fv-segment input:focus-visible+span{outline:3px solid #e30613;outline-offset:2px}.fv-segment label:hover span{color:#e30613}.fv-segment input:checked+span:hover{color:white}.fv-global-settings{display:grid;grid-template-columns:2fr 2fr 100px;gap:14px;margin-bottom:18px}.fv-toggle{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:11px;font-weight:900}.fv-toggle input{position:absolute;opacity:0}.fv-track{width:47px;height:27px;background:#bbb;border-radius:20px;position:relative;transition:background .15s}.fv-track:before{content:'';position:absolute;left:4px;top:4px;width:19px;height:19px;border-radius:50%;background:white;transition:transform .15s}.fv-toggle input:checked+.fv-track{background:#e30613}.fv-toggle input:checked+.fv-track:before{transform:translateX(20px)}.fv-toggle input:focus-visible+.fv-track{outline:3px solid #222;outline-offset:3px}.fv-archive{text-align:right;margin-top:14px}.fv-archive button{border:0;background:transparent;color:#777;font-size:11px;font-weight:900;cursor:pointer}.fv-archive button:hover{color:#e30613}.fv-archived{opacity:.7}@media(max-width:950px){.fv-options{grid-template-columns:1fr}.fv-add-form{grid-template-columns:1fr 1fr}.fv-global-settings{grid-template-columns:1fr 1fr}}@media(max-width:560px){.fv-page{padding:28px 15px 80px}.fv-card{padding:17px}.fv-card-head{align-items:flex-start;flex-direction:column}.fv-save{width:100%}.fv-add-form,.fv-global-settings{grid-template-columns:1fr}.fv-segment span{font-size:11px}.fv-scope a{margin-left:0}}
+</style>
+<style>
+.fv-help-button{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;margin-left:7px;border:1px solid #bdbdbd;border-radius:50%;background:#fff;color:#555;font:700 11px Arial;cursor:pointer;vertical-align:middle}
+.fv-help-button:hover,.fv-help-button[aria-expanded="true"]{background:#e30613;border-color:#e30613;color:white}
+.fv-help-content{display:block;margin-top:9px;padding:11px 13px;background:#f5f5f5;border:0;border-radius:8px;color:#444;font-size:12px;line-height:1.55;font-weight:400;letter-spacing:normal;text-transform:none}
+.fv-help-content[hidden]{display:none}
+</style>
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+const explanations={
+"FELDBEZEICHNUNG":"Name eines neuen Datenfeldes. eindeutige, verständliche Bezeichnung. Beschriftung im Editor und ggf. auf Website und im Vergleich. Beispiel: Rotordurchmesser.",
+"FELDTYP":"Art des Wertes. Wählen Sie Text für freie Angaben, Zahl für Messwerte, Ja/Nein für Eigenschaften oder Datei/Bild/Video für Medien. Der Typ bestimmt die Eingabemöglichkeit.",
+"BEREICH":"thematische Zuordnung des Feldes. Wählen Sie den Abschnitt, in dem der Wert gepflegt beziehungsweise angezeigt werden soll. Beispiel: Technische Daten.",
+"FELDNAME":"sichtbare Beschriftung dieses Feldes. Änderungen betreffen die Bezeichnung, nicht den gespeicherten Wert.",
+"REIHENFOLGE":"Position des Feldes innerhalb seines Abschnitts. Kleinere Zahlen erscheinen zuerst; der Zahlenwert wird Besuchern nicht angezeigt.",
+"AUF DER WEBSITE":"Steuert, ob dieses Feld auf der öffentlichen Maschinenseite angezeigt werden darf. Ausblenden löscht keine Werte. „Übernehmen“ verwendet die übergeordnete Einstellung, „Anzeigen“ beziehungsweise „Ausblenden“ überschreibt sie für diesen Bereich.",
+"IM VERGLEICH":"Steuert, ob das Feld im Vergleich zwischen Maschinenvarianten erscheint. „Übernehmen“ nutzt die übergeordnete Einstellung. Ausblenden löscht keine technischen Daten.",
+};
+document.querySelectorAll(".fv-add-form label,.fv-global-settings label,.fv-option>div:first-child").forEach(function(el){
+ const heading=el.matches("label")?Array.from(el.childNodes).find(n=>n.nodeType===3)?.textContent.trim():el.querySelector("strong")?.textContent.trim();
+ if(!heading||!explanations[heading])return;
+ const b=document.createElement("button");b.type="button";b.className="fv-help-button";b.textContent="?";b.setAttribute("aria-label","Hilfe: "+heading);b.setAttribute("aria-expanded","false");
+ const hint=document.createElement("span");hint.className="fv-help-content";hint.hidden=true;hint.textContent=explanations[heading];
+ if(el.matches("label")){
+   const input=el.querySelector("input,select");
+   const title=document.createElement("span");title.className="fv-label-heading";
+   Array.from(el.childNodes).filter(n=>n.nodeType===3 && n.textContent.trim()).forEach(n=>title.appendChild(n));
+   title.appendChild(b);el.insertBefore(title,input);el.insertBefore(hint,input);
+ }else{
+   const title=document.createElement("span");title.className="fv-label-heading";
+   const strong=el.querySelector("strong");strong.parentNode.insertBefore(title,strong);title.appendChild(strong);title.appendChild(b);
+   el.appendChild(hint);
+ }
+ b.addEventListener("click",()=>{hint.hidden=!hint.hidden;b.setAttribute("aria-expanded",String(!hint.hidden));});
+});
+document.querySelectorAll(".fv-name>strong").forEach(function(el){
+ const b=document.createElement("button");b.type="button";b.className="fv-help-button";b.textContent="?";b.setAttribute("aria-label","Hilfe zu "+el.textContent);b.setAttribute("aria-expanded","false");
+ const hint=document.createElement("span");hint.className="fv-help-content";hint.hidden=true;
+ hint.textContent="Den Wert dieser Eigenschaft bearbeiten Sie im Maschineneditor. Hier entscheiden Sie, ob er auf der Website oder im Vergleich sichtbar ist. Beim Ausblenden bleiben gespeicherte Werte erhalten.";
+ el.insertAdjacentElement("afterend",b);b.insertAdjacentElement("afterend",hint);
+ b.addEventListener("click",()=>{hint.hidden=!hint.hidden;b.setAttribute("aria-expanded",String(!hint.hidden));});
+});
+});
+</script>
+<style>
+/* Einheitliches Hilfe-Design für alle Vertrieb-Eingabemasken */
+.machine-field-help-text,.custom-help-body,.fv-help-content{
+  display:block;box-sizing:border-box;background:#f5f5f5!important;
+  border:0!important;border-radius:9px!important;box-shadow:none!important;
+  color:#363636!important;padding:16px 18px!important;margin:10px 0 14px!important;
+  font-size:14px!important;line-height:1.6!important;letter-spacing:normal!important;
+  text-transform:none!important;max-width:100%;
+}
+.machine-field-help-text[hidden],.custom-help-body[hidden],.fv-help-content[hidden]{display:none!important}
+.machine-field-help-text .help-title,.custom-help-body .help-title,.fv-help-content .help-title{
+ display:block;font-weight:750;font-size:14px;color:#1d1d1d;margin:0 0 7px;
+}
+.machine-field-help-text .help-example,.custom-help-body .help-example,.fv-help-content .help-example{
+ margin-top:12px;padding-top:10px;border-top:1px solid #ddd;display:grid;gap:4px;
+}
+.machine-field-help-text .help-example-label,.custom-help-body .help-example-label,.fv-help-content .help-example-label{
+ font-size:10px;font-weight:800;letter-spacing:.09em;color:#777;
+}
+.machine-field-help-text .help-where,.custom-help-body .help-where,.fv-help-content .help-where{
+ margin-top:12px;color:#777;font-size:12px;
+}
+.machine-field-help,.custom-help-button,.fv-help-button{
+ width:23px!important;height:23px!important;min-width:23px!important;display:inline-flex!important;
+ align-items:center;justify-content:center;border:1px solid #c8c8c8!important;
+ border-radius:50%!important;background:#fff!important;color:#666!important;
+ font:700 12px Arial,sans-serif!important;cursor:pointer;vertical-align:middle;
+}
+.machine-field-help:hover,.machine-field-help[aria-expanded="true"],
+.custom-help-button:hover,.custom-help-button[aria-expanded="true"],
+.fv-help-button:hover,.fv-help-button[aria-expanded="true"]{
+ color:#fff!important;background:#e30613!important;border-color:#e30613!important;
+}
+</style><script>
+document.addEventListener("DOMContentLoaded",function(){
+const examples={
+"FELDBEZEICHNUNG":"Rotordurchmesser",
+"FELDTYP":"Zahl",
+"BEREICH":"Technische Daten",
+"FELDNAME":"Durchsatzleistung",
+"REIHENFOLGE":"10",
+"AUF DER WEBSITE":"Anzeigen",
+"IM VERGLEICH":"Übernehmen"
+};
+document.querySelectorAll(".fv-help-content").forEach(function(box){
+ const old=box.textContent.trim();
+ const match=old.match(/^(?:Was:\s*)?([^:]+):/);
+ const label=box.previousElementSibling?.getAttribute("aria-label")||"";
+ const key=Object.keys(examples).find(k=>label.toUpperCase().includes(k));
+ const main=old.replace(/^Was:\s*/,"").replace(/^Eingabe:\s*/,"");
+ box.replaceChildren();
+ const title=document.createElement("strong");title.className="help-title";title.textContent="Gut zu wissen";box.append(title);
+ const text=document.createElement("div");text.textContent=main;box.append(text);
+ if(key){const ex=document.createElement("div");ex.className="help-example";
+ const cap=document.createElement("span");cap.className="help-example-label";cap.textContent="BEISPIEL";
+ const val=document.createElement("span");val.textContent=examples[key];ex.append(cap,val);box.append(ex);}
+ });
+});
+</script>
+<style>
+/* Gleiche Feldhöhe und kompakte, einzeilige Hilfeknöpfe */
+.fv-global-settings>label,.fv-add-form>label{min-width:0;display:flex!important;flex-direction:column;align-items:stretch;}
+.fv-label-heading{display:inline-flex!important;align-items:center!important;justify-content:flex-start;gap:10px;min-height:25px;max-width:100%;white-space:nowrap;margin-bottom:9px;line-height:1.2;}
+.fv-label-heading .fv-help-button{margin:0!important;flex:none;}
+.fv-global-settings input:not([type=checkbox]),.fv-global-settings select,.fv-add-form input:not([type=checkbox]),.fv-add-form select{height:60px!important;min-height:60px!important;max-height:60px!important;margin-top:0!important;padding:0 16px!important;line-height:normal;box-sizing:border-box;}
+.fv-global-settings input[type=number]{appearance:textfield;-moz-appearance:textfield;}
+.fv-global-settings input[type=number]::-webkit-inner-spin-button,.fv-global-settings input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0;}
+.fv-option>div:first-child .fv-label-heading{margin:0 0 5px!important;}
+.fv-option>div:first-child .fv-label-heading strong{margin:0!important;}
+.fv-option>div:first-child small{margin-top:0!important;}
+.fv-option>div:first-child>.fv-help-content{margin-top:9px!important;}
+@media(max-width:650px){.fv-global-settings{grid-template-columns:minmax(0,1fr)!important;} .fv-label-heading{white-space:normal;}}
+</style>
+{% endblock %}
+<style>
+/* HAMMEL: Fragezeichen immer rechts neben dem Titel, nie darunter */
+.fv-add-form>label,.fv-global-settings>label{display:flex!important;flex-direction:column!important;align-items:stretch!important;min-width:0!important;}
+.fv-label-heading{display:inline-flex!important;flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;gap:9px!important;width:max-content;max-width:100%;min-height:24px;line-height:1.25;white-space:normal;margin:0 0 9px!important;}
+.fv-label-heading .fv-help-button{flex:0 0 22px!important;margin:0!important;}
+.fv-option>div:first-child>.fv-label-heading{display:flex!important;margin-bottom:4px!important;}
+.fv-option>div:first-child>.fv-label-heading strong{margin:0!important;}
+.fv-option>div:first-child>small{margin-top:4px!important;}
+.fv-add-form input:not([type=checkbox]),.fv-add-form select,.fv-global-settings input:not([type=checkbox]),.fv-global-settings select{height:60px!important;min-height:60px!important;box-sizing:border-box!important;margin-top:0!important;}
+.fv-help-content{width:100%;box-sizing:border-box;}
+</style>

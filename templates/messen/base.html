@@ -1,0 +1,245 @@
+{% load static %}<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{% block title %}Messenverwaltung{% endblock %} | HAMMEL</title><link rel="stylesheet" href="{% static 'css/messen-staff.css?v=20261028-layoutfix4' %}?v=news-select-v7"><link rel="stylesheet" href="/assets/css/hammel-eyebrow-palette.css?v=20261023palette1">
+<style>.top{border-bottom:0!important;box-shadow:none!important}.top:after,.top-inner:after{display:none!important}.top-actions{gap:clamp(9px,1.25vw,22px)!important;flex-wrap:wrap}.top-actions a{white-space:nowrap;font-size:clamp(11px,.82vw,14px)!important}@media(max-width:1100px){.top-inner{flex-wrap:wrap;gap:14px;padding-block:15px}.top-actions{width:100%;justify-content:flex-start}}.vertrieb-brand-logo{display:block;width:clamp(140px,12vw,205px);height:auto;max-height:75px;object-fit:contain;object-position:left center}.top .brand{display:flex;align-items:center;flex-shrink:0;text-decoration:none}.top .brand-name,.top .brand-sub{display:none!important}@media(max-width:650px){.vertrieb-brand-logo{width:145px;max-height:60px}}
+.top-inner{display:grid!important;grid-template-columns:minmax(175px,240px) minmax(0,1fr) minmax(170px,235px);gap:clamp(20px,2.4vw,45px)!important;align-items:center!important;width:min(100% - 48px,1480px);max-width:1480px;margin:auto;padding:22px 0!important;box-sizing:border-box}.top .brand{justify-self:start}.vertrieb-brand-logo{width:clamp(175px,14vw,230px)!important;max-height:70px!important}.top-actions{display:flex!important;justify-content:center!important;align-items:center;gap:clamp(12px,1.25vw,24px)!important;flex-wrap:wrap!important;width:auto!important;min-width:0}.top-actions a{font-size:clamp(11px,.75vw,13px)!important;white-space:nowrap}.vertrieb-account{justify-self:end;min-width:0;text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:5px}.vertrieb-account-title{color:#f2b705;font-weight:900;letter-spacing:.065em;font-size:clamp(17px,1.45vw,25px);line-height:1.05;white-space:nowrap}.vertrieb-account-title span{color:#fff}.vertrieb-account-user{color:#c4c4c4;font-size:12px;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.vertrieb-account-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#f2b705;margin-right:8px;vertical-align:middle}.vertrieb-logout{background:transparent;border:0;color:#aaa;font:inherit;font-size:11px;padding:4px 0;cursor:pointer}.vertrieb-logout:hover{color:#fff}@media(max-width:1120px){.top-inner{grid-template-columns:1fr auto!important;gap:18px!important}.top-actions{grid-column:1/-1;grid-row:2;justify-content:flex-start!important}.vertrieb-account{grid-column:2;grid-row:1}}@media(max-width:650px){.top-inner{width:calc(100% - 32px);grid-template-columns:minmax(0,1fr) auto!important;padding:16px 0!important}.vertrieb-brand-logo{width:150px!important}.vertrieb-account-title{font-size:15px}.vertrieb-account-user{font-size:10px;max-width:140px}.top-actions{gap:14px!important}.top-actions a{font-size:12px!important}}.vertrieb-account{min-width:0!important;align-items:flex-end!important}.vertrieb-account-grid{display:grid;grid-template-columns:max-content max-content;column-gap:0;align-items:start;text-align:left}.vertrieb-account-part{display:flex;flex-direction:column;align-items:flex-start;gap:7px;min-width:0}.vertrieb-account-heading{font-size:clamp(17px,1.45vw,25px);font-weight:900;line-height:1.05;letter-spacing:.065em;white-space:nowrap}.vertrieb-account-heading-yellow{color:#f2b705}.vertrieb-account-heading-white{color:#fff}.vertrieb-account-user{margin:0!important;max-width:145px!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px!important}.vertrieb-account-part form{margin:0}.vertrieb-logout{margin:0!important;padding:0!important;line-height:1.4;text-align:left}@media(max-width:650px){.vertrieb-account-heading{font-size:15px}.vertrieb-account-user{max-width:100px!important;font-size:10px!important}.vertrieb-account-part{gap:6px}}
+/* Account area: the username and logout action share the exact same baseline. */
+.vertrieb-account-grid{display:grid!important;grid-template-columns:max-content max-content!important;grid-template-rows:auto 22px!important;column-gap:0!important;row-gap:7px!important;align-items:center!important;text-align:left!important}
+.vertrieb-account-part{display:contents!important}
+.vertrieb-account-heading-yellow{grid-column:1;grid-row:1;align-self:end}
+.vertrieb-account-heading-white{grid-column:2;grid-row:1;align-self:end}
+.vertrieb-account-user{grid-column:1;grid-row:2;align-self:center!important;line-height:22px!important;height:22px!important;display:block!important;margin:0!important;padding:0!important}
+.vertrieb-account-part form{grid-column:2;grid-row:2;align-self:center!important;display:flex!important;align-items:center!important;height:22px!important;margin:0!important;padding:0!important}
+.vertrieb-logout{display:inline-flex!important;align-items:center!important;line-height:22px!important;height:22px!important;margin:0!important;padding:0!important;white-space:nowrap}
+.vertrieb-account-dot{vertical-align:middle!important}
+
+/* Active portal section: consistent on dashboard and edit screens. */
+.top-actions a{position:relative;text-decoration:none!important;transition:color .2s ease,background-color .2s ease;padding:10px 4px!important;border-radius:0!important}
+.top-actions a:hover{color:#f2b705!important}
+.top-actions a.is-active,.top-actions a[aria-current="page"]{color:#f2b705!important;background:transparent!important;text-shadow:0 0 12px rgba(242,183,5,.28);text-decoration:none!important}
+.top-actions a.is-active::after,.top-actions a[aria-current="page"]::after{content:none!important;display:none!important}
+</style><style id="hammel-stats-border-fix">.stats>div,.stats>article,.stats>.stat,.stats>.stat-card,.stat-card,.stat-box,.stats-card,.dashboard-stat{border-top:1px solid #e6e6e6!important;box-shadow:none!important;background-image:none!important}.stats>div::before,.stat-card::before,.stat-box::before,.stats-card::before{display:none!important}</style></head><body>
+<header class="top"><div class="top-inner"><a class="brand" href="{% url 'staff_home' %}" aria-label="HAMMEL Messenverwaltung"><img class="vertrieb-brand-logo" src="/assets/img/hammel-logo-dark.svg" alt="HAMMEL Recyclingtechnik"></a><nav class="top-actions" aria-label="Vertriebsportal Navigation">{% if perms.messen.view_messe %}<a href="{% url 'messen_dashboard' %}" {% if request.path|slice:':14' == '/staff/messen/' %}class="is-active" aria-current="page"{% endif %}>Messen</a>{% endif %}{% if perms.messen.view_newsarticle %}<a href="{% url 'news_dashboard' %}" {% if request.path|slice:':12' == '/staff/news/' %}class="is-active" aria-current="page"{% endif %}>News & Stories</a>{% endif %}{% if perms.contacts.view_contactperson or perms.contacts.view_contactgroup %}<a href="{% url 'contacts_dashboard' %}" {% if request.path|slice:':16' == '/staff/kontakte/' %}class="is-active" aria-current="page"{% endif %}>Kontakte</a>{% endif %}{% if perms.messen.view_machineproduct or perms.messen.view_machinevariant %}<a href="{% url 'staff_machine_dashboard' %}" {% if request.path|slice:':17' == '/staff/maschinen/' and request.path|slice:':23' != '/staff/maschinen/felder/' %}class="is-active" aria-current="page"{% endif %}>Maschinen</a>{% endif %}{% if perms.messen.view_usedmachine %}<a href="{% url 'used_dashboard' %}" {% if request.path|slice:':26' == '/staff/gebrauchtmaschinen/' %}class="is-active" aria-current="page"{% endif %}>Gebrauchtmaschinen</a>{% endif %}{% if perms.messen.change_machinevariant %}<a href="{% url 'staff_machine_fields_manage' %}" {% if request.path|slice:':24' == '/staff/maschinen/felder/' %}class="is-active" aria-current="page"{% endif %}>Feldverwaltung</a>{% endif %}<a href="/aktuelles/index.html" target="_blank" rel="noopener">Öffentliche Seite</a></nav><div class="vertrieb-account"><div class="vertrieb-account-grid"><div class="vertrieb-account-part"><div class="vertrieb-account-heading vertrieb-account-heading-yellow">VERTRIEBS</div>{% if user.is_authenticated %}<div class="vertrieb-account-user"><span class="vertrieb-account-dot"></span>{{ user.get_full_name|default:user.username }}</div>{% endif %}</div><div class="vertrieb-account-part"><div class="vertrieb-account-heading vertrieb-account-heading-white">PORTAL</div>{% if user.is_authenticated %}<form method="post" action="{% url 'messen_logout' %}">{% csrf_token %}<button type="submit" class="vertrieb-logout">Abmelden</button></form>{% endif %}</div></div></div></header>
+<main class="main">{% if messages %}<div class="messages" role="status">{% for message in messages %}<div class="message">{{ message }}</div>{% endfor %}</div>{% endif %}{% block content %}{% endblock %}</main><footer class="footer"><span>HAMMEL RECYCLINGTECHNIK</span><span>INTERNES VERTRIEBSPORTAL · NUR FÜR BERECHTIGTE MITARBEITENDE</span></footer><style>
+.vp-help-button{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;margin-left:9px;border:1px solid #bdbdbd;border-radius:50%;background:#fff;color:#666;font:700 13px Arial,sans-serif;vertical-align:middle;cursor:pointer;transition:background .18s,color .18s,border-color .18s}
+.vp-help-button:hover,.vp-help-button[aria-expanded="true"]{background:#e30613;color:#fff;border-color:#e30613}
+.vp-help-button:focus-visible{outline:2px solid #e30613;outline-offset:3px}
+.vp-help-panel{box-sizing:border-box;position:relative;width:100%;margin:15px 0 20px;padding:20px 24px;background:#f3f3f3;border:0;border-radius:9px;box-shadow:none;color:#252525;font:15px/1.6 Arial,sans-serif;text-transform:none;letter-spacing:normal;grid-column:1/-1}
+.vp-help-panel[hidden]{display:none!important}
+.vp-help-panel .vp-help-title{display:block;font-size:17px;font-weight:800;margin-bottom:8px}
+.vp-help-panel .vp-example{display:block;margin-top:13px;padding-top:11px;border-top:1px solid #ddd;color:#444;overflow-wrap:anywhere}
+.vp-help-panel .vp-example-label{display:block;font-size:11px;font-weight:800;letter-spacing:.09em;color:#777;margin-bottom:4px}
+/* Stable field labels and controls: never allow the help icon to form its own row. */
+main form label:has(> .vp-help-button){display:inline-flex!important;align-items:center!important;justify-content:flex-start!important;gap:9px!important;flex-wrap:nowrap!important;max-width:100%;min-width:0;vertical-align:middle}
+main form label > .vp-help-button{flex:0 0 24px!important;display:inline-flex!important;margin:0!important;width:24px;height:24px;line-height:1;padding:0;white-space:nowrap}
+main form :is(input,select,textarea){min-width:0;max-width:100%;box-sizing:border-box}
+main form :is(.field,.machine-field,.staff-field,.form-field,.form-group,.vp-field){min-width:0}
+main form .vp-help-panel{grid-column:1/-1;min-width:0;max-width:100%;margin:12px 0 18px;clear:both}
+main form .vp-help-panel .vp-help-title{line-height:1.3}
+/* Align the portal content with the header, not the viewport edges. */
+body:not(:has(.staff-login)) > .main{box-sizing:border-box;width:min(100% - 48px,1480px);max-width:1480px;margin-inline:auto;padding-inline:0!important}
+body:not(:has(.staff-login)) > .main :is(.edit-form,.machine-edit-form,form){max-width:100%}
+@media(max-width:650px){body:not(:has(.staff-login)) > .main{width:calc(100% - 32px)}main form label:has(> .vp-help-button){gap:7px!important}}
+</style>
+<script>
+(function(){
+'use strict';
+const help={
+'kategorie':['Ordnet den Eintrag einer Maschinen- oder Inhaltskategorie zu.','Vorbrecher'],
+'produkt':['Wählen Sie das passende Produkt aus dem Maschinenkatalog. Dieses Feld kann optional sein.','VB 950 DK'],
+'oberzeile':['Kurze Zeile über dem großen Titel im Showcase.','RED GIANT'],
+'titel':['Hauptüberschrift, die Besucher auf der Website sehen.','VB 950 DK'],
+'werbetext':['Kurzer werblicher Beschreibungstext; unabhängig von technischen Stammdaten.','Leistungsstarke Vorzerkleinerung'],
+'weitere modelle':['Zusätzliche Modellnamen, getrennt durch einen Mittelpunkt oder Kommas.','VB 850 DK · VB 750 DLV · VB 650'],
+'beschreibung':['Beschreiben Sie das Angebot verständlich für Website-Besucher.','Zuverlässige Lösungen für anspruchsvolle Materialien.'],
+'kurzbeschreibung':['Kurze Zusammenfassung für Listen und Vorschaukarten.','Robuste Technik für den täglichen Einsatz.'],
+'gruppe':['Wählen Sie die Abteilung, in der die Kontaktperson angezeigt wird.','Service'],
+'funktion':['Tätigkeit oder Position der Kontaktperson.','Außendienst'],
+'name':['Offizieller Name, so wie er auf der Website erscheinen soll.','Max Mustermann'],
+'vorname':['Vorname der Kontaktperson.','Max'],
+'nachname':['Nachname der Kontaktperson.','Mustermann'],
+'firma':['Offizieller Firmenname.','HAMMEL Recyclingtechnik GmbH'],
+'land':['Land des Partners oder Veranstaltungsortes.','Deutschland'],
+'stadt':['Stadt des Partners oder Veranstaltungsortes.','Bad Salzungen'],
+'kontinent':['Kontinent für die Zuordnung auf der Weltkarte.','Europa'],
+'adresse':['Vollständige Anschrift mit Straße und Hausnummer.','Leimbacher Str. 130'],
+'anschrift':['Vollständige Anschrift mit Straße und Hausnummer.','Leimbacher Str. 130'],
+'ort':['Veranstaltungsort oder Stadt.','Luzern, Schweiz'],
+'website':['Vollständige Internetadresse einschließlich https://.','https://www.beispiel.de'],
+'auf der website veröffentlichen':['Aktivieren Sie diese Option, damit die Messe unter Aktuelles / Messen öffentlich erscheint. Ohne Häkchen bleibt sie im Portal gespeichert, ist aber auf der Website nicht sichtbar.','Aktiviert: Messe öffentlich sichtbar · Deaktiviert: nur im Portal'],
+'auf der website':['Diese Eigenschaft wird im Maschinenprofil auf der öffentlichen Website angezeigt, wenn die Option aktiviert ist.','Aktiviert: im Maschinenprofil sichtbar'],
+'im vergleich':['Diese Eigenschaft wird in der Vergleichstabelle angezeigt, wenn die Option aktiviert ist.','Aktiviert: in der Vergleichstabelle sichtbar'],
+'sichtbar':['Steuert, ob der jeweilige Inhalt öffentlich sichtbar ist. Gespeicherte Daten bleiben beim Ausblenden erhalten.','Aktiviert: sichtbar · Deaktiviert: verborgen'],
+'veroffentlichung':['Hier steuern Sie, ob die Messe öffentlich auf der Website erscheint.','Aktiviert: veröffentlicht'],
+'url':['Vollständige Zieladresse oder relativer Pfad innerhalb der Website.','/maschinen/index.html'],
+'link':['Zieladresse der Schaltfläche oder des Beitrags.','/kontakt/index.html'],
+'e-mail':['Gültige geschäftliche E-Mail-Adresse.','info@hammel.de'],
+'email':['Gültige geschäftliche E-Mail-Adresse.','info@hammel.de'],
+'telefon':['Telefonnummer möglichst mit internationaler Vorwahl.','+49 3695 6991 0'],
+'logo':['Laden Sie das Firmenlogo hoch. Bevorzugt eine transparente PNG- oder SVG-Datei.','partner-logo.png'],
+'bild':['Passendes Bild für die öffentliche Darstellung.','maschine-vb950.jpg'],
+'foto':['Laden Sie ein aussagekräftiges Foto hoch.','maschine-detail.jpg'],
+'video':['Videodatei oder Video-Link, je nach Feldtyp.','maschinen-demo.mp4'],
+'datum':['Wählen Sie das Datum im vorgesehenen Format.','28.10.2026'],
+'beginn':['Beginn der Veranstaltung oder des Veröffentlichungszeitraums.','21.01.2027'],
+'ende':['Ende der Veranstaltung oder des Veröffentlichungszeitraums.','23.01.2027'],
+'reihenfolge':['Kleinere Zahlen erscheinen zuerst.','10'],
+'sortierung':['Kleinere Zahlen erscheinen zuerst.','10'],
+'aktiv':['Aktivieren, um den Eintrag öffentlich anzuzeigen.','Aktiviert = sichtbar'],
+'veroffentlicht':['Aktivieren, um den Eintrag öffentlich anzuzeigen.','Aktiviert = ONLINE'],
+'status':['Steuert, ob der Eintrag auf der öffentlichen Website sichtbar ist.','ONLINE'],
+'schwerpunkte':['Nennen Sie die wichtigsten Fachgebiete oder Leistungen des Partners.','Vertrieb, Wartung, Ersatzteile'],
+'slogan':['Kurzer prägnanter Leitsatz der Firma.','JUST SHRED IT'],
+'farbe':['Farbwert im HEX-Format, falls für die Darstellung benötigt.','#E30613'],
+'button':['Text oder Zieladresse der Schaltfläche, abhängig vom Feld.','MEHR ERFAHREN'],
+'button text':['Beschriftung der Schaltfläche auf der Website.','VORBRECHER ENTDECKEN'],
+'button url':['Zieladresse der Schaltfläche.','/maschinen/index.html'],
+'koordinaten':['Geografische Position zur Platzierung auf der Karte.','50.814, 10.235'],
+'einsatzgebiete':['Legt fest, für welche Einsatzbereiche diese Eigenschaft auf der Website sichtbar ist. Der eigentliche Wert wird im Maschineneditor bearbeitet.','Einsatzgebiete: sichtbar'],
+'feldname':['Interne Bezeichnung des Feldes. Sie wird auch als Überschrift auf der Website verwendet.','Einsatzgebiete'],
+'bereich':['Wählen Sie den Bereich, zu dem das Feld gehört.','Technische Daten'],
+'hero media choice':['Wählen Sie, ob auf der Produktseite ein Bild oder Video im Hauptbereich angezeigt wird.','Bild verwenden'],
+'latitude':['Breitengrad als Dezimalzahl.','50.814'],
+'longitude':['Längengrad als Dezimalzahl.','10.235']
+};
+function normalize(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s*\*\s*/g,'').replace(/\s+/g,' ').trim()}
+let panel=null, active=null;
+function close(){if(panel){panel.remove();panel=null}if(active){active.setAttribute('aria-expanded','false');active=null}}
+function info(label,field){let key=normalize(label);if(help[key])return help[key];let match=Object.keys(help).filter(k=>k.length>=5).sort((a,b)=>b.length-a.length).find(k=>key===k||key.startsWith(k+' ')||key.endsWith(' '+k));if(match)return help[match];let type=(field?.getAttribute('type')||'').toLowerCase();if(type==='file')return ['Laden Sie eine passende Datei hoch. Prüfen Sie vor dem Speichern das Dateiformat.','beispiel-datei.jpg'];if(type==='date')return help.datum;if(type==='url')return help.url;if(type==='email')return help.email;if(type==='checkbox')return ['Aktivieren oder deaktivieren Sie diese Einstellung.','Häkchen gesetzt = aktiviert'];if(field?.tagName==='SELECT')return ['Wählen Sie den passenden Eintrag aus der Liste.','Passende Option auswählen'];return ['Tragen Sie hier die passende Information ein. Der Wert wird beim Speichern übernommen.','Beispiel passend zum Feldnamen: '+label.trim()]}
+function show(button,label,field){if(active===button){close();return}close();let [desc,example]=info(label,field);panel=document.createElement('div');panel.className='vp-help-panel';panel.setAttribute('role','note');panel.id='vp-help-'+Math.random().toString(36).slice(2);let title=document.createElement('strong');title.className='vp-help-title';title.textContent='Gut zu wissen';let body=document.createElement('div');body.textContent=desc;let ex=document.createElement('div');ex.className='vp-example';let exlabel=document.createElement('span');exlabel.className='vp-example-label';exlabel.textContent='BEISPIEL';let value=document.createElement('span');value.textContent=example;ex.append(exlabel,value);panel.append(title,body,ex);const wrapper=button.closest('.machine-field,.staff-field,.field,.form-field,.form-group,.vp-field')||button.closest('label')?.parentElement||button.parentElement;// Keep the hint in document flow, but outside the label/control grid cell.
+const anchor=field?.closest('.machine-field,.staff-field,.field,.form-field,.form-group,.vp-field')||wrapper;
+anchor.insertAdjacentElement('afterend',panel);button.setAttribute('aria-expanded','true');button.setAttribute('aria-controls',panel.id);active=button}
+function init(){document.querySelectorAll('main form label').forEach(label=>{if(label.querySelector('.vp-help-button')||label.closest('.vp-help-panel')||label.closest('.machine-edit-form')||label.closest('.machine-field-label-row')||label.parentElement?.querySelector('.machine-field-help,.custom-help-button,.fv-help-button,[data-field-help]')||label.closest('.machine-field,.staff-field')?.querySelector('.machine-field-help,[data-field-help]'))return;let text=label.textContent.trim();if(!text||text.length>95||/^(Zurücksetzen|Clear|Löschen)$/i.test(text)||label.querySelector('input[type="checkbox"][name$="-clear"]'))return;let field=label.htmlFor?document.getElementById(label.htmlFor):null;if(!field){let parent=label.parentElement;field=parent?.querySelector('input,select,textarea')||parent?.parentElement?.querySelector('input,select,textarea')}if(!field)return;let b=document.createElement('button');b.type='button';b.className='vp-help-button';b.textContent='?';b.setAttribute('aria-label','Hilfe zu '+text);b.setAttribute('aria-expanded','false');b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();show(b,text,field)});label.appendChild(b)});
+}
+document.addEventListener('DOMContentLoaded',init);document.addEventListener('click',e=>{if(panel&&!panel.contains(e.target)&&!e.target.closest('.vp-help-button'))close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});window.addEventListener('resize',close);
+})();
+</script><script>
+/* Accessible custom single-choice dropdowns. Original Django select remains the submitted control. */
+(function(){
+ const closeAll=(except)=>document.querySelectorAll('.vp-select.is-open').forEach(w=>{if(w===except)return;w.classList.remove('is-open');w.querySelector('.vp-select-trigger').setAttribute('aria-expanded','false');w.querySelector('.vp-select-menu').hidden=true});
+ function enhance(select){
+  if(select.multiple||select.size>1||select.dataset.vpEnhanced||select.dataset.enhanced||select.closest('.vp-select,.hammel-select,.machine-edit-form,[data-no-custom-select]'))return;
+  select.dataset.vpEnhanced='1';
+  const wrap=document.createElement('div');wrap.className='vp-select';select.parentNode.insertBefore(wrap,select);wrap.appendChild(select);select.classList.add('vp-select-native');
+  const trigger=document.createElement('button');trigger.type='button';trigger.className='vp-select-trigger';trigger.setAttribute('aria-haspopup','listbox');trigger.setAttribute('aria-expanded','false');
+  const value=document.createElement('span');value.className='vp-select-value';const arrow=document.createElement('span');arrow.className='vp-select-chevron';arrow.setAttribute('aria-hidden','true');trigger.append(value,arrow);
+  const menu=document.createElement('div');menu.className='vp-select-menu';menu.setAttribute('role','listbox');menu.hidden=true;wrap.append(trigger,menu);
+  function render(){value.textContent=select.selectedOptions[0]?.textContent?.trim()||'Bitte auswählen';menu.replaceChildren();Array.from(select.options).forEach((opt,index)=>{const item=document.createElement('button');item.type='button';item.className='vp-select-option';item.setAttribute('role','option');item.setAttribute('aria-selected',String(index===select.selectedIndex));item.textContent=opt.textContent;item.disabled=opt.disabled;item.addEventListener('click',()=>{select.selectedIndex=index;select.dispatchEvent(new Event('input',{bubbles:true}));select.dispatchEvent(new Event('change',{bubbles:true}));render();closeAll();trigger.focus()});menu.append(item)});trigger.disabled=select.disabled}
+  function open(){if(select.disabled)return;const isOpen=wrap.classList.contains('is-open');closeAll();if(isOpen)return;wrap.classList.add('is-open');menu.hidden=false;trigger.setAttribute('aria-expanded','true');const selected=menu.querySelector('[aria-selected="true"]');(selected||menu.querySelector('button:not(:disabled)'))?.focus()}
+  trigger.addEventListener('click',open);
+  trigger.addEventListener('keydown',e=>{if(['ArrowDown','ArrowUp','Enter',' '].includes(e.key)){e.preventDefault();open()}});
+  menu.addEventListener('keydown',e=>{const items=[...menu.querySelectorAll('button:not(:disabled)')];const idx=items.indexOf(document.activeElement);if(e.key==='Escape'){e.preventDefault();closeAll();trigger.focus()}else if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();items[(idx+(e.key==='ArrowDown'?1:-1)+items.length)%items.length]?.focus()}else if(e.key==='Home'){e.preventDefault();items[0]?.focus()}else if(e.key==='End'){e.preventDefault();items[items.length-1]?.focus()}});
+  select.addEventListener('change',render);render();
+  const observer=new MutationObserver(()=>render());observer.observe(select,{childList:true,subtree:true,attributes:true,attributeFilter:['disabled']});
+ }
+ document.addEventListener('DOMContentLoaded',()=>document.querySelectorAll('main form select').forEach(enhance));
+ document.addEventListener('click',e=>{if(!e.target.closest('.vp-select'))closeAll()});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
+})();
+</script>
+<style>
+/* Shared compact media upload, native Django form semantics preserved */
+.vp-upload{border:1px solid #d7d7d7;background:#fff;padding:16px 18px;margin:8px 0 12px;max-width:100%;box-sizing:border-box}
+.vp-upload__current{display:flex;align-items:center;gap:14px;min-width:0;margin-bottom:12px}
+.vp-upload__preview{width:76px;height:70px;object-fit:contain;background:#f4f4f4;border:1px solid #eee;flex:none}
+.vp-upload__placeholder{display:grid;place-items:center;font-size:23px;color:#777}
+.vp-upload__info{min-width:0;flex:1}.vp-upload__title{display:block;font-weight:800;font-size:13px;color:#202020}.vp-upload__filename{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%;font-size:12px;color:#777;margin-top:5px}
+.vp-upload__actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.vp-upload__button{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 16px;border:1px solid #1e1e1e;background:#1e1e1e;color:#fff;font-size:12px;font-weight:800;letter-spacing:.03em;cursor:pointer;border-radius:0;text-transform:uppercase;transition:background .2s,border-color .2s}
+.vp-upload__button:hover{background:#e30613;border-color:#e30613}
+.vp-upload__remove{background:#fff;color:#222;border-color:#d0d0d0}.vp-upload__remove:hover{background:#1e1e1e;color:#fff;border-color:#1e1e1e}
+.vp-upload__note{font-size:12px;color:#777;margin-top:10px}
+.vp-upload__native{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;overflow:hidden!important;clip-path:inset(50%);pointer-events:none!important}
+.vp-upload__original{display:none!important}
+.vp-upload__remove[aria-pressed="true"]{background:#1e1e1e;color:#fff}
+.vp-upload__button:focus-visible{outline:2px solid #e30613;outline-offset:3px}
+@media(max-width:550px){.vp-upload{padding:12px}.vp-upload__preview{width:60px;height:58px}}
+.vp-upload-field > small{display:none!important}
+.vp-upload-field > .vp-help-button:not(label .vp-help-button){display:none!important}
+</style>
+<script>
+(function(){
+'use strict';
+function init(){
+ document.querySelectorAll('main form input[type="file"]').forEach(input=>{
+  if(input.closest('.vp-upload')||input.dataset.vpUploadReady)return;
+  input.dataset.vpUploadReady='1';
+  const multiple=input.multiple;
+  const isImage=(input.accept||'').includes('image')||/image|bild|foto|logo|gallery|photo/i.test(input.name||'');
+  const parent=input.parentNode;
+  // Django ClearableFileInput prints current file link and clear checkbox before the input.
+  let clear=null,currentLink=null,existingName='';
+  const previous=[...parent.childNodes].slice(0,[...parent.childNodes].indexOf(input));
+  for(const node of previous){
+   if(node.nodeType!==1)continue;
+   if(node.matches('input[type="checkbox"][name$="-clear"]'))clear=node;
+   if(node.matches('a[href]')&&/\/media\/|\/uploads\//.test(node.getAttribute('href')||''))currentLink=node;
+  }
+  // Django usually wraps the clear checkbox in a label; find it locally by name.
+  if(!clear)clear=parent.querySelector('input[type="checkbox"][name$="-clear"]');
+  if(!currentLink){const a=parent.querySelector('a[href]');if(a&&/\/media\/|\/uploads\//.test(a.getAttribute('href')||''))currentLink=a;}
+  if(currentLink)existingName=currentLink.textContent.trim().split('/').pop();
+  // Remove Django's old widget prose, but preserve the actual input and clear checkbox.
+  // This is scoped to the file input's immediate container, not the entire form.
+  const legacyNodes=[...parent.childNodes];
+  for(const node of legacyNodes){
+    if(node===input)continue;
+    if(node.nodeType===3){
+      if(!node.textContent.trim() || /^(Derzeit:|Zurücksetzen|Ändern:|Currently:|Clear|Change:|\s)+$/i.test(node.textContent.trim()))node.remove();
+    }else if(node.nodeType===1){
+      if(node.tagName==='BR')node.remove();
+      if(node.matches('small') && /Optional|JPG|PNG|WebP|Änderungen/i.test(node.textContent))node.remove();
+      if(node.matches('label') && node.querySelector('input[type="checkbox"][name$="-clear"]'))node.style.display='none';
+    }
+  }
+  const originalContainer=document.createElement('span');originalContainer.className='vp-upload__original';
+  // Keep Django's native clear control functional but hide its visual boilerplate.
+  if(currentLink){currentLink.style.display='none';}
+  if(clear){
+    clear.style.display='none';
+    const label=clear.closest('label');
+    if(label){label.style.display='none';label.querySelectorAll('.vp-help-button').forEach(b=>b.remove());}
+    // Some Django templates render the clear label separately from its checkbox.
+    const clearId=clear.id;
+    if(clearId)parent.querySelectorAll('label[for]').forEach(l=>{if(l.htmlFor===clearId){l.style.display='none';l.querySelectorAll('.vp-help-button').forEach(b=>b.remove());}});
+    // Hide the old clear-checkbox row, while preserving the actual checkbox for submission.
+    const candidates=[...parent.querySelectorAll('label,span,div')];
+    for(const el of candidates){
+      if(el===parent||el.contains(input))continue;
+      if(el.textContent.trim()==='Zurücksetzen'&&(!el.querySelector('input')||el.contains(clear))){el.style.display='none';}
+    }
+   }
+  const box=document.createElement('div');box.className='vp-upload';
+  const current=document.createElement('div');current.className='vp-upload__current';
+  const preview=document.createElement(isImage?'img':'div');preview.className='vp-upload__preview'+(isImage?'':' vp-upload__placeholder');
+  if(!isImage)preview.textContent='▣';else{preview.alt='Bildvorschau';preview.style.display='none';}
+  const info=document.createElement('div');info.className='vp-upload__info';
+  const title=document.createElement('strong');title.className='vp-upload__title';
+  const filename=document.createElement('span');filename.className='vp-upload__filename';
+  info.append(title,filename);current.append(preview,info);
+  const actions=document.createElement('div');actions.className='vp-upload__actions';
+  const choose=document.createElement('button');choose.type='button';choose.className='vp-upload__button';
+  choose.textContent=multiple?'FOTOS AUSWÄHLEN':(existingName?'DATEI ERSETZEN':'DATEI AUSWÄHLEN');choose.addEventListener('click',()=>input.click());actions.append(choose);
+  let remove=null;
+  if(clear){remove=document.createElement('button');remove.type='button';remove.className='vp-upload__button vp-upload__remove';remove.textContent='ENTFERNEN';remove.setAttribute('aria-pressed',String(clear.checked));remove.addEventListener('click',()=>{clear.checked=!clear.checked;remove.setAttribute('aria-pressed',String(clear.checked));refresh();});actions.append(remove);}
+  const note=document.createElement('div');note.className='vp-upload__note';note.textContent=multiple?'Mehrere Dateien möglich · Auswahl wird beim Speichern übernommen':(isImage?'JPG, PNG oder WebP · Änderungen werden beim Speichern übernommen':'Änderungen werden beim Speichern übernommen');
+  box.append(current,actions);
+  parent.insertBefore(box,input);box.append(input);input.classList.add('vp-upload__native');
+  parent.classList.add('vp-upload-field');
+  let objectUrl=null;
+  function refresh(){
+   if(objectUrl){URL.revokeObjectURL(objectUrl);objectUrl=null;}
+   const files=[...input.files];const removed=clear&&clear.checked;
+   title.textContent=files.length?(multiple?`${files.length} Datei(en) ausgewählt`:'Neue Datei ausgewählt'):(existingName&&!removed?'Aktuelle Datei vorhanden':'Noch keine Datei ausgewählt');
+   filename.textContent=files.length?files.map(f=>f.name).join(', '):(existingName&&!removed?existingName:'');
+   choose.textContent=multiple?'FOTOS AUSWÄHLEN':(existingName&&!removed?'DATEI ERSETZEN':'DATEI AUSWÄHLEN');
+   if(isImage){let url=null;if(files[0]&&files[0].type.startsWith('image/')){objectUrl=URL.createObjectURL(files[0]);url=objectUrl;}else if(currentLink&&!removed&&/\.(png|jpe?g|webp|gif|svg)(\?|$)/i.test(currentLink.href))url=currentLink.href;
+    preview.style.display=url?'block':'none';if(url)preview.src=url;else preview.removeAttribute('src');
+   }
+  }
+  input.addEventListener('change',()=>{if(clear&&input.files.length){clear.checked=false;remove?.setAttribute('aria-pressed','false');}refresh();});refresh();
+ });
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
+</body></html>
+<style>main form label:has(> .vp-help-button){display:inline-flex!important;align-items:center!important;gap:9px!important;flex-wrap:nowrap!important;width:auto!important;max-width:100%!important}main form label>.vp-help-button{display:inline-flex!important;flex:0 0 24px!important;margin:0!important;vertical-align:middle!important}.vp-help-panel{max-width:100%;box-sizing:border-box}</style>

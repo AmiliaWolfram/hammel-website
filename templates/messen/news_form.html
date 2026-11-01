@@ -1,0 +1,25 @@
+{% extends 'messen/base.html' %}{% block title %}Beitrag bearbeiten<style>
+/* News publication controls: separate, evenly spaced cards */
+main .form-card.publish .publish-option{background:#f6f6f6;border:1px solid #e7e7e7;padding:22px 24px;margin:0!important;min-width:0;border-radius:2px;box-sizing:border-box}
+main .form-card.publish .publish-option + .publish-option{margin-top:16px!important}
+main .form-card.publish .publish-option .check-row,
+main .form-card.publish .publish-option label.check-row:has(> .vp-help-button){display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:16px!important;width:100%!important;max-width:100%!important;min-width:0!important;flex-wrap:nowrap!important;box-sizing:border-box}
+main .form-card.publish .publish-option .check-row > input[type=checkbox]{flex:0 0 20px!important;width:20px!important;height:20px!important;margin:0!important;accent-color:#e30613}
+main .form-card.publish .publish-option .check-row > span{display:flex;flex-direction:column;align-items:flex-start;gap:5px;flex:0 1 auto;min-width:0;line-height:1.35}
+main .form-card.publish .publish-option .check-row strong{font-weight:700}
+main .form-card.publish .publish-option .check-row small{display:block!important;color:#777;line-height:1.4;margin:0!important}
+main .form-card.publish .publish-option .check-row > .vp-help-button{flex:0 0 24px!important;margin:0 0 0 2px!important;align-self:center!important}
+@media(max-width:600px){main .form-card.publish .publish-option{padding:17px 14px}main .form-card.publish .publish-option .check-row{gap:10px!important}main .form-card.publish .publish-option .check-row strong{font-size:15px}}
+</style>{% endblock %}{% block content %}<a class="back" href="{% url 'news_dashboard' %}">← ZUR ÜBERSICHT</a><div class="eyebrow">HAMMEL / NEWS & STORIES</div><h1>{% if editing %}BEITRAG <span class="red">BEARBEITEN</span>{% else %}NEUEN BEITRAG <span class="red">ERSTELLEN</span>{% endif %}</h1><form method="post" enctype="multipart/form-data" class="edit-form">{% csrf_token %}{{ form.non_field_errors }}<section class="form-card"><h2>BEITRAG</h2><div class="form-grid">{% for field in form %}{% if field.name != 'featured' and field.name != 'published' %}<div class="field {% if field.name == 'body' or field.name == 'teaser' or field.name == 'title' %}wide{% endif %}"><label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} *{% endif %}</label>{{ field }}{{ field.errors }}{% if field.name == 'image' and editing and item.image %}<small>Aktuelles Bild: <a href="{{ item.image.url }}" target="_blank" rel="noopener">Ansehen</a></small>{% endif %}</div>{% endif %}{% endfor %}</div></section><section class="form-card publish"><h2>VERÖFFENTLICHUNG</h2><div class="publish-option"><label class="check-row" for="{{ form.featured.id_for_label }}">{{ form.featured }}<span><strong>Als Hauptstory hervorheben</strong></span></label>{{ form.featured.errors }}</div><div class="publish-option"><label class="check-row" for="{{ form.published.id_for_label }}">{{ form.published }}<span><strong>Auf der Website veröffentlichen</strong><small>Entwürfe bleiben intern.</small></span></label>{{ form.published.errors }}</div></section><div class="form-actions"><a class="btn outline" href="{% url 'news_dashboard' %}">ABBRECHEN</a><button class="btn primary" type="submit">BEITRAG SPEICHERN</button></div></form><style>
+/* News publication controls: separate, evenly spaced cards */
+main .form-card.publish .publish-option{background:#f6f6f6;border:1px solid #e7e7e7;padding:22px 24px;margin:0!important;min-width:0;border-radius:2px;box-sizing:border-box}
+main .form-card.publish .publish-option + .publish-option{margin-top:16px!important}
+main .form-card.publish .publish-option .check-row,
+main .form-card.publish .publish-option label.check-row:has(> .vp-help-button){display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:16px!important;width:100%!important;max-width:100%!important;min-width:0!important;flex-wrap:nowrap!important;box-sizing:border-box}
+main .form-card.publish .publish-option .check-row > input[type=checkbox]{flex:0 0 20px!important;width:20px!important;height:20px!important;margin:0!important;accent-color:#e30613}
+main .form-card.publish .publish-option .check-row > span{display:flex;flex-direction:column;align-items:flex-start;gap:5px;flex:0 1 auto;min-width:0;line-height:1.35}
+main .form-card.publish .publish-option .check-row strong{font-weight:700}
+main .form-card.publish .publish-option .check-row small{display:block!important;color:#777;line-height:1.4;margin:0!important}
+main .form-card.publish .publish-option .check-row > .vp-help-button{flex:0 0 24px!important;margin:0 0 0 2px!important;align-self:center!important}
+@media(max-width:600px){main .form-card.publish .publish-option{padding:17px 14px}main .form-card.publish .publish-option .check-row{gap:10px!important}main .form-card.publish .publish-option .check-row strong{font-size:15px}}
+</style>{% endblock %}

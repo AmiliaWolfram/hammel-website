@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>DATENSCHUTZ | HAMMEL Recyclingtechnik</title><link href="../assets/css/style.css" rel="stylesheet"/><link href="../assets/css/navigation-2026.css" rel="stylesheet"/><link href="../assets/css/footer-unified.css" rel="stylesheet"/><style>
+.legal-page{background:#f6f6f5;color:#17191b;padding:clamp(52px,6vw,110px) 0 120px}.legal-wrap{width:calc(100% - 2 * clamp(24px,4vw,72px));max-width:1600px;margin:auto}.legal-eyebrow{font-size:15px;font-weight:900;letter-spacing:.19em;color:#e30613}.legal-title{font-size:clamp(54px,7vw,110px);font-weight:1000;line-height:1;letter-spacing:-.055em;margin:24px 0 24px}.legal-lead{font-size:clamp(19px,2vw,26px);color:#686b6e;max-width:850px;line-height:1.5;margin:0 0 68px}.legal-layout{display:grid;grid-template-columns:minmax(200px,290px) minmax(0,1fr);gap:clamp(30px,6vw,110px);align-items:start}.legal-nav{position:sticky;top:110px;display:grid;gap:0}.legal-nav a{padding:17px 12px;border-bottom:1px solid #d8d9d9;text-decoration:none;color:#222;font-weight:800;font-size:14px;transition:color .2s}.legal-nav a:hover,.legal-nav a:focus{color:#e30613}.legal-content{min-width:0}.legal-section{padding:0 0 42px;margin:0 0 45px;border-bottom:1px solid #ddd;scroll-margin-top:110px}.legal-section h2{font-size:clamp(25px,3vw,39px);line-height:1.15;margin:0 0 25px;font-weight:900;letter-spacing:-.025em}.legal-section h3{font-size:19px;margin:30px 0 10px}.legal-section p,.legal-section li{font-size:17px;line-height:1.8;color:#4c5052}.legal-section p{margin:0 0 16px}.legal-section a{color:#c90010;text-decoration:none;border-bottom:1px solid #c90010}.legal-section ul{padding-left:22px}.legal-details{display:grid;grid-template-columns:1fr 1fr;gap:22px}.legal-details>div{padding:28px;background:white;border:1px solid #e5e5e5}.legal-details strong{display:block;margin-bottom:13px}.legal-note{padding:20px 24px;background:#fff;border-left:3px solid #e30613;color:#333;font-size:15px;line-height:1.65;margin-bottom:45px}@media(max-width:800px){.legal-layout{grid-template-columns:1fr}.legal-nav{position:static;display:flex;overflow:auto;gap:14px;padding-bottom:12px}.legal-nav a{white-space:nowrap}.legal-details{grid-template-columns:1fr}.legal-page{padding-top:55px}}
+
+/* Clean endings for the legal navigation and content sections */
+.legal-nav a:last-child,
+.legal-section:last-child {
+    border-bottom: 0 !important;
+}
+.legal-note {
+    border-left: 0 !important;
+}
+
+
+/* Legal pages: balanced columns and equal top/bottom breathing room */
+.legal-page { padding-top: clamp(52px, 6vw, 110px); padding-bottom: clamp(52px, 6vw, 110px); }
+.legal-layout { align-items: stretch; }
+.legal-nav { position: static; align-self: stretch; display: flex; flex-direction: column; }
+.legal-nav a:last-child { margin-top: auto; border-bottom: 0 !important; }
+.legal-content { display: flex; flex-direction: column; }
+.legal-content > .legal-section:last-child { margin-bottom: 0 !important; padding-bottom: 0 !important; border-bottom: 0 !important; }
+.legal-content > .legal-note:last-child { margin-bottom: 0 !important; border-left: 0 !important; }
+@media(max-width:800px) {
+ .legal-layout { align-items: start; }
+ .legal-nav { display: flex; flex-direction: row; align-self: auto; }
+ .legal-nav a:last-child { margin-top: 0; }
+}
+
+/* Sticky navigation stays within the legal content area when scrolling. */
+@media (min-width: 801px) {
+  .legal-layout { align-items: start !important; }
+  .legal-nav { position: sticky !important; top: 110px !important; align-self: start !important; display: grid !important; }
+  .legal-nav a:last-child { margin-top: 0 !important; border-bottom: 0 !important; }
+  .legal-content { display: block !important; }
+}
+.legal-content > .legal-section:last-child { margin-bottom: 0 !important; padding-bottom: 0 !important; border-bottom: 0 !important; }
+@media (max-width: 800px) { .legal-nav { position: static !important; } }
+</style><link rel="stylesheet" href="../assets/css/hammel-alignment-fix.css?v=20261030b">
+</head><body><header class="top">
+<div class="wrap nav">
+<a class="logo" href="/index.html">
+<img alt="HAMMEL Recyclingtechnik" class="brand-logo brand-logo--dark" src="/assets/img/hammel-logo-dark.svg"/>
+<img alt="" aria-hidden="true" class="brand-logo brand-logo--light" src="/assets/img/hammel-logo-light.svg"/>
+</a>
+<nav class="links">
+<a href="/index.html">
+      HOME
+     </a>
+<a href="/unternehmen/index.html">
+      ÜBER UNS
+     </a>
+<a href="/maschinen/index.html">
+      MASCHINEN
+     </a>
+<a href="/loesungen/index.html">
+      LÖSUNGEN
+     </a>
+<a href="/weltweit/index.html">
+      WELTWEIT
+     </a>
+<a href="/service/index.html">
+      SERVICE
+     </a>
+<a href="/karriere/index.html">
+      KARRIERE
+     </a>
+<a href="/kontakt/index.html">
+      KONTAKT
+     </a>
+</nav>
+<div class="lang">
+<button id="langBtn">
+      DE ▾
+     </button>
+<div class="lang-menu">
+<a data-lang="de" href="#">
+       Deutsch
+      </a>
+<a data-lang="en" href="#">
+       English
+      </a>
+<a data-lang="fr" href="#">
+       Français
+      </a>
+<a data-lang="es" href="#">
+       Español
+      </a>
+<a data-lang="it" href="#">
+       Italiano
+      </a>
+</div>
+</div>
+</div>
+</header><main class="legal-page"><div class="legal-wrap"><span class="legal-eyebrow">HAMMEL / RECHTLICHES</span><h1 class="legal-title">DATENSCHUTZ</h1><div class="legal-layout"><nav aria-label="Abschnitte" class="legal-nav"><a href="#einleitung">Datenschutzhinweise für Besucher der Website</a><a href="#verantwortliche">Verantwortlichkeit für die Datenverarbeitung:</a><a href="#aufsicht">Zuständige Aufsichtsbehörde für den Datenschutz</a><a href="#server">Erhebung, Nutzung und Verarbeitung personenbezogener Daten</a><a href="#kontakt">Nutzung von Kontaktformularen</a><a href="#sicher">Sichere Kommunikation</a><a href="#dienste">Externe Dienste und Inhalte auf unserer Website</a><a href="#auftragsverarbeitung">Weitergabe von Daten zur Verarbeitung in unserem Auftrag</a><a href="#drittland">Werden die von Ihnen überlassenen Daten an Drittländer oder internationale Organisationen übermittelt?</a><a href="#rechte">Informationen über Ihre Rechte als Betroffene</a><a href="#visable">Tracking Tool Tracking-Pixel von Visable</a></nav><div class="legal-content"><section class="legal-section" id="einleitung"><h2>Datenschutzhinweise für Besucher der Website</h2><p>Liebe Besucherinnen und Besucher,</p><p>wir freuen uns über Ihren Besuch unserer Website sowie Ihr Interesse an unserem Unternehmen und unseren Produkten.</p><p>Der Schutz Ihrer personenbezogenen Daten ist uns sehr wichtig. Nach der EU-Datenschutzgrundverordnung (DS-GVO) sind wir verpflichtet, Sie darüber zu informieren, zu welchem Zweck wir Ihre Daten beim Besuch unserer Website erheben, speichern oder weiterleiten. Dieser Information können Sie auch entnehmen, welche Rechte Ihnen zum Schutz Ihrer Daten zustehen.</p><p>Unsere Website kann Links zu Websites anderer Anbieter enthalten, auf die sich unsere Datenschutzerklärung nicht erstreckt und für deren Inhalte wir keine Verantwortung übernehmen.</p></section><section class="legal-section" id="verantwortliche"><h2>Verantwortlichkeit für die Datenverarbeitung:</h2><p>HAMMEL Recyclingtechnik GmbH<br/>Vertretungsberechtigter:<br/>Oliver Buchwald<br/>Leimbacher Str. 130<br/>36433 Bad Salzungen<br/>Tel.: 03695-6991-0<br/>Mail: info@hammel.de<br/>Internet: www.hammel.de</p><p>Unseren Datenschutzbeauftragten erreichen Sie per Post unter der o.g. Adresse mit dem Zusatz -Datenschutzbeauftragter- oder per Mail unter: datenschutz@hammel.de.</p></section><section class="legal-section" id="aufsicht"><h2>Zuständige Aufsichtsbehörde für den Datenschutz</h2><p>Die für die HAMMEL Recyclingtechnik GmbH zuständige Aufsichtsbehörde ist:</p><p>Thüringer Landesbeauftragter für den Datenschutz und die Informationsfreiheit<br/>Postfach 900455<br/>99107 Erfurt<br/>Tel.: 0361-3771900<br/>Mail: poststelle@datenschutz.thueringen.de<br/>Internet: www.tlfdi.de</p></section><section class="legal-section" id="server"><h2>Erhebung, Nutzung und Verarbeitung personenbezogener Daten</h2><p>Nachfolgend informieren wir Sie über unseren Umgang mit Ihren personenbezogenen Daten bei der Nutzung unserer Website. Soweit dies in den nachfolgenden Abschnitten nicht anders beschrieben wird, folgt die Rechtsgrundlage für den Umgang mit Ihren personenbezogenen Daten aus der Erforderlichkeit des Umgangs für die Bereitstellung der auf der Website von Ihnen angefragten Funktionalitäten (Art. 6 Abs. 1 b DS-GVO).</p><p>Beim Besuch unserer Website überträgt Ihr Browser zunächst technisch bedingt bestimmte Daten an den Webserver, um die von Ihnen aufgerufenen Informationen zur Verfügung stellen zu können. Um Ihnen den Besuch unserer Website zu ermöglichen, werden dabei folgende Daten erhoben, kurzfristig gespeichert und verwendet:</p><p>• IP-Adresse des anfordernden Rechners<br/>• Datum und Uhrzeit der Anforderung<br/>• Dauer des Besuches<br/>• Website die Sie bei uns besuchen<br/>• Betriebssystem und dessen Zugriffstatus<br/>• http-Statuscode<br/>• Übertragene Datenmenge<br/>• Sprache und Version der Browsersoftware</p><p>Darüber hinaus speichern wir zur Wahrung unserer berechtigten Interessen die genannten Daten für eine begrenzte Zeit (bis maximal 4 Wochen), um im Falle unzulässiger Zugriffe bzw. Zugriffsversuche auf unsere Server, eine Herleitung zu personenbezogenen Daten zu veranlassen (gem. Art. 6 Abs. 1 f DS-GVO).</p><p>Wir verwenden keine Cookies oder aktive Komponenten (z.B. JAVA Script).</p></section><section class="legal-section" id="kontakt"><h2>Nutzung von Kontaktformularen</h2><p>Über diesen Umfang hinaus werden personenbezogene Daten nur dann gespeichert, wenn Sie uns diese freiwillig auf dem dafür vorgesehenen Kontaktformular übermitteln oder indem Sie uns per E-Mail kontaktieren. Sie haben die Möglichkeit, uns insbesondere folgende Informationen mitzuteilen:</p><p>• Firma<br/>• Abteilung<br/>• Nachname, Vorname<br/>• Adressdaten (Straße / Nr., Postleitzahl / Ort, Land)<br/>• Kontaktdaten (E-Mail, Telefon)</p><p>Wir erheben, verarbeiten und nutzen die von Ihnen über das Kontaktformular zur Verfügung gestellten Informationen ausschließlich für die Bearbeitung Ihres Anliegens.</p><p>Ihre personenbezogenen Daten werden nicht an Dritte weitergegen. Keine "Dritten" in diesem Sinne sind Unternehmen des Konzernverbundes der HAMMEL Recyclingtechnik GmbH sowie Händler, mit denen wir vertraglich gebunden sind.</p></section><section class="legal-section" id="sicher"><h2>Sichere Kommunikation</h2><p>Für eine sichere Übermittlung Ihrer personenbezogenen Daten setzen wir eine sogenannte SSL-Verschlüsselung ein. Diese Übertragungsform wird nach dem gegenwärtigen Kenntnisstand als sichere Form der Datenübertragung anerkannt.</p></section><section class="legal-section" id="dienste"><h2>Externe Dienste und Inhalte auf unserer Website</h2><p>Wir binden externe Dienste oder Inhalte auf unserer Website ein. Wenn Sie einen solchen Dienst verwenden oder wenn Ihnen Inhalte Dritter angezeigt werden, werden technisch bedingt Kommunikationsdaten zwischen Ihnen und dem jeweiligen Anbieter ausgetauscht.</p><p>Darüber hinaus kann es sein, dass der Anbieter der jeweiligen Dienste oder Inhalte Ihre Daten für weitere, eigene Zwecke verarbeitet. Dienste oder Inhalte von Anbietern, die bekanntermaßen Daten für eigene Zwecke verarbeiten, haben wir nach bestem Wissen und Gewissen so konfiguriert, dass entweder eine Kommunikation für andere Zwecke als zur Darstellung der Inhalte bzw.</p><p>Dienste auf unserer Website unterbleibt, oder eine Kommunikation erst dann stattfindet, wenn Sie sich aktiv dazu entscheiden, den Dienst zu verwenden. Da wir aber keinen Einfluss auf die von Dritten erhobenen Daten und deren Verarbeitung durch diese haben, können wir zu Zweck und Umfang der Verarbeitung Ihrer Daten keine verbindlichen Angaben machen.</p><p>Weitere Informationen über Zweck und Umfang der Erhebung und Verarbeitung Ihrer Daten entnehmen Sie daher bitte den Datenschutzhinweisen der jeweils datenschutzrechtlich verantwortlichen Anbieter der von uns eingebundenen Dienste bzw. Inhalte:</p><p>• Youtube (Videos)<br/>• Google Maps</p></section><section class="legal-section" id="auftragsverarbeitung"><h2>Weitergabe von Daten zur Verarbeitung in unserem Auftrag</h2><p>Zur Verarbeitung Ihrer Daten setzen wir teilweise spezialisierte Dienstleister ein. Diese Dienstleister werden von uns regelmäßig kontrolliert. Sie verarbeiten personenbezogene Daten ausschließlich in unserem Auftrag und ausschließlich auf unsere Weisungen hin auf der Grundlage entsprechender Verträge über eine Auftragsverarbeitung.</p></section><section class="legal-section" id="drittland"><h2>Werden die von Ihnen überlassenen Daten an Drittländer oder internationale Organisationen übermittelt?</h2><p>Eine Übermittlung der von Ihnen überlassenen Daten an ein Drittland (d.h. außerhalb der EU oder des EWR) oder an eine internationale Organisation ist grundsätzlich nicht beabsichtigt, außer Sie wollen Waren oder Leistungen in einem Drittland beziehen. Sofern wir Daten in einem Drittland verarbeiten oder dies im Rahmen der Inanspruchnahme von Diensten Dritter oder Offenlegung bzw.</p><p>Übermittlung von Daten an Dritte geschieht, erfolgt dies nur, wenn es zur Erfüllung unserer (vor)vertraglichen Pflichten, auf Grundlage Ihrer Einwilligung, aufgrund einer rechtlichen Verpflichtung oder auf Grundlage unserer berechtigten Interessen geschieht. Vorbehaltlich gesetzlicher oder vertraglicher Erlaubnisse, verarbeiten oder lassen wir die Daten in einem Drittland nur bei Vorliegen der besonderen Voraussetzungen der Art. 44 ff. DS-GVO verarbeiten.</p><p>Damit erfolgt die Verarbeitung auf Grundlage besonderer Garantien, wie der offiziell anerkannten Feststellung eines der EU entsprechenden Datenschutzniveaus oder Beachtung offiziell anerkannter spezieller vertraglicher Verpflichtungen.</p></section><section class="legal-section" id="rechte"><h2>Informationen über Ihre Rechte als Betroffene</h2><p>• Recht auf Auskunft (gem. Art. 15 DS-GVO) Sie haben das Recht, Auskunft über die Verarbeitung Ihrer Daten von uns zu erhalten.</p><p>Diese Auskunft beinhaltet insbesondere den Zweck der Datenerhebung, die Kategorien der personenbezogenen Daten, die Kategorien von Empfängern, gegenüber denen Ihre Daten offengelegt wurden oder werden, die geplante Speicherdauer, das Bestehen eines Rechts auf Berichtigung, Löschung, Einschränkung der Verarbeitung oder Widerspruch, das Bestehen eines Beschwerderechts, die Herkunft Ihrer Daten, sofern diese nicht bei uns erhoben wurden.</p><p>• Recht auf Berichtigung (gem. Art. 16 DS-GVO) Sie haben das Recht, die Berichtigung fehlerhafter oder die Vervollständigung unvollständiger Daten von uns zu verlangen.</p><p>• Recht auf Löschung oder Einschränkung der Verarbeitung (gem. Art. 17-18 DS-GVO) Sie haben das Recht, die unverzügliche Löschung Ihrer Daten zu verlangen, wenn der oben genannte Zweck erfüllt ist, oder wenn Sie Ihre Einwilligung der Verarbeitung widerrufen und eine anderweitige Rechtsgrundlage für die Verarbeitung nicht vorliegt, oder Sie der Verarbeitung widersprechen und eine anderweitige Rechtsgrundlage für die Verarbeitung nicht vorliegt, oder die Daten unrechtmäßig verarbeitet wurden, oder wenn die Löschung einer rechtlichen Verpflichtung unterliegt.</p><p>Wir kommen Ihrem Recht nach, soweit nicht eine rechtliche Verpflichtung oder ein öffentliches Interesse uns dies verbietet und oder es der Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen dient. Sie haben zusätzlich das Recht, die Einschränkung der Verarbeitung (z.B. Archivierung) zu verlangen (gem. Artikel 18 DS-GVO i.V.m. § 35 BDSG), sofern eine der folgenden Voraussetzungen erfüllt ist: a) Die Richtigkeit der personenbezogenen Daten wird von Ihnen bestritten b) Die Verarbeitung ist unrechtmäßig und Sie lehnen eine Löschung der Daten ab c) Die personenbezogenen Daten werden für die Zwecke der Verarbeitung nicht länger benötigt, Sie benötigen die Daten jedoch zur Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen d) Sie Widerspruch gegen die Verarbeitung gem. Art. 21 Abs. 1 DS- GVO eingelegt haben und es steht noch nicht fest, ob die berechtigten Gründe des Verantwortlichen Ihnen gegenüber überwiegen</p><p>• Recht auf Datenübertragbarkeit (gem. Art. 20 DS-GVO) Sie haben das Recht, von uns die Übertragung Ihrer Daten in einem strukturierten, gängigen und maschinenlesbaren Format zu erhalten. Zudem steht Ihnen das Recht zu, dass wir diese Daten einem anderen Verantwortlichen ohne Behinderung durch uns zu übermitteln.</p><p>• Beschwerderecht bei der Aufsichtsbehörde (gem. Art. 13 Abs. 2 d, 77 DS-GVO i. V. m § 19 BDSG) Wenn Sie der Ansicht sind, dass die Verarbeitung Ihrer Daten gegen die DS-GVO verstößt, haben Sie das Recht Beschwerde bei der Aufsichtsbehörde einzulegen. Hierzu wenden Sie sich bitte an die zuständige Aufsichtsbehörde (s.o.).</p><p>• Zurückziehen der Einwilligung (gem. Art. 7 Abs. 3 DS-GVO) Sie haben jederzeit das Recht, die zweckmäßig gebundene Einwilligung zu widerrufen, ohne dass die Rechtmäßigkeit der aufgrund der Einwilligung bis zum Widerruf erfolgten Verarbeitung berührt wird. Der Widerruf hat zur Folge, dass wir die Datenverarbeitung, die auf dieser Einwilligung beruhte, für die Zukunft nicht weiter fortführen dürfen.</p><p>• Widerspruchsrecht (gem. Art. 21 DS-GVO) 1. Einzelfallbezogenes Widerspruchsrecht Sie können jederzeit der Verarbeitung Ihrer Daten widersprechen, wenn wir diese zur Wahrnehmung eines öffentlichen Interesses (z.B. der Vereitelung einer Straftat) oder zur Wahrung eigener oder berechtigter Interessen Dritter verarbeiten (Art. 6 (1) e, f DS-GVO). Sofern wir keine schutzwürdigen Gründe, die dagegensprechen, nachweisen (wie z.B. Verarbeitung aufgrund der Geltendmachung, Ausübung und Verteidigung von Rechtsansprüchen), kommen wir diesem Recht umgehend nach. 2. Widerspruchrecht gegen eine Verarbeitung von Daten für Zwecke der Direktwerbung Sie können ebenfalls jederzeit der Verarbeitung Ihrer Daten widersprechen, wenn wir Ihnen gegenüber Direktwerbung betreiben. Wir werden sodann Ihrem Wunsch nachkommen und Direktwerbung und damit in Verbindung stehende Tätigkeiten unterlassen.</p><p>Ihr Widerspruchsrecht können Sie durch einfache Erklärung in Textform (z. B. per Email, Post oder Fax) an uns ausüben. Bitte wenden Sie sich hierzu an den Datenschutzbeauftragten (s.o.).</p></section><section class="legal-section" id="visable"><h2>Tracking Tool Tracking-Pixel von Visable</h2><p>Die HAMMEL Recyclingtechnik GmbH setzt zu Analyse- und Marketingzwecken Produkte und Dienstleistungen ein, die in Kooperation mit der Visable GmbH (www.visable.com) von dieser zur Verfügung gestellt werden. Hierzu erfolgt mittels Zählpixeltechnologie die Erhebung, Verarbeitung und Speicherung von Daten zur Erstellung mindestens pseudonymisierter, wo möglich und sinnvoll vollständig anonymisierter Nutzungsprofile.</p><p>Die erhobenen Daten, die zunächst noch personenbezogene Daten beinhalten können, werden an Visable übermittelt oder direkt durch Visable erhoben und dort zur Erstellung der o.a. Nutzungsprofile verwendet. Eine persönliche Identifikation von Besuchern dieser Webseite findet nicht statt, und es werden auch keine sonstigen personenbezogenen Daten mit den Nutzungsprofilen zusammengeführt. Sollten IP-Adressen als personenbezogenen identifiziert werden, so werden sie umgehend gelöscht.</p><p>Den hier geschilderten Formen der Verarbeitung können Sie jederzeit mit Wirkung für die Zukunft widersprechen:Vom Tracking ausschließen (Anmerkung: Link setzt ein 1st-Party-Cookie für einen Opt-Out)</p></section></div></div></div></main><footer>
+<div class="wrap foot">
+<div>
+<a aria-label="HAMMEL: Startseite" class="footer-brand" href="/index.html">
+<img alt="HAMMEL Recyclingtechnik" loading="lazy" src="/assets/img/hammel-logo-dark.svg"/>
+</a>
+<p class="copy">
+      HAMMEL Recyclingtechnik GmbH
+      <br>
+      Leimbacher Str. 130
+      <br>
+      36433 Bad Salzungen
+     </br></br></p>
+</div>
+<div>
+<h4>
+      PRODUKTE
+     </h4>
+<a href="/maschinen/index.html">
+      Vorbrecher
+     </a>
+<a href="/maschinen/index.html">
+      Nachzerkleinerer
+     </a>
+<a href="/loesungen/index.html">
+      Anlagenbau
+     </a>
+</div>
+<div>
+<h4>
+      SERVICE
+     </h4>
+<a href="/service/index.html">
+      Mietpark
+     </a>
+</div>
+<div>
+<h4>
+      HAMMEL
+     </h4>
+<a href="/unternehmen/index.html">
+      Unternehmen
+     </a>
+<a href="/karriere/index.html">
+      Karriere
+     </a>
+<a href="/kontakt/index.html">
+      Kontakt
+     </a>
+</div>
+</div>
+<div class="wrap footer-bottom">
+<span>
+     © 2026 HAMMEL Recyclingtechnik GmbH
+    </span>
+<div class="footer-legal"><a href="/agb/index.html">AGB</a><a href="/aeb/index.html">AEB</a>
+<a href="/impressum/index.html">
+      IMPRESSUM
+     </a>
+<a href="/datenschutz/index.html">
+      DATENSCHUTZ
+     </a>
+</div>
+</div>
+</footer><script defer="" src="../assets/js/app.js"></script></body></html>

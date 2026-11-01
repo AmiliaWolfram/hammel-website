@@ -1,0 +1,68 @@
+
+/* Crisp chapter boundaries; motion belongs to content, not backgrounds. */
+.story {
+  overflow: clip
+}
+.story__intro,.story__chapter,.story__end {
+  position: relative;
+  isolation: isolate
+}
+.story__intro::after,.story__chapter::after,.story__end::after {
+  content: none!important;
+  display: none!important;
+  background: none!important;
+  filter: none!important;
+  mask: none!important
+}
+.story__chapter {
+  background: var(--story-bg,#f2f1ed)!important;
+  filter: none!important;
+  backdrop-filter: none!important
+}
+.story__chapter--dark {
+  --story-bg: #1b1c1e
+}
+.story__chapter--light {
+  --story-bg: #f2f1ed
+}
+.story__chapter--red {
+  --story-bg: #e30613
+}
+.story__end {
+  background: #e30613!important
+}
+.story__chapter .story__art {
+  margin-top: 0!important;
+  margin-bottom: 0!important;
+  z-index: 2
+}
+.story__chapter .story__photo,.story__end img {
+  filter: none;
+  backface-visibility: hidden
+}
+.story__chapter--red .story__photo--product {
+  filter: drop-shadow(0 22px 25px rgba(0,0,0,.18))
+}
+/* Independent reveals, no displacement of the section itself. */
+@media(prefers-reduced-motion:no-preference) {
+  .story--scroll .story__text.story__reveal,.story--scroll .story__intro .story__reveal,.story--scroll .story__end .story__reveal {
+    transition: opacity .72s cubic-bezier(.22,.7,.2,1),transform .72s cubic-bezier(.22,.7,.2,1)!important
+  }
+  .story--scroll .story__art.story__reveal {
+    transition: opacity .85s cubic-bezier(.22,.7,.2,1),transform .85s cubic-bezier(.22,.7,.2,1)!important;
+    transition-delay: .08s!important
+  }
+  .story--scroll .story__photo,.story--scroll .story__end img {
+    transform: translate3d(0,var(--story-parallax,0px),0);
+    transition: transform .12s linear
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  .story__reveal {
+    opacity: 1!important;
+    transform: none!important
+  }
+  .story__photo,.story__end img {
+    transform: none!important
+  }
+}

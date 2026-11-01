@@ -1,0 +1,36 @@
+
+/* Unified HAMMEL eight-link navigation */
+.top .nav {
+  gap: clamp(10px,1.4vw,26px);
+}
+.top .links {
+  gap: clamp(9px,1.15vw,21px);
+  margin-left: auto;
+}
+.top .links a {
+  white-space: nowrap;
+  font-size: clamp(9px,.72vw,12px);
+  letter-spacing: .065em;
+}
+.top .links a[aria-current="page"] {
+  color: var(--red,#e30613);
+}
+@media(min-width:901px) and (max-width:1190px) {
+  .top .nav {
+    gap: 12px;
+  }
+  .top .links {
+    gap: 10px;
+  }
+  .top .links a {
+    font-size: 10px;
+  }
+  .top .brand-logo {
+    max-width: 145px;
+  }
+}
+@media(max-width:900px) {
+  .top .links {
+    gap: 14px;
+  }
+}

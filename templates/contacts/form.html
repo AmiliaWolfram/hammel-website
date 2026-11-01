@@ -1,0 +1,38 @@
+{% extends 'messen/base.html' %}{% block title %}Kontakt bearbeiten{% endblock %}{% block content %}<a class="back" href="{% url 'contacts_dashboard' %}">← KONTAKTVERWALTUNG</a><div class="eyebrow">HAMMEL / KONTAKTE</div><h1>{% if editing %}EINTRAG <span class="red">BEARBEITEN</span>{% else %}NEUEN <span class="red">EINTRAG</span> ANLEGEN{% endif %}</h1><section class="panel" style="padding:32px;max-width:850px"><form method="post">{% csrf_token %}{% for field in form %}<div style="margin-bottom:20px"><label for="{{ field.id_for_label }}" style="display:block;font-weight:700;margin-bottom:8px">{{ field.label }}</label>{% if field.name == "group" %}<div class="contact-select-wrap" data-custom-select>{{ field }}<button type="button" class="contact-select-trigger" aria-haspopup="listbox" aria-expanded="false"><span class="contact-select-value">Bitte auswählen</span><span class="contact-select-chevron" aria-hidden="true"></span></button><div class="contact-select-menu" role="listbox" hidden></div></div>{% else %}{{ field }}{% endif %}{% for error in field.errors %}<small style="color:#e30613;display:block">{{ error }}</small>{% endfor %}</div>{% endfor %}<button class="btn primary" type="submit">SPEICHERN</button></form></section><style>.panel input:not([type=checkbox]),.panel select,.panel textarea{box-sizing:border-box;width:100%;padding:13px;border:1px solid #ccc;background:#fff;color:#181818;font:inherit}.panel input[type=checkbox]{width:20px;height:20px}
+/* HAMMEL contact group dropdown: consistent with the portal's square inputs */
+.contact-select-wrap{position:relative;width:100%}
+.panel .contact-select-wrap select{display:block;width:100%;min-height:52px;appearance:none;-webkit-appearance:none;-moz-appearance:none;border:1px solid #d2d2d2!important;border-radius:0!important;background:#fff!important;box-shadow:none!important;padding:13px 52px 13px 16px!important;color:#181818;font:inherit;cursor:pointer;transition:border-color .2s ease,background-color .2s ease}
+.panel .contact-select-wrap select:hover{border-color:#888!important}
+.panel .contact-select-wrap select:focus{outline:none!important;border-color:#e30613!important;box-shadow:0 0 0 1px #e30613!important}
+.contact-select-chevron{position:absolute;right:21px;top:50%;width:10px;height:10px;border-right:2px solid #e30613;border-bottom:2px solid #e30613;transform:translateY(-70%) rotate(45deg);pointer-events:none}
+
+/* Styled dropdown; native select remains in DOM for Django form submission */
+.contact-select-wrap select{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;left:0;top:0;padding:0!important}
+.panel .contact-select-trigger{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:52px;padding:13px 17px;background:#fff;border:1px solid #d2d2d2;border-radius:0;color:#181818;font:inherit;text-align:left;cursor:pointer;transition:border-color .2s ease}
+.panel .contact-select-trigger:hover{border-color:#888}
+.panel .contact-select-trigger:focus-visible,.contact-select-wrap.is-open .contact-select-trigger{outline:none;border-color:#e30613;box-shadow:0 0 0 1px #e30613}
+.contact-select-trigger .contact-select-chevron{position:static;display:block;flex:none;transform:rotate(45deg) translateY(-3px)}
+.contact-select-wrap.is-open .contact-select-chevron{transform:rotate(225deg) translateY(-3px)}
+.contact-select-menu{position:absolute;z-index:50;top:calc(100% + 5px);left:0;right:0;background:white;border:1px solid #dedede;box-shadow:0 14px 30px rgba(0,0,0,.12);max-height:300px;overflow:auto;padding:5px}
+.contact-select-menu[hidden]{display:none}
+.panel .contact-select-option{display:flex;align-items:center;justify-content:space-between;width:100%;padding:13px 15px;text-align:left;border:0;background:#fff;color:#181818;font:inherit;cursor:pointer;border-radius:0;transition:background .15s ease}
+.panel .contact-select-option:hover,.panel .contact-select-option:focus-visible{background:#f3f3f3;outline:none}
+.panel .contact-select-option[aria-selected=true]{font-weight:700;background:#f7f7f7}
+.contact-select-option .selected-check{color:#e30613;font-weight:800}
+</style><script>
+document.addEventListener('DOMContentLoaded',function(){
+ document.querySelectorAll('[data-custom-select]').forEach(function(wrap){
+  const select=wrap.querySelector('select'),trigger=wrap.querySelector('.contact-select-trigger'),value=wrap.querySelector('.contact-select-value'),menu=wrap.querySelector('.contact-select-menu');
+  if(!select||!trigger||!menu)return;
+  const options=Array.from(select.options);
+  let currentIndex=-1;
+  function close(){wrap.classList.remove('is-open');trigger.setAttribute('aria-expanded','false');menu.hidden=true;}
+  function sync(){const selected=select.options[select.selectedIndex];value.textContent=selected&&selected.value?selected.text:'Bitte auswählen';menu.querySelectorAll('[role=option]').forEach(function(el){const active=el.dataset.value===select.value;el.setAttribute('aria-selected',String(active));el.querySelector('.selected-check').textContent=active?'✓':'';});}
+  options.forEach(function(option,i){const item=document.createElement('button');item.type='button';item.className='contact-select-option';item.setAttribute('role','option');item.dataset.value=option.value;item.innerHTML='';const name=document.createElement('span');name.textContent=option.value?option.text:'Bitte auswählen';const check=document.createElement('span');check.className='selected-check';check.setAttribute('aria-hidden','true');item.append(name,check);item.addEventListener('click',function(){select.value=option.value;select.dispatchEvent(new Event('change',{bubbles:true}));sync();close();trigger.focus();});menu.appendChild(item);});
+  function open(){document.querySelectorAll('[data-custom-select].is-open').forEach(function(other){if(other!==wrap){other.querySelector('.contact-select-menu').hidden=true;other.querySelector('.contact-select-trigger').setAttribute('aria-expanded','false');other.classList.remove('is-open');}});menu.hidden=false;wrap.classList.add('is-open');trigger.setAttribute('aria-expanded','true');const buttons=Array.from(menu.querySelectorAll('[role=option]'));currentIndex=Math.max(0,options.findIndex(o=>o.value===select.value));buttons[currentIndex]?.focus();}
+  trigger.addEventListener('click',function(){wrap.classList.contains('is-open')?close():open();});
+  wrap.addEventListener('keydown',function(e){if(e.key==='Escape'){close();trigger.focus();return;}if(!wrap.classList.contains('is-open')&&(e.key==='ArrowDown'||e.key==='Enter'||e.key===' ')){e.preventDefault();open();return;}if(!wrap.classList.contains('is-open'))return;const buttons=Array.from(menu.querySelectorAll('[role=option]'));if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();currentIndex=(currentIndex+(e.key==='ArrowDown'?1:-1)+buttons.length)%buttons.length;buttons[currentIndex].focus();}else if(e.key==='Home'||e.key==='End'){e.preventDefault();currentIndex=e.key==='Home'?0:buttons.length-1;buttons[currentIndex].focus();}});
+  document.addEventListener('click',function(e){if(!wrap.contains(e.target))close();});select.addEventListener('change',sync);sync();
+ });
+});
+</script>{% endblock %}

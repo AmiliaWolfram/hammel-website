@@ -1,0 +1,36 @@
+{% extends "recruiting/base.html" %}
+{% block title %}TIPPS VOM HR-TEAM{% endblock %}
+{% block content %}
+<main class="hr-main hr-advice-page">
+  <section class="hr-advice-hero">
+    <div class="wrap hr-advice-hero__inner">
+      <p class="hr-eyebrow">TIPPS VOM HR-TEAM</p>
+      <h1>GUT VORBEREITET<br><span>BEWERBEN</span></h1>
+      <div class="hr-advice-hero__bottom">
+        <p>Eine gute Bewerbung muss nicht kompliziert sein. Hier findest du praktische Hinweise direkt von unserem HR-Team.</p>
+      </div>
+    </div>
+  </section>
+  <section class="hr-advice-content">
+    <div class="wrap hr-advice-layout">
+      <div class="hr-advice-sidebar">
+        <p class="hr-eyebrow">TIPPS FÜR DEINE BEWERBUNG</p>
+        <h2>DARAUF KOMMT ES AN</h2>
+        <p>Du möchtest bei HAMMEL arbeiten oder eine Ausbildung beginnen? Dann zeig uns, wer du bist, was dich interessiert und welche Stärken du mitbringst.</p>
+        <p>Ein übersichtlicher Lebenslauf und vollständige Unterlagen helfen uns, dich kennenzulernen. Genauso wichtig ist uns, dass du im persönlichen Gespräch offen und authentisch bleibst.</p>
+      </div>
+      <div class="hr-advice-articles">
+        {% for tip in tips %}
+          <article class="hr-advice-article">
+            <h3>{{ tip.title }}</h3>
+            <div class="hr-advice-article__body">{{ tip.body|linebreaks }}</div>
+          </article>
+        {% empty %}
+          <p class="hr-advice-empty">Hier findest du in Kürze Tipps unseres HR-Teams.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  <section class="hr-advice-end"><div class="wrap hr-advice-end__inner"><div><p class="hr-eyebrow">BEREIT FÜR DEN NÄCHSTEN SCHRITT?</p><h2>WIR FREUEN UNS<br>AUF DEINE BEWERBUNG</h2></div><a class="cinematic-link hr-cinematic-link" href="{% url 'hr_initiative' %}"><span class="cinematic-link__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg></span><span class="cinematic-link__label">INITIATIV BEWERBEN</span></a></div></section>
+</main>
+{% endblock %}

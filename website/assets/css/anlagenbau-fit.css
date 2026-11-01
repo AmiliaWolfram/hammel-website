@@ -1,0 +1,53 @@
+
+/* Anlagenbau: the entire transparent photo stays INSIDE its scene, including at full reveal. */
+#cinema-panel-4 .cinema-panel__scene {
+  min-height: 0;
+  overflow: hidden;
+  isolation: isolate
+}
+#cinema-panel-4 .cinema-panel__machine {
+  box-sizing: border-box;
+  width: 76%!important;
+  height: 72%!important;
+  max-width: 76%!important;
+  max-height: 72%!important;
+  margin: auto!important;
+  min-width: 0;
+  min-height: 0;
+  transform: translateY(25px) scale(.94)!important;
+  transform-origin: center center!important;
+}
+#cinema-panel-4.is-active .cinema-panel__machine {
+  transform: translateY(0) scale(1)!important;
+}
+#cinema-panel-4 .cinema-panel__machine img {
+  display: block;
+  width: 100%!important;
+  height: 100%!important;
+  max-width: 100%!important;
+  max-height: 100%!important;
+  object-fit: contain!important;
+  object-position: center center!important;
+  filter: drop-shadow(0 18px 18px rgba(0,0,0,.6));
+}
+@media(max-width:850px) {
+  #cinema-panel-4 .cinema-panel__machine {
+    width: 74%!important;
+    height: 78%!important;
+    max-width: 74%!important;
+    max-height: 78%!important
+  }
+}
+@media(max-width:550px) {
+  #cinema-panel-4 .cinema-panel__machine {
+    width: 82%!important;
+    height: 76%!important;
+    max-width: 82%!important;
+    max-height: 76%!important
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  #cinema-panel-4 .cinema-panel__machine {
+    transform: none!important
+  }
+}

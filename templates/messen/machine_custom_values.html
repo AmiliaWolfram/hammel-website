@@ -1,0 +1,45 @@
+{% extends "messen/base.html" %}{% block title %}Zusätzliche Felder{% endblock %}{% block content %}<a href="{% url 'staff_machine_variant_edit' variant.pk %}">← ZURÜCK ZU {{ variant.name }}</a><div class="eyebrow">VERTRIEB / MASCHINEN</div><h1>ZUSÄTZLICHE FELDER</h1><p>{{ variant.name }} · <a href="{% url 'staff_machine_fields_manage' %}?scope=variant&id={{ variant.pk }}">FELDER ANPASSEN</a></p><form method="post" enctype="multipart/form-data" class="custom-fields">{% csrf_token %}{% for row in rows %}<div><div class="custom-help-label"><label>{{ row.field.label }}</label><button type="button" class="custom-help-button" aria-expanded="false" aria-label="Hilfe zu {{ row.field.label }}">?</button></div><div class="custom-help-body" hidden><strong>Was gehört hier hinein?</strong> {% if row.field.field_type == "file" or row.field.field_type == "image" or row.field.field_type == "video" %}Laden Sie die passende Datei für diese Maschinenvariante hoch. Bereits gespeicherte Dateien bleiben ohne Änderung erhalten.{% elif row.field.field_type == "boolean" %}Aktivieren Sie diese Option, wenn die Eigenschaft auf diese Variante zutrifft.{% else %}Tragen Sie den passenden Wert ein. Geben Sie bei Messwerten auch die Einheit an.<div class="custom-help-example"><span>BEISPIEL</span><em>120 mm oder 145 PS</em></div>{% endif %}<div class="custom-help-where">◉  Unter „Felder verwalten“ bestimmen Sie, ob diese Angabe auf der Website oder im Vergleich erscheint.</div></div>{% if row.field.field_type == 'file' or row.field.field_type == 'image' or row.field.field_type == 'video' %}{% if row.value.file_value %}<a href="{{ row.value.file_value.url }}" target="_blank" rel="noopener">AKTUELLE DATEI</a>{% endif %}<input type="file" name="file_{{ row.field.pk }}"><label><input type="checkbox" name="clear_{{ row.field.pk }}" value="1"> Datei entfernen</label>{% elif row.field.field_type == 'boolean' %}<input type="checkbox" name="value_{{ row.field.pk }}" {% if row.value.text_value == 'Ja' %}checked{% endif %}>{% else %}<textarea name="value_{{ row.field.pk }}" rows="2">{% if row.value %}{{ row.value.text_value }}{% endif %}</textarea>{% endif %}</div>{% empty %}<p>Noch keine eigenen Felder. <a href="{% url 'staff_machine_fields_manage' %}">Feld hinzufügen</a></p>{% endfor %}<button>SPEICHERN</button></form><style>.custom-fields{max-width:900px}.custom-fields>div{padding:20px 0;border-bottom:1px solid #ddd}.custom-fields>div>label{display:block;font-weight:800;margin-bottom:10px}.custom-fields textarea,.custom-fields input[type=file]{width:100%;padding:12px;border:1px solid #ccc}.custom-fields button{background:#171717;color:white;padding:16px 25px;border:0;margin:25px 0}.custom-help-label{display:flex;align-items:center;gap:9px}.custom-help-label label{margin:0!important}.custom-help-button{width:22px;height:22px;border:1px solid #bbb;border-radius:50%;background:white;color:#555;font-weight:700;cursor:pointer}.custom-help-button:hover{background:#e30613;color:white;border-color:#e30613}.custom-help-body{margin:10px 0;padding:12px 16px;background:#f4f4f4;color:#444;line-height:1.6;border-left:2px solid #e30613}.custom-help-body[hidden]{display:none}.custom-help-body strong{display:block;margin-bottom:7px;color:#222}.custom-help-example{display:flex;flex-direction:column;gap:5px;margin-top:12px;padding-top:10px;border-top:1px solid #ddd}.custom-help-example span{font-size:10px;font-weight:800;letter-spacing:.1em;color:#777}.custom-help-where{font-size:12px;color:#777;margin-top:12px}</style><script>document.querySelectorAll(".custom-help-button").forEach(b=>b.addEventListener("click",()=>{const p=b.closest(".custom-help-label").nextElementSibling;p.hidden=!p.hidden;b.setAttribute("aria-expanded",String(!p.hidden));}));</script><style>
+/* Einheitliches Hilfe-Design für alle Vertrieb-Eingabemasken */
+.machine-field-help-text,.custom-help-body,.fv-help-content{
+  display:block;box-sizing:border-box;background:#f5f5f5!important;
+  border:0!important;border-radius:9px!important;box-shadow:none!important;
+  color:#363636!important;padding:16px 18px!important;margin:10px 0 14px!important;
+  font-size:14px!important;line-height:1.6!important;letter-spacing:normal!important;
+  text-transform:none!important;max-width:100%;
+}
+.machine-field-help-text[hidden],.custom-help-body[hidden],.fv-help-content[hidden]{display:none!important}
+.machine-field-help-text .help-title,.custom-help-body .help-title,.fv-help-content .help-title{
+ display:block;font-weight:750;font-size:14px;color:#1d1d1d;margin:0 0 7px;
+}
+.machine-field-help-text .help-example,.custom-help-body .help-example,.fv-help-content .help-example{
+ margin-top:12px;padding-top:10px;border-top:1px solid #ddd;display:grid;gap:4px;
+}
+.machine-field-help-text .help-example-label,.custom-help-body .help-example-label,.fv-help-content .help-example-label{
+ font-size:10px;font-weight:800;letter-spacing:.09em;color:#777;
+}
+.machine-field-help-text .help-where,.custom-help-body .help-where,.fv-help-content .help-where{
+ margin-top:12px;color:#777;font-size:12px;
+}
+.machine-field-help,.custom-help-button,.fv-help-button{
+ width:23px!important;height:23px!important;min-width:23px!important;display:inline-flex!important;
+ align-items:center;justify-content:center;border:1px solid #c8c8c8!important;
+ border-radius:50%!important;background:#fff!important;color:#666!important;
+ font:700 12px Arial,sans-serif!important;cursor:pointer;vertical-align:middle;
+}
+.machine-field-help:hover,.machine-field-help[aria-expanded="true"],
+.custom-help-button:hover,.custom-help-button[aria-expanded="true"],
+.fv-help-button:hover,.fv-help-button[aria-expanded="true"]{
+ color:#fff!important;background:#e30613!important;border-color:#e30613!important;
+}
+</style><script>
+document.addEventListener("DOMContentLoaded",function(){
+ document.querySelectorAll(".custom-help-body").forEach(function(box){
+  const title=box.querySelector("strong");
+  const body=box.textContent.replace(title?title.textContent:"","").trim();
+  box.replaceChildren();
+  const heading=document.createElement("strong");heading.className="help-title";heading.textContent="Was gehört hier hinein?";box.append(heading);
+  const content=document.createElement("div");content.textContent=body;box.append(content);
+  const where=document.createElement("div");where.className="help-where";where.textContent="Die Sichtbarkeit auf der Website und im Vergleich wird unter „Felder verwalten“ eingestellt.";box.append(where);
+ });
+});
+</script>{% endblock %}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html lang="de">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>
+   SERVICE | HAMMEL
+  </title>
+<link href="../assets/css/style.css" rel="stylesheet"/>
+<link href="../assets/css/cinematic-cta.css" rel="stylesheet"/>
+<link href="../assets/css/cinematic-unified.css" rel="stylesheet"/>
+<link href="../assets/css/cinematic-margins.css" rel="stylesheet"/>
+<link href="../assets/css/footer-refined.css" rel="stylesheet"/>
+<link href="../assets/css/brand-yellow-labels.css" rel="stylesheet"/>
+<link href="../assets/css/navigation-2026.css" rel="stylesheet"/>
+<link href="../assets/css/footer-unified.css" rel="stylesheet"/>
+<link href="../assets/css/page-hero.css" rel="stylesheet"/><link rel="stylesheet" href="../assets/css/service-editorial.css?v=2"/><link rel="stylesheet" href="../assets/css/hammel-eyebrow-palette.css?v=20261023palette1">
+<link rel="stylesheet" href="../assets/css/hammel-alignment-fix.css?v=20261030b">
+<style>
+.service-mietpark-details{background:#f4f2ee;color:#17191a;padding:clamp(72px,8vw,132px) 0;scroll-margin-top:90px}
+.service-mietpark-details__grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(310px,.88fr);gap:clamp(44px,6vw,110px);align-items:start}
+.service-mietpark-details h2{font-size:clamp(52px,7vw,110px);line-height:1;letter-spacing:-.045em;margin:22px 0 20px;color:#17191a}
+.service-mietpark-details__lead{font-size:clamp(16px,1.5vw,22px);font-weight:700;letter-spacing:.07em;color:#e30613}
+.service-mietpark-details__content{max-width:760px;font-size:clamp(17px,1.3vw,21px);line-height:1.65;color:#4d5152}
+.service-mietpark-details__content p{margin:0 0 24px}
+.service-mietpark-details__content strong{color:#17191a}
+.service-mietpark-details__content .service-action{margin-top:14px}
+.service-mietpark-details__content .mietpark-contact-secondary{font-size:15px;margin-top:24px}
+.service-mietpark-details__content .mietpark-contact-secondary a{color:#c60012}
+/* Editorial rental machine list */
+.service-mietpark-details__intro{grid-column:1;grid-row:1}
+.service-mietpark-details__content{grid-column:1;grid-row:2}
+.service-rental-list{grid-column:2;grid-row:2;align-self:start;border-top:0;padding-top:0}
+.service-rental-list__eyebrow{display:block;color:#e30613;font-size:12px;font-weight:800;letter-spacing:.15em;margin:0 0 14px}
+.service-rental-list__title{font-size:clamp(22px,2.2vw,34px)!important;letter-spacing:-.02em!important;line-height:1.1!important;margin:0 0 20px!important}
+.service-rental-list__links{display:flex;flex-direction:column}
+.service-rental-list__link{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 18px 22px 0;border-bottom:1px solid rgba(23,25,26,.18);color:#17191a;text-decoration:none;position:relative;isolation:isolate;transition:color .25s ease,padding .25s ease,transform .25s ease}.service-rental-list__link::before{content:"";position:absolute;inset:4px -8px;z-index:-1;background:#e30613;transform:scaleX(0);transform-origin:left;transition:transform .32s cubic-bezier(.22,1,.36,1)}.service-rental-list__link:hover::before,.service-rental-list__link:focus-visible::before{transform:scaleX(1)}
+.service-rental-list__link:first-child{border-top:1px solid rgba(23,25,26,.18)}
+.service-rental-list__link:hover,.service-rental-list__link:focus-visible{color:#fff;padding-left:18px}.service-rental-list__link:hover .service-rental-list__detail,.service-rental-list__link:focus-visible .service-rental-list__detail{color:#fff}
+.service-rental-list__name{font-size:clamp(22px,2vw,30px);font-weight:800;letter-spacing:-.03em}
+.service-rental-list__detail{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;text-align:right;color:#a20b14;transition:color .25s ease}
+.service-rental-list__missing{color:#777;font-size:14px}
+@media(max-width:900px){.service-mietpark-details__grid{grid-template-columns:1fr}.service-mietpark-details__intro,.service-mietpark-details__content,.service-rental-list{grid-column:1;grid-row:auto}.service-rental-list{margin-top:28px}}
+@media(max-width:760px){.service-mietpark-details__grid{grid-template-columns:1fr}.service-mietpark-details{padding:68px 0}}
+/* Mietpark: compact clickable machine tiles, aligned to left text content */
+.service-rental-list{align-self:stretch!important;display:flex!important;flex-direction:column!important;justify-content:flex-start!important;padding:0!important;border:0!important}
+.service-rental-list__eyebrow{display:none!important}
+.service-rental-list__title{font-size:clamp(19px,1.65vw,26px)!important;margin:0 0 22px!important;line-height:1.2!important}
+.service-rental-list__links{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;align-content:start!important}
+.service-rental-list__link{min-height:88px!important;display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;padding:16px 12px!important;border:1px solid rgba(23,25,26,.22)!important;background:transparent!important;color:#17191a!important;transition:background .25s,color .25s,border-color .25s,transform .25s!important}
+.service-rental-list__link:first-child{border-top:1px solid rgba(23,25,26,.22)!important}
+.service-rental-list__link::before{display:none!important}
+.service-rental-list__link:hover,.service-rental-list__link:focus-visible{background:#e30613!important;border-color:#e30613!important;color:#fff!important;padding:16px 12px!important;transform:translateY(-3px)!important}
+.service-rental-list__name{font-size:clamp(20px,1.65vw,28px)!important;font-weight:800!important;line-height:1.1!important}
+.service-rental-list__detail{display:none!important}
+@media(max-width:900px){.service-rental-list{align-self:auto!important}.service-rental-list__links{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:440px){.service-rental-list__links{gap:8px!important}.service-rental-list__link{min-height:72px!important}}
+
+/* Final rental model occupies the full two-column row */
+.service-rental-list__links > .service-rental-list__link:last-child{grid-column:1 / -1!important;width:100%!important}
+/* Mietpark refinement: tight title-to-copy spacing and understated model buttons */
+.service-mietpark-details__grid{column-gap:clamp(34px,5vw,90px)!important;row-gap:clamp(18px,2vw,30px)!important}
+.service-mietpark-details__intro h2{margin:12px 0 0!important;line-height:.96!important}
+.service-mietpark-details__content{margin:0!important;padding:0!important}
+.service-mietpark-details__content p:first-child{margin-top:0!important}
+.service-rental-list__title{font-size:clamp(18px,1.5vw,24px)!important;margin:0 0 15px!important}
+.service-rental-list__links{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+.service-rental-list__link,.service-rental-list__link:first-child{min-height:64px!important;padding:12px 16px!important;border:1px solid #d0ceca!important;background:rgba(255,255,255,.38)!important;transform:none!important;box-shadow:none!important}
+.service-rental-list__link:hover,.service-rental-list__link:focus-visible{padding:12px 16px!important;background:#17191a!important;border-color:#17191a!important;color:#fff!important;transform:none!important}
+.service-rental-list__name{font-size:clamp(17px,1.3vw,21px)!important;letter-spacing:-.015em!important}
+@media(max-width:900px){.service-mietpark-details__grid{row-gap:20px!important}.service-rental-list{margin-top:12px!important}}
+@media(max-width:440px){.service-rental-list__link{min-height:58px!important;padding:10px!important}}
+</style></head>
+<body>
+<!-- PUBLIC_SHARED_HEADER -->
+<section class="hammel-page-hero service-hero" data-page="service"><video aria-hidden="true" autoplay loop muted playsinline poster="../assets/img/machines/vb850.webp" preload="metadata"><source src="../assets/video/hammel-hero.mp4" type="video/mp4"></video><div class="service-hero-shade"></div><div class="wrap service-hero-content"><span class="service-kicker">HAMMEL RECYCLINGTECHNIK</span><h1>SERVICE</h1><p class="service-hero-description">Entdecken Sie unseren Mietpark mit flexiblen Mietmöglichkeiten für HAMMEL Recyclingtechnik. Kontaktieren Sie unser Team für eine individuelle Beratung und ein passendes Angebot.</p><a class="cinematic-link cinematic-link--section service-action" href="#mietpark-kontakt"><span class="cinematic-link__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 19 19 5M8 5h11v11"/></svg></span><span class="cinematic-link__label">MIETPARK ENTDECKEN</span></a></div><span class="hammel-page-hero__signature">THE ORIGINAL SINCE 1996</span></section><main id="leistungen" class="service-editorial"><section class="service-mietpark-details" id="mietpark-kontakt" aria-labelledby="mietpark-details-title"><div class="wrap service-mietpark-details__grid"><div class="service-mietpark-details__intro"><span class="service-kicker">HAMMEL SERVICE</span><h2 id="mietpark-details-title">MIETPARK</h2></div><div class="service-mietpark-details__content"><p>Wir vermieten HAMMEL Vorbrecher. Bei Interesse nehmen Sie bitte direkt Kontakt mit uns auf.</p><p>Für Mietanfragen erreichen Sie uns telefonisch oder per E-Mail. Eine Online-Buchung ist nicht vorgesehen.</p><a class="cinematic-link cinematic-link--section service-action" href="mailto:susi.panse@hammel.de?subject=Mietanfrage%20HAMMEL%20Vorbrecher"><span class="cinematic-link__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 19 19 5M8 5h11v11"/></svg></span><span class="cinematic-link__label">PER E-MAIL KONTAKTIEREN</span></a><p class="mietpark-contact-secondary">Alternativ: <a href="mailto:info@hammel.de">info@hammel.de</a></p></div><aside class="service-rental-list" aria-label="HAMMEL Mietmaschinen"><h3 class="service-rental-list__title">UNSERE MIETMASCHINEN</h3><nav class="service-rental-list__links" aria-label="Mietmaschinen Baureihen"><!-- SERVICE_RENTAL_MACHINE_LINKS --></nav></aside></div></section></main><!-- PUBLIC_SHARED_FOOTER -->
+<script src="../assets/js/app.js">
+</script>
+<script defer="" src="../assets/js/cinematic-unified.js">
+</script>
+<script defer="" src="../assets/js/page-hero.js"></script></body>
+</html>

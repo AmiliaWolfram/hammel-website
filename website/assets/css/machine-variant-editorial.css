@@ -1,0 +1,89 @@
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f5f4f0;color:#171b1e;font:16px/1.6 Arial,Helvetica,sans-serif}.mv-wrap{width:min(1380px,calc(100% - 8vw));margin:auto;padding:58px 0 110px}.mv-back{display:inline-block;margin-bottom:80px;color:#424849;font-size:12px;font-weight:800;letter-spacing:.1em;text-decoration:none}.mv-back:hover{color:#e30613}.mv-kicker{display:block;color:#e30613;font-size:13px;letter-spacing:.19em;font-weight:900;margin-bottom:20px}h1,h2,h3,p{margin-top:0}h1,h2,h3{line-height:1.04;font-weight:900;letter-spacing:-.045em}h1{font-size:clamp(52px,7vw,112px);margin-bottom:32px}h1 em{color:#e30613;font-style:normal}h2{font-size:clamp(30px,4vw,60px);margin-bottom:40px}h3{font-size:18px;letter-spacing:.03em}.mv-intro{font-size:clamp(17px,1.8vw,23px);color:#5c6263;max-width:760px;line-height:1.65}.mv-detail-hero{display:grid;grid-template-columns:1fr 1fr;gap:5vw;align-items:center;padding-bottom:80px}.mv-photo,.mv-series-media{background:#e5e5e3;display:grid;place-items:center;overflow:hidden;min-height:320px;color:#999;font-size:32px;font-weight:900}.mv-photo{min-height:470px}.mv-photo img,.mv-series-media img{width:100%;height:100%;object-fit:contain}.mv-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:45px}.mv-stats div{border-top:2px solid #e30613;padding-top:14px}.mv-stats small{display:block;color:#777;font-size:11px;font-weight:900;letter-spacing:.09em}.mv-stats strong{display:block;font-size:19px;margin-top:8px}.mv-section{padding:75px 0;border-top:1px solid #c9c9c7}.mv-info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px}.mv-info-grid>div{background:white;padding:35px;border-left:3px solid #e30613}.mv-info-grid p{color:#596061;margin-bottom:0}.mv-spec-section{background:#171b1e;color:white;padding:65px 5vw;margin:0 -4vw}.mv-spec-section .mv-kicker{color:#f2b705}.mv-specs{margin:0}.mv-specs div{display:grid;grid-template-columns:32% 1fr;gap:20px;padding:22px 0;border-bottom:1px solid #424747}.mv-specs dt{font-weight:900;letter-spacing:.08em;font-size:13px}.mv-specs dd{margin:0;font-size:18px;color:#e5e6e6}.mv-actions{display:flex;gap:16px;flex-wrap:wrap;margin-top:65px}.mv-compare-button{display:inline-flex;align-items:center;justify-content:space-between;gap:30px;padding:23px 30px;background:#e30613;color:white;text-decoration:none;font-size:13px;font-weight:900;letter-spacing:.045em;transition:background .25s}.mv-compare-button:hover{background:#151515}.mv-secondary{background:#151515}.mv-secondary:hover{background:#e30613}.mv-note{margin-top:55px;color:#777;font-size:12px}.mv-series-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin:60px 0}.mv-series-card{color:#171b1e;text-decoration:none;background:white}.mv-series-media{min-height:260px;aspect-ratio:1.35}.mv-series-caption{padding:22px;display:flex;align-items:center;justify-content:space-between;gap:12px}.mv-series-caption strong{font-size:25px}.mv-series-caption span{color:#666}.mv-series-card:hover .mv-series-caption strong{color:#e30613}.mv-table-scroll{overflow-x:auto;margin-top:55px}.mv-table{border-collapse:collapse;width:100%;min-width:760px;text-align:left}.mv-table th,.mv-table td{padding:23px 24px;border-bottom:1px solid #ccc;vertical-align:top}.mv-table thead{background:#171b1e;color:white}.mv-table thead th{font-size:20px}.mv-table thead a{color:white;text-decoration:none}.mv-table thead a:hover{color:#f2b705}.mv-table tbody th{font-size:12px;letter-spacing:.07em;min-width:180px}.mv-table tbody tr:nth-child(even){background:white}.mv-table td{min-width:180px}@media(max-width:900px){.mv-detail-hero{grid-template-columns:1fr}.mv-series-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.mv-wrap{width:calc(100% - 36px)}.mv-back{margin-bottom:42px}.mv-stats,.mv-info-grid,.mv-series-grid{grid-template-columns:1fr}.mv-photo{min-height:260px}.mv-specs div{grid-template-columns:1fr;gap:5px}.mv-section{padding:50px 0}}
+/* Cinematic full-screen hero for each individual machine variant. */
+html{scroll-behavior:smooth}.mv-video-hero{position:relative;min-height:100svh;background:#111;color:#fff;display:flex;align-items:flex-end;isolation:isolate;overflow:hidden}.mv-hero-media,.mv-hero-shade{position:absolute;inset:0}.mv-hero-media{z-index:-2}.mv-hero-media video,.mv-hero-media img{display:block;width:100%;height:100%;object-fit:cover}.mv-hero-placeholder{display:grid;place-items:center;height:100%;font-size:clamp(70px,18vw,260px);font-weight:900;opacity:.18}.mv-hero-shade{z-index:-1;background:linear-gradient(90deg,rgba(0,0,0,.76),rgba(0,0,0,.2) 85%),linear-gradient(0deg,rgba(0,0,0,.68),transparent 70%)}.mv-hero-content{width:min(1380px,calc(100% - 8vw));margin:0 auto;padding:160px 0 95px}.mv-hero-eyebrow{display:block;color:#f2b705;font-weight:900;letter-spacing:.18em;font-size:14px;margin-bottom:28px}.mv-video-hero h1{font-size:clamp(65px,11vw,176px);line-height:.92;color:#fff;margin:0 0 34px;text-transform:uppercase}.mv-hero-summary{max-width:700px;font-size:clamp(17px,1.8vw,23px);line-height:1.5;color:#eee;margin-bottom:48px}.mv-hero-cta{display:inline-flex;gap:20px;align-items:center;text-decoration:none;color:white;font-weight:900;font-size:13px;letter-spacing:.1em}.mv-hero-arrow{width:64px;height:64px;border:1px solid #fff;border-radius:50%;display:grid;place-items:center;font-size:29px;transition:background .3s,border-color .3s}.mv-hero-cta:hover .mv-hero-arrow{background:#e30613;border-color:#e30613}.mv-hero-back{position:absolute;top:32px;left:4vw;color:#fff;text-decoration:none;font-size:12px;font-weight:900;letter-spacing:.1em;z-index:2}.mv-hero-back:hover{color:#f2b705}.mv-details{padding-top:0}.mv-overview{border-top:0}.mv-overview .mv-kicker{color:#e30613}#details{scroll-margin-top:0}@media(max-width:600px){.mv-hero-content{width:calc(100% - 36px);padding:130px 0 65px}.mv-video-hero h1{font-size:clamp(50px,13vw,88px)}.mv-hero-back{left:18px}.mv-hero-arrow{width:52px;height:52px}}
+
+/* Restrained technical editorial design: no ornamental red rules. */
+.mv-stats div{border-top:1px solid #c9cbca;padding-top:18px}
+.mv-info-grid>div{border-left:0;border-top:1px solid #d7d8d5;background:#fff;padding:30px 32px}
+.mv-section{border-top:1px solid #dededb}
+.mv-overview{border-top:0}
+.mv-info-grid p{line-height:1.8;white-space:normal}
+.mv-intro{max-width:960px;line-height:1.75}
+.mv-spec-section{background:#1b2021}
+.mv-specs div{border-bottom:1px solid #434747}
+.mv-hero-summary{margin-bottom:0}
+.mv-hero-content{padding-bottom:105px}
+
+/* Consistent compact Home-like gutters throughout the machine detail page. */
+:root{--mv-page-gutter:clamp(20px,3vw,54px)}
+.mv-wrap{width:auto;max-width:none;margin:0;padding-left:var(--mv-page-gutter);padding-right:var(--mv-page-gutter)}
+.mv-video-hero{align-items:center}
+.mv-hero-content{width:100%;max-width:none;margin:0;padding:100px var(--mv-page-gutter) 70px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+.mv-video-hero h1{max-width:100%;overflow-wrap:anywhere}
+.mv-hero-back{left:var(--mv-page-gutter)}
+.mv-spec-section{margin-left:calc(-1 * var(--mv-page-gutter));margin-right:calc(-1 * var(--mv-page-gutter));padding-left:var(--mv-page-gutter);padding-right:var(--mv-page-gutter)}
+@media(max-width:600px){:root{--mv-page-gutter:20px}.mv-wrap{width:auto}.mv-hero-content{width:100%;padding:100px var(--mv-page-gutter) 55px}.mv-hero-back{left:var(--mv-page-gutter)}}
+
+/* Unified editorial detail: one information block and one specifications block. */
+.mv-overview{padding-top:76px;padding-bottom:76px}
+.mv-overview h2{margin-bottom:26px}
+.mv-integrated-applications,.mv-integrated-principle{margin-top:48px;max-width:1120px}
+.mv-integrated-applications h3,.mv-integrated-principle h3{font-size:15px;letter-spacing:.09em;margin:0 0 18px;font-weight:900}
+.mv-application-list{margin:0}
+.mv-application-list>div{display:grid;grid-template-columns:minmax(145px,24%) 1fr;gap:18px;padding:16px 0;border-bottom:1px solid #d9dad7}
+.mv-application-list dt{font-size:12px;font-weight:800;letter-spacing:.07em}
+.mv-application-list dd{margin:0;color:#515859;line-height:1.7}
+.mv-integrated-principle p{max-width:960px;color:#515859;font-size:17px;line-height:1.8}
+.mv-spec-section h2{margin-bottom:26px}
+.mv-actions{margin-top:40px}
+@media(max-width:600px){.mv-overview{padding-top:48px;padding-bottom:48px}.mv-integrated-applications,.mv-integrated-principle{margin-top:32px}.mv-application-list>div{grid-template-columns:1fr;gap:4px}}
+
+/* Match Home cinematic link CTA: no large filled red rectangle. */
+.mv-actions .mv-compare-button:not(.mv-secondary){display:inline-flex;align-items:center;justify-content:flex-start;gap:22px;width:auto;max-width:100%;min-height:64px;padding:0!important;background:transparent!important;color:#171b1e!important;border:0!important;border-radius:0!important;box-shadow:none!important;text-decoration:none!important;font-size:clamp(12px,1.1vw,15px);font-weight:900;letter-spacing:.07em;line-height:1.4}
+.mv-cta-circle{display:inline-flex;align-items:center;justify-content:center;flex:0 0 60px;width:60px;height:60px;border:1px solid #171b1e;border-radius:50%;font-size:28px;font-weight:400;line-height:1;transition:background .25s,border-color .25s,color .25s,transform .25s}
+.mv-cta-label{position:relative;display:inline-block;padding:7px 0;max-width:100%;text-decoration:none!important;border:0!important}
+.mv-cta-label::after{content:"";position:absolute;bottom:0;left:0;width:100%;height:1px;background:#e30613;transform:scaleX(0);transform-origin:left;transition:transform .35s ease}
+.mv-actions .mv-compare-button:not(.mv-secondary):hover .mv-cta-circle,.mv-actions .mv-compare-button:not(.mv-secondary):focus-visible .mv-cta-circle{background:#e30613;color:#fff;border-color:#e30613;transform:rotate(45deg)}
+.mv-actions .mv-compare-button:not(.mv-secondary):hover .mv-cta-label::after,.mv-actions .mv-compare-button:not(.mv-secondary):focus-visible .mv-cta-label::after{transform:scaleX(1)}
+@media(max-width:600px){.mv-actions .mv-compare-button:not(.mv-secondary){gap:13px;font-size:11px}.mv-cta-circle{flex-basis:50px;width:50px;height:50px;font-size:24px}}
+
+/* The compare CTA uses Home's original cinematic-link markup and animation,
+   loaded directly from cinematic-cta.css. Only layout/colors are scoped here. */
+.mv-actions .mv-home-compare{display:inline-flex;align-items:center;justify-content:flex-start;gap:15px;min-height:58px;padding:0 0 9px;background:transparent;border:0;box-shadow:none;color:#171b1e;text-decoration:none;font-weight:800;font-size:clamp(12px,1vw,14px);letter-spacing:.065em;isolation:isolate;max-width:100%}
+.mv-actions .mv-home-compare .cinematic-link__icon{color:#171b1e;border-color:#171b1e80}
+.mv-actions .mv-home-compare .cinematic-link__icon svg{z-index:1;stroke:currentColor}
+.mv-actions .mv-home-compare .cinematic-link__label{white-space:normal;overflow-wrap:break-word;text-decoration:none;border:0;box-shadow:none;background-image:none}
+.mv-actions .mv-home-compare .cinematic-link__label::before{content:none}
+.mv-actions .mv-home-compare:hover .cinematic-link__icon,.mv-actions .mv-home-compare:focus-visible .cinematic-link__icon{color:#fff}
+.mv-actions .mv-home-compare:focus-visible{outline-color:#e30613}
+
+/* Hero placeholder video uses the same media treatment as Home. */
+.mv-hero-media video{width:100%;height:100%;object-fit:cover;display:block}
+.mv-hero-shade{background:linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.24) 85%),linear-gradient(0deg,rgba(0,0,0,.64),transparent 70%)}
+
+
+/* Machine details: Home-style overlay navigation above the video */
+body.machine-detail-page .top{position:fixed!important;top:0;left:0;right:0;z-index:100;background:transparent!important;box-shadow:none!important;border:0!important;transition:background .3s ease,box-shadow .3s ease}
+body.machine-detail-page .top .links a,body.machine-detail-page .top .lang button{color:#fff!important}
+body.machine-detail-page .top .brand-logo--dark{display:none!important}
+body.machine-detail-page .top .brand-logo--light{display:block!important}
+body.machine-detail-page .top .lang button{border-color:rgba(255,255,255,.6)}
+body.machine-detail-page .top.machine-header-scrolled{background:#fff!important;box-shadow:0 2px 18px rgba(0,0,0,.08)!important}
+body.machine-detail-page .top.machine-header-scrolled .links a,body.machine-detail-page .top.machine-header-scrolled .lang button{color:#171719!important}
+body.machine-detail-page .top.machine-header-scrolled .brand-logo--dark{display:block!important}
+body.machine-detail-page .top.machine-header-scrolled .brand-logo--light{display:none!important}
+body.machine-detail-page .top.machine-header-scrolled .lang button{border-color:#c9c9c9}
+body.machine-detail-page .top .links a:hover,body.machine-detail-page .top.machine-header-scrolled .links a:hover{color:#e30613!important}
+body.machine-detail-page .mv-hero-back{top:110px}
+body.machine-detail-page .mv-video-hero{min-height:100svh}
+/* Light editorial content instead of several near-black surfaces */
+body.machine-detail-page .mv-spec-section{background:#f1f1ef!important;color:#17191a!important}
+body.machine-detail-page .mv-spec-section h2,body.machine-detail-page .mv-specs dt{color:#17191a!important}
+body.machine-detail-page .mv-specs dd{color:#42484a!important}
+body.machine-detail-page .mv-specs>div{border-bottom:1px solid #d1d3d1!important}
+body.machine-detail-page .mv-actions,body.machine-detail-page .mv-note{background:#f5f4f0!important;color:#515658!important}
+body.machine-detail-page .mv-actions a.mv-home-compare,body.machine-detail-page .mv-actions a.mv-home-compare .cinematic-link__label{color:#17191a!important;opacity:1!important}
+body.machine-detail-page .mv-actions a.mv-home-compare .cinematic-link__icon{color:#17191a!important;border-color:#17191a!important}
+body.machine-detail-page .mv-actions a.mv-home-compare:hover .cinematic-link__icon{color:#fff!important}
+body.machine-detail-page .mv-note{color:#656b6d!important}
+@media(max-width:900px){body.machine-detail-page .top .links{background:#fff}body.machine-detail-page .top .links a{color:#17191a!important}}

@@ -1,0 +1,111 @@
+
+/* HAMMEL scroll pulse — crisp chapter backgrounds, photo-local effects only */
+.story__chapter,.story__intro,.story__end {
+  filter: none!important;
+  backdrop-filter: none!important
+}
+.story__chapter::after,.story__intro::after,.story__end::after {
+  display: none!important
+}
+.story__art,.story__hq {
+  isolation: isolate
+}
+.story__pulse {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  overflow: visible;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .2s ease
+}
+.story--pulse-ready .story__pulse {
+  opacity: 1
+}
+.story__pulse-track {
+  fill: none;
+  stroke: rgba(255,255,255,.23);
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke
+}
+.story__chapter--light .story__pulse-track {
+  stroke: rgba(227,6,19,.27)
+}
+.story__pulse-glow,.story__pulse-head {
+  fill: none;
+  stroke: #ff1635;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke
+}
+.story__pulse-glow {
+  stroke-width: 17;
+  opacity: .72;
+  filter: blur(6px)
+}
+.story__pulse-head {
+  stroke-width: 3.6;
+  opacity: 1;
+  filter: drop-shadow(0 0 5px rgba(255,20,45,.95))
+}
+.story__pulse-dot {
+  fill: #fff;
+  stroke: #ff1735;
+  stroke-width: 3;
+  opacity: 0;
+  filter: drop-shadow(0 0 9px rgba(255,28,50,.95))
+}
+.story__chapter--red .story__pulse-glow,.story__end .story__pulse-glow {
+  stroke: #fff;
+  opacity: .68
+}
+.story__chapter--red .story__pulse-head,.story__end .story__pulse-head {
+  stroke: #fff
+}
+.story__chapter--red .story__pulse-track,.story__end .story__pulse-track {
+  stroke: rgba(255,255,255,.27)
+}
+.story__blueprint {
+  position: absolute;
+  inset: 9% 8%;
+  width: 84%;
+  height: 82%;
+  pointer-events: none;
+  z-index: 4;
+  opacity: 0;
+  transform: translateY(7px);
+  transition: none
+}
+.story__blueprint path,.story__blueprint circle,.story__blueprint line {
+  stroke: currentColor;
+  stroke-width: 1;
+  fill: none;
+  vector-effect: non-scaling-stroke
+}
+.story__chapter--light .story__blueprint {
+  color: #e30613
+}
+.story__chapter--dark .story__blueprint,.story__chapter--red .story__blueprint {
+  color: #fff
+}
+.story__art>.story__photo,.story__art>.story__duo {
+  position: relative;
+  z-index: 2
+}
+@media(prefers-reduced-motion:reduce) {
+  .story__pulse,.story__blueprint {
+    display: none!important
+  }
+}
+/* Bright red pulse remains inside photos; no section-edge blur */
+.story__pulse {
+  filter: none!important
+}
+.story__chapter--light .story__pulse-head {
+  filter: drop-shadow(0 0 5px rgba(227,6,19,.65))
+}
+.story__chapter--red .story__pulse-head,.story__end .story__pulse-head {
+  filter: drop-shadow(0 0 8px rgba(255,255,255,.95))
+}

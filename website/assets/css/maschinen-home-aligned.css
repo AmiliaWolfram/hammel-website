@@ -1,0 +1,39 @@
+/* MASCHINEN: use the identical Home .wrap geometry, without a competing catalog width. */
+body .content .wrap.maschinen-catalog {
+  width:calc(100% - 2 * var(--cinema-gutter))!important;
+  max-width:none!important;
+  margin-left:var(--cinema-gutter)!important;
+  margin-right:var(--cinema-gutter)!important;
+  box-sizing:border-box!important;
+  padding-left:0!important;
+  padding-right:0!important;
+}
+body .maschinen-catalog .product {min-width:0;box-sizing:border-box;}
+/* Home CTA: same circle fill sweeping upward, arrow travel and label underline. */
+body .maschinen-catalog .cinematic-link--section {display:inline-flex!important;align-items:center!important;gap:15px!important;color:#171717!important;text-decoration:none!important;}
+body .maschinen-catalog .cinematic-link__icon {
+  position:relative!important;overflow:hidden!important;isolation:isolate!important;
+  width:48px!important;height:48px!important;flex:0 0 48px!important;
+  display:grid!important;place-items:center!important;border:1px solid #17171788!important;
+  border-radius:50%!important;background:transparent!important;color:#171717!important;
+  transform:none;transition:border-color .4s ease,transform .45s cubic-bezier(.2,.8,.2,1)!important;
+}
+body .maschinen-catalog .cinematic-link__icon::before {
+  content:''!important;position:absolute!important;inset:0!important;border-radius:50%!important;
+  background:#e30613!important;transform:translateY(102%)!important;
+  transition:transform .48s cubic-bezier(.2,.8,.2,1)!important;z-index:0!important;
+}
+body .maschinen-catalog .cinematic-link__icon svg {
+  position:relative!important;z-index:1!important;width:19px!important;height:19px!important;
+  fill:none!important;stroke:currentColor!important;stroke-width:1.6!important;
+  stroke-linecap:round!important;stroke-linejoin:round!important;
+  transition:transform .4s ease!important;
+}
+body .maschinen-catalog .cinematic-link:is(:hover,:focus-visible) .cinematic-link__icon {
+  color:white!important;border-color:#e30613!important;transform:scale(1.035)!important;background:transparent!important;
+}
+body .maschinen-catalog .cinematic-link:is(:hover,:focus-visible) .cinematic-link__icon::before {transform:translateY(0)!important;}
+body .maschinen-catalog .cinematic-link:is(:hover,:focus-visible) .cinematic-link__icon svg {transform:translate(2px,-2px)!important;}
+body .maschinen-catalog .cinematic-link__label::after {content:'';position:absolute;bottom:-7px;left:0;width:100%;height:1px;background:#e30613;transform:scaleX(0);transform-origin:left;transition:transform .48s cubic-bezier(.2,.8,.2,1);}
+body .maschinen-catalog .cinematic-link:is(:hover,:focus-visible) .cinematic-link__label::after {transform:scaleX(1);}
+@media(prefers-reduced-motion:reduce){body .maschinen-catalog .cinematic-link__icon,body .maschinen-catalog .cinematic-link__icon::before,body .maschinen-catalog .cinematic-link__icon svg,body .maschinen-catalog .cinematic-link__label::after{transition:none!important;}}

@@ -1,0 +1,90 @@
+
+/* HAMMEL footer: official transparent logo and compact navigation */
+footer {
+  border-top: 4px solid #e30613;
+  padding: 56px 0 22px;
+  background: #050505;
+}
+footer .foot {
+  grid-template-columns: minmax(240px,2fr) repeat(3,minmax(130px,1fr));
+  gap: clamp(24px,4vw,64px);
+  align-items: start;
+}
+footer .footer-brand {
+  display: inline-flex;
+  align-items: center;
+  max-width: 205px;
+  margin-bottom: 18px;
+}
+footer .footer-brand img {
+  display: block;
+  width: 100%;
+  max-width: 205px;
+  height: auto;
+}
+footer .foot h4 {
+  color: #f4f4f4;
+  font-size: 12px;
+  font-weight: 750;
+  margin: 5px 0 15px;
+  letter-spacing: .08em;
+}
+footer .foot a:not(.footer-brand) {
+  color: #a9a9a9;
+  text-decoration: none;
+  margin: 9px 0;
+  transition: color .2s ease;
+}
+footer .foot a:not(.footer-brand):hover,footer .foot a:not(.footer-brand):focus-visible {
+  color: #fff;
+}
+footer .copy {
+  color: #aaa;
+  font-size: 14px;
+  line-height: 1.8;
+}
+footer .footer-bottom {
+  border-top: 1px solid #292929;
+  margin-top: 44px;
+  padding-top: 19px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  color: #898989;
+  font-size: 11px;
+  letter-spacing: .025em;
+}
+footer .footer-legal {
+  display: flex;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+footer .footer-legal a {
+  color: #aaa;
+  text-decoration: none;
+  font-weight: 650;
+  font-size: 11px;
+}
+footer .footer-legal a:hover {
+  color: #fff;
+}
+@media(max-width:900px) {
+  footer .foot {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 32px;
+  }
+}
+@media(max-width:560px) {
+  footer .foot {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 28px 18px;
+  }
+  footer .foot>div:first-child {
+    grid-column: 1/-1;
+  }
+  footer .footer-bottom {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

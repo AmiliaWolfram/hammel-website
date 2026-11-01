@@ -1,0 +1,28 @@
+/* HAMMEL public site: single horizontal content grid based on Home hero. */
+:root{--hammel-alignment-gutter:clamp(20px,4vw,80px)}
+/* Do not constrain full-width section backgrounds, images or videos. */
+html body .hero .wrap.hero-grid,
+html body .hammel-page-hero .wrap.hammel-page-hero__inner,
+html body .story .story__wrap,
+html body .story__intro .story__wrap,
+html body .story__chapter .story__wrap,
+html body .story__end .story__wrap,
+html body .wrap:not(.intro-layout),
+html body .about-container,
+html body .mv-wrap {
+  width:calc(100% - 2 * var(--hammel-alignment-gutter))!important;
+  max-width:none!important;
+  margin-left:var(--hammel-alignment-gutter)!important;
+  margin-right:var(--hammel-alignment-gutter)!important;
+  box-sizing:border-box!important;
+}
+/* Home intro uses a full-bleed grid: align its text without moving its image. */
+html body .intro-section .intro-layout>div:first-child{
+  padding-left:var(--hammel-alignment-gutter)!important;
+}
+/* No additional nested offset after the shared content grid. */
+html body .story__intro .story__wrap>div:first-child,
+html body .story__chapter .story__wrap>div:first-child{
+  margin-left:0;
+}
+@media(max-width:767px){:root{--hammel-alignment-gutter:20px}}

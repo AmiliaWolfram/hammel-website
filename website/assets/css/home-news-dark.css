@@ -1,0 +1,65 @@
+/* HOME — AKTUELLES: graphite editorial section. Scoped to the homepage. */
+#aktuelles.news-section {
+  background: #141516;
+  color: #f5f5f4;
+}
+#aktuelles .kicker { color: #f2df00; }
+#aktuelles .title { color: #f5f5f4; }
+#aktuelles .news-grid--editorial .news-panel--editorial {
+  background: #222426;
+  color: #f5f5f4;
+  border: 1px solid rgba(255,255,255,.09);
+}
+#aktuelles .news-grid--editorial .news-panel--editorial:hover,
+#aktuelles .news-grid--editorial .news-panel--editorial:focus-visible {
+  background: #2b2d30;
+}
+#aktuelles .news-grid--editorial .news-panel__tag { color: #f2df00; }
+#aktuelles .news-grid--editorial .news-panel h3 { color: #fff; }
+#aktuelles .news-grid--editorial .news-panel p { color: #bfc1c4; }
+#aktuelles .news-grid--editorial .news-panel__cta { color: #f5f5f4; }
+#aktuelles .news-grid--editorial .news-panel__cta .cinematic-link__icon {
+  color: #f5f5f4;
+  border-color: rgba(255,255,255,.55);
+}
+#aktuelles .news-grid--editorial .news-panel__cta .cinematic-link__icon svg {
+  stroke: currentColor;
+}
+#aktuelles .news-grid--editorial .news-panel__cta .cinematic-link__label { color: #f5f5f4; }
+
+
+/* Accessibility: all editorial copy must remain visible on graphite.
+   Explicit selectors override legacy light-section text rules. */
+#aktuelles.news-section .wrap > .kicker {
+  color: #f2df00 !important;
+  -webkit-text-fill-color: #f2df00;
+}
+#aktuelles.news-section .wrap > h2.title {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff;
+  opacity: 1;
+}
+#aktuelles.news-section .news-grid--editorial .news-panel__content {
+  color: #f5f5f4;
+}
+#aktuelles.news-section .news-grid--editorial .news-panel__tag {
+  color: #f2df00 !important;
+  -webkit-text-fill-color: #f2df00;
+}
+#aktuelles.news-section .news-grid--editorial .news-panel__content h3 {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff;
+}
+#aktuelles.news-section .news-grid--editorial .news-panel__content p {
+  color: #d0d1d3 !important;
+  -webkit-text-fill-color: #d0d1d3;
+}
+#aktuelles.news-section .news-grid--editorial .news-panel__cta,
+#aktuelles.news-section .news-grid--editorial .news-panel__cta .cinematic-link__label {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff;
+}
+#aktuelles.news-section .news-grid--editorial .news-panel__cta .cinematic-link__icon {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff;
+}

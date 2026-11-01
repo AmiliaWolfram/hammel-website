@@ -1,0 +1,16 @@
+/* Maschinen: same actual Home gutter and cinematic CTA component. */
+:root{--cinema-gutter:clamp(20px,2.6vw,54px)}
+body .hammel-page-hero .wrap.hammel-page-hero__inner,body #maschinen-katalog.wrap{width:calc(100% - 2 * var(--cinema-gutter))!important;max-width:none!important;margin-left:var(--cinema-gutter)!important;margin-right:var(--cinema-gutter)!important;box-sizing:border-box!important;padding-left:0!important;padding-right:0!important}
+body .hammel-page-hero .hammel-page-hero__cta.cinematic-link{display:inline-flex;align-items:center;gap:15px;position:relative;min-height:58px;padding:0 0 9px;margin:0;color:#f6f5f2!important;background:none;border:0;text-decoration:none;font-size:clamp(12px,1vw,14px);font-weight:800;letter-spacing:.065em;isolation:isolate}
+body .hammel-page-hero .cinematic-link__icon{height:48px;width:48px;border:1px solid #ffffff80;border-radius:50%;display:grid;place-items:center;position:relative;overflow:hidden;flex-shrink:0;transition:border-color .4s ease,transform .45s cubic-bezier(.2,.8,.2,1)}
+body .hammel-page-hero .cinematic-link__icon::before{content:"";position:absolute;inset:0;background:#e30613;transform:translateY(102%);transition:transform .48s cubic-bezier(.2,.8,.2,1);border-radius:50%}
+body .hammel-page-hero .cinematic-link__icon svg{position:relative;width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:transform .4s ease}
+body .hammel-page-hero .cinematic-link__label{position:relative;white-space:nowrap}
+body .hammel-page-hero .cinematic-link__label::after{content:"";position:absolute;bottom:-9px;left:0;width:100%;height:1px;background:#e30613;transform:scaleX(0);transform-origin:left;transition:transform .48s cubic-bezier(.2,.8,.2,1)}
+body .hammel-page-hero .cinematic-link:hover .cinematic-link__icon,body .hammel-page-hero .cinematic-link:focus-visible .cinematic-link__icon{border-color:#e30613;transform:scale(1.035)}
+body .hammel-page-hero .cinematic-link:hover .cinematic-link__icon::before,body .hammel-page-hero .cinematic-link:focus-visible .cinematic-link__icon::before{transform:translateY(0)}
+body .hammel-page-hero .cinematic-link:hover svg,body .hammel-page-hero .cinematic-link:focus-visible svg{transform:translate(2px,-2px)}
+body .hammel-page-hero .cinematic-link:hover .cinematic-link__label::after,body .hammel-page-hero .cinematic-link:focus-visible .cinematic-link__label::after{transform:scaleX(1)}
+body .hammel-page-hero .cinematic-link:focus-visible{outline:2px solid #fff;outline-offset:6px}
+@media(max-width:767px){:root{--cinema-gutter:clamp(18px,4vw,25px)}}
+@media(prefers-reduced-motion:reduce){body .hammel-page-hero .cinematic-link *,body .hammel-page-hero .cinematic-link *::before,body .hammel-page-hero .cinematic-link *::after{transition:none!important}}

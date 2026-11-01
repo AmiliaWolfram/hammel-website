@@ -1,0 +1,5 @@
+/* Unternehmen story: microheadings follow background colors. */
+body .story .story__intro .story__eyebrow,
+body .story .story__chapter--dark .story__eyebrow { color: #F2B705 !important; }
+body .story .story__chapter--light .story__eyebrow { color: #E30613 !important; }
+body .story .story__chapter--red .story__eyebrow { color: #FFFFFF !important; }

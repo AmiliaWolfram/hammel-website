@@ -1,0 +1,108 @@
+/* HAMMEL recruitment application: LANA-inspired live checklist, HAMMEL visual language */
+.hammel-apply{background:#f4f3ef;color:#151719;min-height:100vh}.hammel-apply *{box-sizing:border-box}.hammel-apply .wrap{width:calc(100% - 2 * clamp(20px,2.6vw,54px));max-width:none;margin-inline:auto}.hammel-apply .apply-hero{background:#11171b;color:#fff;min-height:clamp(430px,65vh,720px);display:flex;align-items:center;border-bottom:0}.hammel-apply .apply-hero .wrap{padding:clamp(160px,18vh,240px) 0 clamp(85px,11vh,140px)}.hammel-apply .kicker{font-size:12px;letter-spacing:.16em;font-weight:850;color:#e30613;margin:0 0 24px}.hammel-apply .apply-hero .kicker{color:#ff777e}.hammel-apply .apply-hero h1{font-size:clamp(45px,7vw,122px);font-weight:900;line-height:.98;letter-spacing:-.05em;max-width:1300px;margin:0 0 34px}.hammel-apply .apply-hero h1 em{color:#e30613;font-style:normal}.hammel-apply .apply-hero p:last-child{font-size:clamp(18px,1.55vw,25px);max-width:900px;line-height:1.6;color:#d1d5d7}.hammel-apply .application-shell{padding-top:clamp(65px,7vw,120px);padding-bottom:clamp(90px,10vw,160px)}.hammel-apply .application-grid{display:grid;grid-template-columns:minmax(300px,.7fr) minmax(0,1.3fr);gap:clamp(30px,5vw,105px);align-items:start}.hammel-apply .application-sidebar{display:grid;gap:28px;min-width:0}.hammel-apply .status-panel{background:#fff;padding:clamp(25px,3vw,55px);border-top:0}.hammel-apply .status-panel h2,.hammel-apply .tips-panel h2{font-size:clamp(24px,2.5vw,43px);line-height:1.08;margin:0 0 15px;font-weight:900;letter-spacing:-.035em}.hammel-apply .muted,.hammel-apply .form-intro{color:#676b6e;line-height:1.65;font-size:clamp(16px,1.15vw,20px)}.hammel-apply .status-number{display:flex;align-items:baseline;gap:15px;flex-wrap:wrap;margin:30px 0 12px}.hammel-apply .status-number strong{font-size:clamp(38px,4vw,64px);letter-spacing:-.055em}.hammel-apply .status-number span{font-size:11px;letter-spacing:.09em;font-weight:850;color:#666}.hammel-apply .status-track{height:8px;background:#e2e2e0;overflow:hidden}.hammel-apply .status-track span{display:block;width:0;height:100%;background:#e30613;transition:width .25s ease}.hammel-apply .status-list{padding:0;margin:24px 0 0;list-style:none}.hammel-apply .status-list li{display:flex;gap:13px;align-items:center;border-top:1px solid #e5e5e3;padding:17px 0}.hammel-apply .status-list .check-icon{display:grid;place-items:center;width:30px;height:30px;border:1px solid #c6c6c6;border-radius:50%;color:transparent;flex:none;transition:.2s}.hammel-apply .status-list li.done .check-icon{background:#e30613;border-color:#e30613;color:white}.hammel-apply .status-list strong{display:block;font-size:12px;letter-spacing:.035em}.hammel-apply .status-list small{display:block;color:#73777a;font-size:12px;margin-top:4px}.hammel-apply .tips-panel{background:#141b20;color:#fff;padding:clamp(25px,3vw,55px)}.hammel-apply .tips-panel .kicker{color:#ff777e}.hammel-apply .tips-panel article{border-top:1px solid #455058;padding:18px 0}.hammel-apply .tips-panel article strong{font-size:13px}.hammel-apply .tips-panel article p{font-size:14px;line-height:1.6;color:#c5cbd0}.hammel-apply .application-content{min-width:0;padding-top:8px}.hammel-apply .application-content h2{font-size:clamp(42px,5vw,86px);font-weight:900;letter-spacing:-.05em;line-height:1.02;margin:0 0 22px}.hammel-apply .form-intro{margin:0 0 44px}.hammel-apply .form-group-heading{margin:42px 0 25px;border-bottom:1px solid #bfc1c0;padding-bottom:15px;color:#e30613;font-size:13px;font-weight:850;letter-spacing:.1em}.hammel-apply .hfield{margin-bottom:25px}.hammel-apply .hfield>label{display:block;font-weight:800;font-size:14px;margin-bottom:10px}.hammel-apply .req{color:#e30613}.hammel-apply .hfield input:not([type=checkbox]),.hammel-apply .hfield textarea,.hammel-apply .hfield select{width:100%;min-height:58px;border:1px solid #c7c8c6;border-radius:0;background:#fff;color:#16191b;padding:15px 17px;font:inherit;box-sizing:border-box}.hammel-apply .hfield textarea{min-height:170px;resize:vertical}.hammel-apply .hfield input[type=file]{padding:15px;cursor:pointer}.hammel-apply .hfield input:focus-visible,.hammel-apply .hfield textarea:focus-visible,.hammel-apply .hfield select:focus-visible{outline:2px solid #e30613;outline-offset:2px}.hammel-apply .hfield select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,#e30613 50%),linear-gradient(135deg,#e30613 50%,transparent 50%);background-position:calc(100% - 24px) 26px,calc(100% - 18px) 26px;background-size:6px 6px;background-repeat:no-repeat}.hammel-apply .hfield--check .hcontrol{display:flex;align-items:center}.hammel-apply .hfield--check input{accent-color:#e30613;width:22px;height:22px}.hammel-apply .field-hint{color:#75787a;font-size:13px;line-height:1.5;margin:7px 0 0}.hammel-apply .field-error{color:#b90012;font-weight:700;font-size:13px}.hammel-apply .honey{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}.hammel-apply .h-link{display:inline-flex;align-items:center;gap:16px;background:transparent;border:0;padding:0;min-height:55px;color:#17191b;font-weight:850;font-size:13px;letter-spacing:.055em;cursor:pointer;text-decoration:none}.hammel-apply .h-link .cinematic-link__icon{display:grid;place-items:center;position:relative;width:54px;height:54px;border:1px solid #e30613;border-radius:50%;overflow:hidden;flex:none;transition:color .3s}.hammel-apply .h-link .cinematic-link__icon:before{content:"";position:absolute;inset:0;background:#e30613;transform:translateY(102%);transition:transform .35s}.hammel-apply .h-link .cinematic-link__icon svg{position:relative;z-index:1;fill:none;stroke:currentColor;stroke-width:1.8;width:22px;height:22px;transition:transform .3s}.hammel-apply .h-link:hover .cinematic-link__icon:before,.hammel-apply .h-link:focus-visible .cinematic-link__icon:before{transform:translateY(0)}.hammel-apply .h-link:hover .cinematic-link__icon,.hammel-apply .h-link:focus-visible .cinematic-link__icon{color:#fff}.hammel-apply .h-link:hover svg{transform:translate(2px,-2px)}.hammel-apply .h-link .cinematic-link__label{position:relative}.hammel-apply .h-link .cinematic-link__label:after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;background:#e30613;transform:scaleX(0);transform-origin:left;transition:transform .3s}.hammel-apply .h-link:hover .cinematic-link__label:after{transform:scaleX(1)}.hammel-apply .tips-panel .h-link{color:#fff}.hammel-apply .tips-panel .h-link .cinematic-link__icon{border-color:#fff}.hammel-apply .h-submit{margin-top:24px}.hammel-apply .submit-note{font-size:13px;color:#b90012}.hammel-apply .success-panel{padding:100px 0}.hammel-apply .success-panel h2{font-size:clamp(45px,7vw,110px)}@media(max-width:960px){.hammel-apply .application-grid{grid-template-columns:1fr}.hammel-apply .application-sidebar{grid-template-columns:1fr 1fr}.hammel-apply .apply-hero{min-height:460px}}@media(max-width:640px){.hammel-apply .application-sidebar{grid-template-columns:1fr}.hammel-apply .apply-hero .wrap{padding-top:160px}.hammel-apply .apply-hero h1{font-size:clamp(42px,12vw,68px)}}@media(prefers-reduced-motion:reduce){.hammel-apply .h-link *,.hammel-apply .status-track span{transition:none!important}}
+
+/* Job application: selected vacancy within the form, no duplicate standalone banner */
+.hammel-apply .hr-job-readonly-value{box-sizing:border-box;display:block;width:100%;padding:17px 20px;border:1px solid #c9c9c9;background:#eeede9;color:#15191b;font-size:clamp(16px,1.55vw,21px);font-weight:750;line-height:1.4;overflow-wrap:anywhere;}
+
+/* Ausbildungsbewerbung: editorial recruiting promotion in the left column */
+.hammel-apply .ausbildung-promo{position:relative;isolation:isolate;overflow:hidden;min-height:510px;box-sizing:border-box;padding:clamp(30px,3vw,48px);background:#151b1e;color:#fff;display:flex;flex-direction:column;align-items:flex-start;gap:0}
+.hammel-apply .ausbildung-promo::before{content:"";position:absolute;width:380px;height:380px;right:-210px;top:105px;border:1px solid rgba(255,255,255,.16);border-radius:50%;z-index:-1;box-shadow:0 0 0 48px rgba(255,255,255,.025),0 0 0 100px rgba(255,255,255,.018)}
+.hammel-apply .ausbildung-promo__eyebrow{display:flex;align-items:center;gap:12px;color:#ff6b75;font-size:11px;font-weight:850;letter-spacing:.15em;line-height:1.4}
+.hammel-apply .ausbildung-promo__line{display:block;width:24px;height:2px;background:#e30613;flex-shrink:0}
+.hammel-apply .ausbildung-promo__symbol{position:relative;align-self:flex-end;margin:28px 0 4px;color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.2);font-family:Arial,sans-serif;font-size:clamp(120px,13vw,190px);font-weight:900;line-height:.75;letter-spacing:-.12em}
+.hammel-apply .ausbildung-promo__spark{position:absolute;right:-10px;top:-15px;font-size:60px;line-height:1;color:#e30613;-webkit-text-stroke:0;letter-spacing:0}
+.hammel-apply .ausbildung-promo h2{font-size:clamp(33px,3.5vw,53px);font-weight:900;line-height:1.04;letter-spacing:-.045em;margin:15px 0 22px;max-width:380px;color:#fff}
+.hammel-apply .ausbildung-promo h2 em{font-style:normal;color:#e30613}
+.hammel-apply .ausbildung-promo>p{font-size:15px;line-height:1.7;color:#c5cbd0;max-width:390px;margin:0 0 24px}
+.hammel-apply .ausbildung-promo__features{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 32px}
+.hammel-apply .ausbildung-promo__features span{border:1px solid rgba(255,255,255,.24);padding:9px 11px;font-size:10px;font-weight:750;letter-spacing:.055em;color:#e4e7e8}
+.hammel-apply .ausbildung-promo .h-link{margin-top:auto;color:#fff}
+.hammel-apply .ausbildung-promo .h-link .cinematic-link__icon{border-color:#fff}
+@media(max-width:960px){.hammel-apply .ausbildung-promo{min-height:450px}}
+@media(max-width:640px){.hammel-apply .ausbildung-promo{min-height:440px}.hammel-apply .ausbildung-promo__symbol{font-size:130px}}
+
+/* Equal-height columns for the Ausbildung application; no promotional navigation */
+@media (min-width: 961px){
+ .hammel-apply .application-grid:has(.ausbildung-promo){align-items:stretch}
+ .hammel-apply .application-sidebar:has(.ausbildung-promo){display:flex;flex-direction:column;align-self:stretch;min-height:100%}
+ .hammel-apply .application-sidebar .ausbildung-promo{flex:1 0 auto;min-height:0}
+}
+.hammel-apply .ausbildung-promo__section{width:100%;padding:20px 0;border-top:1px solid rgba(255,255,255,.18)}
+.hammel-apply .ausbildung-promo__section h3{font-size:12px;letter-spacing:.12em;color:#ff777e;font-weight:850;margin:0 0 10px}
+.hammel-apply .ausbildung-promo__section p{font-size:15px;line-height:1.65;color:#c5cbd0;margin:0;max-width:430px}
+.hammel-apply .ausbildung-promo__features{margin-top:20px;margin-bottom:0}
+.hammel-apply .ausbildung-promo h2{max-width:480px}
+@media(max-width:960px){.hammel-apply .application-sidebar .ausbildung-promo{min-height:0}}
+
+/* Clean two-column Ausbildung application: no decorative illustrations, balanced columns */
+.hammel-apply .ausbildung-promo::before,
+.hammel-apply .ausbildung-promo::after{content:none!important;display:none!important}
+.hammel-apply .ausbildung-promo__symbol{display:none!important}
+.hammel-apply .ausbildung-promo{background:#151b1e;background-image:none!important;min-height:0;padding:clamp(26px,2.8vw,42px)}
+.hammel-apply .ausbildung-promo h2{margin:22px 0 14px;max-width:none;font-size:clamp(30px,3vw,46px)}
+.hammel-apply .ausbildung-promo>p{margin:0 0 12px;max-width:none}
+.hammel-apply .ausbildung-promo__section{padding:13px 0}
+.hammel-apply .ausbildung-promo__section h3{margin:0 0 6px}
+.hammel-apply .ausbildung-promo__features{margin-top:12px}
+@media(min-width:961px){
+ .hammel-apply .application-grid:has(.ausbildung-promo){grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(26px,4vw,68px);align-items:stretch}
+ .hammel-apply .application-grid:has(.ausbildung-promo)>.application-sidebar{width:100%;min-width:0}
+ .hammel-apply .application-grid:has(.ausbildung-promo)>.application-content{width:100%;min-width:0}
+ .hammel-apply .application-sidebar:has(.ausbildung-promo){display:flex;flex-direction:column}
+ .hammel-apply .application-sidebar .ausbildung-promo{flex:1 1 auto}
+}
+
+/* Ausbildung application: restore original narrow sidebar, remove decorative rule and chips. */
+@media (min-width:961px){
+ .hammel-apply .application-grid:has(.ausbildung-promo){grid-template-columns:minmax(300px,.7fr) minmax(0,1.3fr);gap:clamp(30px,5vw,105px);align-items:stretch}
+ .hammel-apply .application-sidebar:has(.ausbildung-promo){align-self:stretch}
+ .hammel-apply .application-sidebar:has(.ausbildung-promo) .ausbildung-promo{flex:1 1 auto}
+}
+.hammel-apply .ausbildung-promo__line,.hammel-apply .ausbildung-promo__features{display:none!important}
+.hammel-apply .ausbildung-promo__eyebrow{gap:0}
+
+/* Final desktop column proportions: narrow information sidebar, wide application form.
+   Apply to ALL application forms, not only Ausbildung. */
+@media screen and (min-width: 961px) {
+  body.hammel-apply .application-shell .application-grid,
+  .hammel-apply .application-grid,
+  .hammel-apply .application-grid:has(.ausbildung-promo) {
+    display: grid !important;
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr) !important;
+    column-gap: clamp(30px, 4vw, 80px) !important;
+    align-items: stretch;
+  }
+  .hammel-apply .application-grid > .application-sidebar,
+  .hammel-apply .application-grid > .application-content {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+/* Center Ausbildung text group vertically within its dark panel, keep text left aligned. */
+@media(min-width:961px){.hammel-apply .ausbildung-promo{display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:stretch!important}}
+
+/* Balance the actual content group, not each child independently. */
+.hammel-apply .ausbildung-promo{display:flex!important;flex-direction:column!important;justify-content:center!important;padding:clamp(30px,3vw,48px)!important}
+.hammel-apply .ausbildung-promo__inner{width:100%;margin-block:auto;display:flex;flex-direction:column;align-items:stretch}
+.hammel-apply .ausbildung-promo__inner>.ausbildung-promo__eyebrow{margin:0}
+@media(max-width:960px){.hammel-apply .ausbildung-promo__inner{margin-block:0}}
+
+/* Vertical optical balance of the complete Ausbildung promo content */
+@media (min-width:961px) {
+  .hammel-apply .application-sidebar .ausbildung-promo {
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) !important;
+    grid-template-rows:minmax(0,1fr) !important;
+    padding:clamp(32px,3vw,48px) !important;
+    align-content:stretch !important;
+  }
+  .hammel-apply .application-sidebar .ausbildung-promo__inner {
+    align-self:center !important;
+    margin:0 !important;
+    height:auto !important;
+    min-height:0 !important;
+    flex:none !important;
+    justify-content:flex-start !important;
+  }
+}

@@ -1,0 +1,31 @@
+/* HR portal navigation – aligned with Vertriebsportal */
+body .hr-portal-header{position:sticky!important;top:0!important;z-index:1100;background:#111213;color:#fff;width:100%;box-sizing:border-box;border:0;box-shadow:none;font-family:Arial,sans-serif}
+.hr-portal-header *{box-sizing:border-box}
+.hr-portal-header-inner{width:min(100% - 48px,1480px);margin:auto;min-height:112px;padding:20px 0;display:grid;grid-template-columns:minmax(175px,240px) minmax(0,1fr) minmax(170px,235px);align-items:center;gap:clamp(20px,2.4vw,45px)}
+.hr-portal-brand img{display:block;width:clamp(175px,14vw,230px);max-height:70px;object-fit:contain}
+.hr-portal-nav{display:flex;justify-content:center;align-items:center;gap:clamp(12px,1.4vw,24px);flex-wrap:wrap}
+.hr-portal-nav a{color:#fff!important;text-decoration:none!important;font-weight:800;font-size:clamp(11px,.75vw,13px);white-space:nowrap;padding:10px 3px;transition:color .2s ease}
+.hr-portal-nav a:hover,.hr-portal-nav a.is-active{color:#f2b705!important;text-shadow:0 0 12px rgba(242,183,5,.2)}
+.hr-portal-account{justify-self:end;min-width:0}.hr-portal-name{color:#fff;font-size:clamp(17px,1.45vw,25px);font-weight:900;white-space:nowrap;letter-spacing:.065em}.hr-portal-name span{color:#f2b705}.hr-portal-account-bottom{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:8px}.hr-portal-user{font-size:11px;color:#c4c4c4;max-width:135px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.hr-portal-user i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#f2b705;margin-right:7px;vertical-align:middle}.hr-portal-account form{margin:0}.hr-portal-account button{font:inherit;font-size:11px;color:#bbb;background:transparent;border:0;cursor:pointer;padding:0}.hr-portal-account button:hover{color:#fff}
+@media(max-width:1100px){.hr-portal-header-inner{grid-template-columns:1fr auto;gap:16px}.hr-portal-nav{grid-column:1/-1;grid-row:2;justify-content:flex-start}.hr-portal-account{grid-column:2;grid-row:1}}
+@media(max-width:650px){.hr-portal-header-inner{width:calc(100% - 32px);padding:16px 0}.hr-portal-brand img{width:150px}.hr-portal-name{font-size:15px}.hr-portal-nav{gap:8px 16px}.hr-portal-nav a{font-size:11px}.hr-portal-account-bottom{gap:7px}.hr-portal-user{max-width:85px}}
+/* Portal body uses the same clean, square visual language as Vertrieb. */
+body:has(.staff-ui){background:#f3f2ef!important}
+body:has(.staff-ui) .staff-ui{padding-top:clamp(55px,6vw,92px)!important;padding-bottom:90px!important;min-height:calc(100vh - 112px)!important}
+body:has(.staff-ui) .staff-wrap{width:min(100% - 48px,1480px)!important;max-width:1480px!important}
+body:has(.staff-ui) .staff-heading{margin-bottom:42px}
+body:has(.staff-ui) .staff-heading h1{font-size:clamp(38px,5vw,72px);letter-spacing:-.045em}
+body:has(.staff-ui) .staff-stats>div{background:#1a1b1c;padding:28px 32px;border-top:1px solid #363636}
+body:has(.staff-ui) .staff-section{border:1px solid #e2e2df;padding:clamp(24px,3.5vw,48px)}
+body:has(.staff-ui) .staff-button{border-radius:0;background:#e30613;color:#fff!important;transition:background .2s ease,transform .2s ease}
+body:has(.staff-ui) .staff-button:hover{background:#b9000b}
+body:has(.staff-ui) .staff-actions a{color:#1b1b1b!important;transition:color .2s ease}
+body:has(.staff-ui) .staff-actions a:hover{color:#e30613!important}
+body:has(.staff-ui) .staff-link{border-bottom:1px solid #202020}
+@media(max-width:760px){body:has(.staff-ui) .staff-wrap{width:calc(100% - 32px)!important}body:has(.staff-ui) .staff-ui{padding-top:44px!important}}
+
+/* Keep the HR navigation visible during page scrolling on dashboard and editor views. */
+html:has(.hr-portal-header){scroll-padding-top:125px}
+body:has(.hr-portal-header){overflow-x:clip}
+.hr-portal-header{position:sticky!important;top:0!important;z-index:99999!important;isolation:isolate}
+@media(max-width:1100px){html:has(.hr-portal-header){scroll-padding-top:170px}}

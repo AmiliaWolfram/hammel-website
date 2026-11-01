@@ -1,0 +1,429 @@
+/* HAMMEL Industrial Comparison */
+.comparison-page{padding-top:48px}.comparison-page .mv-back{margin-bottom:54px}.comparison-page h1{font-size:clamp(42px,6vw,92px);margin-bottom:42px}.comparison-controls{display:flex;gap:0;margin:0 0 24px;border-bottom:1px solid #c9c9c7}.comparison-filter{appearance:none;background:transparent;border:0;border-bottom:3px solid transparent;margin-bottom:-1px;padding:17px 26px;font:900 12px/1.3 Arial,sans-serif;letter-spacing:.1em;color:#5a5a5a;cursor:pointer;transition:color .2s,border-color .2s}.comparison-filter:hover{color:#e30613}.comparison-filter.is-active{border-bottom-color:#e30613;color:#171b1e}.comparison-filter:focus-visible{outline:2px solid #e30613;outline-offset:-2px}.comparison-scroll{overflow-x:auto;max-width:100%;scrollbar-color:#e30613 #e8e8e8}.comparison-table{width:100%;border-collapse:separate;border-spacing:0;text-align:left;table-layout:fixed;min-width:850px}.comparison-table th,.comparison-table td{border:0;border-bottom:1px solid #d5d5d3;padding:22px 20px;vertical-align:middle}.comparison-table thead th{vertical-align:bottom;padding:0 16px 26px;border-bottom:2px solid #171b1e}.comparison-table .comparison-label{width:24%;min-width:185px;position:sticky;left:0;z-index:3;background:#f5f4f0;color:#777;font-size:11px;letter-spacing:.12em}.comparison-table thead .comparison-label{z-index:5}.comparison-table .comparison-model{width:25%;min-width:200px}.comparison-model-link{display:flex;flex-direction:column;gap:9px;text-decoration:none;color:#171b1e}.comparison-image{display:grid;place-items:center;aspect-ratio:4/3;background:#e9e8e5;overflow:hidden}.comparison-image img{width:100%;height:100%;object-fit:contain;transition:transform .4s}.comparison-model-link:hover img{transform:scale(1.045)}.comparison-image-placeholder{font-size:14px;font-weight:900;letter-spacing:.13em;color:#9a9a9a}.comparison-model-link strong{font-size:clamp(19px,2vw,27px);line-height:1.1}.comparison-detail{font-size:10px;letter-spacing:.1em;color:#e30613;font-weight:900}.comparison-row th{position:sticky;left:0;z-index:2;background:#f5f4f0;color:#676b6c;font-size:11px;letter-spacing:.09em;font-weight:900}.comparison-row td{font-size:clamp(14px,1.3vw,18px);line-height:1.5;overflow-wrap:anywhere}.comparison-row:hover td,.comparison-row:hover th{background:#edebe7}.comparison-row[hidden]{display:none}.comparison-empty{padding:32px 0;color:#676b6c}.comparison-page .mv-note{margin-top:28px}@media(max-width:650px){.comparison-page{padding-top:24px}.comparison-page .mv-back{margin-bottom:32px}.comparison-page h1{margin-bottom:28px}.comparison-filter{padding:14px 12px;font-size:10px}.comparison-table{min-width:700px}.comparison-table .comparison-label{width:155px;min-width:155px}.comparison-table th,.comparison-table td{padding:16px 12px}}
+
+/* Comparison contrast: light surface to ensure all labels and values are readable. */
+body:has(.comparison-page){background:#f5f4f0!important;color:#171b1e!important}
+.comparison-page{background:#f5f4f0!important;color:#171b1e!important}
+.comparison-page h1{color:#171b1e!important}
+.comparison-page h1 em,.comparison-page .mv-kicker{color:#e30613!important}
+.comparison-page .comparison-filter{color:#51585a!important}
+.comparison-page .comparison-filter.is-active{color:#171b1e!important}
+.comparison-page .comparison-filter:hover{color:#e30613!important}
+.comparison-page .comparison-model-link,.comparison-page .comparison-model-link strong{color:#171b1e!important}
+.comparison-page .comparison-row td{color:#171b1e!important;background:#f5f4f0!important}
+.comparison-page .comparison-row th,.comparison-page .comparison-label{color:#555c5e!important;background:#eeede9!important}
+.comparison-page .comparison-table thead th{color:#171b1e!important}
+.comparison-page .comparison-row:hover td{background:#ecebe7!important}
+.comparison-page .mv-note{color:#62696a!important}
+
+/* 2026-10-30: Machine comparison — consistent Home gutter and legible dark theme. */
+body:has(.comparison-page){background:#090909!important;color:#fff!important}
+.comparison-page{--comparison-gutter:clamp(20px,4vw,80px);width:100%!important;max-width:none!important;margin:0!important;padding:72px var(--comparison-gutter) 100px!important;background:#090909!important;color:#fff!important}
+.comparison-page .mv-kicker{color:#f2b705!important}
+.comparison-page h1{color:#fff!important;font-size:clamp(50px,6vw,96px);margin-bottom:42px}
+.comparison-page .comparison-controls{border-bottom-color:#555!important}
+.comparison-page .comparison-filter,.comparison-page .comparison-filter.is-active{color:#fff!important;opacity:1!important}
+.comparison-page .comparison-filter:hover{color:#f2b705!important}
+.comparison-page .comparison-filter.is-active{border-bottom-color:#e30613!important}
+.comparison-page .comparison-table thead th.comparison-model{color:#fff!important;background:#090909!important}
+.comparison-page .comparison-model-link,.comparison-page .comparison-model-link strong{color:#fff!important;opacity:1!important}
+.comparison-page .comparison-model-link:hover strong{color:#f2b705!important}
+.comparison-page .comparison-detail{color:#f2b705!important}
+.comparison-page .comparison-row td{color:#f5f5f5!important;background:#090909!important}
+.comparison-page .comparison-row th,.comparison-page .comparison-label{color:#333!important;background:#f5f4f0!important}
+.comparison-page .comparison-row:hover td{background:#202020!important}
+.comparison-page .comparison-table th,.comparison-page .comparison-table td{border-bottom-color:#515151!important}
+.comparison-page .comparison-table thead th{border-bottom-color:#666!important}
+.comparison-page .mv-note,.comparison-page .comparison-empty{color:#d2d2d2!important}
+.comparison-page .mv-back{color:#fff!important}
+.comparison-page .mv-back:hover{color:#f2b705!important}
+@media(max-width:650px){.comparison-page{padding:40px 20px 70px!important}}
+
+
+/* HAMMEL 2026 — modern comparison redesign */
+body:has(.comparison-page){background:#101112!important}
+.comparison-page{
+  --comparison-gutter:clamp(24px,4vw,88px);
+  padding:clamp(72px,7vw,120px) var(--comparison-gutter) 110px!important;
+  background:radial-gradient(ellipse 75% 35% at 95% 0%,#26292a 0%,transparent 80%),#101112!important;
+}
+.comparison-page .mv-back{display:inline-flex;align-items:center;gap:12px;margin:0 0 65px;color:#c9cbcc!important;letter-spacing:.11em}
+.comparison-page .mv-back:hover{color:#f2b705!important}
+.comparison-page .mv-kicker{font-size:clamp(12px,1vw,15px);letter-spacing:.23em;margin-bottom:12px;color:#f2b705!important}
+.comparison-page h1{font-size:clamp(66px,10vw,152px)!important;line-height:.95;letter-spacing:-.065em;margin:0 0 28px!important;color:#fff!important}
+.comparison-intro{max-width:690px;color:#b7bcbe;font-size:clamp(15px,1.3vw,19px);line-height:1.65;margin:0 0 46px}
+.comparison-page .comparison-controls{display:inline-flex;gap:6px;padding:5px;margin:0 0 30px!important;border:1px solid #343738!important;border-radius:999px;background:#1c1f20}
+.comparison-page .comparison-filter{border:0!important;border-radius:999px;margin:0!important;padding:13px 24px!important;font-size:11px!important;letter-spacing:.09em;color:#d5d6d6!important;transition:background .25s,color .25s}
+.comparison-page .comparison-filter.is-active{background:#f2b705!important;color:#101112!important}
+.comparison-page .comparison-filter:hover:not(.is-active){background:#343839!important;color:#fff!important}
+.comparison-page .comparison-scroll{border:1px solid #343738;border-radius:14px;overflow-x:auto;background:#191b1c;scrollbar-color:#f2b705 #232526}
+.comparison-page .comparison-table{border-collapse:separate;border-spacing:0;min-width:850px}
+.comparison-page .comparison-table thead th{padding:22px 18px!important;background:#1c1e1f!important;border-bottom:1px solid #3a3d3e!important;vertical-align:bottom}
+.comparison-page .comparison-table thead th.comparison-label{background:#242728!important;color:#f2b705!important;vertical-align:bottom;font-size:12px!important;letter-spacing:.15em}
+.comparison-page .comparison-table .comparison-model{background:#1c1e1f!important}
+.comparison-page .comparison-model-link{gap:11px;color:#fff!important}
+.comparison-page .comparison-image{border-radius:8px;aspect-ratio:1.5;background:#292c2d}
+.comparison-page .comparison-image-placeholder{color:#8d9294;letter-spacing:.18em}
+.comparison-page .comparison-model-link strong{font-size:clamp(20px,2vw,30px)!important;letter-spacing:-.025em;color:#fff!important}
+.comparison-page .comparison-detail{display:inline-flex;align-items:center;gap:7px;font-size:11px!important;color:#f2b705!important}
+.comparison-page .comparison-detail::after{content:"↗";font-size:16px;transition:transform .2s}
+.comparison-page .comparison-model-link:hover .comparison-detail::after{transform:translate(3px,-3px)}
+.comparison-page .comparison-row th,.comparison-page .comparison-row td{padding:23px 20px!important;border-bottom:1px solid #343738!important;transition:background .2s}
+.comparison-page .comparison-row th{background:#242728!important;color:#e3e4e4!important;font-size:12px!important;letter-spacing:.1em}
+.comparison-page .comparison-row td{background:#191b1c!important;color:#f0f1f1!important;font-size:clamp(14px,1.25vw,18px)}
+.comparison-page .comparison-row:hover th{background:#303435!important}
+.comparison-page .comparison-row:hover td{background:#262a2b!important}
+.comparison-page .comparison-row:last-child th,.comparison-page .comparison-row:last-child td{border-bottom:0!important}
+.comparison-page .mv-note{color:#9ea4a6!important;font-size:12px;margin-top:28px}
+@media(max-width:650px){
+ .comparison-page{padding:50px 20px 75px!important}
+ .comparison-page .mv-back{margin-bottom:45px}
+ .comparison-page h1{font-size:clamp(60px,16vw,90px)!important}
+ .comparison-page .comparison-filter{padding:12px 15px!important;font-size:10px!important}
+ .comparison-page .comparison-table{min-width:700px}
+ .comparison-page .comparison-table thead th{padding:14px 12px!important}
+ .comparison-page .comparison-row th,.comparison-page .comparison-row td{padding:17px 12px!important}
+}
+
+
+/* Back navigation belongs to the comparison introduction, not the global header. */
+.comparison-page .comparison-back-home{display:inline-flex!important;align-items:center;gap:16px;position:relative!important;top:auto!important;left:auto!important;right:auto!important;transform:none!important;margin:0 0 clamp(40px,5vw,72px)!important;padding:0!important;color:#fff!important;text-decoration:none!important;font-size:clamp(12px,1vw,15px)!important;font-weight:800!important;letter-spacing:.08em!important;line-height:1.4;z-index:1}
+.comparison-page .comparison-back-home .comparison-back-circle{display:grid;place-items:center;width:52px;height:52px;min-width:52px;border:1px solid rgba(255,255,255,.7);border-radius:50%;position:relative;overflow:hidden;transition:border-color .25s,background .25s}
+.comparison-page .comparison-back-home .comparison-back-circle::before{content:'';position:absolute;inset:0;background:#e30613;transform:translateY(102%);transition:transform .32s ease}
+.comparison-page .comparison-back-home svg{width:20px;height:20px;position:relative;z-index:1;transition:transform .25s}
+.comparison-page .comparison-back-home:hover .comparison-back-circle{border-color:#e30613}
+.comparison-page .comparison-back-home:hover .comparison-back-circle::before{transform:translateY(0)}
+.comparison-page .comparison-back-home:hover svg{transform:translateX(-3px)}
+.comparison-page .comparison-back-home:hover{color:#fff!important}
+@media(max-width:650px){.comparison-page .comparison-back-home .comparison-back-circle{width:46px;height:46px;min-width:46px}.comparison-page .comparison-back-home{gap:12px}}
+
+
+/* HAMMEL comparison final: Home-aligned content, square red table, separate controls */
+body:has(.comparison-page){background:#090909!important}
+.comparison-page{box-sizing:border-box!important;max-width:none!important;width:100%!important;margin:0!important;padding:clamp(65px,6vw,105px) max(4vw,calc((100vw - 1600px)/2)) 100px!important;background:#090909!important}
+.comparison-page .mv-kicker{color:#f2b705!important}
+.comparison-page .comparison-intro{margin-bottom:35px!important}
+.comparison-page .comparison-controls{display:flex!important;width:max-content;max-width:100%;align-items:center;gap:0!important;margin:0 0 36px!important;padding:0!important;background:transparent!important;border:1px solid #4b4b4b!important;border-radius:0!important;overflow:hidden}
+.comparison-page .comparison-filter{border-radius:0!important;border:0!important;background:transparent!important;color:#fff!important;padding:15px 24px!important;margin:0!important;font-size:12px!important;white-space:nowrap}
+.comparison-page .comparison-filter+.comparison-filter{border-left:1px solid #4b4b4b!important}
+.comparison-page .comparison-filter.is-active{background:#f2b705!important;color:#101010!important}
+.comparison-page .comparison-filter:hover:not(.is-active){background:#282828!important;color:#f2b705!important}
+.comparison-page .comparison-scroll{border:0!important;border-radius:0!important;background:#e30613!important;overflow-x:auto!important}
+.comparison-page .comparison-table{background:#e30613!important;border-spacing:0!important;border-collapse:separate!important}
+.comparison-page .comparison-table thead th,.comparison-page .comparison-table thead th.comparison-model,.comparison-page .comparison-table thead th.comparison-label{background:#e30613!important;color:#fff!important;border-bottom:1px solid rgba(255,255,255,.5)!important}
+.comparison-page .comparison-table thead th.comparison-label{color:#f2b705!important}
+.comparison-page .comparison-image{border-radius:0!important;background:#202020!important}
+.comparison-page .comparison-image-placeholder{color:#b4b4b4!important}
+.comparison-page .comparison-model-link strong{color:#fff!important}
+.comparison-page .comparison-model-link:hover strong{color:#f2b705!important}
+.comparison-page .comparison-detail{color:#f2b705!important}
+.comparison-page .comparison-row th,.comparison-page .comparison-row td{background:#e30613!important;color:#fff!important;border-bottom:1px solid rgba(255,255,255,.34)!important}
+.comparison-page .comparison-row th{color:#f2b705!important}
+.comparison-page .comparison-row:hover th,.comparison-page .comparison-row:hover td{background:#c90011!important}
+.comparison-page .comparison-row:last-child th,.comparison-page .comparison-row:last-child td{border-bottom:0!important}
+.comparison-page .comparison-back-home{display:flex!important;width:max-content;max-width:100%;margin:42px 0 22px!important;gap:16px!important;clear:both}
+.comparison-page .mv-note{margin-top:20px!important;color:#bfc1c2!important}
+@media(max-width:650px){.comparison-page{padding:54px 20px 75px!important}.comparison-page .comparison-filter{padding:12px 14px!important;font-size:10px!important}.comparison-page .comparison-back-home{margin-top:32px!important}.comparison-page .comparison-table{min-width:700px!important}}
+
+
+/* 2026-10-30: Unified Home spacing and yellow/grey comparison treatment */
+html body .mv-wrap.comparison-page{
+  box-sizing:border-box!important;display:block!important;
+  width:100%!important;max-width:100%!important;min-width:0!important;
+  margin:0!important; margin-inline:0!important;
+  padding:clamp(70px,6vw,100px) 4vw 96px!important;
+  background:#090909!important;color:#fff!important;
+  border:0!important;border-radius:0!important;
+}
+html body .comparison-page > .mv-kicker,
+html body .comparison-page > h1,
+html body .comparison-page > .comparison-intro,
+html body .comparison-page > .comparison-controls,
+html body .comparison-page > .comparison-scroll,
+html body .comparison-page > .comparison-back-home,
+html body .comparison-page > .mv-note{
+  margin-left:0!important;margin-right:0!important;
+  transform:none!important;max-width:100%;
+}
+html body .comparison-page .comparison-controls{
+  display:flex!important;gap:0!important;width:max-content!important;
+  margin-bottom:28px!important;border:1px solid #777!important;
+  background:#1d1d1d!important;border-radius:0!important;
+}
+html body .comparison-page .comparison-filter{background:transparent!important;color:#fff!important;border-radius:0!important;border:0!important;padding:14px 21px!important}
+html body .comparison-page .comparison-filter + .comparison-filter{border-left:1px solid #777!important}
+html body .comparison-page .comparison-filter.is-active{background:#f2b705!important;color:#121212!important}
+html body .comparison-page .comparison-filter:hover:not(.is-active){background:#444!important;color:#fff!important}
+html body .comparison-page .comparison-scroll{background:#f2b705!important;border:0!important;border-radius:0!important;overflow-x:auto!important}
+html body .comparison-page .comparison-table{background:#f2b705!important;border-collapse:separate!important;border-spacing:0!important;min-width:850px!important}
+html body .comparison-page .comparison-table thead th,
+html body .comparison-page .comparison-table thead th.comparison-model,
+html body .comparison-page .comparison-table thead th.comparison-label{
+ background:#f2b705!important;color:#141414!important;
+ border-bottom:2px solid #171717!important;
+}
+html body .comparison-page .comparison-model-link,
+html body .comparison-page .comparison-model-link strong{color:#171717!important}
+html body .comparison-page .comparison-model-link:hover strong{color:#c40013!important}
+html body .comparison-page .comparison-detail{color:#b00012!important}
+html body .comparison-page .comparison-image{background:#d7d8d7!important;border-radius:0!important}
+html body .comparison-page .comparison-image-placeholder{color:#606466!important}
+html body .comparison-page .comparison-row th{
+ background:#d8d9d8!important;color:#161616!important;
+ border-bottom:1px solid #b5b8b7!important;
+}
+html body .comparison-page .comparison-row td{
+ background:#eeeeec!important;color:#171717!important;
+ border-bottom:1px solid #c4c5c3!important;
+}
+html body .comparison-page .comparison-row:nth-child(even) th{background:#c9cccb!important}
+html body .comparison-page .comparison-row:nth-child(even) td{background:#e1e3e2!important}
+html body .comparison-page .comparison-row:hover th,
+html body .comparison-page .comparison-row:hover td{background:#d8d9d8!important;color:#171717!important}
+/* Only rows with real differences receive the red hover highlight. */
+html body .comparison-page .comparison-row[data-different="true"]:hover th,
+html body .comparison-page .comparison-row[data-different="true"]:hover td{
+ background:#e30613!important;color:#fff!important;
+ border-bottom-color:#e30613!important;
+}
+html body .comparison-page .comparison-row:last-child th,
+html body .comparison-page .comparison-row:last-child td{border-bottom:0!important}
+html body .comparison-page .comparison-back-home{margin:42px 0 22px!important;color:#fff!important}
+html body .comparison-page .mv-note{color:#c3c3c3!important}
+@media(max-width:650px){html body .mv-wrap.comparison-page{padding:52px 4vw 75px!important}html body .comparison-page .comparison-filter{padding:12px 13px!important;font-size:10px!important}}
+
+/* Dark graphite comparison table — overrides the previous yellow/grey experiment */
+html body .comparison-page .comparison-scroll{background:#202224!important;border:1px solid #45494a!important;border-radius:0!important}
+html body .comparison-page .comparison-table{background:#202224!important;border-spacing:0!important}
+html body .comparison-page .comparison-table thead th,
+html body .comparison-page .comparison-table thead th.comparison-model,
+html body .comparison-page .comparison-table thead th.comparison-label{background:#292c2e!important;color:#f2b705!important;border-bottom:2px solid #f2b705!important}
+html body .comparison-page .comparison-model-link,
+html body .comparison-page .comparison-model-link strong{color:#fff!important}
+html body .comparison-page .comparison-model-link:hover strong{color:#f2b705!important}
+html body .comparison-page .comparison-detail{color:#f2b705!important}
+html body .comparison-page .comparison-image{background:#35393b!important;border-radius:0!important}
+html body .comparison-page .comparison-image-placeholder{color:#aeb2b3!important}
+html body .comparison-page .comparison-row th{background:#303436!important;color:#f2b705!important;border-bottom:1px solid #505557!important}
+html body .comparison-page .comparison-row td{background:#242729!important;color:#f5f5f5!important;border-bottom:1px solid #414547!important}
+html body .comparison-page .comparison-row:nth-child(even) th{background:#35393b!important}
+html body .comparison-page .comparison-row:nth-child(even) td{background:#2b2e30!important}
+html body .comparison-page .comparison-row:hover th,
+html body .comparison-page .comparison-row:hover td{background:#414548!important;color:#fff!important}
+html body .comparison-page .comparison-row[data-different="true"]:hover th,
+html body .comparison-page .comparison-row[data-different="true"]:hover td{background:#e30613!important;color:#fff!important;border-bottom-color:#e30613!important}
+html body .comparison-page .comparison-row:last-child th,
+html body .comparison-page .comparison-row:last-child td{border-bottom:0!important}
+
+/* Editorial open-grid comparison: no table panels, only fine dividers */
+html body .comparison-page .comparison-scroll{background:transparent!important;border:0!important;border-radius:0!important;overflow-x:auto!important}
+html body .comparison-page .comparison-table{background:transparent!important;border-collapse:collapse!important;border-spacing:0!important;min-width:850px!important}
+html body .comparison-page .comparison-table thead th,
+html body .comparison-page .comparison-table thead th.comparison-model,
+html body .comparison-page .comparison-table thead th.comparison-label{background:transparent!important;border:0!important;border-bottom:1px solid rgba(255,255,255,.28)!important;color:#f2b705!important;vertical-align:bottom!important;padding:0 20px 22px!important}
+html body .comparison-page .comparison-table thead th.comparison-label{color:transparent!important;font-size:0!important;padding:0!important;width:22%!important}
+html body .comparison-page .comparison-table thead th.comparison-label span{display:none!important}
+html body .comparison-page .comparison-model-link{display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:10px!important;text-decoration:none!important}
+html body .comparison-page .comparison-image{background:#202224!important;border:0!important;border-radius:0!important;overflow:hidden!important;width:100%!important;aspect-ratio:16/10!important}
+html body .comparison-page .comparison-model-link strong{color:#fff!important;font-size:clamp(21px,2vw,30px)!important}
+html body .comparison-page .comparison-detail{color:#f2b705!important}
+html body .comparison-page .comparison-row th,
+html body .comparison-page .comparison-row td,
+html body .comparison-page .comparison-row:nth-child(even) th,
+html body .comparison-page .comparison-row:nth-child(even) td{background:transparent!important;border:0!important;border-bottom:1px solid rgba(255,255,255,.16)!important;padding:24px 20px!important;vertical-align:middle!important;transition:color .2s,border-color .2s,background .2s!important}
+html body .comparison-page .comparison-row th{color:#f2b705!important;font-size:12px!important;letter-spacing:.12em!important}
+html body .comparison-page .comparison-row td{color:#f4f4f4!important}
+html body .comparison-page .comparison-row:hover th,
+html body .comparison-page .comparison-row:hover td{background:rgba(255,255,255,.045)!important;color:#fff!important;border-bottom-color:rgba(255,255,255,.36)!important}
+html body .comparison-page .comparison-row[data-different="true"]:hover th,
+html body .comparison-page .comparison-row[data-different="true"]:hover td{background:rgba(227,6,19,.10)!important;color:#fff!important;border-bottom-color:#e30613!important}
+html body .comparison-page .comparison-row[data-different="true"]:hover th{color:#ff4c55!important}
+html body .comparison-page .comparison-row:last-child th,
+html body .comparison-page .comparison-row:last-child td{border-bottom:0!important}
+@media(max-width:650px){html body .comparison-page .comparison-table{min-width:760px!important}html body .comparison-page .comparison-table thead th{padding:0 12px 18px!important}html body .comparison-page .comparison-row th,html body .comparison-page .comparison-row td{padding:20px 12px!important}}
+
+
+/* First column becomes the series introduction, aligned with model cards */
+html body .comparison-page{padding-top:clamp(54px,5vw,86px)!important}
+html body .comparison-page .comparison-table{table-layout:fixed!important;width:100%!important;min-width:950px!important}
+html body .comparison-page .comparison-table thead th.comparison-label{
+  width:29%!important;min-width:275px!important;padding:0 28px 24px 0!important;
+  font-size:inherit!important;text-align:left!important;vertical-align:bottom!important;
+  color:#fff!important;white-space:normal!important;
+}
+html body .comparison-page .comparison-table thead th.comparison-model{width:auto!important;padding:0 14px 24px!important}
+html body .comparison-page .comparison-table thead th.comparison-label .comparison-series-intro{display:flex!important;flex-direction:column!important;justify-content:flex-end!important;min-height:100%!important;gap:0!important}
+html body .comparison-page .comparison-table thead th.comparison-label .mv-kicker{display:block!important;color:#f2b705!important;font-size:12px!important;letter-spacing:.19em!important;margin:0 0 17px!important}
+html body .comparison-page .comparison-table thead th.comparison-label .comparison-series-title{color:#fff!important;font-size:clamp(48px,5.2vw,92px)!important;line-height:.96!important;letter-spacing:-.055em!important;margin:0 0 23px!important;overflow-wrap:normal!important;white-space:nowrap!important}
+html body .comparison-page .comparison-table thead th.comparison-label .comparison-intro{display:block!important;color:#bfc2c3!important;font-size:clamp(13px,1.1vw,16px)!important;line-height:1.6!important;letter-spacing:normal!important;margin:0 0 26px!important;max-width:350px!important;font-weight:400!important}
+html body .comparison-page .comparison-table thead th.comparison-label .comparison-controls{display:flex!important;flex-wrap:nowrap!important;gap:0!important;margin:0!important;width:max-content!important;max-width:100%!important;border:1px solid #484848!important;background:#171717!important}
+html body .comparison-page .comparison-table thead th.comparison-label .comparison-filter{font-size:10px!important;letter-spacing:.025em!important;padding:13px 11px!important;white-space:nowrap!important}
+html body .comparison-page .comparison-table thead th.comparison-label .comparison-filter.is-active{background:#f2b705!important;color:#101010!important}
+html body .comparison-page .comparison-table thead th.comparison-label .comparison-filter:not(.is-active){color:#fff!important}
+html body .comparison-page .comparison-table thead th.comparison-label .comparison-filter:not(.is-active):hover{background:#303030!important;color:#f2b705!important}
+html body .comparison-page .comparison-table thead th.comparison-label span{display:initial!important}
+html body .comparison-page .comparison-table .comparison-model-link{min-width:0!important}
+html body .comparison-page .comparison-table .comparison-image{aspect-ratio:16/10!important}
+@media(max-width:800px){html body .comparison-page .comparison-table{min-width:900px!important}html body .comparison-page .comparison-table thead th.comparison-label{min-width:275px!important}html body .comparison-page .comparison-table thead th.comparison-label .comparison-series-title{font-size:56px!important}}
+
+/* Back link: HAMMEL signature underline, animated from left to right */
+html body .comparison-page .comparison-back-home > span:last-child{
+ position:relative!important;display:inline-block!important;padding-bottom:7px!important;
+ color:#fff!important;text-decoration:none!important;
+}
+html body .comparison-page .comparison-back-home > span:last-child::after{
+ content:""!important;position:absolute!important;display:block!important;
+ left:0!important;right:0!important;bottom:0!important;height:2px!important;
+ background:#e30613!important;transform:scaleX(0)!important;
+ transform-origin:left center!important;transition:transform .3s ease!important;
+}
+html body .comparison-page .comparison-back-home:hover > span:last-child::after,
+html body .comparison-page .comparison-back-home:focus-visible > span:last-child::after{
+ transform:scaleX(1)!important;
+}
+
+/* 2026-10-30: equal-height comparison header and symmetric section spacing */
+html body .mv-wrap.comparison-page{
+  padding-top:clamp(64px,6vw,104px)!important;
+  padding-bottom:clamp(64px,6vw,104px)!important;
+}
+html body .comparison-page .comparison-table thead tr{height:1px!important}
+html body .comparison-page .comparison-table thead th.comparison-label,
+html body .comparison-page .comparison-table thead th.comparison-model{
+  height:100%!important;
+  vertical-align:top!important;
+  padding-top:0!important;
+  padding-bottom:24px!important;
+}
+html body .comparison-page .comparison-table thead th.comparison-label .comparison-series-intro{
+  box-sizing:border-box!important;
+  height:100%!important;
+  min-height:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:flex-start!important;
+}
+html body .comparison-page .comparison-table thead th.comparison-label .comparison-controls{
+  margin-top:auto!important;
+}
+html body .comparison-page .comparison-table thead th.comparison-model .comparison-model-link{
+  height:100%!important;
+  box-sizing:border-box!important;
+}
+html body .comparison-page .comparison-table thead th.comparison-model .comparison-image{
+  flex:0 0 auto!important;
+}
+@media(max-width:800px){html body .mv-wrap.comparison-page{padding-top:48px!important;padding-bottom:48px!important}}
+
+/* Balanced editorial comparison header and compact closing section */
+html body .comparison-page .comparison-table thead th.comparison-label .comparison-series-intro{
+  height:100%!important;min-height:0!important;display:flex!important;
+  flex-direction:column!important;justify-content:space-between!important;
+  align-items:flex-start!important;gap:0!important;
+}
+html body .comparison-page .comparison-table thead th.comparison-label .mv-kicker{margin-bottom:0!important}
+html body .comparison-page .comparison-table thead th.comparison-label .comparison-series-title{margin:12px 0 0!important}
+html body .comparison-page .comparison-table thead th.comparison-label .comparison-intro{
+  margin:0!important;max-width:380px!important;line-height:1.65!important;
+}
+html body .comparison-page .comparison-table thead th.comparison-label .comparison-controls{
+  margin:0!important;align-self:flex-start!important;
+}
+html body .comparison-page .comparison-table thead th.comparison-model .comparison-model-link{
+  display:flex!important;flex-direction:column!important;height:100%!important;
+}
+html body .comparison-page .comparison-table thead th.comparison-model .comparison-detail{margin-top:auto!important}
+/* Avoid oversized empty space between the final link and the footer */
+html body .comparison-page .comparison-back-home{margin-top:clamp(44px,4.5vw,72px)!important}
+html body .comparison-page .mv-note{margin:22px 0 0!important}
+html body .mv-wrap.comparison-page{padding-top:clamp(54px,5vw,84px)!important;padding-bottom:clamp(54px,5vw,84px)!important}
+@media(max-width:800px){html body .mv-wrap.comparison-page{padding-top:44px!important;padding-bottom:44px!important}}
+
+/* Comparison pages have a fixed shared header: reserve its height before content. */
+html body:has(> header.top) > main.mv-wrap.comparison-page{
+  margin-top:var(--public-header-height,96px)!important;
+  padding-top:clamp(54px,5vw,84px)!important;
+}
+@media(max-width:800px){html body:has(> header.top) > main.mv-wrap.comparison-page{padding-top:44px!important}}
+
+/* Model actions: clean rectangular HAMMEL buttons, without decorative arrows */
+html body .comparison-page .comparison-table .comparison-model-link .comparison-detail{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  align-self:flex-start!important;width:auto!important;
+  padding:12px 18px!important;margin-top:auto!important;
+  border:1px solid #f2b705!important;border-radius:0!important;
+  background:transparent!important;color:#f2b705!important;
+  font-size:11px!important;font-weight:800!important;letter-spacing:.08em!important;
+  line-height:1.2!important;text-decoration:none!important;
+  transition:background-color .25s ease,color .25s ease,border-color .25s ease!important;
+}
+html body .comparison-page .comparison-table .comparison-model-link .comparison-detail::before,
+html body .comparison-page .comparison-table .comparison-model-link .comparison-detail::after{
+  content:none!important;display:none!important;
+}
+html body .comparison-page .comparison-table .comparison-model-link:hover .comparison-detail,
+html body .comparison-page .comparison-table .comparison-model-link:focus-visible .comparison-detail{
+  background:#f2b705!important;color:#101010!important;
+}
+
+/* 2026-10-30: align comparison editorial copy with image tops and filters with card bottoms */
+html body .comparison-page .comparison-table thead tr{height:auto!important;}
+html body .comparison-page .comparison-table thead th.comparison-label,
+html body .comparison-page .comparison-table thead th.comparison-model{vertical-align:top!important;height:auto!important;padding-top:0!important;padding-bottom:24px!important;}
+html body .comparison-page .comparison-table thead th.comparison-label .comparison-series-intro{
+ height:100%!important;display:flex!important;flex-direction:column!important;justify-content:space-between!important;align-items:stretch!important;gap:24px!important;
+}
+html body .comparison-page .comparison-table thead th.comparison-label .comparison-intro-copy{display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:0!important;}
+html body .comparison-page .comparison-table thead th.comparison-label .comparison-intro-copy .mv-kicker{margin:0 0 18px!important;}
+html body .comparison-page .comparison-table thead th.comparison-label .comparison-intro-copy .comparison-series-title{margin:0 0 24px!important;}
+html body .comparison-page .comparison-table thead th.comparison-label .comparison-intro-copy .comparison-intro{margin:0!important;}
+html body .comparison-page .comparison-table thead th.comparison-label .comparison-controls{margin-top:auto!important;margin-bottom:0!important;}
+html body .comparison-page .comparison-table thead th.comparison-model .comparison-model-link{height:100%!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;}
+html body .comparison-page .comparison-table thead th.comparison-model .comparison-model-link strong{margin-top:12px!important;}
+html body .comparison-page .comparison-table thead th.comparison-model .comparison-detail{margin-top:auto!important;}
+
+/* Full-height intro column: from model image top to bottom of model action button. */
+@media (min-width:801px){
+ html body .comparison-page .comparison-table thead th.comparison-label{
+   position:relative!important;vertical-align:top!important;
+ }
+ html body .comparison-page .comparison-table thead th.comparison-label .comparison-series-intro{
+   position:absolute!important;top:0!important;bottom:24px!important;
+   left:14px!important;right:14px!important;
+   width:auto!important;height:auto!important;min-height:0!important;
+   display:flex!important;flex-direction:column!important;
+   justify-content:space-between!important;align-items:flex-start!important;
+   box-sizing:border-box!important;gap:16px!important;
+ }
+ html body .comparison-page .comparison-table thead th.comparison-label .comparison-intro-copy{
+   display:flex!important;flex-direction:column!important;align-items:flex-start!important;
+ }
+ html body .comparison-page .comparison-table thead th.comparison-label .comparison-controls{
+   margin-top:auto!important;margin-bottom:0!important;flex-shrink:0!important;
+ }
+}
+
+/* Exact header-card alignment: neutralize previous absolute positioning. */
+html body .comparison-page .comparison-table thead th.comparison-label .comparison-series-intro{
+ position:relative!important;inset:auto!important;top:auto!important;bottom:auto!important;left:auto!important;right:auto!important;
+ height:var(--comparison-card-height,auto)!important;min-height:var(--comparison-card-height,0px)!important;
+ display:flex!important;flex-direction:column!important;justify-content:space-between!important;
+ align-items:flex-start!important;gap:20px!important;box-sizing:border-box!important;
+}
+html body .comparison-page .comparison-table thead th.comparison-label .comparison-controls{margin-top:auto!important;flex-shrink:0!important}
+html body .comparison-page .comparison-table thead th.comparison-model .comparison-model-link{height:auto!important}
+@media(max-width:800px){html body .comparison-page .comparison-table thead th.comparison-label .comparison-series-intro{height:auto!important;min-height:0!important}}
+
+/* 20261030-final: the introduction occupies exactly the model card's full height. */
+@media(min-width:801px){
+ html body .comparison-page .comparison-table thead th.comparison-label{vertical-align:top!important;position:relative!important;}
+ html body .comparison-page .comparison-table thead th.comparison-label .comparison-series-intro{
+   position:absolute!important;top:0!important;bottom:24px!important;left:14px!important;right:14px!important;
+   width:auto!important;height:auto!important;min-height:0!important;
+   display:flex!important;flex-direction:column!important;justify-content:space-between!important;
+   align-items:flex-start!important;box-sizing:border-box!important;
+ }
+ html body .comparison-page .comparison-table thead th.comparison-label .comparison-controls{
+   margin-top:auto!important;margin-bottom:0!important;
+ }
+}

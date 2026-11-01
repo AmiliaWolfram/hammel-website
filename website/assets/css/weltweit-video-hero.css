@@ -1,0 +1,110 @@
+
+/* Cinematic video opening. Existing globe and partner directory remain functional. */
+body .cosmic-hero--video {
+  min-height: 100svh!important;
+  padding-top: 90px!important;
+  display: flex;
+  align-items: center
+}
+body .cosmic-hero--video .cosmic-hero__background-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 65% center;
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity .85s ease,filter .85s ease
+}
+body .cosmic-hero--video .cosmic-hero__video-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(90deg,rgba(5,8,14,.90) 0%,rgba(5,8,14,.77) 32%,rgba(5,8,14,.16) 74%,rgba(5,8,14,.26) 100%),linear-gradient(0deg,rgba(4,8,15,.58),transparent 35%);
+  transition: opacity .8s ease
+}
+body .cosmic-hero--video .cosmic-hero__stars {
+  opacity: 0!important
+}
+body .cosmic-hero--video .cosmic-hero__layout {
+  position: relative;
+  z-index: 2;
+  min-height: calc(100svh - 90px)!important;
+  grid-template-columns: 48% 52%!important
+}
+body .cosmic-hero--video .cosmic-hero__copy {
+  z-index: 5
+}
+body .cosmic-hero--video .cosmic-hero__universe {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .75s ease,visibility .75s
+}
+body .cosmic-hero--video .cosmic-hero__enter {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .08em
+}
+body .cosmic-hero--video.is-interactive .cosmic-hero__background-video {
+  opacity: 0
+}
+body .cosmic-hero--video.is-interactive .cosmic-hero__video-shade {
+  opacity: 0
+}
+body .cosmic-hero--video.is-interactive .cosmic-hero__universe {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto
+}
+body .cosmic-hero--video.is-interactive .cosmic-hero__enter {
+  color: #ffed00!important
+}
+body .cosmic-hero--video .cosmic-hero__universe {
+  height: min(76vh,690px);
+  min-height: 480px
+}
+@media(max-width:850px) {
+  body .cosmic-hero--video {
+    min-height: 100svh!important
+  }
+  body .cosmic-hero--video .cosmic-hero__layout {
+    display: flex!important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    min-height: calc(100svh - 90px)!important
+  }
+  body .cosmic-hero--video .cosmic-hero__copy {
+    padding: 40px 22px!important
+  }
+  body .cosmic-hero--video .cosmic-hero__universe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    z-index: -1
+  }
+  body .cosmic-hero--video.is-interactive .cosmic-hero__copy {
+    background: linear-gradient(90deg,rgba(5,8,14,.88),rgba(5,8,14,.1))
+  }
+  body .cosmic-hero--video .cosmic-hero__background-video {
+    object-position: 60% center
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  body .cosmic-hero--video .cosmic-hero__background-video,body .cosmic-hero--video .cosmic-hero__universe {
+    transition: none
+  }
+}

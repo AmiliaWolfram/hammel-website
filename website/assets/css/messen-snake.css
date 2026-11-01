@@ -1,0 +1,144 @@
+/* HAMMEL MESSE ARCHIVE — endless perspective ribbon */
+.messe-folder-page .mf-shell{background:#111214;padding:clamp(76px,8vw,140px) 0}
+.mf-layout{grid-template-columns:minmax(220px,260px) minmax(0,1fr);gap:clamp(32px,4vw,70px)}
+.mf-side{padding-left:32px;border-left:2px solid #444;position:sticky;top:110px}
+.mf-side__eyebrow{display:none}
+.mf-tab{position:relative;border:0!important;padding:22px 0!important;font-size:clamp(16px,1.5vw,24px);letter-spacing:0;line-height:1.25;justify-content:flex-start;color:#878787;transition:color .25s}
+.mf-tab::before{content:"";position:absolute;width:5px;height:62%;left:-35px;top:19%;background:#e30613;opacity:0;transition:opacity .25s,transform .3s}
+.mf-tab.is-active::before{opacity:1}
+.mf-tab:hover,.mf-tab.is-active{color:white}
+.mf-tab__arrow{display:none}
+.mf-side__hint{border-top:1px solid #333;padding-top:26px}
+.mf-panel h2{font-size:clamp(30px,4vw,58px)}
+.mf-snake-carousel{overflow:visible;min-height:480px;padding:35px 0 45px;margin:10px 0 0;isolation:isolate}
+.mf-snake-stage{height:405px;position:relative;perspective:1350px;overflow:visible;isolation:isolate}
+.mf-snake-stage .mf-snake-card{position:absolute!important;top:50%;left:50%;margin:0!important;width:clamp(150px,25vw,290px)!important;height:clamp(250px,29vw,350px)!important;min-width:0!important;max-width:none!important;transform-origin:50% 65%;transform:translate(calc(-50% + var(--offset) * clamp(102px,13.2vw,185px)),calc(-50% + var(--distance) * 15px)) rotateY(calc(var(--offset) * -11deg)) scale(calc(1 - var(--distance) * .115))!important;opacity:calc(1 - var(--distance) * .24)!important;filter:brightness(calc(1 - var(--distance) * .17));border:1px solid #555;box-shadow:0 22px 40px #000a;transition:transform .48s cubic-bezier(.2,.7,.2,1),opacity .48s,filter .48s,border-color .48s,box-shadow .48s;overflow:hidden;cursor:pointer}
+.mf-snake-stage .mf-snake-card.is-current{opacity:1!important;filter:none;border-color:#e30613;box-shadow:0 0 0 1px #e30613,0 0 35px #e3061344,0 30px 65px #000d}
+.mf-snake-stage .mf-snake-card:hover:not(.is-current){filter:brightness(.85);opacity:.8!important}
+.mf-snake-stage .mf-folder-card__cover{height:72%;min-height:0}
+.mf-snake-stage .mf-folder-card__label{padding:13px 15px}
+.mf-snake-stage .mf-folder-card__spine{display:none}
+.mf-folder-nav{z-index:20;position:absolute;top:50%;transform:translateY(-50%);background:#e30613!important;border:0!important;width:45px;height:45px;border-radius:50%;color:white!important;cursor:pointer}
+.mf-folder-nav--prev{left:-24px}.mf-folder-nav--next{right:-24px}
+.mf-folder-position{margin:0 auto 65px;text-align:center;color:#a8a8a8;letter-spacing:.1em}
+.mf-event-detail{border-top:1px solid #343434;padding-top:50px;scroll-margin-top:100px}
+.mf-detail-gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.mf-detail-photo:first-child{grid-column:span 2;grid-row:span 2}
+.mf-detail-photo img{width:100%;height:100%;object-fit:cover}
+.mf-upcoming-card{display:grid;grid-template-columns:minmax(100px,170px) minmax(0,1fr);gap:24px;align-items:start}
+.mf-upcoming-thumb{grid-column:1;grid-row:1;aspect-ratio:4/3;overflow:hidden;background:#252525}
+.mf-upcoming-thumb img{width:100%;height:100%;object-fit:cover}
+.mf-upcoming-info{grid-column:2;grid-row:1}
+.mf-upcoming-card:not(:has(.mf-upcoming-thumb)){display:block}
+@media(max-width:900px){.mf-layout{grid-template-columns:1fr}.mf-side{position:static;display:flex;gap:28px;align-items:center}.mf-tab{width:auto}.mf-side__hint{display:none}.mf-snake-stage .mf-snake-card{transform:translate(calc(-50% + var(--offset) * 115px),calc(-50% + var(--distance) * 10px)) rotateY(calc(var(--offset) * -11deg)) scale(calc(1 - var(--distance) * .14))!important}.mf-snake-carousel{overflow:hidden}.mf-folder-nav--prev{left:4px}.mf-folder-nav--next{right:4px}}
+@media(max-width:600px){.mf-side{padding-left:20px;gap:14px}.mf-tab{font-size:12px}.mf-tab::before{left:-23px}.mf-snake-stage{height:320px}.mf-snake-carousel{min-height:355px}.mf-snake-stage .mf-snake-card{width:190px!important;height:275px!important;transform:translate(calc(-50% + var(--offset) * 85px),calc(-50% + var(--distance) * 8px)) rotateY(calc(var(--offset) * -13deg)) scale(calc(1 - var(--distance) * .16))!important}.mf-upcoming-card{grid-template-columns:95px minmax(0,1fr);gap:15px}.mf-detail-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}.mf-detail-photo:first-child{grid-column:span 2;grid-row:auto}}
+@media(prefers-reduced-motion:reduce){.mf-snake-stage .mf-snake-card{transition:none}}
+
+/* Keep section navigation above decorative layers and the perspective ribbon. */
+.messe-folder-page .mf-layout{position:relative;isolation:isolate}
+.messe-folder-page .mf-side{z-index:30;isolation:isolate}
+.messe-folder-page .mf-tab{position:relative;z-index:31;pointer-events:auto!important;cursor:pointer!important;touch-action:manipulation}
+.messe-folder-page .mf-tab span{pointer-events:none}
+.messe-folder-page .mf-content{position:relative;z-index:1;min-width:0}
+.messe-folder-page .mf-panel[hidden]{display:none!important}
+
+.mf-snake-stage .mf-empty--archive{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px;color:#bcbcbc;font-size:clamp(15px,1.4vw,19px);line-height:1.6}
+.mf-folder-nav:disabled{opacity:.25;cursor:not-allowed;filter:grayscale(1)}
+
+/* Desktop: center the MASCHINEN-style navigation vertically within the content block. */
+@media (min-width: 901px) {
+  .messe-folder-page .mf-layout {
+    align-items: stretch;
+    min-height: clamp(650px, 76vh, 920px);
+  }
+  .messe-folder-page .mf-side {
+    position: sticky;
+    top: 50vh;
+    align-self: start;
+    transform: translateY(-50%);
+    margin-top: 0;
+    height: max-content;
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+  .messe-folder-page .mf-content {
+    min-height: clamp(650px, 76vh, 920px);
+  }
+}
+/* Tablet/mobile: navigation stays in normal flow, without desktop transform. */
+@media (max-width: 900px) {
+  .messe-folder-page .mf-side {
+    position: relative;
+    top: auto;
+    transform: none;
+    align-self: stretch;
+    max-height: none;
+  }
+  .messe-folder-page .mf-layout,
+  .messe-folder-page .mf-content { min-height: 0; }
+}
+
+/* Layout correction: navigation centered against the entire upper content area,
+   not the viewport or the top of the content. The event story is a separate full-width block. */
+@media (min-width: 901px) {
+  .messe-folder-page .mf-layout {
+    display: grid;
+    grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
+    align-items: center !important;
+    min-height: clamp(670px, 78vh, 1000px);
+  }
+  .messe-folder-page .mf-side {
+    position: relative !important;
+    top: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    align-self: center !important;
+    margin: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  .messe-folder-page .mf-content {
+    align-self: center;
+    min-height: 0 !important;
+  }
+}
+.messe-folder-page .mf-detail-standalone {
+  width: 100%;
+  max-width: var(--wrap, 1440px);
+  margin: 0 auto;
+  padding-top: clamp(55px, 6vw, 110px);
+  padding-bottom: clamp(20px, 4vw, 65px);
+  clear: both;
+}
+.messe-folder-page .mf-detail-standalone[hidden] { display:none !important; }
+.messe-folder-page .mf-detail-standalone .mf-event-detail {
+  border-top: 1px solid #424242;
+  padding-top: clamp(45px, 5vw, 85px);
+  width: 100%;
+}
+.messe-folder-page .mf-detail-standalone .mf-detail-heading {
+  max-width: 100%;
+}
+.messe-folder-page .mf-detail-standalone .mf-detail-gallery {
+  width: 100%;
+}
+@media(max-width:900px){
+  .messe-folder-page .mf-layout{min-height:0 !important;align-items:start !important}
+  .messe-folder-page .mf-side{transform:none !important;top:auto !important}
+}
+
+/* Final layout: heading is a full-width independent row, never part of menu alignment. */
+.messe-folder-page .mf-heading-area {position:relative;width:100%;margin-bottom:clamp(32px,4vw,64px)}
+.messe-folder-page .mf-section-heading {max-width:100%;}
+.messe-folder-page .mf-section-heading[hidden]{display:none!important}
+.messe-folder-page .mf-section-heading h2{font-size:clamp(38px,5.2vw,86px);line-height:1.04;letter-spacing:-.035em;margin:16px 0 24px}
+.messe-folder-page .mf-section-heading .mf-intro{max-width:850px}
+@media(min-width:901px){
+ .messe-folder-page .mf-layout{min-height:clamp(500px,58vh,760px)!important;align-items:center!important;grid-template-columns:minmax(220px,260px) minmax(0,1fr)}
+ .messe-folder-page .mf-side{position:relative!important;top:auto!important;transform:none!important;align-self:center!important;margin:0!important}
+ .messe-folder-page .mf-content{align-self:center!important;min-height:0!important}
+ .messe-folder-page .mf-panel{min-height:0}
+ .messe-folder-page .mf-upcoming-list{margin-top:0}
+}
+@media(max-width:900px){.messe-folder-page .mf-heading-area{margin-bottom:25px}.messe-folder-page .mf-layout{min-height:0!important}}

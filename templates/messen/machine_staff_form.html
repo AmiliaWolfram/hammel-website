@@ -1,0 +1,410 @@
+{% extends "messen/base.html" %}
+{% block title %}{{ kind }} bearbeiten{% endblock %}
+{% block content %}
+<div class="eyebrow">HAMMEL / VERTRIEB / MASCHINEN</div>
+<h1>{% if kind == "Maschinenvariante" %}{% if object %}{{ object.name }}{% else %}NEUE VARIANTE{% endif %}{% else %}BAUREIHE{% endif %}</h1>
+<p class="subtitle">{% if kind == "Maschinenvariante" %}Maschinenvariante bearbeiten · Angaben prüfen, ergänzen und speichern{% elif object %}{{ object }} bearbeiten{% else %}Neuen Eintrag erstellen{% endif %}</p>
+{% if kind == "Maschinenmodell" %}<p class="machine-form-guidance">Hier werden nur gemeinsame Angaben zur Baureihe gepflegt. Einsatzmaterialien, technische Daten, Datenblätter und Videos werden für jede Modellvariante separat verwaltet.</p>{% endif %}
+{% if kind == "Maschinenvariante" %}
+<div class="friendly-editor" aria-label="Maschineneditor">
+  <div class="friendly-topline">
+    <div class="friendly-publication">{% if object and object.published %}<span class="friendly-status-dot"></span>Veröffentlicht{% else %}<span class="friendly-status-dot is-draft"></span>Nicht veröffentlicht{% endif %}</div>
+    <div class="friendly-quick-actions">
+      {% if object %}<a href="{% url 'staff_machine_fields_manage' %}?scope=variant&amp;id={{ object.pk }}" class="friendly-settings-link">Felder verwalten</a>{% endif %}
+    </div>
+  </div>
+  <div class="friendly-completion">
+    <div class="friendly-completion-line"><strong>Vollständigkeit der Angaben</strong><span>{{ completion_done }} von {{ completion_total }}</span></div>
+    <div class="friendly-progress" role="progressbar" aria-valuenow="{{ completion_done }}" aria-valuemin="0" aria-valuemax="{{ completion_total }}"><div style="width:{% widthratio completion_done completion_total 100 %}%"></div></div>
+    <details class="friendly-missing"><summary>Fehlende Angaben anzeigen <span aria-hidden="true">⌄</span></summary><div class="friendly-missing-content"><ul>{% for item in completion %}{% if not item.filled %}<li>{{ item.name }}</li>{% endif %}{% endfor %}</ul><p>Optionale Angaben verhindern die Veröffentlichung nicht.</p></div></details>
+  </div>
+  <div class="friendly-tabs-heading">Maschinendaten bearbeiten</div>
+  <nav class="editor-tabs" role="tablist" aria-label="Bearbeitungsbereiche">
+    <button type="button" class="is-active" data-editor-tab="general" role="tab" aria-selected="true">Allgemein</button>
+    <button type="button" data-editor-tab="materials" role="tab" aria-selected="false">Einsatzgebiete</button>
+    <button type="button" data-editor-tab="technical" role="tab" aria-selected="false">Technische Daten</button>
+    <button type="button" data-editor-tab="media" role="tab" aria-selected="false">Medien &amp; Dokumente</button>
+  </nav>
+  {% if object %}<div class="friendly-extra-field" data-editor-panel="technical"><a href="{% url 'staff_machine_custom_values' object.pk %}">Zusätzliche technische Angaben bearbeiten</a></div>{% endif %}
+  <details class="friendly-more-actions"><summary>Weitere Aktionen <span aria-hidden="true">⌄</span></summary>
+    <div class="friendly-action-items">
+      {% if object %}
+      <div class="friendly-action-item"><div><strong>Variante kopieren</strong><p>Erstellt eine zusätzliche Maschinenvariante auf Grundlage dieser Maschine. Technische Angaben und zugeordnete Materialien werden übernommen, damit Sie nicht alles erneut eingeben müssen. Die Kopie ist zunächst nicht veröffentlicht und kann anschließend unabhängig bearbeitet werden. Die ursprüngliche Maschine und ihre Daten bleiben unverändert.</p></div><form method="post" action="{% url 'staff_machine_variant_copy' object.pk %}" onsubmit="return confirm('Neue, unveröffentlichte Kopie erstellen?')">{% csrf_token %}<button type="submit">Neue Variante als Kopie anlegen</button></form></div>
+      <div class="friendly-action-item"><div><strong>Felder verwalten</strong><p>Bestimmen Sie, welche Angaben für diese Maschinenvariante auf der öffentlichen Website und im Maschinenvergleich sichtbar sind. Sie können zusätzliche Felder anlegen, Bezeichnungen und Reihenfolge anpassen oder Felder ausblenden. Ausblenden löscht keine gespeicherten Werte. Hier ändern Sie die Struktur der Anzeige – die eigentlichen Maschinenwerte bearbeiten Sie in den Reitern oben.</p></div><a href="{% url 'staff_machine_fields_manage' %}?scope=variant&amp;id={{ object.pk }}">Feldeinstellungen öffnen</a></div>
+      {% endif %}
+      <div class="friendly-action-item"><div><strong>Änderungsverlauf</strong><p>Sehen Sie nach, welche Änderungen an dieser Maschinenvariante gespeichert wurden, wann dies geschah und welcher Benutzer sie vorgenommen hat. So können Sie frühere Angaben nachvollziehen. Die Historie dient zur Kontrolle; ein automatisches Wiederherstellen älterer Versionen ist derzeit nicht verfügbar.</p></div><button type="button" data-friendly-history>Gespeicherte Änderungen ansehen</button></div>
+    </div>
+  </details>
+</div>
+{% if draft %}<div class="editor-draft-note">ENTWURF VORHANDEN · <a href="?draft=1">ENTWURF LADEN</a> · Der Entwurf ist nicht veröffentlicht.</div>{% endif %}
+{% endif %}
+{% if kind == "Maschinenmodell" and object %}<p><a href="{% url 'staff_machine_fields_manage' %}?scope=series&id={{ object.pk }}">FELDER DER BAUREIHE ANPASSEN</a></p>{% endif %}
+<form method="post" enctype="multipart/form-data" class="machine-edit-form" id="machine-main-form">
+{% csrf_token %}
+{% if form.non_field_errors %}<div class="errors">{{ form.non_field_errors }}</div>{% endif %}
+{% if area_rows %}
+<fieldset class="machine-area-editor" data-editor-panel="materials">
+<div class="machine-step">EINSATZBEREICHE AUSWÄHLEN <button type="button" class="machine-field-help" data-help-inline="Bereiche" aria-expanded="false" title="Erklärung anzeigen">?</button></div>
+<legend>EINSATZGEBIETE UND MATERIALIEN</legend>
+<p>Aktivieren Sie zuerst einen Einsatzbereich. Danach wählen Sie die Materialien, die diese Maschine tatsächlich verarbeiten kann.</p><div class="machine-hint">Tipp: Nicht ausgewählte Bereiche erscheinen nicht auf der Website. Ihre bisherigen Einträge bleiben gespeichert, bis Sie Änderungen übernehmen.</div>
+{% for row in area_rows %}
+<div class="machine-area-card {% if row.active %}is-selected{% endif %}" data-area-card>
+<label class="machine-area-heading"><input type="checkbox" name="areas" value="{{ row.area.pk }}" data-area-toggle="{{ row.area.pk }}" {% if row.active %}checked{% endif %}><span class="machine-area-title">{{ row.area.title }}</span><span class="machine-area-state" data-area-state>{% if row.active %}AKTIV{% else %}NICHT AUSGEWÄHLT{% endif %}</span><span class="machine-area-chevron" aria-hidden="true">⌄</span></label>
+<div class="machine-area-contents" data-area-contents="{{ row.area.pk }}" {% if not row.active %}hidden{% endif %}>
+<p class="machine-area-instruction">Welche Materialien kann diese Variante verarbeiten? <button type="button" class="machine-field-help" data-help-inline="Materialien" aria-expanded="false" title="Erklärung anzeigen">?</button></p><div class="machine-material-grid">
+{% for material in row.items %}
+<label><input type="checkbox" name="materials" value="{{ material.pk }}" {% if material.pk in row.selected %}checked{% endif %}> {{ material.name }}</label>
+{% endfor %}
+</div>
+<label class="machine-add-material">WEITERE MATERIALIEN ERGÄNZEN (EIN MATERIAL PRO ZEILE) <button type="button" class="machine-field-help" data-help-inline="Neue Materialien" aria-expanded="false" title="Erklärung anzeigen">?</button>
+<textarea name="new_material_{{ row.area.pk }}" rows="2" placeholder="z. B. Kabeltrommeln">{{ row.new_text }}</textarea></label>
+</div>
+</div>
+{% endfor %}
+</fieldset>
+{% endif %}
+{% if kind == "Maschinenvariante" %}
+
+{% endif %}
+<div class="machine-form-section-title" {% if kind == "Maschinenvariante" %}data-editor-panel="general"{% endif %}>MASCHINENDATEN BEARBEITEN</div>{% for field in form %}<div class="machine-field" {% if kind == "Maschinenvariante" %}data-editor-panel="{% if field.name == 'engine' or field.name == 'drive' or field.name == 'weight' or field.name == 'additional_specs' or field.name == 'operating_principle' %}technical{% elif field.name == 'hero_media_choice' or field.name == 'image' or field.name == 'image_url' or field.name == 'hero_video' or field.name == 'hero_video_url' or field.name == 'datasheet_url' or field.name == 'technical_drawing' or field.name == 'technical_drawing_url' %}media{% else %}general{% endif %}"{% endif %}><div class="machine-field-label-row"><label for="{{ field.id_for_label }}">{{ field.label }}</label><button type="button" class="machine-field-help" data-field-help="{{ field.name }}" aria-label="Hilfe zu {{ field.label }}" aria-expanded="false" title="Erklärung anzeigen">?</button></div><div class="machine-field-help-text" id="help-{{ field.name }}" hidden role="note"></div>{{ field }}{% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}{{ field.errors }}</div>{% endfor %}
+{% if kind == "Maschinenvariante" %}
+<section class="editor-media-manager" data-editor-panel="media"><h2>BILDERGALERIE</h2><p>Mehrere Bilder hochladen, per Drag & Drop sortieren und ein Titelbild wählen.</p>
+<input type="file" name="gallery_images" multiple accept="image/*" aria-label="Galeriebilder hochladen">
+<div class="editor-gallery" id="editor-gallery">
+{% for photo in gallery %}<div class="editor-gallery-item" draggable="true" data-photo-id="{{ photo.pk }}"><img src="{{ photo.image.url }}" alt="Galeriebild"><label><input type="radio" name="cover_photo" value="{{ photo.pk }}" {% if photo.is_cover %}checked{% endif %}> Titelbild</label><label><input type="checkbox" name="remove_photos" value="{{ photo.pk }}"> Entfernen</label><span class="editor-grip">↕ Ziehen</span></div>{% endfor %}
+</div><input type="hidden" name="gallery_order" id="gallery-order">
+<h2>DOKUMENTE</h2><p>PDF und technische Zeichnungen können über die Felder oben hochgeladen werden. Bereits gespeicherte Dateien lassen sich hier ansehen.</p>
+{% if object.datasheet_url %}<a href="{{ object.datasheet_url }}" target="_blank" rel="noopener">DATENBLATT ANSEHEN</a>{% endif %}
+{% if object.technical_drawing %}<a href="{{ object.technical_drawing.url }}" target="_blank" rel="noopener">TECHNISCHE ZEICHNUNG ANSEHEN</a>{% elif object.technical_drawing_url %}<a href="{{ object.technical_drawing_url }}" target="_blank" rel="noopener">TECHNISCHE ZEICHNUNG ANSEHEN</a>{% endif %}
+</section>
+{% if object %}<section class="editor-history" data-editor-panel="general" id="friendly-history"><h2>ÄNDERUNGSVERLAUF</h2><p>Frühere Werte werden bei jedem Speichern protokolliert.</p>{% for revision in revisions %}<details><summary>{{ revision.created_at|date:"d.m.Y H:i" }} · {{ revision.author.username|default:"System" }}</summary><pre>{{ revision.snapshot }}</pre></details>{% empty %}<p>Noch keine Änderungen protokolliert.</p>{% endfor %}</section>{% endif %}
+{% endif %}
+<div class="machine-staff-actions"><button type="submit" name="editor_action" value="save">ÄNDERUNGEN SPEICHERN</button>{% if kind == "Maschinenvariante" %}<button type="submit" name="editor_action" value="preview" formtarget="_blank" class="editor-secondary">VORSCHAU ANSEHEN</button><button type="submit" name="editor_action" value="draft" class="editor-secondary" formnovalidate>ENTWURF SPEICHERN</button>{% endif %}<a href="{% url 'staff_machine_dashboard' %}">ABBRECHEN</a></div>
+</form>
+<script>
+(function(){
+  // Enhance selects progressively: native form controls remain authoritative.
+  document.querySelectorAll('.machine-edit-form .machine-field select').forEach(function(select){
+    if(select.multiple || select.dataset.enhanced)return;
+    select.dataset.enhanced='true';
+    var wrap=document.createElement('div');wrap.className='hammel-select';
+    var trigger=document.createElement('button');trigger.type='button';trigger.className='hammel-select-trigger';
+    trigger.setAttribute('aria-haspopup','listbox');trigger.setAttribute('aria-expanded','false');
+    var chosen=document.createElement('span');chosen.className='hammel-select-chosen';
+    var chevron=document.createElement('span');chevron.className='hammel-select-arrow';chevron.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>';chevron.setAttribute('aria-hidden','true');
+    trigger.append(chosen,chevron);
+    var popup=document.createElement('div');popup.className='hammel-select-popup';popup.hidden=true;
+    var options=document.createElement('div');options.className='hammel-select-options';options.setAttribute('role','listbox');
+    popup.append(options);
+    select.parentNode.insertBefore(wrap,select);wrap.append(select,trigger,popup);
+    select.classList.add('hammel-native-select');
+    function label(){var option=select.options[select.selectedIndex];chosen.textContent=option?option.textContent.trim():'Bitte auswählen';}
+    function draw(query){
+      options.replaceChildren();var found=0;
+      Array.from(select.options).forEach(function(opt,index){
+        if(opt.hidden)return;
+        if(query && !opt.textContent.toLocaleLowerCase().includes(query.toLocaleLowerCase()))return;
+        found++;
+        var item=document.createElement('button');item.type='button';item.className='hammel-select-option';item.setAttribute('role','option');
+        item.setAttribute('aria-selected',String(select.selectedIndex===index));
+        if(opt.disabled)item.disabled=true;
+        var mark=document.createElement('span');mark.className='hammel-option-check';mark.textContent=select.selectedIndex===index?'✓':'';
+        var text=document.createElement('span');text.textContent=opt.textContent.trim()||'—';item.append(mark,text);
+        item.addEventListener('click',function(){select.selectedIndex=index;select.dispatchEvent(new Event('change',{bubbles:true}));close();trigger.focus();});
+        options.appendChild(item);
+      });
+      if(!found){var empty=document.createElement('p');empty.className='hammel-select-empty';empty.textContent='Keine Ergebnisse';options.appendChild(empty);}
+    }
+    function open(){document.querySelectorAll('.hammel-select.is-open').forEach(function(other){if(other!==wrap)other.querySelector('.hammel-select-trigger').click();});wrap.classList.add('is-open');popup.hidden=false;trigger.setAttribute('aria-expanded','true');draw('');}
+    function close(){wrap.classList.remove('is-open');popup.hidden=true;trigger.setAttribute('aria-expanded','false');}
+    trigger.addEventListener('click',function(){wrap.classList.contains('is-open')?close():open();});
+    wrap.addEventListener('keydown',function(e){if(e.key==='Escape'){close();trigger.focus();}if(e.key==='ArrowDown'&&wrap.classList.contains('is-open')){e.preventDefault();var first=options.querySelector('button:not(:disabled)');if(first)first.focus();}});
+    document.addEventListener('click',function(e){if(!wrap.contains(e.target))close();});
+    select.addEventListener('change',function(){label();if(wrap.classList.contains('is-open'))draw('');});
+    label();
+  });
+})();
+</script>
+<style>
+/* Compact, elegant HAMMEL dropdown: real select stays in the form. */
+.machine-edit-form .hammel-select{position:relative;width:100%;min-width:0;font-family:inherit}
+.machine-edit-form .hammel-native-select{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;padding:0!important;border:0!important}
+.machine-edit-form .hammel-select-trigger{width:100%;min-height:54px;padding:13px 17px!important;background:#fff!important;border:1px solid #c9c9c9!important;border-radius:2px!important;color:#171717!important;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;font:inherit;font-weight:650;cursor:pointer;transition:border-color .18s,box-shadow .18s}
+.machine-edit-form .hammel-select-trigger:hover{border-color:#161616!important}
+.machine-edit-form .hammel-select-trigger:focus-visible,.machine-edit-form .hammel-select.is-open .hammel-select-trigger{outline:none;border-color:#e30613!important;box-shadow:0 0 0 3px rgba(227,6,19,.10)}
+.machine-edit-form .hammel-select-arrow{display:flex;align-items:center;justify-content:center;width:26px;height:26px;flex:none;transition:transform .2s;color:#222}
+.machine-edit-form .hammel-select.is-open .hammel-select-arrow{transform:rotate(180deg);color:#e30613}
+.machine-edit-form .hammel-select-popup{position:absolute;z-index:100;left:0;right:0;top:calc(100% + 4px);padding:5px;background:#fff;border:1px solid #d2d2d2;box-shadow:0 14px 38px rgba(0,0,0,.14);border-radius:2px;animation:hammel-dropdown-in .16s ease-out}
+.machine-edit-form .hammel-select-popup[hidden]{display:none}
+.machine-edit-form .hammel-select-options{max-height:260px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#b6b6b6 transparent}
+.machine-edit-form .hammel-select-option{width:100%;min-height:43px;display:flex;align-items:center;gap:11px;text-align:left;background:#fff;border:0;border-radius:0;padding:10px 12px;font:inherit;font-size:15px;color:#202020;cursor:pointer;transition:background .13s}
+.machine-edit-form .hammel-select-option:hover,.machine-edit-form .hammel-select-option:focus-visible{background:#f5f5f5;outline:none}
+.machine-edit-form .hammel-select-option[aria-selected=true]{background:#fff3f3;color:#ba0711;font-weight:800}
+.machine-edit-form .hammel-option-check{width:16px;flex:none;font-size:14px;font-weight:900;color:#e30613}
+.machine-edit-form .hammel-select-empty{padding:12px;color:#777}
+@keyframes hammel-dropdown-in{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:650px){.machine-edit-form .hammel-select-popup{max-width:calc(100vw - 38px)}}
+@media(prefers-reduced-motion:reduce){.machine-edit-form .hammel-select-popup{animation:none}}
+</style>
+
+<script>
+document.querySelectorAll('[data-area-toggle]').forEach(function(toggle){
+  var panel=document.querySelector('[data-area-contents="'+toggle.dataset.areaToggle+'"]');
+  function sync(){
+    panel.hidden=!toggle.checked;
+    panel.querySelectorAll('input[type="checkbox"],textarea').forEach(function(input){input.disabled=!toggle.checked;});
+    var card=toggle.closest('[data-area-card]');
+    if(card){card.classList.toggle('is-selected',toggle.checked);var state=card.querySelector('[data-area-state]');if(state)state.textContent=toggle.checked?'AKTIV':'NICHT AUSGEWÄHLT';}
+  }
+  toggle.addEventListener('change',sync);sync();
+});
+</script>
+<style>
+.machine-form-guidance{max-width:950px;line-height:1.55;color:#555;margin:22px 0}.machine-area-editor{grid-column:1/-1;border:0;padding:0;margin:12px 0 22px}.machine-area-editor legend{font-size:22px;font-weight:900;margin-bottom:12px}.machine-area-editor>p{color:#666;line-height:1.5}.machine-area-card{border:1px solid #ddd;margin:14px 0;padding:20px}.machine-area-heading{display:flex;gap:12px;align-items:center;font-size:18px;font-weight:800;cursor:pointer}.machine-area-contents{padding:18px 0 0 30px}.machine-area-contents[hidden]{display:none}.machine-material-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.machine-material-grid label{display:flex;align-items:center;gap:10px}.machine-add-material{display:block;margin-top:22px;font-weight:800}.machine-add-material textarea{display:block;width:100%;margin-top:8px;border:1px solid #bbb;padding:12px;font:inherit}.machine-edit-form{max-width:1050px;margin:35px 0 80px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 28px}.machine-field{display:flex;flex-direction:column;gap:9px}.machine-field:has(textarea),.machine-staff-actions{grid-column:1/-1}.machine-field label{font-weight:800;letter-spacing:.03em}.machine-field input:not([type=checkbox]),.machine-field select,.machine-field textarea{width:100%;max-width:100%;padding:13px;border:1px solid #bbb;border-radius:0;background:#fff;color:#171717;font:inherit}.machine-field input[type=checkbox]{width:20px;height:20px}.machine-field small{color:#777}.machine-staff-actions{display:flex;gap:14px}.machine-staff-actions button,.machine-staff-actions a{border:1px solid #191919;padding:16px 22px;background:#191919;color:#fff;font-weight:800;cursor:pointer;text-decoration:none}.machine-staff-actions a{background:transparent;color:#191919}@media(max-width:700px){.machine-edit-form,.machine-material-grid{grid-template-columns:1fr}.machine-area-contents{padding-left:0}}
+
+/* Simplified, guided editor for nontechnical Vertrieb staff */
+.machine-quicklinks{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0 8px}
+.machine-quicklinks a{display:inline-flex;align-items:center;min-height:44px;padding:10px 17px;border:1px solid #c7c7c7;background:#fff;color:#161616;font-size:13px;font-weight:800;text-decoration:none;letter-spacing:.02em}
+.machine-quicklinks a:hover{border-color:#e30613;color:#e30613}
+.machine-step,.machine-form-section-title{font-size:12px;font-weight:900;letter-spacing:.12em;color:#e30613;margin-bottom:12px}
+.machine-form-section-title{grid-column:1/-1;border-top:1px solid #d9d9d9;padding-top:32px;margin-top:10px}
+.machine-area-editor{margin-top:25px}.machine-area-editor legend{font-size:24px}
+.machine-area-editor>p{max-width:850px;margin:10px 0 16px}
+.machine-hint{background:#fff;border-left:3px solid #e30613;padding:13px 17px;font-size:14px;color:#555;line-height:1.5;margin-bottom:24px}
+.machine-area-card{background:#fff;border:1px solid #d6d6d6;border-radius:4px;margin:10px 0;padding:0;transition:border-color .2s,box-shadow .2s}
+.machine-area-card.is-selected{border-color:#252525;box-shadow:0 2px 12px rgba(0,0,0,.045)}
+.machine-area-heading{padding:20px 22px;gap:14px;font-size:17px;min-height:64px}
+.machine-area-heading input{width:20px;height:20px;accent-color:#e30613;flex-shrink:0}
+.machine-area-title{flex:1}.machine-area-state{font-size:10px;letter-spacing:.07em;color:#777;font-weight:900;white-space:nowrap}
+.is-selected .machine-area-state{color:#e30613}.machine-area-chevron{font-size:25px;color:#888;line-height:1}
+.machine-area-contents{padding:0 22px 24px 56px;border-top:1px solid #eee}
+.machine-area-instruction{font-size:14px;color:#666;margin:20px 0 15px}
+.machine-material-grid{gap:10px 22px}.machine-material-grid label{font-weight:500;padding:8px 10px;border-radius:4px;background:#f7f7f7;cursor:pointer;min-height:40px}
+.machine-material-grid label:hover{background:#efefef}.machine-material-grid input{accent-color:#e30613;width:17px;height:17px}
+.machine-add-material{font-size:12px;letter-spacing:.02em;margin-top:24px}.machine-add-material textarea{border-radius:3px;resize:vertical;min-height:80px;font-weight:400}
+.machine-staff-actions{position:sticky;bottom:0;background:#f8f8f8;padding:18px 0;border-top:1px solid #ddd;z-index:3}
+.machine-staff-actions button{background:#e30613;border-color:#e30613}
+@media(max-width:700px){.machine-area-contents{padding-left:18px;padding-right:18px}.machine-area-heading{padding:16px}.machine-area-state{font-size:9px}.machine-quicklinks a{flex:1;justify-content:center}}
+</style>
+
+
+<style>
+.editor-toolbar{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 0;flex-wrap:wrap}.editor-progress{min-width:260px;font-size:14px}.editor-progress strong{font-size:25px}.editor-progress-track{height:6px;background:#ddd;margin:10px 0}.editor-progress-track>div{height:100%;background:#e30613}.editor-progress details{font-size:13px;color:#555}.editor-copy,.editor-secondary{background:#fff!important;border:1px solid #161616!important;color:#161616!important;padding:15px 19px!important;font:inherit;font-weight:800;cursor:pointer}.editor-tabs{display:flex;flex-wrap:wrap;gap:0;border-bottom:1px solid #ccc;margin:12px 0 26px}.editor-tabs button{border:0;background:none;padding:17px 21px;font-size:13px;font-weight:900;letter-spacing:.05em;cursor:pointer;color:#555;border-bottom:3px solid transparent}.editor-tabs button.is-active{color:#151515;border-bottom-color:#e30613}.editor-tabs button:hover{background:#f1f1f1}.machine-edit-form [data-editor-panel][hidden]{display:none!important}.editor-draft-note{padding:16px;background:#fff6d5;border:1px solid #eed789;margin-bottom:18px}.editor-media-manager,.editor-history,.editor-copy-picker{grid-column:1/-1;padding:25px;background:#fff;border:1px solid #ddd;margin:10px 0}.editor-media-manager h2,.editor-history h2{font-size:22px;margin:0 0 12px}.editor-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:16px;margin:20px 0}.editor-gallery-item{border:1px solid #ddd;padding:10px;background:#fafafa;cursor:grab}.editor-gallery-item.dragging{opacity:.4}.editor-gallery-item img{width:100%;aspect-ratio:4/3;object-fit:cover}.editor-gallery-item label{display:block;font-size:13px;margin:8px 0}.editor-grip{font-size:12px;color:#777}.editor-history details{border-top:1px solid #ddd;padding:12px}.editor-history pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px}.machine-staff-actions{position:sticky;bottom:0;z-index:30;background:rgba(255,255,255,.97);padding:16px!important;box-shadow:0 -5px 25px rgba(0,0,0,.07);display:flex;gap:12px;flex-wrap:wrap}.editor-copy-picker{font-size:14px;color:#555}@media(max-width:650px){.editor-tabs button{flex:1 1 45%;font-size:11px;padding:12px}.editor-toolbar{align-items:stretch}}
+</style>
+<script>
+(function(){
+const tabs=document.querySelectorAll('[data-editor-tab]'),panels=document.querySelectorAll('[data-editor-panel]');
+function activate(key){tabs.forEach(t=>{const active=t.dataset.editorTab===key;t.classList.toggle('is-active',active);t.setAttribute('aria-selected',String(active));});panels.forEach(p=>p.hidden=p.dataset.editorPanel!==key);}
+if(tabs.length){tabs.forEach(t=>t.addEventListener('click',()=>activate(t.dataset.editorTab)));activate('general');}
+document.querySelectorAll('[data-friendly-history]').forEach(btn=>btn.addEventListener('click',()=>{const h=document.getElementById('friendly-history');if(h){activate('general');h.scrollIntoView({behavior:'smooth',block:'start'});}}));
+const gallery=document.getElementById('editor-gallery'),order=document.getElementById('gallery-order');
+if(gallery){let dragging=null;function sync(){order.value=Array.from(gallery.children).map(x=>x.dataset.photoId).join(',');}
+gallery.querySelectorAll('[draggable]').forEach(item=>{item.addEventListener('dragstart',()=>{dragging=item;item.classList.add('dragging');});item.addEventListener('dragend',()=>{item.classList.remove('dragging');dragging=null;sync();});item.addEventListener('dragover',e=>{e.preventDefault();if(dragging&&dragging!==item){const r=item.getBoundingClientRect();gallery.insertBefore(dragging,e.clientX<r.left+r.width/2?item:item.nextSibling);}});});sync();}
+const form=document.getElementById('machine-main-form');if(form){let dirty=false;form.addEventListener('input',()=>dirty=true);form.addEventListener('change',()=>dirty=true);form.addEventListener('submit',()=>dirty=false);window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});}
+})();
+</script>
+
+<style>
+.ux-editor-intro{margin:32px 0 20px;background:#fff;border:1px solid #ddd;padding:clamp(20px,3vw,36px)}.ux-editor-heading{display:flex;justify-content:space-between;gap:24px;align-items:start}.ux-editor-heading h2,.ux-editor-status h2{font-size:clamp(20px,2vw,29px);margin:8px 0 8px;letter-spacing:-.025em}.ux-editor-heading p,.ux-editor-status p{font-size:14px;line-height:1.55;color:#666;max-width:720px;margin:0}.ux-editor-eyebrow{color:#e30613;font-size:11px;letter-spacing:.13em;font-weight:900}.ux-editor-settings{display:flex;flex-direction:column;gap:5px;flex-shrink:0;background:#f5f5f5;border:1px solid #ddd;padding:15px 19px;text-decoration:none;color:#191919;font-size:12px;font-weight:900}.ux-editor-settings:hover{background:#ececec}.ux-editor-settings small,.ux-tab-extra small{font-weight:400;font-size:11px;color:#777}.editor-tabs{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important;border:0!important;margin:28px 0 16px!important}.editor-tabs button,.editor-tabs .ux-tab-extra{display:flex!important;align-items:center!important;gap:13px!important;text-align:left!important;padding:18px 13px!important;min-height:88px!important;background:#f7f7f7!important;border:1px solid #ddd!important;border-bottom:1px solid #ddd!important;border-radius:0!important;letter-spacing:normal!important;color:#242424!important;text-decoration:none!important}.editor-tabs button.is-active{background:#191919!important;border-color:#191919!important;color:#fff!important}.editor-tabs button:hover:not(.is-active),.editor-tabs .ux-tab-extra:hover{background:#eee!important}.ux-tab-num{font-size:12px;font-weight:900;color:#e30613}.editor-tabs button.is-active .ux-tab-num{color:#f2b705}.editor-tabs button span:last-child{display:flex;flex-direction:column;gap:5px}.editor-tabs strong{font-size:13px;line-height:1.2}.editor-tabs small{font-size:11px;color:#777;line-height:1.3;font-weight:400}.editor-tabs button.is-active small{color:#bbb}.editor-tabs .ux-tab-extra{grid-column:1/-1;min-height:0!important;flex-direction:row!important;justify-content:space-between!important;padding:12px 17px!important}.ux-editor-explainer{display:flex;gap:12px;background:#f5f5f5;padding:14px 18px;font-size:13px;line-height:1.5;color:#444}.ux-editor-explainer>span:first-child{font-size:20px;color:#e30613}.ux-editor-status{border:1px solid #ddd;background:#fff;padding:25px 30px;margin:18px 0}.ux-editor-status-top{display:flex;justify-content:space-between;align-items:center;gap:20px}.ux-editor-percent{font-size:35px;font-weight:900;color:#171717}.ux-editor-percent small{font-size:17px;color:#777}.ux-editor-meter{height:8px;background:#eee;margin:18px 0 12px;overflow:hidden}.ux-editor-meter>div{height:100%;background:#e30613}.ux-editor-missing{border-top:1px solid #eee;padding-top:14px;font-size:13px}.ux-editor-missing summary{cursor:pointer;font-weight:800;display:flex;justify-content:space-between}.ux-editor-missing ul{columns:2;line-height:1.8;padding-left:20px}.ux-editor-copy{border:1px solid #ddd;background:#fff;margin:16px 0 26px;padding:18px 25px}.ux-editor-copy summary{cursor:pointer;font-size:12px;font-weight:900;display:flex;justify-content:space-between}.ux-editor-copy p{color:#666;font-size:14px;line-height:1.5}.ux-editor-copy-button{padding:13px 18px;background:#171717;color:#fff;border:0;cursor:pointer;font-weight:800}.machine-staff-actions button.editor-secondary{background:#fff!important;color:#171717!important;border:1px solid #ccc!important}.machine-staff-actions button.editor-secondary:hover{border-color:#171717!important}.machine-edit-form [data-editor-panel][hidden]{display:none!important}@media(max-width:1100px){.editor-tabs{grid-template-columns:repeat(2,minmax(0,1fr))!important}}@media(max-width:650px){.ux-editor-heading{flex-direction:column}.ux-editor-settings{width:100%}.editor-tabs{grid-template-columns:1fr!important}.editor-tabs button{min-height:65px!important}.ux-editor-status{padding:20px}.ux-editor-missing ul{columns:1}}
+
+/* Minimal, text-led machine editor: no boxed intro, numbered tabs or progress card. */
+.editor-minimal{margin:28px 0 30px;padding:0;background:transparent;border:0}
+.editor-minimal-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:18px}
+.editor-minimal-head h2{font-size:clamp(22px,2.2vw,32px);margin:0 0 5px;color:#171717}
+.editor-minimal-head p{font-size:14px;color:#666;margin:0;line-height:1.5}
+.editor-manage-link{color:#333;font-size:12px;font-weight:800;text-decoration:none;white-space:nowrap;border-bottom:1px solid #aaa;padding-bottom:4px}
+.editor-manage-link:hover{color:#e30613;border-color:#e30613}
+.editor-minimal .editor-tabs{display:flex!important;flex-wrap:wrap!important;gap:clamp(12px,2.2vw,34px)!important;margin:0!important;padding:0!important;border:0!important;border-bottom:1px solid #d7d7d7!important;background:transparent!important}
+.editor-minimal .editor-tabs button{display:inline-flex!important;flex:0 0 auto!important;min-height:0!important;padding:15px 0 13px!important;margin:0!important;border:0!important;border-bottom:3px solid transparent!important;border-radius:0!important;background:transparent!important;color:#555!important;font-size:14px!important;font-weight:800!important;letter-spacing:0!important;box-shadow:none!important}
+.editor-minimal .editor-tabs button:hover{color:#111!important;background:transparent!important}
+.editor-minimal .editor-tabs button.is-active{color:#151515!important;border-bottom-color:#e30613!important;background:transparent!important}
+.editor-minimal-tools{display:flex;align-items:flex-start;gap:12px 26px;flex-wrap:wrap;margin-top:16px;font-size:13px;color:#555}
+.editor-minimal-tools>a,.editor-minimal-tools summary{color:#333;font-weight:650;text-decoration:none;cursor:pointer;list-style:none}
+.editor-minimal-tools summary::-webkit-details-marker{display:none}
+.editor-minimal-tools summary::after{content:'⌄';font-size:15px;margin-left:6px;color:#888}
+.editor-minimal-tools a:hover,.editor-minimal-tools summary:hover{color:#e30613}
+.editor-minimal-tools details[open]{flex-basis:100%;padding:4px 0 10px}
+.editor-minimal-tools ul{margin:12px 0 5px;padding-left:20px;columns:2;line-height:1.8}
+.editor-minimal-tools p{font-size:13px;color:#666}
+.editor-minimal-copy button{background:#171717;border:0;color:white;padding:12px 18px;cursor:pointer;font-weight:700}
+@media(max-width:700px){.editor-minimal-head{align-items:start;flex-direction:column}.editor-minimal .editor-tabs{gap:8px 20px!important}.editor-minimal .editor-tabs button{font-size:12px!important}.editor-minimal-tools ul{columns:1}}
+
+/* Unified horizontal grid: heading, tabs, form and sticky actions align exactly. */
+.editor-minimal,.machine-edit-form,.editor-draft-note{width:100%;max-width:none;box-sizing:border-box;margin-left:0;margin-right:0}
+.machine-edit-form{max-width:100%!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 28px}
+.machine-edit-form>.machine-field,.machine-edit-form>fieldset,.machine-edit-form>section,.machine-edit-form>.machine-form-section-title{min-width:0;box-sizing:border-box}
+.machine-edit-form>.machine-area-editor,.machine-edit-form>.machine-form-section-title,.machine-edit-form>.editor-media-manager,.machine-edit-form>.editor-history,.machine-edit-form>.machine-staff-actions{grid-column:1/-1}
+.machine-edit-form .machine-field input:not([type=checkbox]),.machine-edit-form .machine-field textarea,.machine-edit-form .machine-field select{box-sizing:border-box;min-width:0}
+.machine-staff-actions{width:100%;max-width:100%;margin-left:0;margin-right:0;box-sizing:border-box;padding:16px 0!important}
+@media(max-width:720px){.machine-edit-form{grid-template-columns:minmax(0,1fr)}.machine-edit-form>.machine-field{grid-column:1/-1}.machine-staff-actions{gap:8px}.machine-staff-actions button,.machine-staff-actions a{padding:12px 14px!important}}
+
+/* User-friendly editorial machine editor: no decorative cards or numbers. */
+.friendly-editor{width:100%;margin:26px 0 30px;color:#171717}
+.friendly-topline{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:26px}
+.friendly-publication{font-size:13px;font-weight:750;color:#333;display:flex;align-items:center;gap:9px}
+.friendly-status-dot{height:8px;width:8px;border-radius:50%;background:#27855d;display:inline-block}.friendly-status-dot.is-draft{background:#888}
+.friendly-settings-link{font-size:13px;font-weight:700;color:#555;text-decoration:none;border-bottom:1px solid #ccc;padding-bottom:3px}.friendly-settings-link:hover{color:#e30613;border-color:#e30613}
+.friendly-completion{padding:0 0 30px;border-bottom:1px solid #dedede;margin-bottom:32px}
+.friendly-completion-line{display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:14px}.friendly-completion-line span{font-weight:650;color:#777}
+.friendly-progress{height:5px;background:#e5e5e5;margin:12px 0 9px;overflow:hidden}.friendly-progress>div{height:100%;background:#e30613;transition:width .2s}
+.friendly-missing{font-size:13px;color:#555}.friendly-missing summary{cursor:pointer;display:inline-flex;gap:8px;align-items:center;list-style:none}.friendly-missing summary::-webkit-details-marker{display:none}.friendly-missing summary:hover{color:#e30613}.friendly-missing[open] summary span{transform:rotate(180deg)}.friendly-missing-content{padding:8px 0}.friendly-missing ul{columns:2;line-height:1.9;margin:8px 0;padding-left:22px}.friendly-missing p{color:#777;margin:8px 0 0}
+.friendly-tabs-heading{font-weight:850;font-size:clamp(19px,2vw,26px);margin:0 0 14px}
+.friendly-editor .editor-tabs{display:flex!important;flex-wrap:wrap!important;gap:clamp(10px,2vw,30px)!important;border:0!important;border-bottom:1px solid #d5d5d5!important;margin:0 0 18px!important;padding:0!important;grid-template-columns:none!important}
+.friendly-editor .editor-tabs button{display:inline-flex!important;min-height:0!important;padding:13px 0 15px!important;margin:0!important;background:transparent!important;border:0!important;border-bottom:3px solid transparent!important;border-radius:0!important;box-shadow:none!important;font-size:14px!important;font-weight:750!important;letter-spacing:0!important;color:#666!important;white-space:nowrap}
+.friendly-editor .editor-tabs button:hover{color:#151515!important}.friendly-editor .editor-tabs button.is-active{color:#151515!important;border-bottom-color:#e30613!important}
+.friendly-extra-field{margin:0 0 18px}.friendly-extra-field[hidden]{display:none!important}.friendly-extra-field a{font-size:13px;font-weight:700;color:#333;text-decoration:none}.friendly-extra-field a:hover{color:#e30613}
+.friendly-more-actions{margin:20px 0 0;border-top:1px solid #e4e4e4;padding-top:14px}.friendly-more-actions>summary{cursor:pointer;list-style:none;font-size:13px;font-weight:750;color:#555;display:inline-flex;align-items:center;gap:8px}.friendly-more-actions>summary::-webkit-details-marker{display:none}.friendly-more-actions[open]>summary span{transform:rotate(180deg)}.friendly-more-actions>summary:hover{color:#e30613}
+.friendly-action-items{padding:16px 0 0;max-width:900px}.friendly-action-item{display:flex;justify-content:space-between;align-items:center;gap:24px;padding:15px 0;border-bottom:1px solid #e8e8e8}.friendly-action-item strong{font-size:14px}.friendly-action-item p{font-size:12px;color:#777;line-height:1.5;margin:5px 0 0}.friendly-action-item a,.friendly-action-item button{background:transparent;border:0;padding:8px 0;color:#171717;text-decoration:none;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap}.friendly-action-item a:hover,.friendly-action-item button:hover{color:#e30613}
+@media(max-width:650px){.friendly-editor .editor-tabs{gap:4px 20px!important}.friendly-editor .editor-tabs button{font-size:12px!important}.friendly-missing ul{columns:1}.friendly-action-item{align-items:flex-start;flex-direction:column;gap:5px}.friendly-topline{align-items:flex-start;flex-direction:column}}
+
+/* Bottom-only action bar: never overlays editable content. */
+.machine-edit-form>.machine-staff-actions{
+ position:static!important;bottom:auto!important;z-index:auto!important;
+ grid-column:1/-1!important;display:flex!important;flex-wrap:wrap!important;
+ justify-content:flex-start!important;align-items:center!important;gap:10px 12px!important;
+ width:100%!important;max-width:100%!important;min-width:0!important;
+ margin:32px 0 0!important;padding:25px 0 4px!important;
+ border:0!important;border-top:1px solid #dcdcdc!important;
+ background:transparent!important;box-shadow:none!important;
+}
+.machine-edit-form>.machine-staff-actions button,
+.machine-edit-form>.machine-staff-actions a{
+ position:static!important;display:inline-flex!important;justify-content:center!important;
+ align-items:center!important;min-height:44px!important;min-width:0!important;
+ padding:12px 17px!important;margin:0!important;
+ border-radius:0!important;box-shadow:none!important;
+ font-size:12px!important;font-weight:800!important;letter-spacing:.015em!important;
+ line-height:1.3!important;white-space:normal!important;text-align:center!important;
+ text-decoration:none!important;transition:background .18s,color .18s,border-color .18s!important;
+}
+.machine-edit-form>.machine-staff-actions button[value="save"]{
+ background:#e30613!important;border:1px solid #e30613!important;color:white!important;
+}
+.machine-edit-form>.machine-staff-actions button[value="save"]:hover{background:#b9000e!important;border-color:#b9000e!important}
+.machine-edit-form>.machine-staff-actions button.editor-secondary{
+ background:#fff!important;border:1px solid #cfcfcf!important;color:#171717!important;
+}
+.machine-edit-form>.machine-staff-actions button.editor-secondary:hover{border-color:#171717!important;background:#f5f5f5!important}
+.machine-edit-form>.machine-staff-actions a{
+ border:1px solid transparent!important;background:transparent!important;color:#666!important;
+ margin-left:auto!important;padding-left:8px!important;padding-right:8px!important;
+}
+.machine-edit-form>.machine-staff-actions a:hover{color:#e30613!important}
+@media(max-width:700px){
+ .machine-edit-form>.machine-staff-actions{gap:9px!important;margin-top:22px!important;padding-top:20px!important}
+ .machine-edit-form>.machine-staff-actions button{flex:1 1 185px!important}
+ .machine-edit-form>.machine-staff-actions a{flex:0 0 auto!important;margin-left:0!important}
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const descriptions = {"category": {"main": "Passende Kategorie wählen.", "example": "Vorbrecher", "where": "Zuordnung im Maschinenkatalog und in der Navigation."}, "model_name": {"main": "Kurze Serienbezeichnung.", "example": "VB 450", "where": "Serienübersicht und Auswahl der Varianten."}, "headline": {"main": "Ein prägnanter Satz ohne Variantenwerte.", "example": "Vorbrecher mit zwei langsam laufenden Werkzeugwellen", "where": "Einleitung der Baureihe."}, "advantages": {"main": "Einen Vorteil pro Zeile.", "example": "Niedriger Energieverbrauch", "where": "Vorteile auf der Baureihenseite, sofern aktiviert."}, "product": {"main": "Wählen Sie die Baureihe, zu der diese Variante gehört.", "example": "VB 450", "where": "Die Zuordnung bestimmt die Maschinenfamilie und den Variantenvergleich."}, "name": {"main": "Geben Sie die vollständige Modellbezeichnung ein.", "example": "VB 450 D", "where": "Der Name erscheint als Titel auf der Maschinenseite."}, "version": {"main": "Tragen Sie die Ausführung dieser Variante ein.", "example": "Hakenlift", "where": "Die Ausführung hilft Kunden beim Vergleich der Varianten."}, "description": {"main": "Beschreiben Sie kurz, wie die Maschine funktioniert und was sie besonders macht.", "example": "Hydraulisch arbeitender Vorbrecher mit zwei langsam laufenden Werkzeugwellen.", "where": "Wird auf der Maschinenseite angezeigt."}, "position": {"main": "Bestimmt die Position der Variante in der Übersicht. Kleinere Zahlen erscheinen zuerst.", "example": "10", "where": "Die Zahl selbst wird auf der Website nicht angezeigt."}, "published": {"main": "Aktivieren Sie diese Option, wenn die Variante öffentlich sichtbar sein soll.", "example": "", "where": "Ohne Häkchen bleibt die Variante intern gespeichert."}, "operating_principle": {"main": "Arbeitsablauf statt reiner Zahlenwerte.", "example": "Zwei langsam laufende Werkzeugwellen zerkleinern das Material", "where": "Abschnitt Funktionsprinzip."}, "engine": {"main": "Tragen Sie die genaue Motorbezeichnung dieser Variante ein.", "example": "Cummins F3.8 Stage 5", "where": "Erscheint in den technischen Daten und gegebenenfalls im Vergleich."}, "drive": {"main": "Nur die zur Variante gehörende Angabe.", "example": "Dieselhydraulisch oder elektrisch", "where": "technische Daten und Vergleich."}, "weight": {"main": "Geben Sie das Maschinengewicht mit Einheit an. Zubehör bei Bedarf getrennt nennen.", "example": "8 t Maschine + 1 t Magnet", "where": "Erscheint in den technischen Daten und gegebenenfalls im Vergleich."}, "additional_specs": {"main": "Ergänzen Sie technische Werte, die noch kein eigenes Feld haben. Verwenden Sie möglichst eine Angabe pro Zeile.", "example": "Leistung: 145 PS", "where": "Die Angaben können in den technischen Daten und im Vergleich erscheinen."}, "image": {"main": "Passende Bilddatei hochladen.", "example": "freigestelltes Foto der VB 450 D", "where": "Maschinenprofil und ggf. Katalogkarte."}, "image_url": {"main": "Vollständige HTTPS-URL zu einer Bilddatei.", "example": "https://example.org/vb450d.jpg", "where": "Bild auf der Maschinenseite, falls vom Projekt verwendet."}, "hero_media_choice": {"main": "Wählen Sie, was ganz oben auf der öffentlichen Seite dieser Maschinenvariante erscheint. Automatisch zeigt ein vorhandenes Video, sonst ein Maschinenfoto. Foto zeigt immer ein Bild. Video verwendet ein Video, falls vorhanden, sonst ebenfalls ein Foto.", "example": "Automatisch", "where": "Maschinenseite → oberster Bereich hinter der Überschrift."}, "hero_video": {"main": "Laden Sie ein Video der Maschine als MP4 oder WebM hoch.", "example": "Kurze Aufnahme der Maschine im Einsatz", "where": "Das Video wird im großen Einstiegsbereich der Maschinenseite verwendet."}, "hero_video_url": {"main": "Fügen Sie alternativ einen direkten Link zu einer MP4- oder WebM-Datei ein.", "example": "https://example.org/video.mp4", "where": "Das Video wird im Einstiegsbereich der Maschinenseite verwendet."}, "datasheet_url": {"main": "Direkte URL zum passenden PDF der Variante.", "example": "https://example.org/vb450d.pdf", "where": "Download/Link auf der Maschinenseite."}, "technical_drawing": {"main": "Maßhaltige Zeichnung dieser Variante als PDF oder Bild.", "example": "", "where": "Zeichnungsansicht oder Dokumentenlink."}, "technical_drawing_url": {"main": "Direkte HTTPS-Adresse zum richtigen PDF/Bild.", "example": "", "where": "Dokumentenlink, falls verwendet."}};
+  document.querySelectorAll(".machine-field-help").forEach(function(button){
+    const field = button.dataset.fieldHelp;
+    const target = document.getElementById("help-" + field);
+    if (!target) return;
+    const info = descriptions[field] || {main:"Tragen Sie hier den passenden Wert für diese Maschine ein.",example:"",where:"Die Sichtbarkeit wird in den Feldeinstellungen festgelegt."};
+    target.replaceChildren();
+    const heading=document.createElement("strong");heading.className="help-title";heading.textContent="Was gehört hier hinein?";target.appendChild(heading);
+    const main=document.createElement("p");main.textContent=info.main;target.appendChild(main);
+    if(info.example){const example=document.createElement("div");example.className="help-example";const label=document.createElement("span");label.textContent="BEISPIEL";const value=document.createElement("em");value.textContent=info.example;example.append(label,value);target.appendChild(example);}
+    if(info.where){const where=document.createElement("div");where.className="help-where";where.textContent="◉  "+info.where;target.appendChild(where);}
+    button.setAttribute("aria-controls", target.id);
+    button.addEventListener("click", function(){
+      const willOpen = target.hidden;
+      document.querySelectorAll(".machine-field-help-text").forEach(function(el){el.hidden=true;});
+      document.querySelectorAll(".machine-field-help").forEach(function(el){el.setAttribute("aria-expanded","false");});
+      target.hidden = !willOpen;
+      button.setAttribute("aria-expanded", String(willOpen));
+    });
+  });
+});
+</script>
+<style>
+.machine-field-label-row{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.machine-field-label-row>label{margin:0!important}
+.machine-field-help{display:inline-flex;align-items:center;justify-content:center;flex:0 0 22px;width:22px;height:22px;border:1px solid #c6c6c6;border-radius:50%;background:transparent;color:#666;font:700 12px/1 Arial,sans-serif;cursor:pointer;transition:all .16s}
+.machine-field-help:hover,.machine-field-help[aria-expanded="true"]{border-color:#e30613;background:#e30613;color:#fff}
+.machine-field-help:focus-visible{outline:2px solid #e30613;outline-offset:3px}
+.machine-field-help-text{padding:12px 15px;margin:0 0 12px;background:#f3f3f3;border-left:2px solid #e30613;color:#444;font-size:13px;line-height:1.6}
+.machine-field-help-text[hidden]{display:none!important}
+</style>
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+const tips={
+"Bereiche":"Was: übergeordnete Einsatzbereiche der Maschine. Auswahl: nur Bereiche aktivieren, die diese Variante tatsächlich abdeckt. Anzeige: die aktivierten Bereiche können im Maschinenprofil und bei passenden Lösungen erscheinen.",
+"Materialien":"Was: konkrete Stoffe innerhalb des ausgewählten Einsatzbereichs. Auswahl: nur tatsächlich verarbeitbare Materialien markieren. Anzeige: Einsatzgebiete und Materialien der Variante, abhängig von den Sichtbarkeitseinstellungen. Beispiel: Altholz oder Paletten.",
+"Neue Materialien":"Was: noch nicht vorhandene Materialnamen ergänzen. Eingabe: ein Material pro Zeile, ohne Kommas. Anzeige: nach dem Speichern als auswählbares Material im entsprechenden Bereich. Beispiel: Bahnschwellen."
+};
+document.querySelectorAll("[data-help-inline]").forEach(function(btn){
+ const hint=document.createElement("div");hint.className="machine-field-help-text";hint.hidden=true;hint.setAttribute("role","note");hint.textContent=tips[btn.dataset.helpInline]||"Weitere Informationen zur Eingabe.";btn.insertAdjacentElement("afterend",hint);
+ btn.addEventListener("click",function(e){e.preventDefault();e.stopPropagation();hint.hidden=!hint.hidden;btn.setAttribute("aria-expanded",String(!hint.hidden));});
+});
+});
+</script>
+<style>
+.machine-field-help-text,.custom-help-body,.fv-help-content{background:#f5f5f5!important;border:0!important;border-radius:8px!important;box-shadow:none!important;color:#414141!important;padding:16px 18px!important;line-height:1.55!important}
+.machine-field-help-text p{margin:7px 0 0;font-size:14px}
+.machine-field-help-text .help-title{display:block;font-size:14px;font-weight:750;color:#202020}
+.machine-field-help-text .help-example{display:flex;flex-direction:column;gap:5px;margin-top:14px;padding-top:12px;border-top:1px solid #ddd;font-size:13px}
+.machine-field-help-text .help-example span{font-size:10px;font-weight:800;letter-spacing:.11em;color:#777}
+.machine-field-help-text .help-example em{font-style:italic;color:#333}
+.machine-field-help-text .help-where{font-size:12px;color:#777;margin-top:12px}
+.machine-field-help,.custom-help-button,.fv-help-button{border:1px solid #c8c8c8!important;background:transparent!important;color:#666!important;transition:background .15s,color .15s,border-color .15s}
+.machine-field-help:hover,.machine-field-help[aria-expanded="true"],.custom-help-button:hover,.custom-help-button[aria-expanded="true"],.fv-help-button:hover,.fv-help-button[aria-expanded="true"]{background:#e30613!important;border-color:#e30613!important;color:white!important}
+</style>
+<style>
+/* Einheitliches Hilfe-Design für alle Vertrieb-Eingabemasken */
+.machine-field-help-text,.custom-help-body,.fv-help-content{
+  display:block;box-sizing:border-box;background:#f5f5f5!important;
+  border:0!important;border-radius:9px!important;box-shadow:none!important;
+  color:#363636!important;padding:16px 18px!important;margin:10px 0 14px!important;
+  font-size:14px!important;line-height:1.6!important;letter-spacing:normal!important;
+  text-transform:none!important;max-width:100%;
+}
+.machine-field-help-text[hidden],.custom-help-body[hidden],.fv-help-content[hidden]{display:none!important}
+.machine-field-help-text .help-title,.custom-help-body .help-title,.fv-help-content .help-title{
+ display:block;font-weight:750;font-size:14px;color:#1d1d1d;margin:0 0 7px;
+}
+.machine-field-help-text .help-example,.custom-help-body .help-example,.fv-help-content .help-example{
+ margin-top:12px;padding-top:10px;border-top:1px solid #ddd;display:grid;gap:4px;
+}
+.machine-field-help-text .help-example-label,.custom-help-body .help-example-label,.fv-help-content .help-example-label{
+ font-size:10px;font-weight:800;letter-spacing:.09em;color:#777;
+}
+.machine-field-help-text .help-where,.custom-help-body .help-where,.fv-help-content .help-where{
+ margin-top:12px;color:#777;font-size:12px;
+}
+.machine-field-help,.custom-help-button,.fv-help-button{
+ width:23px!important;height:23px!important;min-width:23px!important;display:inline-flex!important;
+ align-items:center;justify-content:center;border:1px solid #c8c8c8!important;
+ border-radius:50%!important;background:#fff!important;color:#666!important;
+ font:700 12px Arial,sans-serif!important;cursor:pointer;vertical-align:middle;
+}
+.machine-field-help:hover,.machine-field-help[aria-expanded="true"],
+.custom-help-button:hover,.custom-help-button[aria-expanded="true"],
+.fv-help-button:hover,.fv-help-button[aria-expanded="true"]{
+ color:#fff!important;background:#e30613!important;border-color:#e30613!important;
+}
+</style><script>
+document.addEventListener("DOMContentLoaded",function(){
+const structured={
+"Bereiche":{main:"Wählen Sie die Einsatzbereiche aus, für die diese Maschinenvariante geeignet ist.",example:"Altholz & Grünabfälle",where:"Die Zuordnung wird bei den Einsatzgebieten der Maschine verwendet."},
+"Materialien":{main:"Markieren Sie nur Materialien, die diese konkrete Maschine tatsächlich verarbeiten kann.",example:"Altholz, Paletten, Wurzelstöcke",where:"Die Auswahl wird den Einsatzgebieten der Variante zugeordnet."},
+"Neue Materialien":{main:"Ergänzen Sie Materialarten, die in dieser Kategorie noch fehlen. Schreiben Sie jede Materialart in eine eigene Zeile.",example:"Bahnschwellen",where:"Neue Materialien stehen nach dem Speichern für diese Kategorie zur Auswahl."}
+};
+document.querySelectorAll("[data-help-inline]").forEach(function(btn){
+  const box=btn.nextElementSibling;
+  if(!box||!box.classList.contains("machine-field-help-text"))return;
+  const info=structured[btn.dataset.helpInline];if(!info)return;
+  box.replaceChildren();
+  const title=document.createElement("strong");title.className="help-title";title.textContent="Was gehört hier hinein?";box.append(title);
+  const main=document.createElement("div");main.textContent=info.main;box.append(main);
+  const example=document.createElement("div");example.className="help-example";
+  const label=document.createElement("span");label.className="help-example-label";label.textContent="BEISPIEL";
+  const value=document.createElement("span");value.textContent=info.example;example.append(label,value);box.append(example);
+  const where=document.createElement("div");where.className="help-where";where.textContent=info.where;box.append(where);
+});
+});
+</script>{% endblock %}

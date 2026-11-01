@@ -1,0 +1,37 @@
+/* HAMMEL legal pages: deliberately flat, symmetrical and illustration-free */
+body .legal-page{width:100%;min-width:0;background:#f8f8f7;color:#171717;overflow:clip}
+body .legal-page .legal-hero{position:relative;isolation:isolate;min-height:0;height:auto;padding:clamp(118px,11vw,165px) 0 60px;background:#f8f8f7!important;background-image:none!important;color:#171717!important;border-bottom:1px solid #e6e6e6;box-shadow:none!important;overflow:hidden}
+body .legal-page .legal-hero::before,body .legal-page .legal-hero::after,body .legal-page .legal-hero .wrap::before,body .legal-page .legal-hero .wrap::after{content:none!important;display:none!important;background:none!important;box-shadow:none!important}
+body .legal-page .legal-hero .wrap,body .legal-page .legal-body>.wrap{box-sizing:border-box;width:calc(100% - 2 * var(--cinema-gutter, 4vw))!important;max-width:none!important;margin-left:var(--cinema-gutter, 4vw)!important;margin-right:var(--cinema-gutter, 4vw)!important;padding:0!important}
+body .legal-page .legal-eyebrow{color:#e30613;font-size:12px;letter-spacing:.12em;font-weight:800}
+body .legal-page .legal-hero h1{color:#171717;font-size:clamp(56px,8vw,108px);letter-spacing:-.055em;margin:15px 0 18px;line-height:1}
+body .legal-page .legal-hero p{color:#595959;max-width:780px;font-size:clamp(16px,2vw,20px);line-height:1.5;margin:0}
+body .legal-page .legal-hero-switch{margin-top:24px;display:flex;gap:15px;align-items:center}
+body .legal-page .legal-body{padding:55px 0 100px;background:#f8f8f7}
+body .legal-page .legal-layout{display:block!important;grid-template-columns:none!important;width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;padding:0!important}
+body .legal-page .legal-document{display:block!important;float:none!important;width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;padding:0!important;background:transparent!important;border:0!important;box-shadow:none!important;overflow:visible!important}
+body .legal-page .legal-doc-head,body .legal-page .legal-doc-body{box-sizing:border-box;width:100%!important;max-width:none!important;min-width:0!important;padding-left:0!important;padding-right:0!important}
+body .legal-page .legal-doc-head{padding-top:0!important;padding-bottom:30px!important;border-bottom:1px solid #ddd}
+body .legal-page .legal-doc-head h2{font-size:clamp(26px,3.5vw,43px);line-height:1.16;max-width:100%;overflow-wrap:break-word}
+body .legal-page .legal-doc-head p{font-size:14px}
+body .legal-page .legal-doc-body{padding-top:0!important;padding-bottom:35px!important}
+body .legal-page .legal-source{display:flex;flex-wrap:wrap;gap:18px 32px;margin-top:28px}
+body .legal-page .legal-home-link{width:auto!important;max-width:100%;display:inline-flex!important;flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;min-height:50px!important;padding:0 0 7px!important;margin:0!important;border:0!important;background:transparent!important;box-shadow:none!important;white-space:normal}
+body .legal-page .legal-home-link .cinematic-link__icon{display:inline-flex!important;flex:0 0 42px!important;width:42px!important;height:42px!important;align-items:center;justify-content:center;border:1px solid #bbb;border-radius:50%;transition:background .25s,color .25s,border-color .25s,transform .25s}
+body .legal-page .legal-home-link:hover .cinematic-link__icon{background:#e30613;color:white;transform:translate(2px,-2px);border-color:#e30613}
+body .legal-page .legal-home-link .cinematic-link__label{width:auto!important;display:inline-block!important;white-space:normal!important;font-size:12px;font-weight:800}
+body .legal-page .legal-doc-section,body .legal-page .legal-intro,body .legal-page .legal-section-index{width:100%;max-width:none;box-sizing:border-box}
+body .legal-page .legal-viewer,body .legal-page .legal-iframe{width:100%!important;max-width:100%!important;min-height:640px;display:block;border:1px solid #e4e4e4;background:#fff}
+body .legal-page .legal-section-index{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+body .legal-page .legal-section-index a{min-width:0;overflow-wrap:anywhere}
+@media(max-width:700px){body .legal-page .legal-hero{padding:110px 0 44px}body .legal-page .legal-body{padding:36px 0 65px}body .legal-page .legal-doc-head h2{font-size:27px}body .legal-page .legal-section-index{grid-template-columns:1fr}body .legal-page .legal-viewer,body .legal-page .legal-iframe{min-height:540px;height:640px}}
+
+/* Local legal document */
+.legal-local-intro{font-size:15px;line-height:1.75;color:#505050;margin:0 0 28px}.legal-local-index{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px;border-top:1px solid #ddd;border-bottom:1px solid #ddd;padding:16px 0;margin:22px 0 40px}.legal-local-index a{display:block;padding:12px 0;border-bottom:1px solid #ececec;text-decoration:none;color:#202020;font-weight:600;font-size:14px}.legal-local-index a:hover{color:#e30613}.legal-local-section{scroll-margin-top:110px;padding:0 0 26px;margin:0 0 26px;border-bottom:1px solid #e8e8e8}.legal-local-section h3{font-size:clamp(20px,2vw,27px);line-height:1.25;letter-spacing:-.02em;margin:0 0 20px}.legal-local-section p{font-size:15px;line-height:1.85;color:#333;margin:0 0 14px;hyphens:auto}.legal-source{display:flex;flex-wrap:wrap;gap:16px}.legal-source a{white-space:normal}@media(max-width:680px){.legal-local-index{grid-template-columns:1fr}.legal-local-section p{font-size:14px}}
+
+/* Document information — calm, precise metadata; no decorative dots or rules. */
+.legal-document-meta{display:flex;align-items:center;flex-wrap:wrap;column-gap:24px;row-gap:10px;margin:0 0 34px;padding:0;border:0;color:#595959;font-size:14px;line-height:1.6}
+.legal-document-meta__status{font-weight:650;color:#242424}
+.legal-document-meta__date{color:#666}
+.legal-document-meta__note{flex-basis:100%;margin:0;font-size:13px;color:#737373}
+@media(max-width:600px){.legal-document-meta{align-items:flex-start;flex-direction:column;gap:5px}.legal-document-meta__note{margin-top:5px}}

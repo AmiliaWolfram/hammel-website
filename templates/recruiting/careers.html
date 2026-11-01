@@ -1,0 +1,79 @@
+{% extends "recruiting/base.html" %}{% block content %}<section class="hammel-page-hero" data-page="karriere"><video autoplay muted loop playsinline class="hammel-page-hero__video" poster="/assets/video/hammel-poster.jpg"><source src="/assets/video/hammel-hero.mp4" type="video/mp4"></video><div class="hammel-page-hero__shade"></div><div class="wrap hammel-page-hero__inner"><span class="hammel-page-hero__eyebrow">KARRIERE BEI HAMMEL</span><h1 class="hammel-page-hero__title">GEMEINSAM <em>MEHR BEWEGEN</em></h1><p class="hammel-page-hero__description">Entdecken Sie Ihre beruflichen Möglichkeiten bei HAMMEL Recyclingtechnik in Bad Salzungen</p><a class="cinematic-link hr-cinematic-link hr-cinematic-link--hero" href="#stellen"><span class="cinematic-link__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg></span><span class="cinematic-link__label">STELLEN ENTDECKEN</span></a></div><span class="hammel-page-hero__signature">THE ORIGINAL SINCE 1996</span></section><main class="hr-main hr-careers-redesign">
+
+<section class="hr-journey hr-journey-scroll" id="bewerbungsweg" aria-labelledby="hr-journey-title">
+  <div class="wrap hr-journey-scroll__layout">
+    <div class="hr-journey-scroll__intro">
+      <div class="hr-journey-scroll__sticky">
+      <p class="hr-eyebrow">DEIN WEG ZU HAMMEL</p>
+      <h2 id="hr-journey-title">SO LÄUFT DEINE<br>BEWERBUNG AB</h2>
+      <p>Von der ersten Idee bis zum persönlichen Gespräch. Hier erfährst du, was für deine Bewerbung wichtig ist.</p>
+      <div class="hr-journey-scroll__progress" aria-hidden="true"><span></span></div>
+      <p class="hr-journey-scroll__count" aria-live="polite">PASSENDE STELLE FINDEN</p>
+      </div>
+    </div>
+    <div class="hr-journey-scroll__steps">
+      <article class="hr-journey-scroll__step is-active">
+        <h3>FINDE DEINEN PLATZ BEI HAMMEL</h3>
+        <p>Entdecke unsere <a href="#stellen">offenen Stellen</a> und finde heraus, welche Aufgaben zu dir passen. Ist gerade nichts dabei, kannst du dich auch initiativ bewerben und uns deinen Wunschbereich nennen.</p>
+      </article>
+      <article class="hr-journey-scroll__step">
+        <h3>BEREITE DEINE UNTERLAGEN VOR</h3>
+        <p>Ein aktueller Lebenslauf hilft uns, dich kennenzulernen. Zeugnisse und Zertifikate kannst du gemeinsam hochladen. Erzähl uns außerdem, was dich interessiert und wann du bei uns starten könntest.</p>
+      </article>
+      <article class="hr-journey-scroll__step">
+        <h3>SENDE DEINE BEWERBUNG AB</h3>
+        <p>Trage deine Kontaktdaten ein, wähle den gewünschten Bereich und lade deine Unterlagen hoch. Die Fortschrittsanzeige im Formular zeigt dir, welche Pflichtangaben noch fehlen. Nach erfolgreichem Versand bestätigen wir den Eingang per E-Mail, sobald der Mailversand eingerichtet ist.</p>
+      </article>
+      <article class="hr-journey-scroll__step">
+        <h3>WIR MELDEN UNS BEI DIR</h3>
+        <p>Unser HR-Team prüft deine Bewerbung. Wenn wir eine passende Möglichkeit sehen, melden wir uns bei dir und besprechen das weitere Vorgehen. So weißt du, wie es nach dem Absenden weitergeht.</p>
+      </article>
+      <div class="hr-journey-scroll__end">
+        <p>Du hast noch Fragen? In unseren <a href="{% url 'hr_tips' %}">Bewerbungstipps</a> findest du weitere Hinweise.</p>
+        <a class="cinematic-link hr-cinematic-link" href="{% url 'hr_initiative' %}"><span class="cinematic-link__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg></span><span class="cinematic-link__label">INITIATIV BEWERBEN</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="wrap hr-section hr-openings hr-openings--editorial" id="stellen">
+  <p class="hr-eyebrow">KARRIERE BEI HAMMEL</p>
+  <h2>OFFENE STELLEN</h2>
+  <p class="hr-lead">Entdecke unsere aktuellen Stellenangebote und Ausbildungsmöglichkeiten.</p>
+  {% regroup vacancies by category as vacancy_groups %}
+  {% for group in vacancy_groups %}
+  <div class="hr-editorial-category">
+    <h3>{% if group.grouper == "ausbildung" %}AUSBILDUNG{% elif group.grouper == "job" %}FACHKRÄFTE{% elif group.grouper == "praktikum" %}PRAKTIKUM{% elif group.grouper == "werkstudent" %}WERKSTUDIERENDE{% else %}WEITERE STELLEN{% endif %}</h3>
+    {% if group.grouper == "ausbildung" %}<p class="hr-editorial-category__note">Entdecke unsere Ausbildungsbereiche und erfahre mehr über die Aufgaben und Möglichkeiten.</p>{% endif %}
+    <div class="hr-editorial-list">
+      {% for job in group.list %}
+      <details class="hr-editorial-accordion">
+        <summary class="hr-editorial-item hr-editorial-accordion__trigger">
+          <span class="hr-editorial-item__body">
+            <span class="hr-editorial-accordion__title">{{ job.title }}</span>
+            <span class="hr-editorial-accordion__meta">{{ job.location }}{% if job.employment_type %} · {{ job.employment_type }}{% endif %}</span>
+          </span>
+          <span class="hr-editorial-accordion__toggle"><span class="hr-editorial-accordion__toggle-label">WEITERE INFORMATIONEN</span><span class="hr-editorial-accordion__plus" aria-hidden="true"></span></span>
+        </summary>
+        <div class="hr-editorial-accordion__panel">
+          <div class="hr-editorial-accordion__content">
+            {% if job.introduction %}<div class="hr-editorial-accordion__section"><h5>ÜBER DIE POSITION</h5><p>{{ job.introduction|linebreaksbr }}</p></div>{% endif %}
+            {% if job.responsibilities %}<div class="hr-editorial-accordion__section"><h5>DEINE AUFGABEN</h5><p>{{ job.responsibilities|linebreaksbr }}</p></div>{% endif %}
+            {% if job.requirements %}<div class="hr-editorial-accordion__section"><h5>DAS BRINGST DU MIT</h5><p>{{ job.requirements|linebreaksbr }}</p></div>{% endif %}
+            {% if job.benefits %}<div class="hr-editorial-accordion__section"><h5>DAS BIETEN WIR</h5><p>{{ job.benefits|linebreaksbr }}</p></div>{% endif %}
+            <div class="hr-job-apply-action">
+              <a class="cinematic-link hr-cinematic-link" href="{% url 'hr_apply_job' job.slug %}"><span class="cinematic-link__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg></span><span class="cinematic-link__label">JETZT BEWERBEN</span></a>
+            </div>
+          </div>
+        </div>
+      </details>
+      {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+  {% if not vacancies %}
+  <p class="hr-openings__empty">Aktuell sind keine Stellen veröffentlicht.</p>
+  {% endif %}
+</section>
+<section class="hr-initiative-band" id="initiativbewerbung"><div class="wrap hr-section hr-initiative-layout"><div><p class="hr-eyebrow">INITIATIVBEWERBUNG</p><h2>DEINE IDEEN SIND WILLKOMMEN</h2><p>Keine passende Stelle gefunden? Bewirb dich initiativ und erzähle uns, in welchem Bereich du bei HAMMEL mitgestalten möchtest. Wir freuen uns darauf, dich kennenzulernen.</p><a class="cinematic-link hr-cinematic-link" href="{% url 'hr_initiative' %}"><span class="cinematic-link__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg></span><span class="cinematic-link__label">INITIATIV BEWERBEN</span></a></div></div></section>
+<section class="hr-tips-band" id="hr-tipps"><div class="wrap hr-section hr-tips-layout"><div><p class="hr-eyebrow">TIPPS VOM HR-TEAM</p><h2>GUT VORBEREITET BEWERBEN</h2><p class="hr-lead">Mit vollständigen Unterlagen und einer persönlichen Vorstellung helfen Sie uns, Sie besser kennenzulernen.</p><a class="cinematic-link hr-cinematic-link" href="{% url 'hr_tips' %}"><span class="cinematic-link__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg></span><span class="cinematic-link__label">ALLE BEWERBUNGSTIPPS</span></a></div><div class="hr-tip-items">{% for tip in tips|slice:':3' %}<article><h3>{{ tip.title }}</h3><p>{{ tip.body|truncatewords:35 }}</p></article>{% empty %}<article><h3>LEBENSLAUF</h3><p>Beschreiben Sie Ihren beruflichen Werdegang und Ihre wichtigsten Erfahrungen übersichtlich.</p></article><article><h3>MOTIVATION</h3><p>Erklären Sie, welche Aufgaben Sie interessieren und warum Sie sich bei HAMMEL bewerben.</p></article><article><h3>UNTERLAGEN</h3><p>Prüfen Sie vor dem Absenden Ihre Kontaktdaten und die hochgeladenen Dokumente.</p></article>{% endfor %}</div></div></section>
+</main>{% endblock %}

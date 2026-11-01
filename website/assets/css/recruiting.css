@@ -1,0 +1,700 @@
+body{margin:0}.hr-main{background:#f5f4f1;color:#17191c}.hr-top{padding-top:110px}.hr-section{padding-top:clamp(70px,8vw,145px);padding-bottom:clamp(70px,8vw,145px)}.hr-section h1,.hr-section h2,.hr-dark h2{font-family:inherit;font-weight:900;letter-spacing:-.045em;line-height:1.05;text-transform:uppercase}.hr-section h1{font-size:clamp(44px,6vw,100px)}.hr-section h2,.hr-dark h2{font-size:clamp(34px,4vw,68px)}.hr-eyebrow{color:#e30613;font-size:13px;font-weight:800;letter-spacing:.16em}.hr-lead{font-size:clamp(18px,1.6vw,24px);color:#62666a;max-width:850px;line-height:1.65}.hr-jobs{display:grid;gap:12px;margin-top:42px}.hr-job{display:flex;align-items:center;justify-content:space-between;padding:28px 34px;background:white;color:#161719;text-decoration:none;border:1px solid #ddd;gap:20px;transition:background .25s,transform .25s}.hr-job:hover{background:#f1eeee;transform:translateY(-2px)}.hr-job strong{display:block;font-size:clamp(22px,2.5vw,36px);margin:10px 0}.hr-job small{color:#a0181e;letter-spacing:.09em;font-weight:700}.hr-arrow{font-size:36px}.hr-empty{padding:45px;background:#fff}.hr-dark{background:#101923;color:white;padding:85px 0}.hr-split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,6vw,110px)}.hr-dark p{color:#c4cbd1;line-height:1.8}.hr-dark h3{margin:28px 0 8px}.hr-btn{display:inline-block;border:1px solid #e30613;background:#e30613;color:#fff;text-decoration:none;padding:18px 25px;font-size:13px;font-weight:800;letter-spacing:.07em;cursor:pointer;margin-top:24px;transition:background .3s,color .3s}.hr-btn:hover{background:#17191c;color:white}.hr-details{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;margin:55px 0}.hr-details>div,.hr-details>article{padding:25px 0;border-top:2px solid #e30613}.hr-details h2{font-size:clamp(23px,2vw,32px)}.hr-details p{line-height:1.8}.hr-form{display:grid;gap:18px}.hr-field{display:grid;gap:8px}.hr-field label{font-weight:700}.hr-field input:not([type=checkbox]),.hr-field textarea,.hr-field select{width:100%;box-sizing:border-box;border:1px solid #c7cbd0;background:white;padding:17px 18px;font:inherit;color:#17191c}.hr-field input:focus,.hr-field textarea:focus{outline:2px solid #e30613;outline-offset:1px}.hr-field input[type=checkbox]{width:20px;height:20px;accent-color:#e30613}.hr-error{color:#b00020}.hr-privacy{font-size:13px;line-height:1.6;color:#666}.hr-aside{background:#101923;color:#fff;padding:35px;align-self:start}.hr-aside h2{font-size:30px}.hr-aside p{line-height:1.8;color:#c5cbd3}.hr-aside a{color:white}.hr-trap{position:absolute;left:-9999px}@media(max-width:780px){.hr-split,.hr-details{grid-template-columns:1fr}.hr-job{padding:20px}.hr-section{padding-top:65px;padding-bottom:65px}}
+/* Karriere visual system aligned to HAMMEL Home */
+.hr-main{background:#f4f3ef}
+.hr-main .hr-section h1,.hr-main .hr-section h2,.hr-dark h2{font-weight:900;letter-spacing:-.045em;line-height:1.03}
+.hr-main .hr-eyebrow{font-size:clamp(11px,.85vw,13px);letter-spacing:.13em}
+.hr-main .hr-job{min-height:125px;transition:background .35s ease,color .35s ease,transform .35s ease}
+.hr-main .hr-job:hover{background:#17191c;color:#fff;transform:none}
+.hr-main .hr-job:hover small{color:#ff6068}
+.hr-cinematic-link{display:inline-flex;align-items:center;gap:17px;min-height:54px;padding:0 0 8px;background:transparent;border:0;color:#161719;font-weight:800;font-size:clamp(12px,1vw,14px);letter-spacing:.065em;text-decoration:none;cursor:pointer;isolation:isolate;margin-top:25px}
+.hr-cinematic-link .cinematic-link__icon{width:52px;height:52px;border-color:#e30613}
+.hr-cinematic-link .cinematic-link__icon svg{stroke:currentColor}
+.hr-cinematic-link:hover .cinematic-link__icon,.hr-cinematic-link:focus-visible .cinematic-link__icon{color:#fff}
+.hr-dark .hr-cinematic-link,.hr-aside .hr-cinematic-link,.hammel-page-hero .hr-cinematic-link{color:#fff}
+.hr-dark .hr-cinematic-link .cinematic-link__icon,.hr-aside .hr-cinematic-link .cinematic-link__icon,.hammel-page-hero .hr-cinematic-link .cinematic-link__icon{border-color:rgba(255,255,255,.75)}
+.hr-cinematic-link--hero{margin-top:30px}
+.hr-job-arrow{border-color:#e30613;color:#161719;width:48px;height:48px;flex-shrink:0}
+.hr-job:hover .hr-job-arrow{color:#fff}
+.hr-job:hover .hr-job-arrow:before{transform:translateY(0)}
+.hr-job:hover .hr-job-arrow svg{transform:translate(2px,-2px)}
+.hr-submit{justify-self:start;font-family:inherit}
+.hr-back{display:inline-block;margin-bottom:36px;color:inherit;font-weight:800;text-decoration:none;letter-spacing:.08em;font-size:13px}
+.hr-back:hover{color:#e30613}
+.hr-dark{background:#111417;padding:clamp(80px,9vw,155px) 0}
+.hr-split{gap:clamp(35px,6vw,120px)}
+.hr-details>div,.hr-details>article{border-top:1px solid #aeb0b2}
+.hr-field input:not([type=checkbox]),.hr-field textarea,.hr-field select{min-height:56px;border-radius:0;border:1px solid #d1d1d1}
+.hr-field input:focus-visible,.hr-field textarea:focus-visible,.hr-field select:focus-visible{outline:2px solid #e30613;outline-offset:2px}
+@media(max-width:780px){.hr-cinematic-link .cinematic-link__icon{width:46px;height:46px}.hr-job-arrow{width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.hr-job{transition:none}}
+
+/* Karriere editorial composition, no photographs */
+.hr-careers-redesign .hr-section{padding-top:clamp(75px,8vw,135px);padding-bottom:clamp(75px,8vw,135px)}
+.hr-careers-redesign .hr-section h2{max-width:1100px;font-size:clamp(36px,5vw,82px);line-height:1.04;letter-spacing:-.045em;font-weight:900;margin:20px 0 30px}
+.hr-careers-redesign .hr-intro{padding-bottom:clamp(80px,8vw,130px)}
+.hr-careers-redesign .hr-intro .hr-lead{max-width:1000px}
+.hr-journey{background:#17191b;color:#fff}.hr-journey .hr-eyebrow{color:#ff515a}
+.hr-journey-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(20px,3vw,48px);margin-top:60px}
+.hr-journey-grid article{border-top:1px solid #777;padding-top:25px}.hr-journey-grid h3{font-size:clamp(17px,1.6vw,24px);font-weight:850;letter-spacing:-.02em;margin:18px 0}.hr-journey-grid p{color:#c7c8ca;line-height:1.7}.hr-step-symbol{display:block;font-size:30px;color:#e30613;font-weight:300}
+.hr-careers-redesign .hr-empty{padding:clamp(30px,5vw,75px);border:1px solid #deddda}.hr-empty h3{font-size:clamp(25px,3vw,44px);margin:15px 0}.hr-empty p{font-size:clamp(17px,1.4vw,21px);color:#65676a;line-height:1.6}
+.hr-tips-band{background:#fff}.hr-tips-layout{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,7vw,130px);align-items:start}.hr-tip-items article{padding:23px 0;border-top:1px solid #b9b9b9}.hr-tip-items h3{font-size:clamp(18px,1.6vw,24px);margin:0 0 12px}.hr-tip-items p{color:#5b5f62;line-height:1.75;margin:0}
+.hr-initiative-band{background:#e30613;color:#fff;overflow:hidden}.hr-initiative-band .hr-eyebrow{color:#fff}.hr-initiative-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.55fr);gap:30px;align-items:center}.hr-initiative-layout p:not(.hr-eyebrow){font-size:clamp(18px,1.5vw,24px);line-height:1.7;max-width:730px}.hr-initiative-mark{font-weight:900;letter-spacing:-.07em;font-size:clamp(65px,12vw,230px);opacity:.12;transform:rotate(-90deg);white-space:nowrap;pointer-events:none}
+.hr-initiative-band .hr-cinematic-link{color:#fff}.hr-initiative-band .hr-cinematic-link .cinematic-link__icon{border-color:#fff}.hr-initiative-band .hr-cinematic-link .cinematic-link__icon:before{background:#17191b}.hr-initiative-band .cinematic-link__label:after{background:#fff}
+.hr-careers-redesign .hr-cinematic-link{position:relative}.hr-careers-redesign .hr-cinematic-link:hover .cinematic-link__icon{color:#fff}
+@media(max-width:900px){.hr-journey-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hr-tips-layout,.hr-initiative-layout{grid-template-columns:1fr}.hr-initiative-mark{display:none}}
+@media(max-width:540px){.hr-journey-grid{grid-template-columns:1fr}.hr-careers-redesign .hr-section{padding-top:65px;padding-bottom:65px}}
+
+/* Karriere application experience */
+.hr-apply-redesign{background:#f5f4f0;color:#17191b}
+.hr-apply-hero{min-height:clamp(440px,66vh,740px);background:#16191c;color:#fff;display:flex;align-items:center;position:relative;overflow:hidden}
+.hr-apply-hero:after{content:"";position:absolute;inset:auto 0 0;height:5px;background:#e30613}
+.hr-apply-hero-inner{width:100%;padding-top:clamp(130px,16vh,210px);padding-bottom:clamp(70px,10vh,120px);position:relative;z-index:1}
+.hr-apply-hero .hr-eyebrow{color:#ff565f}.hr-apply-hero h1{font-size:clamp(56px,7.5vw,138px);line-height:.95;letter-spacing:-.06em;font-weight:900;max-width:1300px;margin:26px 0 36px}.hr-apply-hero h1 span{color:#e30613}.hr-apply-intro{font-size:clamp(18px,1.65vw,26px);line-height:1.5;color:#d3d4d5;max-width:760px}
+.hr-apply-body{padding-top:clamp(60px,7vw,110px);padding-bottom:clamp(80px,9vw,150px)}
+.hr-apply-progress{padding:0 0 45px;border-bottom:1px solid #c9c8c5;margin-bottom:clamp(45px,6vw,90px)}.hr-apply-progress-top{display:flex;justify-content:space-between;gap:15px;font-size:clamp(13px,1.2vw,17px);font-weight:800;letter-spacing:.07em}.hr-apply-progress-top strong{font-size:clamp(22px,2.5vw,40px);letter-spacing:-.04em}.hr-progress-track{height:7px;background:#d8d8d5;margin:22px 0 17px;overflow:hidden}.hr-progress-track>span{display:block;width:0;height:100%;background:#e30613;transition:width .35s ease}.hr-apply-step-labels{display:flex;justify-content:space-between;gap:10px;color:#666;font-size:clamp(11px,1vw,15px)}
+.hr-apply-layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,.65fr);gap:clamp(40px,7vw,135px);align-items:start}.hr-apply-form-panel{min-width:0}.hr-wizard-step h2,.hr-apply-aside h2{font-size:clamp(30px,3.7vw,64px);line-height:1.04;letter-spacing:-.045em;font-weight:900;margin:15px 0 20px}.hr-step-description{font-size:clamp(16px,1.3vw,21px);color:#686a6c;margin:0 0 42px}.hr-wizard-step[hidden],.hr-wizard-controls [hidden]{display:none!important}.hr-wizard .hr-field{margin:0 0 26px}.hr-wizard .hr-field label{display:block;margin-bottom:10px;font-weight:750;font-size:15px}.hr-wizard .hr-field input:not([type=checkbox]),.hr-wizard .hr-field textarea,.hr-wizard .hr-field select{display:block;width:100%;min-height:62px;padding:17px 20px;border:1px solid #c8c8c6;background:#fff;color:#17191b;border-radius:0;box-sizing:border-box;font:inherit;outline:none;transition:border-color .2s}.hr-wizard .hr-field textarea{min-height:190px;resize:vertical}.hr-wizard .hr-field input:focus,.hr-wizard .hr-field textarea:focus{border-color:#e30613;box-shadow:0 0 0 2px #e3061322}.hr-wizard .hr-field input[aria-invalid=true]{border-color:#e30613}.hr-consent-field input{width:20px;height:20px;accent-color:#e30613}.hr-wizard-controls{display:flex;flex-wrap:wrap;gap:24px;align-items:center;margin-top:38px}.hr-wizard-controls .cinematic-link{background:none;border:0;cursor:pointer;font:inherit}.hr-apply-aside{background:#fff;padding:clamp(25px,3vw,55px);position:sticky;top:95px}.hr-apply-aside .hr-eyebrow{color:#e30613}.hr-apply-aside h2{font-size:clamp(25px,2.5vw,40px)}.hr-aside-item{border-top:1px solid #ddd;padding:22px 0}.hr-aside-item h3{font-size:15px;font-weight:850;margin:0 0 10px}.hr-aside-item p{color:#64676b;line-height:1.65;margin:0}.hr-apply-success{padding:60px 0}.hr-apply-success h2{font-size:clamp(35px,5vw,80px)}
+@media(max-width:900px){.hr-apply-layout{grid-template-columns:1fr}.hr-apply-aside{position:static}.hr-apply-hero{min-height:500px}}@media(max-width:600px){.hr-apply-step-labels{font-size:10px}.hr-apply-hero h1{font-size:clamp(46px,11vw,76px)}}
+
+/* Karriere: klarer, hilfreicher Bewerbungsweg */
+.hr-journey-intro{max-width:760px;color:#c7c8ca;font-size:clamp(16px,1.3vw,20px);line-height:1.65;margin:20px 0 0}
+.hr-journey-grid{gap:clamp(18px,2vw,30px);margin-top:46px}
+.hr-journey-grid article{padding:28px 22px 30px;border:1px solid rgba(255,255,255,.2);border-top:2px solid rgba(255,255,255,.4);background:rgba(255,255,255,.035)}
+.hr-journey-grid h3{margin:0 0 16px;font-size:clamp(17px,1.5vw,22px)}
+.hr-journey-grid p{margin:0;line-height:1.75}
+.hr-journey a{color:inherit;text-decoration:underline;text-decoration-color:#e30613;text-underline-offset:4px}
+.hr-journey-footer{display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap;margin-top:38px;border-top:1px solid rgba(255,255,255,.2);padding-top:25px}
+.hr-journey-footer p{margin:0;color:#c7c8ca;line-height:1.6}
+.hr-journey-footer strong{color:#fff}
+@media(max-width:760px){.hr-journey-grid article{padding:24px 20px}.hr-journey-footer{align-items:flex-start;flex-direction:column}}
+
+/* Karriere / scrollgeführter Bewerbungsweg */
+.hr-journey.hr-journey-scroll{background:#17191b;color:#fff;padding:clamp(80px,9vw,160px) 0;overflow:clip}
+.hr-journey-scroll__layout{display:grid;grid-template-columns:minmax(0,0.95fr) minmax(0,1fr);gap:clamp(48px,8vw,160px);align-items:start}
+.hr-journey-scroll__intro{position:sticky;top:clamp(110px,16vh,180px);align-self:start}
+.hr-journey-scroll__intro h2{font-size:clamp(40px,4.5vw,84px);line-height:1.05;letter-spacing:-.045em;margin:18px 0 28px;max-width:780px}
+.hr-journey-scroll__intro>p:not(.hr-eyebrow):not(.hr-journey-scroll__count){color:#bfc1c3;font-size:clamp(16px,1.3vw,20px);line-height:1.65;max-width:580px}
+.hr-journey-scroll__progress{height:2px;background:rgba(255,255,255,.17);margin-top:55px;max-width:340px;overflow:hidden}
+.hr-journey-scroll__progress span{display:block;width:25%;height:100%;background:#e30613;transition:width .45s ease}
+.hr-journey-scroll__count{color:#f0f0f0;font-size:12px;font-weight:750;letter-spacing:.1em;margin:18px 0 0}
+.hr-journey-scroll__steps{padding:10vh 0 0}
+.hr-journey-scroll__step{min-height:clamp(260px,43vh,480px);display:flex;flex-direction:column;justify-content:center;opacity:.26;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease;position:relative;padding:35px 0;border-bottom:1px solid rgba(255,255,255,.12)}
+.hr-journey-scroll__step.is-active{opacity:1;transform:translateY(0)}
+.hr-journey-scroll__step h3{font-size:clamp(26px,2.8vw,48px);line-height:1.13;letter-spacing:-.025em;margin:0 0 26px;font-weight:850}
+.hr-journey-scroll__step.is-active h3{color:#fff}
+.hr-journey-scroll__step p{font-size:clamp(16px,1.2vw,20px);line-height:1.8;max-width:620px;color:#c7c9cb;margin:0}
+.hr-journey-scroll__step a,.hr-journey-scroll__end a:not(.cinematic-link){color:#fff;text-decoration:underline;text-decoration-color:#e30613;text-underline-offset:5px}
+.hr-journey-scroll__end{padding:55px 0 10px;display:flex;flex-direction:column;align-items:flex-start;gap:25px}
+.hr-journey-scroll__end p{color:#c7c9cb;line-height:1.7;margin:0}
+.hr-journey-scroll__end .cinematic-link{color:#fff!important}
+@media(max-width:850px){.hr-journey-scroll__layout{grid-template-columns:1fr;gap:30px}.hr-journey-scroll__intro{position:relative;top:auto}.hr-journey-scroll__steps{padding:0}.hr-journey-scroll__step{min-height:220px;padding:35px 0}.hr-journey-scroll__progress{margin-top:26px}.hr-journey-scroll__intro h2{font-size:clamp(36px,8vw,64px)}}
+@media(prefers-reduced-motion:reduce){.hr-journey-scroll__step,.hr-journey-scroll__progress span{transition:none;transform:none}.hr-journey-scroll__step{opacity:1}}
+
+/* Karriere journey: yellow editorial links, original Home CTA interaction */
+.hr-journey-scroll__step a:not(.cinematic-link),
+.hr-journey-scroll__end a:not(.cinematic-link){
+  color:#fff;
+  text-decoration-line:underline;
+  text-decoration-color:#f2b705;
+  text-decoration-thickness:2px;
+  text-underline-offset:5px;
+}
+.hr-journey-scroll__end a.cinematic-link.hr-cinematic-link{
+  color:#fff;
+  text-decoration:none;
+}
+.hr-journey-scroll__end a.cinematic-link .cinematic-link__label{
+  text-decoration:none;
+}
+.hr-journey-scroll__end a.cinematic-link .cinematic-link__label::after{
+  content:"";
+  position:absolute;
+  bottom:-9px;
+  left:0;
+  width:100%;
+  height:1px;
+  background:#e30613;
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .48s cubic-bezier(.2,.8,.2,1);
+}
+.hr-journey-scroll__end a.cinematic-link:hover .cinematic-link__label::after,
+.hr-journey-scroll__end a.cinematic-link:focus-visible .cinematic-link__label::after{
+  transform:scaleX(1);
+}
+
+/* HR advice: editorial layout, no photos or decorative numbering */
+.hr-advice-page{background:#f5f4f1}.hr-advice-hero{background:#14191b;color:#fff;padding:clamp(155px,15vw,245px) 0 clamp(85px,9vw,145px)}
+.hr-advice-hero .hr-eyebrow{color:#f26b74;margin:0 0 28px}.hr-advice-hero h1{font-size:clamp(54px,8.1vw,136px);font-weight:900;letter-spacing:-.065em;line-height:.98;margin:0;max-width:1300px}
+.hr-advice-hero h1 span{color:#e30613}.hr-advice-hero__bottom{display:flex;justify-content:space-between;align-items:end;gap:35px;margin-top:clamp(35px,6vw,85px)}
+.hr-advice-hero__bottom p{max-width:710px;font-size:clamp(18px,1.55vw,24px);line-height:1.6;color:#c9ced0;margin:0}.hr-advice-hero__caption{font-size:12px;font-weight:800;letter-spacing:.15em;color:#f2b705;white-space:nowrap}
+.hr-advice-content{padding:clamp(75px,9vw,150px) 0}.hr-advice-layout{display:grid;grid-template-columns:minmax(290px,.85fr) minmax(0,1.15fr);gap:clamp(45px,9vw,160px)}
+.hr-advice-sidebar{position:sticky;top:115px;align-self:start}.hr-advice-sidebar h2{font-size:clamp(34px,3.6vw,60px);line-height:1.07;letter-spacing:-.055em;margin:20px 0 25px;font-weight:900}.hr-advice-sidebar>p:not(.hr-eyebrow){font-size:18px;color:#62676b;line-height:1.7;max-width:440px}.hr-advice-sidebar .cinematic-link{margin-top:30px;text-decoration:none}
+.hr-advice-article{padding:36px 0 48px;border-top:1px solid #b7b8b7}.hr-advice-article:first-child{padding-top:0;border-top:0}.hr-advice-article h3{font-size:clamp(25px,2.7vw,43px);line-height:1.12;letter-spacing:-.04em;margin:0 0 22px;font-weight:900;text-transform:uppercase}
+.hr-advice-article__body{max-width:730px;font-size:clamp(16px,1.2vw,19px);line-height:1.85;color:#50565a}.hr-advice-article__body p{margin:0 0 17px}.hr-advice-article__body p:last-child{margin-bottom:0}
+.hr-advice-end{background:#fff;padding:clamp(75px,8vw,130px) 0}.hr-advice-end__inner{display:flex;align-items:end;justify-content:space-between;gap:50px}.hr-advice-end h2{font-size:clamp(36px,4.5vw,75px);font-weight:900;letter-spacing:-.055em;line-height:1.04;margin:20px 0 0}.hr-advice-end .cinematic-link{flex-shrink:0;text-decoration:none}
+@media(max-width:850px){.hr-advice-layout{grid-template-columns:1fr}.hr-advice-sidebar{position:static}.hr-advice-hero__bottom,.hr-advice-end__inner{align-items:start;flex-direction:column}.hr-advice-hero__caption{white-space:normal}.hr-advice-article:first-child{border-top:1px solid #b7b8b7;padding-top:35px}}
+
+/* HR advice: yellow micro-headings on dark backgrounds, HAMMEL red on light */
+.hr-advice-page .hr-advice-hero .hr-eyebrow { color: #F2B705; }
+.hr-advice-page .hr-advice-content .hr-eyebrow,
+.hr-advice-page .hr-advice-end .hr-eyebrow { color: #E30613; }
+.hr-advice-page .hr-advice-hero__caption { color: #F2B705; }
+
+
+/* HAMMEL editorial heading rhythm — shared with Gebrauchtmaschinen.
+   One authoritative set of rules (no stacked overrides). */
+:root {
+  --hammel-editorial-label-title-gap: 12px;
+  --hammel-editorial-title-body-gap: 30px;
+}
+.hr-advice-page .hr-advice-content {
+  padding-block: clamp(80px, 7vw, 120px);
+}
+.hr-advice-page .hr-advice-layout {
+  align-items: start;
+}
+.hr-advice-page .hr-advice-sidebar {
+  position: sticky;
+  top: clamp(105px, 12vh, 145px);
+  align-self: start;
+  min-height: 0;
+}
+.hr-advice-page .hr-advice-sidebar > .hr-eyebrow {
+  position: static;
+  margin: 0 0 var(--hammel-editorial-label-title-gap);
+  padding: 0;
+}
+.hr-advice-page .hr-advice-sidebar h2 {
+  margin: 0 0 var(--hammel-editorial-title-body-gap);
+  line-height: 1.02;
+}
+.hr-advice-page .hr-advice-sidebar > p:not(.hr-eyebrow) {
+  margin: 0 0 14px;
+  padding: 0;
+}
+.hr-advice-page .hr-advice-sidebar > p:last-child { margin-bottom: 0; }
+/* Match first right-hand title to left title, accounting for label line box + gap. */
+.hr-advice-page .hr-advice-articles {
+  padding-top: calc(1.5em + var(--hammel-editorial-label-title-gap));
+  min-width: 0;
+}
+.hr-advice-page .hr-advice-article:last-child { padding-bottom: 0; }
+@media (max-width: 850px) {
+  .hr-advice-page .hr-advice-content { padding-block: clamp(56px, 8vw, 80px); }
+  .hr-advice-page .hr-advice-sidebar { position: static; top: auto; }
+  .hr-advice-page .hr-advice-articles { padding-top: 0; }
+  .hr-advice-page .hr-advice-sidebar > .hr-eyebrow { margin-bottom: var(--hammel-editorial-label-title-gap); }
+}
+
+/* Journey: sticky content inside a full-height grid column, allowing both columns to end together */
+@media(min-width:851px){
+ .hr-journey-scroll__layout{align-items:stretch}
+ .hr-journey-scroll__steps{padding-top:0}
+ .hr-journey-scroll__step:first-child{justify-content:flex-start;padding-top:48px}
+ .hr-journey-scroll__intro{position:relative;top:auto;align-self:stretch;min-height:0}
+ .hr-journey-scroll__sticky{position:sticky;top:clamp(110px,16vh,180px)}
+ .hr-journey-scroll__sticky>p:not(.hr-eyebrow):not(.hr-journey-scroll__count){color:#bfc1c3;font-size:clamp(16px,1.3vw,20px);line-height:1.65;max-width:580px}
+}
+@media(max-width:850px){.hr-journey-scroll__sticky{position:static}}
+
+/* Karriere journey: definitive layout. Sticky must not be clipped by its section. */
+@media (min-width: 851px) {
+  .hr-journey.hr-journey-scroll { overflow: visible; }
+  .hr-journey-scroll__layout { align-items: stretch; }
+  .hr-journey-scroll__intro { position: relative; top: auto; align-self: stretch; min-height: 0; }
+  .hr-journey-scroll__sticky { position: sticky; top: clamp(110px, 16vh, 180px); }
+  .hr-journey-scroll__sticky > .hr-eyebrow { margin: 0; }
+  .hr-journey-scroll__sticky > h2 { margin-top: 18px; }
+  .hr-journey-scroll__steps { padding-top: 0; }
+  /* Label line-height (16px) + heading gap (18px) = 34px. */
+  .hr-journey-scroll__step:first-child { justify-content: flex-start; padding-top: 34px; }
+  .hr-journey-scroll__step:first-child > h3 { margin-top: 0; }
+  /* The last right-hand content defines the bottom of both grid tracks. */
+  .hr-journey-scroll__end { padding-bottom: 0; }
+}
+@media (max-width: 850px) {
+  .hr-journey-scroll__sticky { position: static; }
+}
+
+
+/* Karriere: same two-column sticky mechanics as Bewerbungstipps.
+   Do not use a fixed-height/sticky outer grid item: the inner element
+   must be sticky inside a column that stretches to the last right item. */
+@media (min-width: 851px) {
+  .hr-journey.hr-journey-scroll {
+    overflow: visible !important;
+  }
+  .hr-journey-scroll__layout {
+    display: grid;
+    grid-template-columns: minmax(0, .95fr) minmax(0, 1fr);
+    align-items: stretch !important;
+  }
+  .hr-journey-scroll__intro {
+    position: relative !important;
+    top: auto !important;
+    align-self: stretch !important;
+    height: auto !important;
+    min-height: 100% !important;
+  }
+  .hr-journey-scroll__sticky {
+    position: sticky !important;
+    top: clamp(90px, 12vh, 130px) !important;
+    align-self: start;
+  }
+  .hr-journey-scroll__steps {
+    padding: 0 !important;
+    min-width: 0;
+  }
+  /* Align the first right heading with the left large heading:
+     eyebrow line (roughly 20px) + the 18px title margin. */
+  .hr-journey-scroll__steps > .hr-journey-scroll__step:first-child {
+    min-height: clamp(260px, 43vh, 480px);
+    justify-content: flex-start !important;
+    padding: 38px 0 0 !important;
+    box-sizing: border-box;
+  }
+  .hr-journey-scroll__steps > .hr-journey-scroll__step:first-child > h3 {
+    margin-top: 0 !important;
+  }
+  /* Avoid the last CTA extending the right track with redundant padding. */
+  .hr-journey-scroll__end {
+    padding-bottom: 0 !important;
+  }
+}
+@media (max-width: 850px) {
+  .hr-journey-scroll__intro,
+  .hr-journey-scroll__sticky {
+    position: static !important;
+    top: auto !important;
+    min-height: 0 !important;
+  }
+}
+
+/* Ausbildung preview, shown only while no vacancy is published. */
+.hr-vacancy-preview{display:grid;gap:18px}
+.hr-vacancy-preview__heading{padding:28px 0 12px}
+.hr-vacancy-preview__heading h3{font-size:clamp(30px,3.5vw,52px);margin:12px 0 14px;line-height:1.08;letter-spacing:-.035em}
+.hr-vacancy-preview__heading p{font-size:clamp(16px,1.3vw,20px);line-height:1.65;color:#666;max-width:780px}
+.hr-vacancy-preview__list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.hr-vacancy-preview__card{background:#fff;border:1px solid #e3e1dc;padding:clamp(25px,3.4vw,52px);display:flex;flex-direction:column;min-height:260px;box-sizing:border-box}
+.hr-vacancy-preview__tag{font-size:12px;font-weight:800;letter-spacing:.14em;color:#a25d00}
+.hr-vacancy-preview__card h4{font-size:clamp(23px,2.3vw,36px);line-height:1.14;letter-spacing:-.025em;margin:28px 0 16px;overflow-wrap:anywhere}
+.hr-vacancy-preview__card p{color:#606368;margin:0 0 28px;font-size:16px}
+.hr-vacancy-preview__note{margin-top:auto;color:#686868;border-top:1px solid #e7e7e7;padding-top:20px;font-size:14px}
+.hr-vacancy-preview__cta{background:#fff;border:1px solid #e3e1dc;padding:clamp(25px,3.4vw,52px);display:flex;align-items:center;justify-content:space-between;gap:30px}
+.hr-vacancy-preview__cta h3{font-size:clamp(24px,2.4vw,38px);margin:16px 0;line-height:1.15}
+.hr-vacancy-preview__cta p{color:#62666a;line-height:1.6;max-width:640px}
+@media(max-width:760px){.hr-vacancy-preview__list{grid-template-columns:1fr}.hr-vacancy-preview__cta{align-items:flex-start;flex-direction:column}}
+
+/* Database-backed Ausbildung cards — explicit layout and contrast */
+.hr-openings .hr-vacancy-preview{display:block!important;margin-top:clamp(42px,5vw,76px)}
+.hr-openings .hr-vacancy-preview__heading{padding:0 0 30px!important}
+.hr-openings .hr-vacancy-preview__heading .hr-eyebrow{display:block;color:#e30613!important;font-weight:800;letter-spacing:.14em;font-size:13px}
+.hr-openings .hr-vacancy-preview__heading h3{font-size:clamp(32px,3.4vw,52px)!important;line-height:1.07!important;font-weight:900!important;color:#151719!important;margin:22px 0 20px!important}
+.hr-openings .hr-vacancy-preview__heading p{color:#60656a!important;font-size:clamp(16px,1.3vw,20px)!important;max-width:780px;line-height:1.55}
+.hr-openings .hr-vacancy-preview__list{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:20px!important;margin:0 0 32px!important}
+.hr-openings .hr-vacancy-preview__card{background:#fff!important;border:1px solid #dededb!important;border-top:4px solid #e30613!important;box-shadow:0 10px 30px rgba(0,0,0,.035);padding:clamp(28px,3vw,48px)!important;min-height:310px!important;display:flex!important;flex-direction:column!important;box-sizing:border-box!important;gap:0!important}
+.hr-openings .hr-vacancy-preview__tag{display:inline-block!important;align-self:flex-start!important;color:#9b6900!important;font-size:12px!important;font-weight:800!important;letter-spacing:.12em!important;text-transform:uppercase}
+.hr-openings .hr-vacancy-preview__card h4{font-size:clamp(25px,2.1vw,35px)!important;font-weight:900!important;line-height:1.14!important;letter-spacing:-.025em!important;color:#151719!important;margin:28px 0 20px!important;text-transform:uppercase}
+.hr-openings .hr-vacancy-preview__card p{color:#5c6266!important;font-size:16px!important;margin:0 0 25px!important}
+.hr-openings .hr-vacancy-preview__note{display:block!important;margin-top:auto!important;padding-top:22px!important;border-top:1px solid #e1e1df!important;color:#696d70!important;font-size:14px!important}
+.hr-openings .hr-vacancy-preview__cta{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:28px!important;background:#fff!important;border:1px solid #dededb!important;padding:clamp(28px,3.2vw,52px)!important;margin-top:30px!important}
+.hr-openings .hr-vacancy-preview__cta h3{color:#151719!important;font-size:clamp(26px,2.4vw,38px)!important;line-height:1.12!important;margin:20px 0!important}
+.hr-openings .hr-vacancy-preview__cta p{color:#5c6266!important;max-width:640px;line-height:1.6}
+@media(max-width:800px){.hr-openings .hr-vacancy-preview__list{grid-template-columns:1fr!important}.hr-openings .hr-vacancy-preview__cta{flex-direction:column!important;align-items:flex-start!important}}
+
+
+/* Industrial Editorial | career vacancies: quiet typography, no red strips */
+.hr-openings .hr-jobs,
+.hr-openings .hr-vacancy-preview__list{
+  display:block!important;
+  grid-template-columns:none!important;
+  gap:0!important;
+  margin:28px 0 44px!important;
+  border-top:1px solid #c9c9c6;
+}
+.hr-openings .hr-vacancy-preview__card,
+.hr-openings .hr-job{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;
+  gap:24px!important;
+  width:100%;
+  min-height:0!important;
+  padding:clamp(26px,3vw,46px) 0!important;
+  margin:0!important;
+  border:0!important;
+  border-bottom:1px solid #c9c9c6!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  box-sizing:border-box;
+  transition:background .25s ease,padding .25s ease;
+}
+.hr-openings .hr-vacancy-preview__card:hover,
+.hr-openings .hr-job:hover{
+  background:rgba(255,255,255,.55)!important;
+  padding-left:clamp(12px,1.2vw,22px)!important;
+  padding-right:clamp(12px,1.2vw,22px)!important;
+}
+.hr-openings .hr-vacancy-preview__tag{
+  display:block!important;
+  font-size:11px!important;
+  color:#666!important;
+  font-weight:800!important;
+  letter-spacing:.12em!important;
+  margin:0 0 14px!important;
+}
+.hr-openings .hr-vacancy-preview__card h4{
+  margin:0 0 16px!important;
+  font-size:clamp(25px,2.9vw,47px)!important;
+  line-height:1.08!important;
+  font-weight:900!important;
+  letter-spacing:-.035em!important;
+  overflow-wrap:normal;
+}
+.hr-openings .hr-vacancy-preview__card p{
+  margin:0!important;
+  font-size:clamp(14px,1.1vw,17px)!important;
+}
+.hr-openings .hr-vacancy-preview__note{
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  font-size:12px!important;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#727272!important;
+  text-align:right;
+  max-width:170px;
+}
+.hr-openings .hr-vacancy-preview__heading{
+  padding:0!important;
+}
+.hr-openings .hr-vacancy-preview__heading h3{
+  margin:16px 0!important;
+}
+.hr-openings .hr-vacancy-preview__cta{
+  border:0!important;
+  border-top:1px solid #c9c9c6!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  padding:clamp(38px,5vw,72px) 0 0!important;
+  margin:38px 0 0!important;
+}
+.hr-openings .hr-job{
+  text-decoration:none!important;
+  color:#151719!important;
+}
+.hr-openings .hr-job small{
+  display:block;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.11em;
+  color:#676767;
+  text-transform:uppercase;
+  margin-bottom:16px;
+}
+.hr-openings .hr-job strong{
+  display:block;
+  font-size:clamp(26px,3vw,46px);
+  line-height:1.08;
+  letter-spacing:-.035em;
+  font-weight:900;
+  text-transform:uppercase;
+}
+.hr-openings .hr-job span span:not(.cinematic-link__icon){
+  display:block;
+  margin-top:12px;
+  color:#6b6b6b;
+  font-size:15px;
+}
+.hr-openings .hr-job-arrow{
+  flex-shrink:0;
+}
+@media(max-width:700px){
+  .hr-openings .hr-vacancy-preview__card{grid-template-columns:1fr;gap:16px!important}
+  .hr-openings .hr-vacancy-preview__note{text-align:left;max-width:none}
+  .hr-openings .hr-job{gap:14px!important}
+  .hr-openings .hr-job strong{font-size:clamp(22px,6vw,36px)}
+}
+
+
+/* Industrial Editorial layout repair: separate content columns, no overlapping elements */
+.hr-openings .hr-vacancy-preview__list{
+  display:block!important;
+  border-top:1px solid #cececb!important;
+}
+.hr-openings .hr-vacancy-preview__card{
+  display:grid!important;
+  grid-template-columns:minmax(0, 1fr) minmax(190px, 24%)!important;
+  align-items:center!important;
+  column-gap:clamp(24px,4vw,80px)!important;
+  row-gap:0!important;
+  padding:clamp(32px,3.5vw,56px) 0!important;
+  margin:0!important;
+  min-height:0!important;
+  background:transparent!important;
+  border:0!important;
+  border-bottom:1px solid #cececb!important;
+  box-shadow:none!important;
+}
+.hr-openings .hr-editorial-vacancy__main{min-width:0;display:flex;flex-direction:column;align-items:flex-start}
+.hr-openings .hr-editorial-vacancy__aside{min-width:0;display:flex;align-items:center;justify-content:flex-end}
+.hr-openings .hr-editorial-vacancy__main .hr-vacancy-preview__tag{
+  display:block!important;
+  position:static!important;
+  align-self:auto!important;
+  font-size:12px!important;
+  color:#686868!important;
+  margin:0 0 18px!important;
+  line-height:1.4!important;
+  letter-spacing:.12em!important;
+}
+.hr-openings .hr-editorial-vacancy__main h4{
+  display:block!important;
+  position:static!important;
+  width:auto!important;
+  max-width:100%!important;
+  margin:0 0 20px!important;
+  padding:0!important;
+  font-size:clamp(24px,2.7vw,43px)!important;
+  line-height:1.13!important;
+  overflow-wrap:break-word!important;
+  word-break:normal!important;
+  text-align:left!important;
+}
+.hr-openings .hr-editorial-vacancy__main p{
+  display:block!important;
+  position:static!important;
+  margin:0!important;
+  padding:0!important;
+  font-size:16px!important;
+  line-height:1.5!important;
+  white-space:normal!important;
+}
+.hr-openings .hr-editorial-vacancy__aside .hr-vacancy-preview__note{
+  display:block!important;
+  position:static!important;
+  width:auto!important;
+  max-width:250px!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  font-size:12px!important;
+  line-height:1.6!important;
+  color:#686868!important;
+  text-align:right!important;
+  letter-spacing:.08em!important;
+  text-transform:uppercase!important;
+}
+@media(max-width:760px){
+  .hr-openings .hr-vacancy-preview__card{
+    grid-template-columns:minmax(0,1fr)!important;
+    row-gap:20px!important;
+  }
+  .hr-openings .hr-editorial-vacancy__aside{justify-content:flex-start}
+  .hr-openings .hr-editorial-vacancy__aside .hr-vacancy-preview__note{text-align:left!important;max-width:100%!important}
+}
+
+/* Karriere – one headline, database-backed grouped job listings */
+.hr-openings--editorial .hr-editorial-category{margin-top:clamp(48px,6vw,88px)}
+.hr-openings--editorial .hr-editorial-category h3{
+  font-size:clamp(23px,2.8vw,40px);font-weight:800;line-height:1.1;
+  margin:0 0 18px;letter-spacing:-.025em;color:#171a1c
+}
+.hr-openings--editorial .hr-editorial-category__note{
+  max-width:760px;color:#666c70;line-height:1.65;margin:0 0 28px
+}
+.hr-openings--editorial .hr-editorial-list{border-top:1px solid #c8c8c5}
+.hr-openings--editorial .hr-editorial-item{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(160px,24%);
+  gap:clamp(20px,4vw,70px);align-items:center;
+  padding:clamp(25px,3.2vw,48px) 0;border-bottom:1px solid #c8c8c5;
+  color:#171a1c;text-decoration:none;background:transparent
+}
+.hr-openings--editorial .hr-editorial-item__body{min-width:0}
+.hr-openings--editorial .hr-editorial-item__body h4{
+  margin:0 0 14px;font-size:clamp(22px,2.5vw,37px);line-height:1.18;
+  letter-spacing:-.02em;font-weight:800;overflow-wrap:anywhere
+}
+.hr-openings--editorial .hr-editorial-item__body p{
+  margin:0;font-size:15px;color:#62676b;line-height:1.5
+}
+.hr-openings--editorial .hr-editorial-item__status{
+  display:block;margin-bottom:13px;font-size:11px;font-weight:800;
+  letter-spacing:.12em;color:#74787b
+}
+.hr-openings--editorial .hr-editorial-item__pending{
+  justify-self:end;max-width:240px;text-align:right;color:#73777a;
+  font-size:11px;font-weight:700;letter-spacing:.07em;line-height:1.6
+}
+.hr-openings--editorial .hr-editorial-item__action{
+  display:flex;align-items:center;justify-self:end;gap:14px;
+  font-size:12px;font-weight:800;letter-spacing:.06em
+}
+.hr-openings--editorial .hr-editorial-item--linked:hover h4{color:#e30613}
+.hr-openings--editorial .hr-editorial-item--linked:focus-visible{outline:2px solid #e30613;outline-offset:4px}
+.hr-openings--editorial .hr-editorial-item--linked:hover .cinematic-link__icon{
+  background:#e30613;color:#fff
+}
+.hr-initiative-band{background:#e30613!important;color:#fff!important}
+.hr-initiative-band .hr-eyebrow{color:#fff!important}
+.hr-initiative-band h2,.hr-initiative-band p{color:#fff!important}
+.hr-initiative-band .cinematic-link{color:#fff!important}
+.hr-initiative-band .cinematic-link__icon{border-color:#fff!important;color:#fff!important}
+.hr-initiative-band .cinematic-link:hover .cinematic-link__icon{background:#fff!important;color:#e30613!important}
+@media(max-width:760px){
+  .hr-openings--editorial .hr-editorial-item{grid-template-columns:1fr;gap:18px}
+  .hr-openings--editorial .hr-editorial-item__pending,
+  .hr-openings--editorial .hr-editorial-item__action{justify-self:start;text-align:left}
+}
+
+/* Accessible expandable Ausbildung positions */
+.hr-openings--editorial .hr-editorial-accordion{border-bottom:1px solid #c8c8c5}
+.hr-openings--editorial .hr-editorial-accordion__trigger{
+  cursor:pointer;list-style:none;border-bottom:0!important;user-select:none
+}
+.hr-openings--editorial .hr-editorial-accordion__trigger::-webkit-details-marker{display:none}
+.hr-openings--editorial .hr-editorial-accordion__trigger::marker{content:""}
+.hr-openings--editorial .hr-editorial-accordion__trigger:focus-visible{outline:2px solid #e30613;outline-offset:-2px}
+.hr-openings--editorial .hr-editorial-accordion__title{
+  display:block;margin:0 0 14px;font-size:clamp(22px,2.5vw,37px);
+  font-weight:800;line-height:1.18;letter-spacing:-.02em;overflow-wrap:anywhere
+}
+.hr-openings--editorial .hr-editorial-accordion__meta{display:block;color:#62676b;font-size:15px;line-height:1.5}
+.hr-openings--editorial .hr-editorial-accordion__toggle{
+  display:flex;align-items:center;justify-content:flex-end;gap:18px;
+  font-size:12px;font-weight:800;letter-spacing:.07em;color:#171a1c;text-align:right
+}
+.hr-openings--editorial .hr-editorial-accordion__plus{
+  width:36px;height:36px;border:1px solid #e30613;border-radius:50%;
+  position:relative;flex-shrink:0;transition:background .25s ease,transform .25s ease
+}
+.hr-openings--editorial .hr-editorial-accordion__plus:before,
+.hr-openings--editorial .hr-editorial-accordion__plus:after{
+  content:"";position:absolute;background:#171a1c;top:50%;left:50%;transform:translate(-50%,-50%);transition:transform .25s ease,background .25s ease
+}
+.hr-openings--editorial .hr-editorial-accordion__plus:before{width:12px;height:1.5px}
+.hr-openings--editorial .hr-editorial-accordion__plus:after{height:12px;width:1.5px}
+.hr-openings--editorial .hr-editorial-accordion[open] .hr-editorial-accordion__plus:after{transform:translate(-50%,-50%) rotate(90deg)}
+.hr-openings--editorial .hr-editorial-accordion[open] .hr-editorial-accordion__plus,
+.hr-openings--editorial .hr-editorial-accordion__trigger:hover .hr-editorial-accordion__plus{background:#e30613}
+.hr-openings--editorial .hr-editorial-accordion[open] .hr-editorial-accordion__plus:before,
+.hr-openings--editorial .hr-editorial-accordion[open] .hr-editorial-accordion__plus:after,
+.hr-openings--editorial .hr-editorial-accordion__trigger:hover .hr-editorial-accordion__plus:before,
+.hr-openings--editorial .hr-editorial-accordion__trigger:hover .hr-editorial-accordion__plus:after{background:white}
+.hr-openings--editorial .hr-editorial-accordion__panel{overflow:hidden;animation:hr-reveal .32s ease both}
+@keyframes hr-reveal{from{opacity:0;transform:translateY(-9px)}to{opacity:1;transform:translateY(0)}}
+.hr-openings--editorial .hr-editorial-accordion__content{
+  padding:0 0 clamp(30px,4vw,58px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 56px
+}
+.hr-openings--editorial .hr-editorial-accordion__section h5{font-size:13px;letter-spacing:.1em;color:#e30613;margin:0 0 12px;font-weight:800}
+.hr-openings--editorial .hr-editorial-accordion__section p{margin:0;color:#555d60;font-size:16px;line-height:1.75}
+.hr-openings--editorial .hr-editorial-accordion__disclaimer{grid-column:1/-1;border-top:1px solid #d4d4d1;padding-top:20px;color:#6a6e70;font-size:13px;line-height:1.65;margin:0}
+@media(max-width:760px){
+ .hr-openings--editorial .hr-editorial-accordion__toggle{justify-content:flex-start;text-align:left}
+ .hr-openings--editorial .hr-editorial-accordion__content{grid-template-columns:1fr;gap:24px}
+}
+@media(prefers-reduced-motion:reduce){.hr-openings--editorial .hr-editorial-accordion__panel{animation:none}}
+
+
+/* Vacancy application: a clear action at the end of each expanded published job */
+.hr-job-apply-action{
+  margin-top:clamp(30px,4vw,54px);
+  padding-top:clamp(22px,3vw,34px);
+  border-top:1px solid #c8c8c5;
+  display:flex;
+  justify-content:flex-start;
+}
+.hr-job-apply-action .cinematic-link__label{
+  text-decoration:none;
+  text-underline-offset:6px;
+}
+.hr-job-apply-action .cinematic-link:hover .cinematic-link__label,
+.hr-job-apply-action .cinematic-link:focus-visible .cinematic-link__label{
+  text-decoration:underline;
+}
+.hr-selected-vacancy{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  padding-top:clamp(28px,4vw,54px);
+  padding-bottom:clamp(20px,3vw,40px);
+  border-bottom:1px solid #c8c8c5;
+}
+.hr-selected-vacancy__eyebrow{
+  font-size:12px;letter-spacing:.12em;font-weight:800;color:#e30613;
+}
+.hr-selected-vacancy__title{
+  font-size:clamp(23px,3vw,42px);line-height:1.14;font-weight:850;color:#181818;
+}
+.hr-selected-vacancy__meta{font-size:14px;color:#696969}
+
+.hr-job-readonly-value{padding:18px 20px;border:1px solid #c9c9c9;background:#f1f0eb;color:#1c1c1c;font-size:clamp(16px,1.5vw,22px);font-weight:800;line-height:1.3;overflow-wrap:anywhere}
+
+
+/* Initiativbewerbung: Kinetic Rings — lightweight CSS-only industrial motion */
+.hr-initiative-band{overflow:hidden}
+.hr-initiative-band .hr-initiative-layout{position:relative;grid-template-columns:minmax(0,1fr) minmax(260px,.55fr);isolation:isolate}
+.hr-initiative-band .hr-initiative-layout>div:first-child{position:relative;z-index:2}
+.hr-initiative-band .hr-initiative-rings{position:relative;display:block;width:min(100%,480px);aspect-ratio:1;margin-inline:auto;pointer-events:none;isolation:isolate;filter:drop-shadow(0 12px 20px rgba(100,0,5,.10))}
+.hr-initiative-rings__halo{position:absolute;inset:4%;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.065) 0 14%,transparent 14.5% 30%,rgba(110,0,12,.08) 31% 42%,transparent 43% 100%)}
+.hr-initiative-rings__ring{position:absolute;display:block;border-radius:50%;animation:hr-kinetic-spin var(--spin-time,28s) linear infinite;will-change:transform}
+.hr-initiative-rings__ring--outer{inset:2%;--spin-time:42s;background:conic-gradient(from 0deg,rgba(255,255,255,.33) 0deg 65deg,transparent 65deg 94deg,rgba(130,0,18,.27) 94deg 191deg,transparent 191deg 221deg,rgba(255,255,255,.20) 221deg 295deg,transparent 295deg 360deg);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2px));mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2px))}
+.hr-initiative-rings__ring--middle{inset:18%;--spin-time:31s;animation-direction:reverse;background:conic-gradient(from 32deg,transparent 0deg 28deg,rgba(255,255,255,.5) 28deg 130deg,transparent 130deg 159deg,rgba(110,0,15,.27) 159deg 280deg,transparent 280deg 360deg);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 3px));mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 3px))}
+.hr-initiative-rings__ring--inner{inset:34%;--spin-time:23s;background:conic-gradient(from 160deg,rgba(255,255,255,.43) 0deg 110deg,transparent 110deg 148deg,rgba(115,0,20,.30) 148deg 280deg,transparent 280deg 360deg);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2px));mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2px))}
+.hr-initiative-rings__core{position:absolute;inset:46%;border-radius:50%;border:1px solid rgba(255,255,255,.28);box-shadow:0 0 0 12px rgba(255,255,255,.035)}
+@keyframes hr-kinetic-spin{to{transform:rotate(360deg)}}
+@media(max-width:900px){.hr-initiative-band .hr-initiative-layout{grid-template-columns:minmax(0,1fr)}.hr-initiative-band .hr-initiative-rings{position:absolute;right:-14%;top:50%;width:min(68vw,410px);opacity:.30;transform:translateY(-50%);z-index:0}}
+@media(max-width:540px){.hr-initiative-band .hr-initiative-rings{right:-38%;width:85vw;opacity:.17}.hr-initiative-band .hr-initiative-layout>div:first-child{position:relative;z-index:2}}
+@media(prefers-reduced-motion:reduce){.hr-initiative-rings__ring{animation:none!important;will-change:auto}}
+
+/* Karriere vacancy CTA: match Home, without double decorative underlines. */
+.hr-careers-redesign .hr-job-apply-action .cinematic-link__label,
+.hr-careers-redesign .hr-job-apply-action .cinematic-link:hover .cinematic-link__label,
+.hr-careers-redesign .hr-job-apply-action .cinematic-link:focus-visible .cinematic-link__label {
+  text-decoration: none !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+  background-image: none !important;
+}
+.hr-careers-redesign .hr-job-apply-action .cinematic-link__label::before,
+.hr-careers-redesign .hr-job-apply-action .cinematic-link__label::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Vacancy CTA: one Home-style animated line only (never browser text underline). */
+.hr-careers-redesign .hr-job-apply-action a.cinematic-link,
+.hr-careers-redesign .hr-job-apply-action a.cinematic-link:hover,
+.hr-careers-redesign .hr-job-apply-action a.cinematic-link:focus-visible,
+.hr-careers-redesign .hr-job-apply-action a.cinematic-link .cinematic-link__label,
+.hr-careers-redesign .hr-job-apply-action a.cinematic-link:hover .cinematic-link__label,
+.hr-careers-redesign .hr-job-apply-action a.cinematic-link:focus-visible .cinematic-link__label {
+ text-decoration:none !important; border-bottom:0 !important; box-shadow:none !important;
+ background-image:none !important;
+}
+.hr-careers-redesign .hr-job-apply-action a.cinematic-link .cinematic-link__label::before{content:none!important;display:none!important}
+.hr-careers-redesign .hr-job-apply-action a.cinematic-link .cinematic-link__label::after{
+ content:"" !important;display:block!important;position:absolute!important;
+ left:0!important;right:0!important;bottom:-9px!important;width:100%!important;
+ height:1px!important;background:#e30613!important;box-shadow:none!important;
+ transform:scaleX(0)!important;transform-origin:left!important;
+ transition:transform .48s cubic-bezier(.2,.8,.2,1)!important;
+}
+.hr-careers-redesign .hr-job-apply-action a.cinematic-link:hover .cinematic-link__label::after,
+.hr-careers-redesign .hr-job-apply-action a.cinematic-link:focus-visible .cinematic-link__label::after{
+ transform:scaleX(1)!important;
+}
+
+/* Initiativbewerbung: clean red editorial section, no Kinetic Rings. */
+.hr-careers-redesign .hr-initiative-band .hr-initiative-layout,
+.hr-initiative-band .hr-initiative-layout {
+  display: block !important;
+  grid-template-columns: none !important;
+}
+.hr-initiative-band .hr-initiative-layout > div:first-child {
+  max-width: 900px;
+}
+.hr-initiative-band .hr-initiative-rings {display:none !important;}

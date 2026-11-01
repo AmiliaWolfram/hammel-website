@@ -1,0 +1,64 @@
+<header class="top">
+<div class="wrap nav">
+<a class="logo" href="/index.html">
+<img alt="HAMMEL Recyclingtechnik" class="brand-logo brand-logo--dark" src="/assets/img/hammel-logo-dark.svg"/>
+<img alt="" aria-hidden="true" class="brand-logo brand-logo--light" src="/assets/img/hammel-logo-light.svg"/>
+</a>
+<nav class="links">
+<a href="/index.html">
+      HOME
+     </a>
+<a href="/unternehmen/index.html">
+      ÜBER UNS
+     </a>
+<a href="/maschinen/index.html">
+      MASCHINEN
+     </a>
+<a href="/loesungen/index.html">
+      LÖSUNGEN
+     </a>
+<a href="/weltweit/index.html">
+      WELTWEIT
+     </a>
+<a href="/service/index.html">
+      SERVICE
+     </a>
+<a href="/karriere/index.html">
+      KARRIERE
+     </a>
+<a href="/kontakt/index.html">
+      KONTAKT
+     </a>
+</nav>
+<div class="lang">
+<button id="langBtn">
+      DE ▾
+     </button>
+<div class="lang-menu">
+<a data-lang="de" href="#">
+       Deutsch
+      </a>
+<a data-lang="en" href="#">
+       English
+      </a>
+<a data-lang="fr" href="#">
+       Français
+      </a>
+<a data-lang="es" href="#">
+       Español
+      </a>
+<a data-lang="it" href="#">
+       Italiano
+      </a>
+</div>
+</div>
+</div>
+</header>
+<script>
+(function(){
+ function sync(){var h=document.querySelector('body > header.top');if(h)h.classList.toggle('public-header-scrolled',window.scrollY>36)}
+ document.addEventListener('DOMContentLoaded',sync);
+ window.addEventListener('scroll',sync,{passive:true});
+ sync();
+})();
+</script>

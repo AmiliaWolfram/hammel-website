@@ -1,0 +1,40 @@
+/* HAMMEL / MESSEN: home editorial design language, limited to public Messen page */
+.messe-page{background:#141516;color:#f5f5f4}
+.messe-page .wrap{width: min(100% - 2 * clamp(22px,5vw,88px), 1600px);max-width:1600px;margin-inline:auto}
+.messe-page .messe-schedule{position:relative;background:#141516;color:#f5f5f4;padding:clamp(86px,9vw,150px) 0;border-top:1px solid rgba(255,255,255,.1)}
+.messe-page .messe-schedule:before{content:"";position:absolute;left:0;top:0;width:clamp(90px,18vw,310px);height:4px;background:#e30613}
+.messe-page .messe-section-heading{align-items:end;gap:clamp(28px,5vw,80px);margin-bottom:clamp(34px,5vw,75px)}
+.messe-page .messe-kicker{color:#f2df00;font-size:12px;font-weight:850;letter-spacing:.18em;margin-bottom:23px}
+.messe-page .messe-section-heading h2,.messe-page .messe-contact h2{color:#fff;font-size:clamp(47px,6.5vw,104px);line-height:.97;letter-spacing:-.055em;font-weight:950;text-transform:uppercase}
+.messe-page .messe-section-heading>p{color:#c4c6c8;font-size:clamp(16px,1.2vw,19px);line-height:1.7;max-width:460px}
+.messe-page .messe-controls{border-bottom:1px solid rgba(255,255,255,.18);gap:clamp(8px,2vw,24px);margin-bottom:30px}
+.messe-page .messe-filter{color:#b9babe;padding:20px 6px;background:transparent;border:0;border-bottom:3px solid transparent;font-weight:850;letter-spacing:.08em;transition:color .2s,border-color .2s}
+.messe-page .messe-filter:hover,.messe-page .messe-filter.is-active{color:#fff;border-bottom-color:#e30613}
+.messe-page .messe-count{color:#aeb0b3}
+.messe-page .messe-list{gap:16px}
+.messe-page .messe-item,.messe-page .messe-empty{background:#222426;color:#f5f5f4;border:1px solid rgba(255,255,255,.1);border-left:4px solid #e30613;border-radius:0;padding:clamp(25px,3.4vw,48px);box-shadow:none;transition:background .3s,transform .3s,border-color .3s}
+.messe-page .messe-item:hover{background:#2b2d30;transform:translateY(-3px);border-color:rgba(255,255,255,.24);border-left-color:#e30613;box-shadow:none}
+.messe-page .messe-empty{font-size:clamp(18px,2vw,24px);color:#d0d1d3;min-height:175px;display:flex;align-items:center}
+.messe-page .messe-item__date{color:#f2df00;font-size:clamp(13px,1.2vw,16px);font-weight:850}
+.messe-page .messe-item__title{color:#fff;font-size:clamp(25px,3vw,42px);font-weight:950;letter-spacing:-.04em}
+.messe-page .messe-item__meta{color:#e0e0e0;font-size:14px}
+.messe-page .messe-item__desc{color:#bfc1c4;font-size:15px;line-height:1.7;max-width:720px}
+.messe-page .messe-item__image{border-radius:0;max-height:260px}
+.messe-page .messe-item__link{display:inline-flex;align-items:center;gap:10px;color:#fff;font-size:12px;font-weight:850;letter-spacing:.08em;white-space:normal;border-bottom:1px solid #e30613;padding-bottom:8px;text-decoration:none;transition:color .2s}
+.messe-page .messe-item__link:hover{color:#f2df00;text-decoration:none}
+.messe-page .messe-contact{background:#e30613;color:#fff;padding:clamp(95px,10vw,160px) 0}
+.messe-page .messe-contact .messe-kicker{color:#fff}
+.messe-page .messe-contact__inner{align-items:end;gap:40px}
+.messe-page .messe-contact p:not(.messe-kicker){color:#fff;max-width:650px;font-size:clamp(16px,1.3vw,20px);line-height:1.65}
+/* Exact HOME cinematic-link markup and interaction, also for page hero */
+.hammel-page-hero .messe-cinematic-cta,.messe-page .messe-cinematic-cta{display:inline-flex;align-items:center;gap:15px;color:#fff;text-decoration:none;background:transparent;border:0;font-size:clamp(12px,1vw,14px);font-weight:850;letter-spacing:.065em;min-height:58px;padding:0 0 9px;position:relative}
+.hammel-page-hero .messe-cinematic-cta{margin-top:clamp(18px,2vw,30px)}
+.messe-cinematic-cta .cinematic-link__icon{border-color:rgba(255,255,255,.7)}
+.messe-cinematic-cta .cinematic-link__icon svg{stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.messe-page .messe-contact .messe-cinematic-cta{flex-shrink:0}
+.messe-page .messe-contact .messe-cinematic-cta .cinematic-link__icon:before{background:#141516}
+.messe-page .messe-contact .messe-cinematic-cta .cinematic-link__label:after{background:#fff}
+.messe-cinematic-cta:focus-visible,.messe-page .messe-filter:focus-visible,.messe-page .messe-item__link:focus-visible{outline:2px solid #f2df00;outline-offset:5px}
+@media(max-width:900px){.messe-page .messe-section-heading{grid-template-columns:1fr}.messe-page .messe-contact__inner{align-items:flex-start;flex-direction:column}.messe-page .messe-item{grid-template-columns:1fr;gap:18px}}
+@media(max-width:540px){.messe-page .wrap{width:calc(100% - 40px)}.messe-page .messe-filter{font-size:11px}.messe-page .messe-count{width:100%;margin:0 0 14px}.messe-page .messe-item,.messe-page .messe-empty{padding:25px 20px}.messe-page .messe-section-heading h2,.messe-page .messe-contact h2{font-size:clamp(43px,12vw,65px)}}
+@media(prefers-reduced-motion:reduce){.messe-page .messe-item,.messe-page .messe-filter{transition:none}}

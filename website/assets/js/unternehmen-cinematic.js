@@ -1,0 +1,2 @@
+document.addEventListener('DOMContentLoaded', () => { const track = document.getElementById('about-timeline'); if (!track)
+    return; document.querySelectorAll('.about-scroll-btn').forEach(btn => btn.addEventListener('click', () => { const card = track.querySelector('.about-time-card'); track.scrollBy({ left: (card?.getBoundingClientRect().width || 280) * Number(btn.dataset.direction), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }); })); });

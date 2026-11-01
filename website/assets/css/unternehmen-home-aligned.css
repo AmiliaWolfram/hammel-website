@@ -1,0 +1,39 @@
+
+/* Match the HOME content gutter, not a separate ÜBER UNS grid. */
+:root {
+  --story-gutter: var(--cinema-gutter,clamp(20px,2.6vw,54px))!important
+}
+body .story .story__wrap {
+  width: calc(100% - 2 * var(--cinema-gutter,clamp(20px,2.6vw,54px)))!important;
+  max-width: none!important;
+  margin-left: var(--cinema-gutter,clamp(20px,2.6vw,54px))!important;
+  margin-right: var(--cinema-gutter,clamp(20px,2.6vw,54px))!important
+}
+body .story .story__eyebrow {
+  gap: 0!important;
+  padding-left: 0!important;
+  margin-left: 0!important;
+  text-indent: 0!important
+}
+body .story .story__eyebrow::before,body .story .story__eyebrow::after {
+  content: none!important;
+  display: none!important;
+  width: 0!important;
+  border: 0!important
+}
+body .story .story__text,body .story .story__intro .story__wrap>div {
+  padding-left: 0!important;
+  margin-left: 0!important
+}
+/* All ÜBER UNS content starts on the same vertical as HOME. */
+body .about-main .wrap {
+  width: calc(100% - 2 * var(--cinema-gutter,clamp(20px,2.6vw,54px)))!important;
+  max-width: none!important;
+  margin-left: var(--cinema-gutter,clamp(20px,2.6vw,54px))!important;
+  margin-right: var(--cinema-gutter,clamp(20px,2.6vw,54px))!important
+}
+@media(max-width:767px) {
+  :root {
+    --story-gutter: var(--cinema-gutter,clamp(18px,4vw,25px))!important
+  }
+}

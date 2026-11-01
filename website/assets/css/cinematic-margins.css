@@ -1,0 +1,16 @@
+
+/* Shared text alignment matching the JUST SHRED IT hero. */
+:root {
+  --cinema-gutter: clamp(20px,2.6vw,54px)
+}
+body .wrap {
+  width: calc(100% - 2 * var(--cinema-gutter))!important;
+  max-width: none!important;
+  margin-left: var(--cinema-gutter)!important;
+  margin-right: var(--cinema-gutter)!important;
+}
+@media(max-width:767px) {
+  :root {
+    --cinema-gutter: clamp(18px,4vw,25px)
+  }
+}

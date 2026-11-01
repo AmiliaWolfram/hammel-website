@@ -1,0 +1,52 @@
+/* HOME / PRODUKTE — shared right-column alignment.
+   The intro paragraph and every machine description use the same right
+   edge and the same width, so their LEFT edges line up exactly.
+   No relative left offsets: those caused previous mismatches and clipping.
+*/
+@media (min-width: 851px) {
+  .machine-premiere .machine-cinema__heading > p {
+    box-sizing: border-box;
+    flex: 0 0 380px;
+    width: 380px;
+    max-width: 380px;
+    margin-left: auto;
+  }
+
+  .machine-premiere .cinema-premiere-stage {
+    position: relative;
+  }
+
+  .machine-premiere .cinema-panel__info {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    left: auto;
+    width: 380px;
+    max-width: 380px;
+    min-width: 0;
+    box-sizing: border-box;
+    transform: translateY(calc(-50% + 30px));
+  }
+
+  .machine-premiere .cinema-panel.is-active .cinema-panel__info {
+    transform: translateY(-50%);
+  }
+
+  .machine-premiere .cinema-panel__info h3 {
+    max-width: 100%;
+    overflow-wrap: normal;
+    white-space: normal;
+  }
+}
+
+@media (min-width: 851px) and (max-width: 1150px) {
+  .machine-premiere .machine-cinema__heading > p {
+    flex-basis: 300px;
+    width: 300px;
+    max-width: 300px;
+  }
+  .machine-premiere .cinema-panel__info {
+    width: 300px;
+    max-width: 300px;
+  }
+}

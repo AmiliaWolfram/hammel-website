@@ -1,0 +1,6 @@
+{% extends 'messen/base.html' %}{% block title %}Startseiten-Showcase{% endblock %}{% block content %}
+<div class="eyebrow">HAMMEL / VERTRIEB</div><h1>STARTSEITEN-SHOWCASE</h1><p class="subtitle">Reihenfolge, Texte und Maschinen der Startseite bearbeiten. Die niedrigste Reihenfolge erscheint zuerst.</p>
+<p><a href="{% url 'staff_machine_dashboard' %}">← MASCHINENVERWALTUNG</a></p>
+<div class="machine-staff-list">{% for item in items %}<div class="machine-staff-item"><div><strong>{{ item.category }}</strong><small>{{ item.headline }} · {% if item.is_default %}STARTAUSWAHL · {% endif %}{% if item.published %}ONLINE{% else %}VERBORGEN{% endif %} · Reihenfolge {{ item.position }}</small></div><a href="{% url 'showcase_edit' item.pk %}">BEARBEITEN</a></div>{% endfor %}</div>
+<style>.machine-staff-item{display:flex;justify-content:space-between;align-items:center;padding:22px 0;border-bottom:1px solid #ddd}.machine-staff-item strong{display:block;font-size:24px}.machine-staff-item small{display:block;color:#666;margin-top:6px}.machine-staff-item a{color:#e30613;font-weight:800;text-decoration:none}</style>
+{% endblock %}

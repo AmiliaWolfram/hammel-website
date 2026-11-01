@@ -1,0 +1,1 @@
+HAMMEL Industrial Cinema Clean: no decorative section or product numbers on homepage. Cinematic scroll reveals, hover movement, tighter hero lettering. Open index.html. All original pages, video, gallery retained.

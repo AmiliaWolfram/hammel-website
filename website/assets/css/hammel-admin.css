@@ -1,0 +1,9 @@
+/* Staff admin branding; Django authentication and permissions remain enforced. */
+:root{--primary:#181a1c;--secondary:#e30613;--accent:#f4df00;--header-bg:#17191b;--header-color:#fff;--link-fg:#ad0610;--link-hover-color:#e30613;--button-bg:#e30613;--button-hover-bg:#b80510;--default-button-bg:#17191b;--default-button-hover-bg:#e30613}
+#header{background:#17191b;border-bottom:4px solid #e30613;padding:18px 32px}
+.hammel-admin-brand{display:flex;align-items:center;gap:28px;flex-wrap:wrap}
+.hammel-admin-brand img{max-width:180px;max-height:45px;object-fit:contain}
+.hammel-admin-brand span{font-size:13px;letter-spacing:.17em;font-weight:800;color:#f4df00}
+.module h2,.module caption,.inline-group h2{background:#25282b;color:#fff}
+.button,input[type=submit],input[type=button],.submit-row input{border-radius:4px}
+#site-name a{color:#fff}

@@ -1,0 +1,41 @@
+/* Shared public header, not used by Vertriebsportal */
+body:has(> header.top){--public-header-height:96px}
+body > header.top{z-index:1000}
+body:has(.mv-video-hero) > header.top,
+body:has(.hero--video) > header.top{position:absolute;left:0;right:0;top:0;background:transparent;box-shadow:none}
+body:has(.mv-video-hero) > header.top .links a,
+body:has(.hero--video) > header.top .links a{color:white}
+body:has(.mv-video-hero) > header.top .brand-logo--dark,
+body:has(.hero--video) > header.top .brand-logo--dark{display:none}
+body:has(.mv-video-hero) > header.top .brand-logo--light,
+body:has(.hero--video) > header.top .brand-logo--light{display:block}
+body > header.top.public-header-scrolled{position:fixed!important;background:white!important;box-shadow:0 3px 16px #0002!important}
+body > header.top.public-header-scrolled .links a{color:#17191a!important}
+body > header.top.public-header-scrolled .brand-logo--dark{display:block!important}
+body > header.top.public-header-scrolled .brand-logo--light{display:none!important}
+body > header.top .wrap.nav{max-width:none;width:100%;box-sizing:border-box}
+
+/* Machine pages use exactly the same public header component and spacing. */
+body.machine-detail-page > header.top .wrap.nav{width:100%;max-width:none;box-sizing:border-box}
+body.machine-detail-page > header.top.public-header-scrolled{position:fixed!important;background:#fff!important}
+body.machine-detail-page > header.top.public-header-scrolled .links a{color:#17191a!important}
+body.machine-detail-page > header.top.public-header-scrolled .brand-logo--dark{display:block!important}
+body.machine-detail-page > header.top.public-header-scrolled .brand-logo--light{display:none!important}
+
+/* Public machine pages: Home-identical transparent overlay header. */
+body.machine-detail-page > header.top,
+body:has(> .mv-video-hero) > header.top,
+body:has(> .mv-series-hero) > header.top {
+  position:fixed!important;top:0!important;left:0!important;right:0!important;
+  background:linear-gradient(to bottom,rgba(0,0,0,.42),rgba(0,0,0,0))!important;
+  border:0!important;box-shadow:none!important;z-index:1000!important;
+}
+body.machine-detail-page > header.top:not(.public-header-scrolled) .links a,
+body:has(> .mv-video-hero) > header.top:not(.public-header-scrolled) .links a{color:#fff!important}
+body.machine-detail-page > header.top:not(.public-header-scrolled) .brand-logo--dark,
+body:has(> .mv-video-hero) > header.top:not(.public-header-scrolled) .brand-logo--dark{display:none!important}
+body.machine-detail-page > header.top:not(.public-header-scrolled) .brand-logo--light,
+body:has(> .mv-video-hero) > header.top:not(.public-header-scrolled) .brand-logo--light{display:block!important}
+body.machine-detail-page > header.top.public-header-scrolled,
+body:has(> .mv-video-hero) > header.top.public-header-scrolled{background:#fff!important;box-shadow:0 3px 16px #0002!important}
+body > header.top .wrap.nav{padding-left:var(--public-gutter,4vw)!important;padding-right:var(--public-gutter,4vw)!important}

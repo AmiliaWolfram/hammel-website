@@ -1,0 +1,201 @@
+
+/* HAMMEL | Cinematic Reveal — restrained, precise, premium */
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@900&display=swap');
+.hero--video .shred-title {
+  font-family: 'Unbounded','Arial Black',Impact,sans-serif!important;
+  font-size: clamp(2.7rem,6.25vw,7.2rem)!important;
+  font-weight: 900;
+  line-height: 1.19!important;
+  letter-spacing: -.085em;
+  width: min(100%,1100px);
+  max-width: none;
+  overflow: visible!important;
+  margin: 18px 0 32px;
+  padding: .08em 0 .1em;
+  position: relative;
+  isolation: isolate;
+  text-shadow: 0 10px 35px #0008;
+}
+.shred-line {
+  display: block;
+  position: relative;
+  white-space: nowrap;
+  height: auto!important;
+  min-height: 1.19em;
+  overflow: visible!important;
+  padding: .04em 0 .055em;
+  box-sizing: content-box
+}
+.shred-ink {
+  display: block;
+  position: relative;
+  width: max-content;
+  max-width: none;
+  line-height: 1.19;
+  transform: scaleX(1.10);
+  transform-origin: left center;
+  overflow: visible!important;
+  will-change: opacity,filter,transform
+}
+.shred-line--just .shred-ink,.shred-line--shred .shred-ink {
+  color: #f6f5f2
+}
+.shred-line--it .shred-ink {
+  color: #e30613
+}
+/* A subtle metallic glint is constrained to the actual text glyphs. */
+.shred-ink::after {
+  content: attr(data-word);
+  position: absolute;
+  inset: 0;
+  width: max-content;
+  color: transparent;
+  background: linear-gradient(103deg,transparent 27%,#fff0 35%,#fff9 46%,#fff 49%,#fff6 53%,transparent 64%);
+  background-size: 260% 100%;
+  background-position: 130% 0;
+  background-clip: text;
+  -webkit-background-clip: text;
+  opacity: 0;
+  pointer-events: none;
+}
+.shred-title.is-ready .shred-line--just .shred-ink {
+  animation: cinemaRise 1.3s cubic-bezier(.2,.65,.16,1) .12s both
+}
+.shred-title.is-ready .shred-line--shred .shred-ink {
+  animation: cinemaRise 1.4s cubic-bezier(.2,.65,.16,1) .40s both
+}
+.shred-title.is-ready .shred-line--it .shred-ink {
+  animation: cinemaRed 1.05s cubic-bezier(.2,.65,.16,1) 1.05s both
+}
+.shred-title.is-ready .shred-line--just .shred-ink::after {
+  animation: cinemaSweep 1.5s ease-in-out 1.18s both
+}
+.shred-title.is-ready .shred-line--shred .shred-ink::after {
+  animation: cinemaSweep 1.6s ease-in-out 1.32s both
+}
+.shred-title.is-ready .shred-line--it .shred-ink::after {
+  animation: cinemaSweep 1.3s ease-in-out 1.68s both
+}
+.shred-title::after {
+  content: "";
+  position: absolute;
+  bottom: -.05em;
+  left: 0;
+  width: min(40%,310px);
+  height: 2px;
+  background: #e30613;
+  transform: scaleX(0);
+  transform-origin: left;
+  opacity: .8
+}
+.shred-title.is-ready::after {
+  animation: cinemaRule .85s cubic-bezier(.2,.7,.2,1) 2.35s both
+}
+@keyframes cinemaRise {
+  0% {
+    opacity: 0;
+    filter: blur(11px) brightness(.45);
+    transform: translateY(.16em) scaleX(1.10)
+  }
+  55% {
+    opacity: .8;
+    filter: blur(2px) brightness(.82)
+  }
+  100% {
+    opacity: 1;
+    filter: none;
+    transform: translateY(0) scaleX(1.10)
+  }
+}
+@keyframes cinemaRed {
+  0% {
+    opacity: 0;
+    filter: blur(9px) brightness(.3);
+    transform: translateY(.12em) scaleX(1.10)
+  }
+  100% {
+    opacity: 1;
+    filter: none;
+    transform: translateY(0) scaleX(1.10)
+  }
+}
+@keyframes cinemaSweep {
+  0% {
+    opacity: 0;
+    background-position: 130% 0
+  }
+  20% {
+    opacity: .58
+  }
+  65% {
+    opacity: .46
+  }
+  100% {
+    opacity: 0;
+    background-position: -80% 0
+  }
+}
+@keyframes cinemaRule {
+  from {
+    transform: scaleX(0);
+    opacity: 0
+  }
+  to {
+    transform: scaleX(1);
+    opacity: .8
+  }
+}
+@media(max-width:700px) {
+  .hero--video .shred-title {
+    font-size: clamp(2.25rem,9vw,4.9rem)!important;
+    letter-spacing: -.095em
+  }
+  .shred-ink {
+    transform: scaleX(1.04)
+  }
+  @keyframes cinemaRise {
+    0% {
+      opacity: 0;
+      filter: blur(7px);
+      transform: translateY(.12em) scaleX(1.04)
+    }
+    100% {
+      opacity: 1;
+      filter: none;
+      transform: scaleX(1.04)
+    }
+  }
+  @keyframes cinemaRed {
+    0% {
+      opacity: 0;
+      filter: blur(7px);
+      transform: translateY(.12em) scaleX(1.04)
+    }
+    100% {
+      opacity: 1;
+      filter: none;
+      transform: scaleX(1.04)
+    }
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  .shred-title.is-ready .shred-ink,.shred-title.is-ready .shred-ink::after,.shred-title.is-ready::after {
+    animation: none!important;
+    filter: none!important;
+    opacity: 1!important
+  }
+  .shred-title.is-ready .shred-ink::after {
+    opacity: 0!important
+  }
+  .shred-title::after {
+    transform: scaleX(1)
+  }
+}
+/* Align the red finishing rule with the actual rendered width of SHRED. */
+.hero--video .shred-title {
+  --shred-rule-width: 0px
+}
+.hero--video .shred-title::after {
+  width: var(--shred-rule-width)!important;
+  max-width: none!important
+}

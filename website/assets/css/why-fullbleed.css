@@ -1,0 +1,111 @@
+
+/* Full-bleed video left, soft transition into warm-white copy on right. */
+@media(min-width:851px) {
+  .why-section--fullbleed {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    min-height: clamp(580px,48vw,760px);
+    display: flex;
+    align-items: center;
+    padding-block: 0!important;
+    background: #f4f3f0
+  }
+  .why-section--fullbleed>.wrap.split {
+    position: static!important;
+    display: grid!important;
+    grid-template-columns: 1fr 1fr!important;
+    align-items: center!important;
+    gap: 0!important;
+    width: 100%!important;
+    max-width: none!important;
+    margin: 0!important;
+    padding: 0!important;
+    min-height: inherit
+  }
+  .why-section--fullbleed .engineering-graphic--film {
+    position: absolute!important;
+    left: 0!important;
+    top: 0!important;
+    bottom: 0!important;
+    width: 57%!important;
+    height: 100%!important;
+    min-height: 100%!important;
+    overflow: hidden!important;
+    border: 0!important;
+    background: #171717;
+    z-index: -1
+  }
+  .why-section--fullbleed .engineering-film {
+    width: 100%!important;
+    height: 100%!important;
+    object-fit: cover!important;
+    object-position: center!important
+  }
+  .why-section--fullbleed .engineering-graphic--film:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(90deg,transparent 60%,rgba(244,243,240,.16) 74%,#f4f3f0 100%)
+  }
+  .why-section--fullbleed .engineering-film__shade {
+    background: linear-gradient(0deg,rgba(0,0,0,.32),transparent 36%);
+    z-index: 1
+  }
+  .why-section--fullbleed .engineering-film__caption {
+    left: var(--cinema-gutter,2.6vw);
+    bottom: clamp(25px,4vw,60px);
+    z-index: 3
+  }
+  .why-section--fullbleed .engineering-graphic--film:after {
+    z-index: 4
+  }
+  .why-section--fullbleed .why-section__content {
+    grid-column: 2;
+    padding: clamp(55px,7vw,110px) var(--cinema-gutter,2.6vw) clamp(55px,7vw,110px) clamp(35px,3.5vw,85px);
+    position: relative;
+    z-index: 3;
+    min-width: 0
+  }
+  .why-section--fullbleed .why-section__content .title {
+    font-size: clamp(42px,5.25vw,108px);
+    overflow-wrap: normal
+  }
+}
+@media(max-width:850px) {
+  .why-section--fullbleed {
+    padding: 0!important;
+    overflow: hidden
+  }
+  .why-section--fullbleed>.wrap.split {
+    display: flex!important;
+    flex-direction: column!important;
+    gap: 0!important;
+    width: 100%!important;
+    max-width: none!important;
+    margin: 0!important
+  }
+  .why-section--fullbleed .engineering-graphic--film {
+    width: 100%!important;
+    height: clamp(280px,65vw,480px)!important;
+    flex: none
+  }
+  .why-section--fullbleed .engineering-graphic--film:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(0deg,#f4f3f0,transparent 32%)
+  }
+  .why-section--fullbleed .why-section__content {
+    padding: 25px var(--cinema-gutter,20px) 65px;
+    width: 100%;
+    box-sizing: border-box
+  }
+  .why-section--fullbleed .why-section__content .title {
+    font-size: clamp(40px,9vw,70px)
+  }
+}

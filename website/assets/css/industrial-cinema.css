@@ -1,0 +1,71 @@
+
+/* HAMMEL Industrial Cinema — restrained movement, clean labels */
+:root {
+  scroll-behavior: smooth
+}
+.kicker {
+  letter-spacing: .19em
+}
+.reveal {
+  transition: opacity 1.1s cubic-bezier(.22,1,.36,1),transform 1.1s cubic-bezier(.22,1,.36,1)!important
+}
+.reveal.cinema-hidden {
+  opacity: 0;
+  transform: translateY(34px)
+}
+.reveal.cinema-visible {
+  opacity: 1;
+  transform: translateY(0)
+}
+.product-tile,.news-panel,.material {
+  transition: transform .7s cubic-bezier(.22,1,.36,1),background-color .5s ease,box-shadow .5s ease!important
+}
+.product-tile:hover,.news-panel:hover {
+  transform: translateY(-7px)
+}
+.intro-slide img {
+  transition: transform 8s ease,filter 1.2s ease
+}
+.intro-slide.active img {
+  transform: scale(1.035)
+}
+.text-link span,.tile-arrow {
+  display: inline-block;
+  transition: transform .45s cubic-bezier(.22,1,.36,1)
+}
+.text-link:hover span,.product-tile:hover .tile-arrow {
+  transform: translate(4px,-4px)
+}
+/* keep heavy typography close and safe from clipping */
+.hero--video .shred-title {
+  line-height: 1.02!important;
+  letter-spacing: -.095em!important
+}
+.hero--video .shred-line {
+  min-height: 0!important;
+  height: auto!important;
+  padding: .015em 0 .035em!important;
+  line-height: 1.02!important
+}
+.hero--video .shred-ink {
+  transform: scaleX(1.19);
+  transform-origin: left center
+}
+@media(max-width:700px) {
+  .hero--video .shred-ink {
+    transform: scaleX(1.10)
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  :root {
+    scroll-behavior: auto
+  }
+  .reveal,.product-tile,.news-panel,.material,.intro-slide img,.text-link span {
+    transition: none!important;
+    animation: none!important
+  }
+  .reveal.cinema-hidden {
+    opacity: 1;
+    transform: none
+  }
+}

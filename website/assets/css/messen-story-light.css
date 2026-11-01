@@ -1,0 +1,179 @@
+/* HAMMEL — Editorial Gallery / independent full-width event story */
+.messe-folder-page .mf-story-section{
+  --story-red:#e30613;
+  position:relative; isolation:isolate; overflow:hidden;
+  background:#f4f3f0; color:#151618; border-top:7px solid var(--story-red);
+}
+.messe-folder-page .mf-story-section[hidden]{display:none!important}
+.messe-folder-page .mf-story-section::before{
+  content:"";position:absolute;inset:0;pointer-events:none;z-index:-1;
+  background:linear-gradient(90deg,rgba(0,0,0,.018) 1px,transparent 1px);
+  background-size:calc(100% / 12) 100%;opacity:.3;
+}
+.messe-folder-page .mf-story-section .mf-detail-standalone{
+  box-sizing:border-box;width:100%;max-width:var(--wrap,1440px);
+  margin-inline:auto;padding-block:clamp(65px,7.4vw,124px);
+}
+.messe-folder-page .mf-story-section .mf-event-detail{
+  display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);
+  gap:clamp(38px,6vw,118px);align-items:start;
+  padding:0;border:0;width:100%;scroll-margin-top:95px;
+}
+.messe-folder-page .mf-story-section .mf-detail-heading{
+  min-width:0;position:relative;align-self:start;
+  padding-top:clamp(12px,2.8vw,42px);
+}
+.messe-folder-page .mf-story-section .mf-story-copy{position:relative;padding:0}
+.messe-folder-page .mf-story-section .mf-eyebrow{
+  display:flex;align-items:center;gap:14px;color:#d00417;
+  font-size:12px;line-height:1.5;letter-spacing:.19em;font-weight:900;
+  margin:0 0 clamp(18px,2vw,32px);
+}
+.messe-folder-page .mf-story-section .mf-eyebrow::before{display:none!important;content:none!important;}
+.messe-folder-page .mf-story-section .mf-detail-heading h3{
+  color:#111214;font-size:clamp(48px,5.7vw,94px);line-height:.98;
+  letter-spacing:-.055em;margin:0 0 32px;overflow-wrap:anywhere;
+  text-transform:uppercase;font-weight:900;
+}
+.messe-folder-page .mf-story-section .mf-story-meta{
+  border-top:1px solid #c8c7c4;border-bottom:1px solid #c8c7c4;
+  padding:18px 0;display:grid;grid-template-columns:minmax(0,1fr);
+  gap:6px;margin-bottom:30px;
+}
+.messe-folder-page .mf-story-section .mf-story-meta-label{
+  color:#6b6b69;font-size:10px;font-weight:900;letter-spacing:.18em;
+}
+.messe-folder-page .mf-story-section .mf-date{
+  color:#b60012;font-weight:900;letter-spacing:.015em;
+  font-size:clamp(13px,1.2vw,16px);line-height:1.6;margin:0;
+}
+.messe-folder-page .mf-story-section .mf-detail-description{
+  color:#51514f;font-size:clamp(15px,1.25vw,18px);line-height:1.85;
+  max-width:54ch;margin:0 0 32px;white-space:pre-line;
+}
+.messe-folder-page .mf-story-section .mf-link{
+  color:#151618;margin-top:12px;transition:color .2s;
+  display:inline-flex;align-items:center;gap:14px;
+}
+.messe-folder-page .mf-story-section .mf-link:hover{color:#c90013}
+.messe-folder-page .mf-story-section .mf-link__circle{background:var(--story-red);color:#fff}
+.messe-folder-page .mf-story-section .mf-story-visual{min-width:0;position:relative}
+.messe-folder-page .mf-story-section .mf-story-gallery-head{
+  display:flex;justify-content:space-between;align-items:baseline;
+  gap:16px;margin:0 0 16px;padding-bottom:13px;border-bottom:1px solid #d1d0cb;
+  font-size:11px;letter-spacing:.14em;font-weight:900;color:#343434;
+}
+.messe-folder-page .mf-story-section .mf-story-gallery-head span:last-child{
+  color:#c70013;font-variant-numeric:tabular-nums;
+}
+.messe-folder-page .mf-story-section .mf-detail-gallery{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;margin:0;width:100%;
+}
+.messe-folder-page .mf-story-section .mf-detail-photo{
+  display:block;position:relative;min-width:0;aspect-ratio:4/3;
+  overflow:hidden;padding:0;border:0;background:#ddd;cursor:zoom-in;
+  box-shadow:0 10px 32px rgba(16,16,16,.10);
+}
+.messe-folder-page .mf-story-section .mf-detail-photo:first-child{
+  grid-column:1/-1;aspect-ratio:16/10;
+}
+.messe-folder-page .mf-story-section .mf-detail-photo img{
+  display:block;width:100%;height:100%;object-fit:cover;
+  transition:transform .6s cubic-bezier(.2,.75,.2,1),filter .3s;
+}
+.messe-folder-page .mf-story-section .mf-detail-photo:hover img,
+.messe-folder-page .mf-story-section .mf-detail-photo:focus-visible img{
+  transform:scale(1.055);
+}
+.messe-folder-page .mf-story-section .mf-detail-photo:focus-visible{
+  outline:3px solid var(--story-red);outline-offset:3px;
+}
+.messe-folder-page .mf-story-section .mf-detail-photo__caption{
+  position:absolute;bottom:0;left:0;right:0;color:#fff;
+  background:linear-gradient(transparent,rgba(0,0,0,.8));
+  padding:35px 15px 12px;font-size:12px;text-align:left;
+}
+.messe-folder-page .mf-story-section .mf-photo-index{
+  position:absolute;top:12px;left:12px;z-index:2;
+  padding:7px 9px;background:rgba(16,17,19,.76);
+  color:#fff;font-size:10px;letter-spacing:.13em;font-weight:800;
+  backdrop-filter:blur(8px);pointer-events:none;
+}
+.messe-folder-page .mf-story-section .mf-photo-expand{
+  position:absolute;bottom:14px;right:14px;z-index:2;
+  display:grid;place-items:center;width:38px;height:38px;
+  background:var(--story-red);color:white;font-size:20px;
+  pointer-events:none;transition:transform .2s;
+}
+.messe-folder-page .mf-story-section .mf-detail-photo:hover .mf-photo-expand{
+  transform:translate(2px,-2px);
+}
+.messe-folder-page .mf-story-section .mf-story-photo-count{
+  color:#73736f;font-size:11px;font-weight:800;letter-spacing:.13em;
+  margin:17px 0 0;
+}
+.messe-folder-page .mf-story-section .mf-story-no-photos{
+  grid-column:1/-1;padding:60px 25px;background:#e5e4e0;
+  color:#666;text-align:center;
+}
+@media(min-width:1080px){
+  .messe-folder-page .mf-story-section .mf-detail-gallery:has(.mf-detail-photo:nth-child(3)){
+    grid-template-columns:minmax(0,1.35fr) minmax(0,.85fr);
+    grid-template-rows:repeat(2,minmax(0,1fr));
+    height:clamp(380px,35vw,570px);
+  }
+  .messe-folder-page .mf-story-section .mf-detail-gallery:has(.mf-detail-photo:nth-child(3)) .mf-detail-photo:first-child{
+    grid-column:1;grid-row:1/span 2;aspect-ratio:auto;
+  }
+  .messe-folder-page .mf-story-section .mf-detail-gallery:has(.mf-detail-photo:nth-child(3)) .mf-detail-photo:nth-child(2),
+  .messe-folder-page .mf-story-section .mf-detail-gallery:has(.mf-detail-photo:nth-child(3)) .mf-detail-photo:nth-child(3){
+    grid-column:2;aspect-ratio:auto;
+  }
+}
+@media(max-width:950px){
+  .messe-folder-page .mf-story-section .mf-event-detail{grid-template-columns:1fr;gap:40px}
+  .messe-folder-page .mf-story-section .mf-detail-heading{padding-top:0}
+  .messe-folder-page .mf-story-section .mf-detail-heading h3{font-size:clamp(44px,8vw,76px)}
+}
+@media(max-width:520px){
+  .messe-folder-page .mf-story-section .mf-detail-standalone{padding-block:56px 72px}
+  .messe-folder-page .mf-story-section .mf-detail-gallery{gap:7px}
+  .messe-folder-page .mf-story-section .mf-detail-photo:first-child{aspect-ratio:4/3}
+  .messe-folder-page .mf-story-section .mf-detail-description{margin-bottom:22px}
+}
+@media(prefers-reduced-motion:reduce){
+  .messe-folder-page .mf-story-section .mf-detail-photo img{transition:none}
+}
+
+/* Messe CTA: same cinematic hover treatment as the Home hero, adapted to light background */
+.messe-folder-page .mf-story-section .mf-link.cinematic-link{position:relative;min-height:58px;padding:0 0 9px;background:none;border:0;isolation:isolate;font-size:clamp(12px,1vw,14px);font-weight:800;letter-spacing:.065em;color:#151618}
+.messe-folder-page .mf-story-section .mf-link.cinematic-link .cinematic-link__icon{background:transparent;border:1px solid #15161880;border-radius:50%;height:48px;width:48px;overflow:hidden;position:relative;transition:border-color .4s,transform .45s}
+.messe-folder-page .mf-story-section .mf-link.cinematic-link .cinematic-link__icon:before{content:"";position:absolute;inset:0;background:#e30613;transform:translateY(102%);transition:transform .48s;border-radius:50%}
+.messe-folder-page .mf-story-section .mf-link.cinematic-link .cinematic-link__icon svg{position:relative;width:19px;height:19px;stroke:#151618;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:transform .4s,stroke .4s}
+.messe-folder-page .mf-story-section .mf-link.cinematic-link:hover .cinematic-link__icon{border-color:#e30613;transform:scale(1.035)}
+.messe-folder-page .mf-story-section .mf-link.cinematic-link:hover .cinematic-link__icon:before{transform:translateY(0)}
+.messe-folder-page .mf-story-section .mf-link.cinematic-link:hover svg{transform:translate(2px,-2px);stroke:#fff}
+.messe-folder-page .mf-story-section .mf-link.cinematic-link .cinematic-link__label{position:relative;white-space:nowrap}
+.messe-folder-page .mf-story-section .mf-link.cinematic-link .cinematic-link__label:after{content:"";position:absolute;bottom:-9px;left:0;width:100%;height:1px;background:#e30613;transform:scaleX(0);transform-origin:left;transition:transform .48s}
+.messe-folder-page .mf-story-section .mf-link.cinematic-link:hover .cinematic-link__label:after{transform:scaleX(1)}
+.messe-folder-page .mf-story-section .mf-link.cinematic-link:focus-visible{outline:2px solid #e30613;outline-offset:6px}
+@media(prefers-reduced-motion:reduce){.messe-folder-page .mf-story-section .mf-link.cinematic-link *,.messe-folder-page .mf-story-section .mf-link.cinematic-link *:before{transition:none!important}}
+
+/* Definitive Home CTA override: override legacy filled .mf-link__circle */
+.messe-folder-page .mf-story-section a.mf-link.cinematic-link .mf-link__circle.cinematic-link__icon {
+  background:transparent!important;color:#151618!important;border:1px solid rgba(21,22,24,.5);
+  width:48px;height:48px;display:grid;place-items:center;padding:0;overflow:hidden;
+}
+.messe-folder-page .mf-story-section a.mf-link.cinematic-link .mf-link__circle.cinematic-link__icon::before {
+  background:#e30613;transform:translateY(102%);z-index:0;
+}
+.messe-folder-page .mf-story-section a.mf-link.cinematic-link .mf-link__circle.cinematic-link__icon svg {
+  z-index:1;stroke:#151618;transform:translate(0,0);
+}
+.messe-folder-page .mf-story-section a.mf-link.cinematic-link:hover .mf-link__circle.cinematic-link__icon,
+.messe-folder-page .mf-story-section a.mf-link.cinematic-link:focus-visible .mf-link__circle.cinematic-link__icon {background:transparent!important;border-color:#e30613;transform:scale(1.035)}
+.messe-folder-page .mf-story-section a.mf-link.cinematic-link:hover .mf-link__circle.cinematic-link__icon::before,
+.messe-folder-page .mf-story-section a.mf-link.cinematic-link:focus-visible .mf-link__circle.cinematic-link__icon::before {transform:translateY(0)}
+.messe-folder-page .mf-story-section a.mf-link.cinematic-link:hover .mf-link__circle.cinematic-link__icon svg,
+.messe-folder-page .mf-story-section a.mf-link.cinematic-link:focus-visible .mf-link__circle.cinematic-link__icon svg {stroke:#fff;transform:translate(2px,-2px)}

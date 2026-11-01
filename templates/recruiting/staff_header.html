@@ -1,0 +1,6 @@
+<link rel="stylesheet" href="/assets/css/hr-portal-header.css?v=20261030-sticky2">
+<header class="hr-portal-header"><div class="hr-portal-header-inner">
+<a class="hr-portal-brand" href="{% url 'hr_dashboard' %}" aria-label="HR Portal Startseite"><img src="/assets/img/hammel-logo-dark.svg" alt="HAMMEL Recyclingtechnik"></a>
+<nav class="hr-portal-nav" aria-label="HR-Portal Navigation"><a href="{% url 'hr_dashboard' %}" {% if request.resolver_match.url_name == 'hr_dashboard' %}class="is-active"{% endif %}>Startseite</a><a href="{% url 'hr_section' 'stellen' %}" {% if request.resolver_match.url_name == 'hr_management' %}class="is-active"{% endif %}>Stellen</a><a href="{% url 'hr_section' 'bereiche' %}">Bereiche</a><a href="{% url 'hr_section' 'tipps' %}">HR-Tipps</a><a href="{% url 'hr_section' 'bewerbungen' %}">Bewerbungen</a><a href="{% url 'hr_careers' %}" target="_blank" rel="noopener">Öffentliche Seite</a></nav>
+<div class="hr-portal-account"><div class="hr-portal-name"><span>HR</span> PORTAL</div><div class="hr-portal-account-bottom"><span class="hr-portal-user">{% if user.is_authenticated %}<i></i>{{ user.get_full_name|default:user.username }}{% endif %}</span>{% if user.is_authenticated %}<form method="post" action="{% url 'hr_logout' %}">{% csrf_token %}<button type="submit">Abmelden</button></form>{% endif %}</div></div>
+</div></header>

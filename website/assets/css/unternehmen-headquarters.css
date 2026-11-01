@@ -1,0 +1,68 @@
+
+/* Current HAMMEL headquarters integrated into the thirty-year narrative. */
+.story__next {
+  display: none!important
+}
+.story__end {
+  overflow: hidden
+}
+.story__end .story__wrap {
+  grid-template-columns: minmax(0,.8fr) minmax(0,1.2fr);
+  gap: clamp(30px,5vw,95px);
+  align-items: center
+}
+.story__end .story__hq {
+  position: relative;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  isolation: isolate
+}
+.story__end .story__hq img {
+  display: block;
+  width: 100%;
+  height: clamp(330px,37vw,630px);
+  object-fit: cover;
+  object-position: 56% 50%;
+  filter: none!important;
+  box-shadow: none!important
+}
+.story__end .story__hq figcaption {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  max-width: 100%;
+  padding: 14px 20px;
+  background: #151617;
+  color: #fff;
+  font-size: 11px;
+  line-height: 1.4;
+  font-weight: 700;
+  letter-spacing: .13em;
+  text-transform: uppercase
+}
+.story__end h3 {
+  font-size: clamp(47px,5.4vw,104px);
+  overflow-wrap: normal
+}
+.story__end .story__hq img {
+  transform: scale(1.03);
+  transition: transform 1.1s cubic-bezier(.22,.8,.22,1)
+}
+.story__end .story__hq.story__visible img {
+  transform: scale(1)
+}
+@media(max-width:900px) {
+  .story__end .story__wrap {
+    grid-template-columns: 1fr
+  }
+  .story__end .story__hq img {
+    height: clamp(260px,53vw,480px)
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  .story__end .story__hq img {
+    transition: none;
+    transform: none
+  }
+}

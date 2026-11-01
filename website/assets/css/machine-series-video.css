@@ -1,0 +1,30 @@
+/* Series detail: full-screen video hero and exactly the Home cinematic CTA */
+.mv-series-hero{height:100svh;min-height:610px;position:relative;display:flex;align-items:center;overflow:hidden;background:#101214;color:#fff}
+.mv-series-hero .mv-hero-media,.mv-series-hero .mv-hero-shade{position:absolute;inset:0;width:100%;height:100%}
+.mv-series-hero .mv-hero-media video{width:100%;height:100%;object-fit:cover;display:block}
+.mv-series-hero .mv-hero-shade{background:linear-gradient(90deg,rgba(0,0,0,.76),rgba(0,0,0,.30) 80%),linear-gradient(0deg,rgba(0,0,0,.44),transparent 65%);pointer-events:none}
+.mv-series-hero .mv-series-hero-content{position:relative;z-index:2;padding:100px var(--mv-page-gutter,clamp(20px,3vw,54px)) 70px;max-width:none;width:100%;margin:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+.mv-series-hero .mv-hero-back{position:absolute;top:40px;left:var(--mv-page-gutter,clamp(20px,3vw,54px));z-index:3;color:#fff;text-decoration:none;font-weight:800;font-size:12px;letter-spacing:.08em}
+.mv-series-hero .mv-hero-eyebrow{color:#f2b705}
+.mv-series-hero h1{color:#fff;margin:18px 0 22px;line-height:1.02}
+.mv-series-hero-description{max-width:780px;color:#eee;font-size:clamp(16px,1.5vw,22px);line-height:1.6;margin:0}
+.mv-series-hero .cinematic-actions{margin-top:38px}
+.mv-series-hero .cinematic-link{color:#fff}
+.mv-series-main{padding-top:68px}
+.mv-series-main .mv-series-grid{margin:0 0 50px}
+.mv-series-actions{margin:10px 0 30px}
+.mv-series-compare{display:inline-flex;align-items:center;gap:15px;min-height:58px;padding:0 0 9px;color:#171b1e;font-size:clamp(12px,1vw,14px);font-weight:800;letter-spacing:.065em;text-decoration:none}
+.mv-series-compare .cinematic-link__icon{border-color:#171b1e80}
+.mv-series-compare:hover .cinematic-link__icon,.mv-series-compare:focus-visible .cinematic-link__icon{color:#fff}
+.mv-series-compare .cinematic-link__label{white-space:normal}
+@media(max-width:600px){.mv-series-hero{min-height:520px}.mv-series-hero .mv-hero-back{top:24px}.mv-series-hero .mv-series-hero-content{padding-top:90px;padding-bottom:50px}.mv-series-main{padding-top:38px}}
+
+/* HAMMEL machine series: balanced red section */
+.mv-series-main{background:#e30613!important;color:#fff!important;padding-top:clamp(48px,5vw,88px)!important;padding-bottom:clamp(48px,5vw,88px)!important;box-sizing:border-box!important;}
+.mv-series-main .mv-series-grid{margin:0 0 clamp(24px,3vw,48px)!important;}
+.mv-series-main .mv-series-actions{margin:0!important;}
+.mv-series-main .mv-series-compare{color:#fff!important;padding:0!important;min-height:54px!important;}
+.mv-series-main .mv-series-compare .cinematic-link__icon{color:#fff!important;border-color:rgba(255,255,255,.8)!important;}
+.mv-series-main .mv-series-compare:hover .cinematic-link__icon{background:#fff!important;color:#e30613!important;}
+.mv-series-main .mv-series-compare .cinematic-link__label{color:#fff!important;}
+@media(max-width:600px){.mv-series-main{padding-top:42px!important;padding-bottom:42px!important;}}

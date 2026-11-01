@@ -1,0 +1,12 @@
+/* Consistent legal page grid: same gutters, no arbitrary half-width panels */
+body .legal-page .legal-hero .wrap,body .legal-page .legal-body>.wrap,body .legal-page .legal-downloads>.wrap{width:calc(100% - 2 * var(--cinema-gutter,4vw))!important;margin-inline:var(--cinema-gutter,4vw)!important;max-width:none!important;box-sizing:border-box!important}
+body .legal-page .legal-layout,body .legal-page .legal-document,body .legal-page .legal-doc-head,body .legal-page .legal-doc-body{width:100%!important;max-width:none!important;margin-inline:0!important}
+body .legal-page .legal-doc-head{padding:0!important}
+body .legal-page .legal-doc-body{padding:30px 0 50px!important}
+body .legal-page .legal-document-meta{box-sizing:border-box!important;width:100%!important;max-width:none!important;margin:0 0 38px!important;padding:17px 22px!important;background:#f0f0ef!important;border-radius:0!important}
+body .legal-page .legal-local-index{box-sizing:border-box!important;width:100%!important;max-width:none!important;margin:0 0 48px!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;column-gap:42px!important}
+body .legal-page .legal-local-index a{font-size:14px!important;padding:14px 0!important}
+body .legal-page .legal-local-section{box-sizing:border-box!important;width:100%!important;max-width:none!important;margin:0 0 32px!important;padding:0 0 28px!important}
+body .legal-page .legal-local-section p{max-width:1120px!important;font-size:15px!important;line-height:1.85!important}
+body .legal-page .legal-local-section h3{max-width:1120px!important}
+@media(max-width:700px){body .legal-page .legal-local-index{grid-template-columns:1fr!important;column-gap:0!important}body .legal-page .legal-document-meta{padding:16px!important}body .legal-page .legal-doc-body{padding-top:24px!important}}
