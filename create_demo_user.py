@@ -30,6 +30,7 @@ view_permissions = Permission.objects.filter(
         "messen",
         "contacts",
         "partners",
+        "recruiting",
     ],
     codename__startswith="view_",
 )
