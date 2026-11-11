@@ -35,6 +35,8 @@ def create(request):
     form = MesseForm(request.POST or None, request.FILES or None)
     if request.method == "POST" and form.is_valid():
         messe = form.save()
+        from translations.services import save_inline
+        save_inline(request, messe, form)
         save_gallery(request, messe)
         messages.success(request, "Messe wurde erfolgreich angelegt.")
         return redirect("messen_dashboard")
@@ -50,7 +52,7 @@ def edit(request, pk):
         save_gallery(request, messe)
         messages.success(request, "Änderungen wurden gespeichert.")
         return redirect("messen_dashboard")
-    return render(request, "messen/form.html", {"form": form, "editing": True, "item": obj})
+    return render(request, "messen/form.html", {"form": form, "editing": True, "item": obj, "object": obj})
 
 @login_required(login_url="messen_login")
 @permission_required("messen.delete_messe", raise_exception=True)
@@ -97,10 +99,12 @@ def news_edit(request, pk):
     item = get_object_or_404(NewsArticle, pk=pk)
     form = NewsArticleForm(request.POST or None, request.FILES or None, instance=item)
     if request.method == "POST" and form.is_valid():
-        form.save()
+        saved = form.save()
+        from translations.services import save_inline
+        save_inline(request, saved, form)
         messages.success(request, "Änderungen wurden gespeichert.")
         return redirect("news_dashboard")
-    return render(request, "messen/news_form.html", {"form": form, "editing": True, "item": item})
+    return render(request, "messen/news_form.html", {"form": form, "editing": True, "item": item, "object": item})
 
 @login_required(login_url="messen_login")
 @permission_required("messen.delete_newsarticle", raise_exception=True)
@@ -145,10 +149,13 @@ def used_edit(request, pk):
     machine = get_object_or_404(UsedMachine, pk=pk)
     form = UsedMachineForm(request.POST or None, request.FILES or None, instance=machine)
     if request.method == "POST" and form.is_valid():
-        form.save(); save_used_photos(request, machine)
+        saved = form.save()
+        from translations.services import save_inline
+        save_inline(request, saved, form)
+        save_used_photos(request, machine)
         messages.success(request, "Maschine wurde aktualisiert.")
         return redirect("used_dashboard")
-    return render(request, "messen/used_form.html", {"form": form, "editing": True, "item": machine})
+    return render(request, "messen/used_form.html", {"form": form, "editing": True, "item": machine, "object": machine})
 
 @login_required(login_url="messen_login")
 @permission_required("messen.delete_usedmachine", raise_exception=True)
@@ -217,6 +224,8 @@ def _machine_form(request, model, form_class, permission, instance=None):
             if before:
                 before={k:str(v) if not isinstance(v,(int,float,bool,str,type(None))) else v for k,v in before.items()}
             obj=form.save()
+            from translations.services import save_inline
+            save_inline(request, obj, form)
             if is_variant:
                 selected={int(x) for x in request.POST.getlist("materials") if x.isdigit()}
                 area_ids={int(x) for x in request.POST.getlist("areas") if x.isdigit()}

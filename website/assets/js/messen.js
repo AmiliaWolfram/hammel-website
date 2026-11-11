@@ -47,7 +47,7 @@
       title.textContent = e.title;
       const meta = document.createElement("p");
       meta.className = "messe-item__meta";
-      meta.textContent = [e.city, e.country, e.booth ? `STAND ${e.booth}` : ""].filter(Boolean).join(" · ");
+      meta.textContent = [e.city, e.country, e.booth ? `STAND ${e.booth}` : ""].filter(Boolean).join(" / ");
       info.append(title,meta);
       if (e.description) {
         const description = document.createElement("p");

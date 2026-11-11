@@ -1,1 +1,85 @@
-{% extends "recruiting/base.html" %}{% block title %}{{ job.title }}{% endblock %}{% block content %}<main class="hr-main hr-top"><div class="wrap hr-section"><a class="hr-back" href="{% url 'hr_careers' %}">← ALLE STELLEN</a><p class="hr-eyebrow">{{ job.get_category_display }} · {{ job.location }}</p><h1>{{ job.title }}</h1><p class="hr-lead">{{ job.introduction|linebreaksbr }}</p><div class="hr-details"><div><h2>IHRE AUFGABEN</h2><p>{{ job.responsibilities|linebreaksbr }}</p></div><div><h2>IHR PROFIL</h2><p>{{ job.requirements|linebreaksbr }}</p></div><div><h2>WIR BIETEN</h2><p>{{ job.benefits|linebreaksbr }}</p></div></div><a class="cinematic-link hr-cinematic-link " href="{% url 'hr_apply_job' job.slug %}"><span class="cinematic-link__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg></span><span class="cinematic-link__label">JETZT BEWERBEN</span></a></div></main>{% endblock %}
+{% extends "recruiting/base.html" %}{% load hr_format %}{% block title %}{% if staff_preview %}{{ preview_values.title }}{% else %}{{ job.title }}{% endif %}{% endblock %}
+{% block site_header %}{% if staff_preview %}{% include "recruiting/staff_header.html" %}{% else %}{{ block.super }}{% endif %}{% endblock %}
+{% block site_footer %}{% if not staff_preview %}{{ block.super }}{% endif %}{% endblock %}
+{% block content %}
+<style>
+.hr-job-editorial{background:#f5f4f1;color:#191919;padding:clamp(70px,9vw,130px) 0}
+.hr-job-editorial .hr-job-wrap{width:min(1100px,calc(100% - 48px));margin:auto}
+.hr-job-editorial .hr-job-back{color:#d60814;text-decoration:none;font-weight:800;letter-spacing:.08em;font-size:13px}
+.hr-job-editorial .hr-job-meta{margin:32px 0 14px;color:#777;font-size:14px}
+.hr-job-editorial h1{color:#171717;font-size:clamp(32px,4.6vw,64px);line-height:1.05;margin:0 0 24px;overflow-wrap:anywhere}
+.hr-job-editorial .hr-job-intro{font-size:clamp(17px,1.7vw,21px);line-height:1.7;max-width:850px;color:#252525}
+.hr-job-editorial .hr-job-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px 65px;margin:55px 0}
+.hr-job-editorial .hr-job-block{min-width:0}
+.hr-job-editorial .hr-job-block h2{color:#d60814;font-size:14px;letter-spacing:.1em;font-weight:800;margin:0 0 16px}
+.hr-job-editorial .hr-job-block ul{padding-left:21px;margin:0;display:grid;gap:12px}
+.hr-job-editorial .hr-job-block li{font-size:16px;line-height:1.65;color:#222}
+.hr-job-editorial .hr-job-block li::marker{color:#d60814}
+.hr-job-editorial .hr-job-apply{display:inline-flex;align-items:center;gap:16px;text-decoration:none;font-weight:800;letter-spacing:.08em;color:#151515}
+.hr-job-editorial .hr-job-apply span{display:grid;place-items:center;background:#e30613;color:white;width:52px;height:52px;border-radius:50%;transition:transform .2s}
+.hr-job-editorial .hr-job-apply:hover span{transform:translate(3px,-3px)}
+ .hr-preview-bar{position:relative;z-index:20;background:#f2b705;color:#171717;padding:0;font-weight:800}
+.hr-preview-bar__inner{box-sizing:border-box;width:min(100% - 48px,1480px);margin:0 auto;min-height:80px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:20px}
+.hr-preview-bar__title{justify-self:start}
+.hr-preview-bar__inner .hr-preview-languages{justify-self:center}
+.hr-preview-bar__inner .hr-preview-return{justify-self:end}
+@media(max-width:650px){.hr-preview-bar__inner{grid-template-columns:1fr auto;gap:12px;padding:14px 0}.hr-preview-bar__inner .hr-preview-languages{grid-column:1/-1;grid-row:2;justify-self:start}.hr-preview-bar__inner .hr-preview-return{grid-column:2;grid-row:1}}
+.hr-preview-languages{display:flex;gap:6px;flex-wrap:wrap}
+.hr-preview-languages a{display:inline-flex;justify-content:center;align-items:center;min-width:48px;padding:10px 12px;border:1px solid #171717;color:#171717;text-decoration:none;font-size:13px}
+.hr-preview-languages a[aria-current="page"]{background:#e30613;border-color:#e30613}
+.hr-preview-return{color:#171717;text-decoration:none;font-size:13px}
+.hr-preview-notice{padding:14px 5%;background:#fff3dd;color:#342500;font-size:13px;line-height:1.7;display:flex;align-items:center;gap:12px;flex-wrap:wrap}.hr-preview-notice a{margin-left:auto;color:#b00010;font-weight:700;text-decoration:none;white-space:nowrap}
+/* Status markers exist only in the authenticated staff preview. */
+.hr-job-editorial .hr-preview-missing{ text-decoration:underline;text-decoration-color:#f2b705;text-decoration-thickness:3px;text-underline-offset:5px }
+.hr-job-editorial .hr-preview-working{ text-decoration:underline;text-decoration-color:#2563eb;text-decoration-thickness:3px;text-underline-offset:5px }
+.hr-job-editorial .hr-preview-review{ text-decoration:underline;text-decoration-color:#e76f00;text-decoration-thickness:3px;text-underline-offset:5px }
+.hr-job-editorial .hr-preview-translated{ text-decoration:underline;text-decoration-color:#17834b;text-decoration-thickness:3px;text-underline-offset:5px }
+/* Sidebar status summary alongside the previewed vacancy, never a full-width strip. */
+.hr-preview-layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:32px;width:min(100% - 48px,1480px);margin:0 auto;align-items:start;padding:42px 0 90px}
+.hr-preview-layout .hr-job-wrap{width:100%;max-width:none;margin:0;min-width:0}
+/* German original has no status sidebar: use the full editorial width. */
+.hr-preview-layout--original{grid-template-columns:minmax(0,1fr)}
+.hr-preview-layout--original .hr-job-wrap{min-width:0;width:100%;max-width:none}
+.hr-preview-legend{position:sticky;top:20px;display:flex;flex-direction:column;align-items:stretch;gap:0;padding:25px 22px;background:#fff;border:1px solid #dedede;color:#252525;font-size:14px;line-height:1.45}
+.hr-preview-legend__heading{font-size:18px;font-weight:900;margin:0 0 18px;letter-spacing:0;color:#191919}
+.hr-preview-legend .legend-item{display:flex;align-items:center;gap:9px;padding:13px 0;border-top:1px solid #eee}
+.hr-preview-legend .legend-item:before{content:"";flex:0 0 20px;height:4px;background:var(--status-color)}
+.hr-preview-legend .legend-item strong{font-weight:900}
+.hr-job-editorial.hr-job-editorial--staff-preview{padding-top:0!important;padding-bottom:0!important}
+.hr-job-editorial--staff-preview .hr-job-wrap{padding-top:0}
+@media(max-width:900px){.hr-preview-layout{grid-template-columns:1fr;gap:22px;padding-top:24px}.hr-preview-legend{position:static;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:16px}.hr-preview-legend__heading{grid-column:1/-1}}
+@media(max-width:500px){.hr-preview-legend{grid-template-columns:1fr}}
+@media(max-width:720px){.hr-job-editorial .hr-job-grid{grid-template-columns:1fr;gap:30px}}
+</style>
+<main class="hr-job-editorial{% if staff_preview %} hr-job-editorial--staff-preview{% endif %}">{% if staff_preview %}
+<div class="hr-preview-bar"><div class="hr-preview-bar__inner"><span class="hr-preview-bar__title">VORSCHAU</span><nav class="hr-preview-languages" aria-label="Sprache der Vorschau">
+{% for code, label in preview_languages %}<a href="?lang={{ code }}" {% if preview_language == code %}aria-current="page"{% endif %} title="{{ label }}">{{ code|upper }}</a>{% endfor %}
+</nav><a class="hr-preview-return" href="{% url 'hr_edit' 'vacancy' job.pk %}">ZURÜCK ZUM EDITOR</a></div></div>
+{% endif %}
+{% if staff_preview %}<div class="hr-preview-layout{% if preview_language == 'de' %} hr-preview-layout--original{% endif %}">
+{% if preview_language != 'de' %}
+<aside class="hr-preview-legend" role="note" aria-label="Übersetzungsstatus">
+<strong class="hr-preview-legend__heading">Übersetzungsstatus</strong>
+<span class="legend-item" style="--status-color:#f2b705"><strong>{{ preview_status_counts.missing }}</strong> Nicht übersetzt</span>
+<span class="legend-item" style="--status-color:#2563eb"><strong>{{ preview_status_counts.working }}</strong> Entwurf</span>
+<span class="legend-item" style="--status-color:#e76f00"><strong>{{ preview_status_counts.review }}</strong> Zur Prüfung</span>
+<span class="legend-item" style="--status-color:#17834b"><strong>{{ preview_status_counts.translated }}</strong> Übersetzt</span>
+</aside>
+{% endif %}
+{% endif %}
+<div class="hr-job-wrap">
+{% if not staff_preview %}<nav class="hr-preview-languages" aria-label="Sprache wählen" style="margin-bottom:28px">{% for code in visible_languages %}<a href="?lang={{ code }}" {% if public_language == code %}aria-current="page"{% endif %}>{{ code|upper }}</a>{% endfor %}</nav>{% endif %}
+
+{% if not staff_preview %}<a class="hr-job-back" href="{% url 'hr_careers' %}">ALLE STELLEN</a>{% endif %}
+<p class="hr-job-meta">{% if staff_preview %}Stellenangebot{% else %}{{ job.location }} / {{ job.get_category_display }}{% if job.employment_type %} / {{ job.employment_type }}{% endif %}{% endif %}</p>
+<h1{% if staff_preview %} class="hr-preview-{{ preview_statuses|preview_status:"title" }}"{% endif %}>{% if staff_preview %}{{ preview_values.title|default:job.title }}{% elif public_language != "de" %}{{ public_values.title }}{% else %}{{ job.title }}{% endif %}</h1>
+{% if staff_preview or public_language != "de" %}{% if preview_values.introduction %}<p class="hr-job-intro hr-preview-{{ preview_statuses|preview_status:"introduction" }}">{{ preview_values.introduction|linebreaksbr }}</p>{% endif %}{% elif job.introduction %}<p class="hr-job-intro">{{ job.introduction|linebreaksbr }}</p>{% endif %}
+<div class="hr-job-grid">
+{% if staff_preview or public_language != "de" %}{% if preview_values.responsibilities %}<section class="hr-job-block hr-preview-{{ preview_statuses|preview_status:"responsibilities" }}"><h2>{% if staff_preview or public_language != "de" %}{% if preview_language == "en" %}YOUR RESPONSIBILITIES{% elif preview_language == "fr" %}VOS MISSIONS{% elif preview_language == "es" %}TUS FUNCIONES{% elif preview_language == "it" %}LE TUE MANSIONI{% else %}DEINE AUFGABEN{% endif %}{% else %}DEINE AUFGABEN{% endif %}</h2><ul>{% for item in preview_values.responsibilities|hr_lines %}<li>{{ item }}</li>{% endfor %}</ul></section>{% endif %}{% elif job.responsibilities %}<section class="hr-job-block"><h2>DEINE AUFGABEN</h2><ul>{% for item in job.responsibilities|hr_lines %}<li>{{ item }}</li>{% endfor %}</ul></section>{% endif %}
+{% if staff_preview or public_language != "de" %}{% if preview_values.hard_skills %}<section class="hr-job-block hr-preview-{{ preview_statuses|preview_status:"hard_skills" }}"><h2>{% if staff_preview or public_language != "de" %}{% if preview_language == "en" %}PROFESSIONAL SKILLS{% elif preview_language == "fr" %}COMPÉTENCES PROFESSIONNELLES{% elif preview_language == "es" %}COMPETENCIAS PROFESIONALES{% elif preview_language == "it" %}COMPETENZE PROFESSIONALI{% else %}FACHLICHE KENNTNISSE{% endif %}{% else %}FACHLICHE KENNTNISSE{% endif %}</h2><ul>{% for item in preview_values.hard_skills|hr_lines %}<li>{{ item }}</li>{% endfor %}</ul></section>{% endif %}{% elif job.hard_skills %}<section class="hr-job-block"><h2>FACHLICHE KENNTNISSE</h2><ul>{% for item in job.hard_skills|hr_lines %}<li>{{ item }}</li>{% endfor %}</ul></section>{% endif %}
+{% if staff_preview or public_language != "de" %}{% if preview_values.soft_skills %}<section class="hr-job-block hr-preview-{{ preview_statuses|preview_status:"soft_skills" }}"><h2>{% if staff_preview or public_language != "de" %}{% if preview_language == "en" %}PERSONAL STRENGTHS{% elif preview_language == "fr" %}QUALITÉS PERSONNELLES{% elif preview_language == "es" %}CUALIDADES PERSONALES{% elif preview_language == "it" %}QUALITÀ PERSONALI{% else %}PERSÖNLICHE STÄRKEN{% endif %}{% else %}PERSÖNLICHE STÄRKEN{% endif %}</h2><ul>{% for item in preview_values.soft_skills|hr_lines %}<li>{{ item }}</li>{% endfor %}</ul></section>{% endif %}{% elif job.soft_skills %}<section class="hr-job-block"><h2>PERSÖNLICHE STÄRKEN</h2><ul>{% for item in job.soft_skills|hr_lines %}<li>{{ item }}</li>{% endfor %}</ul></section>{% endif %}
+{% if staff_preview or public_language != "de" %}{% if preview_values.requirements %}<section class="hr-job-block hr-preview-{{ preview_statuses|preview_status:"requirements" }}"><h2>{% if staff_preview or public_language != "de" %}{% if preview_language == "en" %}ADDITIONAL REQUIREMENTS{% elif preview_language == "fr" %}AUTRES EXIGENCES{% elif preview_language == "es" %}OTROS REQUISITOS{% elif preview_language == "it" %}ALTRI REQUISITI{% else %}WEITERE ANFORDERUNGEN{% endif %}{% else %}WEITERE ANFORDERUNGEN{% endif %}</h2><ul>{% for item in preview_values.requirements|hr_lines %}<li>{{ item }}</li>{% endfor %}</ul></section>{% endif %}{% elif job.requirements %}<section class="hr-job-block"><h2>WEITERE ANFORDERUNGEN</h2><ul>{% for item in job.requirements|hr_lines %}<li>{{ item }}</li>{% endfor %}</ul></section>{% endif %}
+{% if staff_preview or public_language != "de" %}{% if preview_values.benefits %}<section class="hr-job-block hr-preview-{{ preview_statuses|preview_status:"benefits" }}"><h2>{% if staff_preview or public_language != "de" %}{% if preview_language == "en" %}WHAT WE OFFER{% elif preview_language == "fr" %}CE QUE NOUS OFFRONS{% elif preview_language == "es" %}QUÉ TE OFRECEMOS{% elif preview_language == "it" %}COSA OFFRIAMO{% else %}DAS BIETEN WIR DIR{% endif %}{% else %}DAS BIETEN WIR DIR{% endif %}</h2><ul>{% for item in preview_values.benefits|hr_lines %}<li>{{ item }}</li>{% endfor %}</ul></section>{% endif %}{% elif job.benefits %}<section class="hr-job-block"><h2>DAS BIETEN WIR DIR</h2><ul>{% for item in job.benefits|hr_lines %}<li>{{ item }}</li>{% endfor %}</ul></section>{% endif %}
+</div>
+{% if not staff_preview %}<a class="hr-job-apply" href="{% url 'hr_apply_job' job.slug %}"> JETZT BEWERBEN</a>{% endif %}
+</div>{% if staff_preview %}</div>{% endif %}</main>{% endblock %}

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bereich bearbeiten | HAMMEL</title>
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/recruiting.css">
+<link rel="stylesheet" href="/assets/css/hr-portal-header.css?v=20261030-sticky2">
+<style>body{margin:0;background:#f5f5f3;color:#171717} .bereich-editor{box-sizing:border-box}</style>
+</head>
+<body>
+{% include "recruiting/staff_header.html" %}
+<style>
+.bereich-editor{max-width:1380px;margin:70px auto 110px;padding:0 28px;color:#171717}
+.bereich-editor .kicker{font-weight:800;color:#e30613;letter-spacing:.12em;font-size:12px}
+.bereich-editor h1{font-size:clamp(36px,4vw,60px);font-weight:850;margin:12px 0 48px;line-height:1.12}
+.bereich-editor h1 span{color:#e30613}
+.bereich-card{background:#fff;border:1px solid #e5e5e5;padding:clamp(24px,4vw,48px)}
+.bereich-card h2{font-size:28px;margin:0 0 30px}
+.bereich-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.bereich-field label{display:flex;align-items:center;gap:12px;margin-bottom:10px;font-size:14px;font-weight:800}
+.bereich-code{display:inline-flex;align-items:center;justify-content:center;background:#f0f0ef;min-width:38px;height:30px;font-size:12px}
+.bereich-field input{box-sizing:border-box;width:100%;padding:17px 18px;min-height:56px;border:1px solid #cfcfcf;border-radius:0;background:#fff;color:#171717;font:inherit}
+.bereich-field input:focus{outline:2px solid #e30613;outline-offset:0;border-color:#e30613}
+.bereich-field--de{grid-column:1/-1}
+.bereich-footer{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;border-top:1px solid #dedede;margin-top:32px;padding-top:28px}
+.bereich-active{display:flex;align-items:center;gap:12px;font-weight:750}
+.bereich-active input{width:19px;height:19px;accent-color:#e30613}
+.bereich-actions{display:flex;gap:12px;flex-wrap:wrap}
+.bereich-actions button,.bereich-actions a{display:inline-flex;align-items:center;justify-content:center;padding:17px 24px;min-height:54px;box-sizing:border-box;border:0;border-radius:0;font-weight:800;text-decoration:none;font-size:13px;cursor:pointer}
+.bereich-actions button{background:#e30613;color:#fff}.bereich-actions a{background:#171717;color:#fff}
+.bereich-error{color:#b80000;font-weight:700;margin-bottom:18px}
+@media(max-width:720px){.bereich-grid{grid-template-columns:1fr}.bereich-editor{margin-top:35px}.bereich-actions{width:100%}.bereich-actions button,.bereich-actions a{flex:1}}
+</style>
+<main class="bereich-editor"><div class="kicker">HAMMEL</div><h1>BEREICH <span>{% if object %}BEARBEITEN{% else %}ERSTELLEN{% endif %}</span></h1>
+<form method="post" class="bereich-card">{% csrf_token %}
+<h2>Bezeichnungen</h2>
+{% for error in errors %}<p class="bereich-error" role="alert">{{ error }}</p>{% endfor %}
+<div class="bereich-grid">{% for language in languages %}
+<div class="bereich-field {% if language.code == 'de' %}bereich-field--de{% endif %}">
+<label for="name_{{ language.code }}"><span class="bereich-code">{{ language.code|upper }}</span>{{ language.label }}{% if language.code == 'de' %} *{% endif %}</label>
+<input id="name_{{ language.code }}" name="name_{{ language.code }}" type="text" maxlength="120" value="{{ language.value }}" {% if language.code == 'de' %}required{% endif %} autocomplete="off">
+</div>{% endfor %}</div>
+<div class="bereich-footer"><label class="bereich-active"><input type="checkbox" name="active" {% if active %}checked{% endif %}> AKTIV</label>
+<div class="bereich-actions"><a href="{% url 'hr_section' 'bereiche' %}">ZURÜCK ZUM HR-PORTAL</a><button type="submit">ALLE SPRACHVERSIONEN SPEICHERN</button></div></div>
+</form></main>
+</body>
+</html>

@@ -29,3 +29,8 @@ html:has(.hr-portal-header){scroll-padding-top:125px}
 body:has(.hr-portal-header){overflow-x:clip}
 .hr-portal-header{position:sticky!important;top:0!important;z-index:99999!important;isolation:isolate}
 @media(max-width:1100px){html:has(.hr-portal-header){scroll-padding-top:170px}}
+
+/* Shared HRPortal horizontal alignment */
+:root{--hr-portal-content-width:1480px;--hr-portal-gutter:24px}
+.hr-portal-header-inner{width:min(calc(100% - 2 * var(--hr-portal-gutter)),var(--hr-portal-content-width))}
+@media(max-width:650px){:root{--hr-portal-gutter:16px}}

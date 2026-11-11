@@ -1,0 +1,21 @@
+/* HAMMEL / Unsere Geschichte — solid brand red, crisp typography */
+body .about-main .story__intro {background:#e30613!important;background-image:none!important;}
+body .about-main .story__intro::before,body .about-main .story__intro::after{content:none!important;display:none!important;}
+body .about-main .story__intro .story__eyebrow{color:#fff!important;}
+body .about-main .story__intro h2,body .about-main .story__intro h2 span{color:#fff!important;}
+body .about-main .story__intro p{color:#fff!important;}
+body .about-main .story__intro .story__meta{color:rgba(255,255,255,.8)!important;}
+/* Historical photos extracted from the original 2026 company presentation. */
+.story__chapter .story__photo{display:block;object-fit:cover;object-position:center;max-width:100%;}
+.story__chapter .story__art{min-width:0;}
+.story__chapter .story__photo--product{object-fit:contain;}
+.story__chapter[id]{scroll-margin-top:100px;}
+@media(prefers-reduced-motion:reduce){.story__chapter .story__photo{transition:none!important}}
+
+/* Preserve archival photographs without cropping their original content. */
+.story__chapter .story__art img[src*="/archiv/"]{height:auto!important;max-height:560px;object-fit:contain!important;object-position:center;filter:none!important;transform:none!important;}
+@media(prefers-reduced-motion:reduce){.story__chapter .story__art img[src*="/archiv/"]{animation:none!important;transition:none!important;}}
+
+
+
+

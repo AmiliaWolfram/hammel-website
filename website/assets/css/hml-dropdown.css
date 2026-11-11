@@ -1,0 +1,16 @@
+/* HAMMEL shared portal dropdowns — HR and Vertrieb */
+.hml-dropdown{position:relative;width:100%;min-width:0;font-family:inherit}
+.hml-dropdown-native{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;clip-path:inset(50%)!important;overflow:hidden!important}
+.hml-dropdown-trigger{display:flex!important;align-items:center;justify-content:space-between;gap:16px;width:100%;min-height:52px;padding:13px 18px!important;border:1px solid #c9c9c9!important;border-radius:0!important;background:#fff!important;color:#191919!important;font:inherit!important;font-weight:700!important;text-align:left!important;letter-spacing:0!important;box-shadow:none!important;cursor:pointer;transition:border-color .25s,background .25s,color .25s}
+.hml-dropdown-trigger:hover,.hml-dropdown.is-open .hml-dropdown-trigger{border-color:#e30613!important}
+.hml-dropdown-trigger:focus-visible{outline:2px solid #e30613!important;outline-offset:2px}
+.hml-dropdown-arrow{width:10px;height:10px;flex:none;border-right:2px solid #e30613;border-bottom:2px solid #e30613;transform:rotate(45deg) translateY(-2px);transition:transform .25s}
+.hml-dropdown.is-open .hml-dropdown-arrow{transform:rotate(225deg) translate(-2px,-2px)}
+.hml-dropdown-menu{position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:9999;display:none;max-height:280px;overflow-y:auto;overscroll-behavior:contain;padding:5px;background:#fff;border:1px solid #c9c9c9;box-shadow:0 12px 28px rgba(0,0,0,.13)}
+.hml-dropdown.is-open .hml-dropdown-menu{display:block}
+.hml-dropdown-option{display:block!important;width:100%;min-height:42px;padding:11px 14px!important;margin:0!important;background:#fff!important;color:#191919!important;border:0!important;border-radius:0!important;font:inherit!important;font-weight:650!important;letter-spacing:0!important;text-align:left!important;cursor:pointer;transition:background .18s,color .18s}
+.hml-dropdown-option:hover,.hml-dropdown-option:focus-visible{background:#f0efed!important;color:#e30613!important;outline:none}
+.hml-dropdown-option[aria-selected=true]{background:#242729!important;color:#f2b705!important}
+.hml-dropdown-option:disabled{display:none!important}
+.hml-dropdown[hidden],.hml-dropdown:has(select:disabled){opacity:.65}
+@media(max-width:650px){.hml-dropdown-menu{max-height:220px}.hml-dropdown-trigger{min-height:48px}}

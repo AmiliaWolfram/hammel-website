@@ -39,3 +39,63 @@ body:has(> .mv-video-hero) > header.top:not(.public-header-scrolled) .brand-logo
 body.machine-detail-page > header.top.public-header-scrolled,
 body:has(> .mv-video-hero) > header.top.public-header-scrolled{background:#fff!important;box-shadow:0 3px 16px #0002!important}
 body > header.top .wrap.nav{padding-left:var(--public-gutter,4vw)!important;padding-right:var(--public-gutter,4vw)!important}
+
+/* Light-background machine detail pages use the shared Home header layout,
+   but must not inherit the white-on-video navigation colors. */
+body.machine-detail-page:not(:has(.mv-video-hero)):not(:has(.hero--video)) > header.top:not(.public-header-scrolled) {
+  background:#fff!important;
+  box-shadow:none!important;
+  border:0!important;
+}
+body.machine-detail-page:not(:has(.mv-video-hero)):not(:has(.hero--video)) > header.top:not(.public-header-scrolled) .links a {
+  color:#17191a!important;
+}
+body.machine-detail-page:not(:has(.mv-video-hero)):not(:has(.hero--video)) > header.top:not(.public-header-scrolled) .brand-logo--dark {
+  display:block!important;
+}
+body.machine-detail-page:not(:has(.mv-video-hero)):not(:has(.hero--video)) > header.top:not(.public-header-scrolled) .brand-logo--light {
+  display:none!important;
+}
+/* Keep the page title clear of the fixed navigation on non-video machine pages. */
+body.machine-detail-page:not(:has(.mv-video-hero)):not(:has(.hero--video)) {
+  scroll-padding-top:var(--public-header-height,96px);
+}
+
+/* Public header: one identical scroll state across all public templates.
+   This rule intentionally overrides page-specific machine / Karriere header rules. */
+html body > header.top.public-header-scrolled,
+html body.machine-detail-page > header.top.public-header-scrolled,
+html body:has(.mv-video-hero) > header.top.public-header-scrolled,
+html body:has(.hero--video) > header.top.public-header-scrolled {
+  position:fixed!important;
+  top:0!important;right:0!important;left:0!important;
+  width:100%!important;
+  background:#fff!important;
+  background-image:none!important;
+  border:0!important;
+  box-shadow:0 3px 16px rgba(0,0,0,.12)!important;
+  z-index:10000!important;
+}
+html body > header.top.public-header-scrolled .links a,
+html body.machine-detail-page > header.top.public-header-scrolled .links a {
+  color:#17191a!important;
+}
+html body > header.top.public-header-scrolled .brand-logo--dark {
+  display:block!important;
+}
+html body > header.top.public-header-scrolled .brand-logo--light {
+  display:none!important;
+}
+html body > header.top.public-header-scrolled .lang button,
+html body > header.top.public-header-scrolled #langBtn {
+  color:#17191a!important;
+  border-color:#bcbcbc!important;
+}
+/* Match Home spacing in the common nav on every public page. */
+html body > header.top .wrap.nav {
+  width:100%!important;
+  max-width:none!important;
+  box-sizing:border-box!important;
+  padding-left:var(--public-gutter,4vw)!important;
+  padding-right:var(--public-gutter,4vw)!important;
+}

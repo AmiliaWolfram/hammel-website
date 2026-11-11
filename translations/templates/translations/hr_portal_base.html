@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}HRPortal{% endblock %} | HAMMEL</title>
+<link rel="stylesheet" href="/assets/css/hr-portal-header.css?v=20261103-layout">
+<link rel="stylesheet" href="/assets/css/hml-dropdown.css?v=20261103-translation">
+<style>
+:root{color-scheme:light}html{background:#f5f5f3}body{margin:0;background:#f5f5f3;color:#171717;font:16px/1.5 Arial,Helvetica,sans-serif;min-height:100vh}*,*::before,*::after{box-sizing:border-box}
+main,section{color:inherit}a{text-decoration:none}button,input,select,textarea{font:inherit}button{cursor:pointer}
+</style>
+</head><body>{% block site_header %}{% include "recruiting/staff_header.html" %}{% endblock %}
+{% block content %}{% endblock %}{% block site_footer %}{% endblock %}
+<script src="/assets/js/hml-dropdown.js?v=20261103-translation" defer></script>
+</body></html>

@@ -1,0 +1,23 @@
+/* HAMMEL HR: one title specification across the three workflow pages. */
+.staff-ui .staff-heading h1,
+main.translation-editor > h1,
+main.hr-review > h1 {
+ font-family:Arial,Helvetica,sans-serif!important;
+ font-size:clamp(40px,5.2vw,76px)!important;
+ font-weight:900!important;
+ line-height:1.05!important;
+ letter-spacing:-.06em!important;
+ text-transform:uppercase!important;
+ margin:10px 0 20px!important;
+ overflow-wrap:anywhere;
+ color:#171717!important;
+}
+.staff-ui .staff-heading h1 span,
+main.translation-editor > h1 span.hr-accent,
+main.hr-review > h1 span.hr-accent {color:#e30613!important}
+@media(max-width:760px){
+ .staff-ui .staff-heading h1,main.translation-editor > h1,main.hr-review > h1{
+  font-size:clamp(34px,7vw,48px)!important;
+  letter-spacing:-.045em!important;
+ }
+}

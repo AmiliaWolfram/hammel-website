@@ -3,7 +3,7 @@
 {% block content %}
 <div class="eyebrow">HAMMEL / VERTRIEB / MASCHINEN</div>
 <h1>{% if kind == "Maschinenvariante" %}{% if object %}{{ object.name }}{% else %}NEUE VARIANTE{% endif %}{% else %}BAUREIHE{% endif %}</h1>
-<p class="subtitle">{% if kind == "Maschinenvariante" %}Maschinenvariante bearbeiten · Angaben prüfen, ergänzen und speichern{% elif object %}{{ object }} bearbeiten{% else %}Neuen Eintrag erstellen{% endif %}</p>
+<p class="subtitle">{% if kind == "Maschinenvariante" %}Maschinenvariante bearbeiten / Angaben prüfen, ergänzen und speichern{% elif object %}{{ object }} bearbeiten{% else %}Neuen Eintrag erstellen{% endif %}</p>
 {% if kind == "Maschinenmodell" %}<p class="machine-form-guidance">Hier werden nur gemeinsame Angaben zur Baureihe gepflegt. Einsatzmaterialien, technische Daten, Datenblätter und Videos werden für jede Modellvariante separat verwaltet.</p>{% endif %}
 {% if kind == "Maschinenvariante" %}
 <div class="friendly-editor" aria-label="Maschineneditor">
@@ -29,14 +29,14 @@
   <details class="friendly-more-actions"><summary>Weitere Aktionen <span aria-hidden="true">⌄</span></summary>
     <div class="friendly-action-items">
       {% if object %}
-      <div class="friendly-action-item"><div><strong>Variante kopieren</strong><p>Erstellt eine zusätzliche Maschinenvariante auf Grundlage dieser Maschine. Technische Angaben und zugeordnete Materialien werden übernommen, damit Sie nicht alles erneut eingeben müssen. Die Kopie ist zunächst nicht veröffentlicht und kann anschließend unabhängig bearbeitet werden. Die ursprüngliche Maschine und ihre Daten bleiben unverändert.</p></div><form method="post" action="{% url 'staff_machine_variant_copy' object.pk %}" onsubmit="return confirm('Neue, unveröffentlichte Kopie erstellen?')">{% csrf_token %}<button type="submit">Neue Variante als Kopie anlegen</button></form></div>
+      <div class="friendly-action-item"><div><strong>Variante kopieren</strong><p>Erstellt eine zusätzliche Maschinenvariante auf Grundlage dieser Maschine. Technische Angaben und zugeordnete Materialien werden übernommen, damit Sie nicht alles erneut eingeben müssen. Die Kopie ist zunächst nicht veröffentlicht und kann anschließend unabhängig bearbeitet werden. Die ursprüngliche Maschine und ihre Daten bleiben unverändert.</p></div><form method="post" action="{% url 'staff_machine_variant_copy' object.pk %}" onsubmit="return confirm('Neue, unveröffentlichte Kopie erstellen?')">{% csrf_token %}{% load content_i18n %}{% inline_translations object|default:item form %}<button type="submit">Neue Variante als Kopie anlegen</button></form></div>
       <div class="friendly-action-item"><div><strong>Felder verwalten</strong><p>Bestimmen Sie, welche Angaben für diese Maschinenvariante auf der öffentlichen Website und im Maschinenvergleich sichtbar sind. Sie können zusätzliche Felder anlegen, Bezeichnungen und Reihenfolge anpassen oder Felder ausblenden. Ausblenden löscht keine gespeicherten Werte. Hier ändern Sie die Struktur der Anzeige – die eigentlichen Maschinenwerte bearbeiten Sie in den Reitern oben.</p></div><a href="{% url 'staff_machine_fields_manage' %}?scope=variant&amp;id={{ object.pk }}">Feldeinstellungen öffnen</a></div>
       {% endif %}
       <div class="friendly-action-item"><div><strong>Änderungsverlauf</strong><p>Sehen Sie nach, welche Änderungen an dieser Maschinenvariante gespeichert wurden, wann dies geschah und welcher Benutzer sie vorgenommen hat. So können Sie frühere Angaben nachvollziehen. Die Historie dient zur Kontrolle; ein automatisches Wiederherstellen älterer Versionen ist derzeit nicht verfügbar.</p></div><button type="button" data-friendly-history>Gespeicherte Änderungen ansehen</button></div>
     </div>
   </details>
 </div>
-{% if draft %}<div class="editor-draft-note">ENTWURF VORHANDEN · <a href="?draft=1">ENTWURF LADEN</a> · Der Entwurf ist nicht veröffentlicht.</div>{% endif %}
+{% if draft %}<div class="editor-draft-note">ENTWURF VORHANDEN / <a href="?draft=1">ENTWURF LADEN</a> / Der Entwurf ist nicht veröffentlicht.</div>{% endif %}
 {% endif %}
 {% if kind == "Maschinenmodell" and object %}<p><a href="{% url 'staff_machine_fields_manage' %}?scope=series&id={{ object.pk }}">FELDER DER BAUREIHE ANPASSEN</a></p>{% endif %}
 <form method="post" enctype="multipart/form-data" class="machine-edit-form" id="machine-main-form">
@@ -77,7 +77,7 @@
 {% if object.datasheet_url %}<a href="{{ object.datasheet_url }}" target="_blank" rel="noopener">DATENBLATT ANSEHEN</a>{% endif %}
 {% if object.technical_drawing %}<a href="{{ object.technical_drawing.url }}" target="_blank" rel="noopener">TECHNISCHE ZEICHNUNG ANSEHEN</a>{% elif object.technical_drawing_url %}<a href="{{ object.technical_drawing_url }}" target="_blank" rel="noopener">TECHNISCHE ZEICHNUNG ANSEHEN</a>{% endif %}
 </section>
-{% if object %}<section class="editor-history" data-editor-panel="general" id="friendly-history"><h2>ÄNDERUNGSVERLAUF</h2><p>Frühere Werte werden bei jedem Speichern protokolliert.</p>{% for revision in revisions %}<details><summary>{{ revision.created_at|date:"d.m.Y H:i" }} · {{ revision.author.username|default:"System" }}</summary><pre>{{ revision.snapshot }}</pre></details>{% empty %}<p>Noch keine Änderungen protokolliert.</p>{% endfor %}</section>{% endif %}
+{% if object %}<section class="editor-history" data-editor-panel="general" id="friendly-history"><h2>ÄNDERUNGSVERLAUF</h2><p>Frühere Werte werden bei jedem Speichern protokolliert.</p>{% for revision in revisions %}<details><summary>{{ revision.created_at|date:"d.m.Y H:i" }} / {{ revision.author.username|default:"System" }}</summary><pre>{{ revision.snapshot }}</pre></details>{% empty %}<p>Noch keine Änderungen protokolliert.</p>{% endfor %}</section>{% endif %}
 {% endif %}
 <div class="machine-staff-actions"><button type="submit" name="editor_action" value="save">ÄNDERUNGEN SPEICHERN</button>{% if kind == "Maschinenvariante" %}<button type="submit" name="editor_action" value="preview" formtarget="_blank" class="editor-secondary">VORSCHAU ANSEHEN</button><button type="submit" name="editor_action" value="draft" class="editor-secondary" formnovalidate>ENTWURF SPEICHERN</button>{% endif %}<a href="{% url 'staff_machine_dashboard' %}">ABBRECHEN</a></div>
 </form>

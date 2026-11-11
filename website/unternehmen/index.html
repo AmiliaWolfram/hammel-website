@@ -18,14 +18,30 @@
 <link href="../assets/css/unternehmen-cinematic.css" rel="stylesheet"/>
 <link href="../assets/css/unternehmen-one-story.css" rel="stylesheet"/>
 <link href="../assets/css/unternehmen-home-aligned.css" rel="stylesheet"/>
-<link href="../assets/css/unternehmen-sharp-scroll.css" rel="stylesheet"/>
-<link href="../assets/css/unternehmen-continuity.css" rel="stylesheet"/>
 <link href="../assets/css/unternehmen-headquarters.css" rel="stylesheet"/>
-<link href="../assets/css/unternehmen-blueprint-sparks.css?v=20261020b" rel="stylesheet"/>
 <link href="../assets/css/unternehmen-home-buttons.css?v=20261020c" rel="stylesheet"/>
-<link href="../assets/css/page-hero.css" rel="stylesheet"/><link rel="stylesheet" href="../assets/css/hammel-eyebrow-palette.css?v=20261023palette1">
-<link rel="stylesheet" href="../assets/css/unternehmen-eyebrow-colors.css?v=20261023a"/>
-<link rel="stylesheet" href="../assets/css/hammel-alignment-fix.css?v=20261030b">
+<link href="../assets/css/page-hero.css" rel="stylesheet"/><link href="../assets/css/hammel-eyebrow-palette.css?v=20261023palette1" rel="stylesheet"/>
+<link href="../assets/css/unternehmen-eyebrow-colors.css?v=20261023a" rel="stylesheet">
+<link href="../assets/css/hammel-alignment-fix.css?v=20261030b" rel="stylesheet"/>
+<link href="../assets/css/unternehmen-history-interactive.css?v=20261102crosssection" rel="stylesheet">
+
+<link href="../assets/css/hammel-transitions.css?v=2" rel="stylesheet"/><link href="../assets/css/hammel-cinematic-sections.css?v=20261103b" rel="stylesheet"/>
+<style id="hammel-no-red-section-dividers">/* HAMMEL: no decorative red horizontal separator at section boundaries.
+   Does not affect red CTA buttons or their underline animations. */
+main > section, main > .section, .cinematic-scene, .hc-scene,
+.hn-page, .hn-content, .news-section {
+  border-top-color: transparent !important;
+}
+main > section::before, main > .section::before {
+  border-top-color: transparent !important;
+}
+/* Remove the line above the light editorial section, even when the
+   preceding dark band is the shared footer/section wrapper. */
+main > section[style*="background"], .section.white {
+  border-top-color: transparent !important;
+}
+</style></link></link><style>.story__chapter .story__text h3{font-size:clamp(2rem,3.2vw,3.6rem);line-height:1.08;overflow-wrap:break-word}.story__chapter .story__eyebrow{font-size:.82rem;letter-spacing:.11em}.story__intro h2{overflow-wrap:break-word}</style><link href="../assets/css/unternehmen-no-drawings.css?v=20261111allphotolayers5" rel="stylesheet"/>
+<link rel="stylesheet" href="../assets/css/unternehmen-scroll-magnetic.css?v=20261111a"/>
 </head>
 <body>
 <!-- PUBLIC_SHARED_HEADER -->
@@ -36,7 +52,7 @@
 <span class="hammel-page-hero__eyebrow">ÜBER UNS</span>
 <h1 class="hammel-page-hero__title">THE ORIGINAL<em>SINCE 1996</em></h1>
 <p class="hammel-page-hero__description">Innovative Recyclingtechnik. Entwickelt in Thüringen. Weltweit im Einsatz.</p>
-<a class="cinematic-link" href="#geschichte"><span aria-hidden="true" class="cinematic-link__icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 19 19 5M8 5h11v11"></path></svg></span><span class="cinematic-link__label">MEHR ENTDECKEN</span></a>
+<a class="cinematic-link" href="#geschichte"><span aria-hidden="true" class="cinematic-link__icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 19 19 5M8 5h11v11"></path></svg></span><span class="cinematic-link__label">MEHR ENTDECKEN</span></a>
 </div>
 <span class="hammel-page-hero__signature">THE ORIGINAL SINCE 1996</span>
 </section>
@@ -48,67 +64,59 @@
 <span class="story__eyebrow">
         UNSERE GESCHICHTE
        </span>
-<h2>
-        30 JAHRE
-        <br/>
-<span>
-         THE ORIGINAL
-        </span>
-</h2>
+<h2>30 Jahre HAMMEL</h2>
 </div>
 <div class="story__reveal">
-<p>
-        Unsere Geschichte beginnt 1996 in Bad Salzungen. Was aus einer kleinen Werkstatt entsteht, entwickelt sich Schritt für Schritt zu einem international tätigen Unternehmen. Jeder Meilenstein baut auf dem vorherigen auf.
-       </p>
-<span class="story__meta">
-        BAD SALZUNGEN · THÜRINGEN · SEIT 1996
-       </span>
+<p>Angefangen hat es mit einem Anbaugerät für den Traktor. Das war 1978. Knapp zwanzig Jahre später gründen wir HAMMEL, und heute arbeiten rund 500 Menschen bei uns, in Deutschland und in der Ukraine.</p>
+<span class="story__meta">Seit 1996 in Bad Salzungen, mit Wurzeln bis 1978</span>
 </div>
 </div>
 </div>
-<article class="story__chapter story__chapter--dark">
+<!-- Historische Meilensteine nach der HAMMEL Firmenpräsentation 2026, Folien 2–3 -->
+<article class="story__chapter story__chapter--dark" id="geschichte-1978">
+<div class="story__wrap"><div class="story__text story__reveal">
+<span class="story__eyebrow">1978 bis 1979</span>
+<h3>Ein Anbaugerät für den Traktor</h3>
+<p>Zwischen 1978 und 1979 entsteht ein Anbaugerät für einen Traktor. Hier liegen die frühen Wurzeln unserer späteren Maschinenentwicklung.</p>
+</div><div class="story__art story__reveal"><img alt="Historische Aufnahme aus der HAMMEL Firmenpräsentation: frühe Technik" class="story__photo" loading="lazy" src="../assets/img/unternehmen/archiv/praesentation-1978-technik.png"/></div></div>
+</article>
+<article class="story__chapter story__chapter--light story__chapter--reverse" id="geschichte-1984">
+<div class="story__wrap"><div class="story__text story__reveal">
+<span class="story__eyebrow">1984 bis 1985</span>
+<h3>Wurzelstöcke</h3>
+<p>Ein paar Jahre später entwickeln wir eine Maschine, die Wurzelstöcke reinigt und aufbereitet. Wir bleiben dabei, Technik zu bauen, die in der Praxis funktioniert.</p>
+</div><div class="story__art story__reveal"><img alt="Historische Aufnahme aus der HAMMEL Firmenpräsentation: Arbeiten mit Wurzelstöcken" class="story__photo" loading="lazy" src="../assets/img/unternehmen/archiv/praesentation-1984-technik.png"/></div></div>
+</article>
+<article class="story__chapter story__chapter--red" id="geschichte-1986">
+<div class="story__wrap"><div class="story__text story__reveal">
+<span class="story__eyebrow">1986 bis 1988</span>
+<h3>Der erste Zerkleinerer</h3>
+<p>Zwischen 1986 und 1988 entsteht unser erster Zerkleinerer. Aus dieser Technik wird später der Kern unseres Maschinenprogramms.</p>
+</div><div class="story__art story__reveal"><img alt="Archivaufnahme aus der HAMMEL Firmenpräsentation: früher Zerkleinerer" class="story__photo story__photo--product" loading="lazy" src="../assets/img/unternehmen/archiv/praesentation-1986-zerkleinerer.png"/></div></div>
+</article>
+<article class="story__chapter story__chapter--dark" id="geschichte-1996">
 <div class="story__wrap">
 <div class="story__text story__reveal">
-<span class="story__eyebrow">
-        1996 · DER ANFANG
-       </span>
-<h3>
-        ALLES BEGINNT
-        <br/>
-<em>
-         MIT DREI MENSCHEN
-        </em>
-</h3>
-<p>
-        Am 15. Februar 1996 gründen wir HAMMEL in Bad Salzungen mit drei Mitarbeitern und einer kleinen Produktionshalle. Von Anfang an verfolgen wir ein klares Ziel: Recyclingtechnik entwickeln, die sich im täglichen Einsatz bewährt. Schon bald reicht der Platz für unsere Ideen nicht mehr aus.
-       </p>
+<span class="story__eyebrow">1996</span>
+<h3>Drei Leute, eine Halle</h3>
+<p>Am 15. Februar 1996 gründen wir HAMMEL in Bad Salzungen. Wir sind zu dritt und haben eine kleine Produktionshalle. Von Anfang an wollen wir Recyclingtechnik bauen, die sich im täglichen Einsatz bewährt. Lange reicht der Platz dafür nicht.</p>
 </div>
 <div class="story__art story__reveal">
-<img alt="HAMMEL Recyclingtechnik: Unternehmensgeschichte" class="story__photo" loading="lazy" src="../assets/img/gallery/hammel-1.jpg"/>
+<img alt="HAMMEL Recyclingtechnik: Unternehmensgeschichte" class="story__photo" loading="lazy" src="../assets/img/unternehmen/archiv/praesentation-1996-standort.jpeg"/>
 </div>
 </div>
 </article>
-<article class="story__chapter story__chapter--light story__chapter--reverse">
+<article class="story__chapter story__chapter--light story__chapter--reverse" id="geschichte-entwicklung">
 <div class="story__wrap">
 <div class="story__text story__reveal">
-<span class="story__eyebrow">
-        WACHSTUM · DIE ERSTEN JAHRE
-       </span>
-<h3>
-        AUS EINER HALLE
-        <br/>
-<em>
-         WIRD EIN WERK
-        </em>
-</h3>
-<p>
-        Aus den ersten Schritten wird ein wachsender Produktionsstandort. Fertigung, Lackierung, Lager und Büro teilen sich zunächst die vorhandenen Räume. Mit steigender Nachfrage erweitern wir unsere Hallen und Lagerflächen. Eine von uns selbst konstruierte Brücke verbindet später unsere Bürogebäude. Parallel wächst auch der Anspruch an unsere Technik.
-       </p>
+<span class="story__eyebrow" style="display:none"></span>
+<h3>Die Halle wird zu klein</h3>
+<p>Anfangs teilen sich Fertigung, Lackierung, Lager und Büro dieselben Räume. Als die Aufträge mehr werden, bauen wir Hallen und Lagerflächen dazu. Die Brücke, die später unsere Bürogebäude verbindet, konstruieren wir selbst. Auch an unsere Maschinen werden höhere Anforderungen gestellt.</p>
 </div>
 <div class="story__art story__reveal">
 <div class="story__duo">
-<img alt="HAMMEL Produktionsstandort" class="story__photo" loading="lazy" src="../assets/img/gallery/hammel-4.jpg"/>
-<img alt="HAMMEL Fertigung" class="story__photo" loading="lazy" src="../assets/img/gallery/hammel-2.jpg"/>
+<img alt="HAMMEL Produktionsstandort" class="story__photo" loading="lazy" src="../assets/img/unternehmen/archiv/praesentation-entwicklung-standort.jpeg"/>
+<img alt="HAMMEL Fertigung" class="story__photo" loading="lazy" src="../assets/img/unternehmen/archiv/praesentation-fertigung.jpeg"/>
 </div>
 </div>
 </div>
@@ -116,17 +124,9 @@
 <article class="story__chapter story__chapter--red">
 <div class="story__wrap">
 <div class="story__text story__reveal">
-<span class="story__eyebrow">
-        VB 650 → VB 750 · DIE TECHNIK
-       </span>
-<h3>
-        EINE IDEE WIRD
-        <br/>
-        ZUM ORIGINAL
-       </h3>
-<p>
-        Mit unserem mobilen VB 650 D auf Hakenlift setzen wir einen wichtigen Meilenstein. Aus der konsequenten Weiterentwicklung des Zwei-Wellen-Prinzips entsteht die erfolgreiche VB-750-Baureihe: robust, vielseitig und für den praktischen Einsatz entwickelt. Auf dieser Grundlage bauen wir unser Maschinenprogramm weiter aus.
-       </p>
+<span class="story__eyebrow" style="display:none"></span>
+<h3>VB 650 und VB 750</h3>
+<p>Der VB 650 D ist mobil und fährt auf dem Hakenlift. Mit ihm entwickeln wir das Zwei-Wellen-Prinzip weiter, und daraus entsteht die Baureihe VB 750. Sie hat sich im Einsatz bewährt, und auf ihr bauen wir unser Programm auf.</p>
 </div>
 <div class="story__art story__reveal">
 <img alt="HAMMEL VB 750 Zweiwellenzerkleinerer" class="story__photo story__photo--product" loading="lazy" src="../assets/img/machines/vb750.webp"/>
@@ -136,19 +136,9 @@
 <article class="story__chapter story__chapter--light story__chapter--reverse">
 <div class="story__wrap">
 <div class="story__text story__reveal">
-<span class="story__eyebrow">
-        INNOVATION · TECHNIK &amp; ENTWICKLUNG
-       </span>
-<h3>
-        TECHNIK, DIE
-        <br/>
-<em>
-         WEITERDENKT
-        </em>
-</h3>
-<p>
-        Die Erfahrungen mit unseren ersten Zerkleinerern fließen direkt in die nächste Generation ein. Wir entwickeln Maschinen für unterschiedliche Materialien und Einsatzbedingungen. Sie werden mobil, stationär und als Bestandteil kompletter Anlagen eingesetzt. So eröffnet uns unsere Technik Schritt für Schritt weitere Anwendungsbereiche.
-       </p>
+<span class="story__eyebrow" style="display:none"></span>
+<h3>Was wir aus den ersten Maschinen gelernt haben</h3>
+<p>Die Erfahrung aus den ersten Zerkleinerern steckt in jeder neuen Generation. Unsere Maschinen arbeiten mit ganz unterschiedlichen Materialien, mobil, stationär oder als Teil einer kompletten Anlage. Solche Anlagen zum Aufbereiten, Trennen und Sortieren planen und bauen wir ebenfalls. Das Zwei-Wellen-Prinzip bleibt dabei unsere Grundlage und eignet sich für anspruchsvolle Materialien.</p>
 <p>Unsere Zerkleinerungstechnik basiert auf dem bewährten Zwei-Wellen-Prinzip und eignet sich für die Verarbeitung anspruchsvoller Materialien. Unsere Maschinen sind sowohl in mobiler als auch in stationärer Ausführung erhältlich und können an unterschiedliche Einsatzbedingungen angepasst werden. Darüber hinaus entwickeln und realisieren wir komplette Anlagen zur Aufbereitung, Trennung und Sortierung verschiedenster Materialien.</p>
 </div>
 <div class="story__art story__reveal">
@@ -159,19 +149,9 @@
 <article class="story__chapter story__chapter--dark">
 <div class="story__wrap">
 <div class="story__text story__reveal">
-<span class="story__eyebrow">
-        MOBILE SCHROTTAUFBEREITUNG
-       </span>
-<h3>
-        NEUE WEGE
-        <br/>
-<em>
-         IM RECYCLING
-        </em>
-</h3>
-<p>
-        Mit dem gewachsenen technischen Know-how erschließen wir auch die mobile Schrottaufbereitung. Unsere Anlage bereitet gemischte Materialien wie Autokarosserien auf und trennt sie in verschiedene Wertstofffraktionen. Die Anforderungen an Durchsatz und Leistung steigen weiter.
-       </p>
+<span class="story__eyebrow" style="display:none"></span>
+<h3>Vom Autowrack zu sortierten Wertstoffen</h3>
+<p>Mit dem Wissen aus dem Zerkleinern gehen wir in die mobile Schrottaufbereitung. Unsere Anlage nimmt gemischtes Material, zum Beispiel Autokarosserien, und trennt es in einzelne Wertstoffe. Dabei steigen die Anforderungen an Durchsatz und Leistung weiter.</p>
 </div>
 <div class="story__art story__reveal">
 <img alt="HAMMEL mobile Metallaufbereitungsanlage" class="story__photo story__photo--product" loading="lazy" src="../assets/img/machines/metallanlage.webp"/>
@@ -181,19 +161,9 @@
 <article class="story__chapter story__chapter--light story__chapter--reverse">
 <div class="story__wrap">
 <div class="story__text story__reveal">
-<span class="story__eyebrow">
-        RED GIANT · VB 950 DK
-       </span>
-<h3>
-        GRÖSSER DENKEN
-        <br/>
-<em>
-         WEITER ENTWICKELN
-        </em>
-</h3>
-<p>
-        Aus diesen Erfahrungen entwickeln wir unsere Maschinenfamilie konsequent weiter. Mit dem VB 950 DK, dem RED GIANT, schaffen wir einen besonders leistungsstarken Zweiwellenzerkleinerer. Während unsere Technik neue Einsatzbereiche erreicht, wächst auch der Austausch mit der Recyclingbranche.
-       </p>
+<span class="story__eyebrow" style="display:none"></span>
+<h3>RED GIANT</h3>
+<p>Aus diesen Erfahrungen entwickeln wir unsere Maschinenfamilie weiter. Der VB 950 DK heißt bei uns RED GIANT und ist ein besonders leistungsstarker Zweiwellenzerkleinerer. Unsere Technik kommt in neue Einsatzbereiche, und der Austausch mit der Recyclingbranche wächst.</p>
 </div>
 <div class="story__art story__reveal">
 <img alt="HAMMEL RED GIANT VB 950" class="story__photo story__photo--product" loading="lazy" src="../assets/img/machines/vb950.webp"/>
@@ -203,25 +173,15 @@
 <article class="story__chapter story__chapter--dark">
 <div class="story__wrap">
 <div class="story__text story__reveal">
-<span class="story__eyebrow">
-        2012 / 2014 · MITGLIEDSCHAFTEN
-       </span>
-<h3>
-        GEMEINSAM
-        <br/>
-<em>
-         MEHR ERREICHEN
-        </em>
-</h3>
-<p>
-        Mit der Entwicklung unseres Unternehmens wird die Zusammenarbeit in der Branche immer wichtiger. Seit 2012 sind wir Mitglied der BDSV, seit 2014 auch des Bureau of International Recycling (BIR). Der fachliche Austausch und die internationale Vernetzung begleiten unseren weiteren Weg.
-       </p>
+<span class="story__eyebrow">2012 / 2014</span>
+<h3>Mitgliedschaften</h3>
+<p>Seit 2012 sind wir Mitglied der BDSV, seit 2014 des Bureau of International Recycling (BIR). Dort tauschen wir uns fachlich mit der Branche aus und sind international vernetzt.</p>
 </div>
 <div class="story__art story__reveal">
 <div class="story__association-grid">
 <a class="story__association" href="https://www.bdsv.org/" rel="noopener noreferrer" target="_blank">
 <span class="story__association-year">
-          2012 · MITGLIED SEIT
+          2012 / MITGLIED SEIT
          </span>
 <img alt="Logo BDSV" loading="lazy" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/BDSV_Logo.jpg"/>
 <span class="story__association-name">
@@ -233,7 +193,7 @@
 </a>
 <a class="story__association" href="https://www.bir.org/" rel="noopener noreferrer" target="_blank">
 <span class="story__association-year">
-          2014 · MITGLIED SEIT
+          2014 / MITGLIED SEIT
          </span>
 <img alt="Logo BIR" loading="lazy" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/BIR_logo_long_RGB_transparent_lowres.png"/>
 <span class="story__association-name">
@@ -250,17 +210,9 @@
 <div class="story__end">
 <div class="story__wrap">
 <div class="story__reveal">
-<span class="story__eyebrow">
-        2026 · 30 JAHRE HAMMEL
-       </span>
-<h3>
-        THE ORIGINAL
-        <br/>
-        SINCE 1996
-       </h3>
-<p>
-        Was 1996 mit drei Mitarbeitern beginnt, wächst über neue Hallen, eigene Maschinenentwicklungen und internationale Partnerschaften zu einem weltweit tätigen Unternehmen. Seit 30 Jahren entwickeln wir Recyclingtechnik. Unsere Geschichte geht weiter.
-       </p>
+<span class="story__eyebrow">2026</span>
+<h3>Dreißig Jahre</h3>
+<p>Unsere technischen Wurzeln reichen bis 1978 zurück, die Firma gibt es seit 1996. Heute arbeiten rund 500 Menschen bei uns. Wir produzieren in Deutschland und in der Ukraine und betreuen unsere Kunden über ein weltweites Vertriebs- und Servicenetz. Und es geht weiter.</p>
 <a class="cinematic-link" href="../weltweit/index.html">
 <span aria-hidden="true" class="cinematic-link__icon">
 <svg viewbox="0 0 24 24">
@@ -268,16 +220,14 @@
 </path>
 </svg>
 </span>
-<span class="cinematic-link__label">
-         HAMMEL WELTWEIT ENTDECKEN
-        </span>
+<span class="cinematic-link__label">Ihr Material, unsere Maschine</span>
 </a>
-</div>
+<p>Was bei Ihnen anfällt, schauen wir uns gemeinsam an. Sprechen Sie uns an.</p></div>
 <div class="story__reveal">
 <figure class="story__hq story__reveal">
 <img alt="Aktueller Unternehmensstandort von HAMMEL Recyclingtechnik in Bad Salzungen mit der markanten roten Brücke" loading="lazy" src="../assets/img/unternehmen/hammel-headquarters-2026.jpg"/>
 <figcaption>
-         UNSER STANDORT · BAD SALZUNGEN
+         UNSER STANDORT / BAD SALZUNGEN
         </figcaption>
 </figure>
 </div>
@@ -315,11 +265,9 @@
 </script>
 <script defer="" src="../assets/js/cinematic-unified.js">
 </script>
-<script defer="True" src="../assets/js/unternehmen-one-story.js">
-</script>
-<script defer="True" src="../assets/js/unternehmen-continuity.js">
-</script>
-<script defer="True" src="../assets/js/unternehmen-blueprint-sparks.js">
-</script>
-<script defer="" src="../assets/js/page-hero.js"></script></body>
+<script defer="" src="../assets/js/page-hero.js"></script>
+
+<script defer="" src="../assets/js/hammel-transitions.js?v=2"></script><script defer="" src="../assets/js/hammel-cinematic-sections.js?v=20261103b"></script>
+<script defer src="../assets/js/unternehmen-scroll-magnetic.js?v=20261111a"></script>
+</body>
 </html>

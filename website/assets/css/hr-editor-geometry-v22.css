@@ -1,0 +1,75 @@
+/* HAMMEL HR unified header geometry — phase 22. Single authoritative layout. */
+:root{--hr-page-width:1480px;--hr-page-gutter:24px;--hr-top:86px;--hr-red:#e30613;--hr-bg:#f5f4f1}
+body:has(.staff-ui),body:has(.translation-editor),body:has(#hr-review-page){background:var(--hr-bg)!important;color:#171717!important;color-scheme:light}
+body:has(.staff-ui) main.staff-ui{padding:var(--hr-top) 0 100px!important;margin:0!important;background:transparent!important}
+body:has(.staff-ui) .staff-ui .staff-wrap,
+body:has(.translation-editor) main.translation-editor,
+body:has(#hr-review-page) main.hr-review{
+ box-sizing:border-box!important;width:calc(100% - 2 * var(--hr-page-gutter))!important;
+ max-width:var(--hr-page-width)!important;margin-left:auto!important;margin-right:auto!important;
+ padding:0!important;border:0!important;overflow:visible!important;
+}
+body:has(.translation-editor) main.translation-editor,
+body:has(#hr-review-page) main.hr-review{margin-top:var(--hr-top)!important;margin-bottom:100px!important}
+/* All three screens: identical back button, kicker, heading and steps geometry. */
+body:has(.staff-ui) .staff-ui .staff-wrap>.hr-nav-button--back,
+body:has(.translation-editor) .translation-editor>a.back,
+body:has(#hr-review-page) .hr-review>a.hr-flow-back{
+ box-sizing:border-box!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ min-height:54px!important;width:auto!important;max-width:100%!important;padding:0 26px!important;
+ margin:0 0 46px!important;background:#171717!important;color:white!important;
+ font:800 13px/1.2 Arial,Helvetica,sans-serif!important;letter-spacing:0!important;text-decoration:none!important;
+ border:0!important;border-radius:0!important;transform:none!important;
+}
+body:has(.staff-ui) .staff-ui .staff-wrap>.staff-heading,
+body:has(.translation-editor) .translation-editor>p.eyebrow,
+body:has(#hr-review-page) .hr-review>p.hr-flow-eyebrow{margin-top:0!important}
+body:has(.staff-ui) .staff-ui .staff-heading{margin-bottom:0!important}
+body:has(.staff-ui) .staff-ui .staff-heading .staff-kicker,
+body:has(.translation-editor) .translation-editor>p.eyebrow,
+body:has(#hr-review-page) .hr-review>p.hr-flow-eyebrow{
+ display:block!important;margin:0 0 14px!important;color:var(--hr-red)!important;
+ font:800 13px/1.4 Arial,Helvetica,sans-serif!important;letter-spacing:.15em!important;text-transform:uppercase!important;
+}
+body:has(.staff-ui) .staff-ui .staff-heading h1,
+body:has(.translation-editor) .translation-editor>h1,
+body:has(#hr-review-page) .hr-review>h1{
+ display:block!important;max-width:100%!important;margin:0 0 54px!important;padding:0!important;
+ color:#171717!important;font-family:Arial,Helvetica,sans-serif!important;
+ font-size:clamp(34px,4.4vw,64px)!important;font-weight:900!important;
+ line-height:1.06!important;letter-spacing:-.035em!important;text-transform:uppercase!important;
+}
+body:has(.staff-ui) .staff-ui .staff-heading h1 span,
+body:has(.translation-editor) .translation-editor>h1 span,
+body:has(#hr-review-page) .hr-review>h1 span{color:var(--hr-red)!important}
+body:has(.staff-ui) .staff-ui .hr-unified-steps,
+body:has(.translation-editor) .translation-editor>.hr-unified-steps,
+body:has(#hr-review-page) .hr-review>.hr-unified-steps{
+ box-sizing:border-box!important;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ gap:8px!important;width:100%!important;margin:0 0 30px!important;padding:0!important;
+}
+body .hr-unified-steps>*{
+ box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:center!important;
+ width:100%!important;height:64px!important;min-height:64px!important;max-height:64px!important;
+ padding:0 12px!important;margin:0!important;border:0!important;border-radius:0!important;
+ background:#e8e8e6!important;color:#171717!important;
+ font:800 13px/1.2 Arial,Helvetica,sans-serif!important;letter-spacing:0!important;
+ text-align:center!important;text-decoration:none!important;white-space:normal!important;
+}
+body .hr-unified-steps>[aria-current="step"]{background:var(--hr-red)!important;color:#fff!important}
+body .hr-unified-steps>a:hover{background:#171717!important;color:#fff!important}
+body:has(.staff-ui) .staff-ui .hr-wizard-note,
+body:has(.translation-editor) .translation-editor>p.intro,
+body:has(#hr-review-page) .hr-review>p.muted{
+ margin:0 0 36px!important;max-width:none!important;color:#666!important;
+ font:400 16px/1.6 Arial,Helvetica,sans-serif!important;
+}
+@media(max-width:760px){:root{--hr-page-gutter:16px;--hr-top:40px}
+ body:has(.staff-ui) .staff-ui .staff-wrap>.hr-nav-button--back,
+ body:has(.translation-editor) .translation-editor>a.back,
+ body:has(#hr-review-page) .hr-review>a.hr-flow-back{min-height:48px!important;margin-bottom:30px!important;padding:0 15px!important;font-size:11px!important}
+ body:has(.staff-ui) .staff-ui .staff-heading h1,
+ body:has(.translation-editor) .translation-editor>h1,
+ body:has(#hr-review-page) .hr-review>h1{margin-bottom:30px!important}
+ body .hr-unified-steps>*{height:50px!important;min-height:50px!important;max-height:50px!important;font-size:10px!important;padding:0 5px!important}
+}

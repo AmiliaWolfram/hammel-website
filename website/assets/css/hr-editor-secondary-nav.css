@@ -1,0 +1,25 @@
+/* One secondary navigation header for every vacancy workflow step. */
+:root{--hr-nav-height:58px;--hr-nav-gap:8px}
+.staff-ui .hr-wizard,.translation-editor .hr-wizard,.hr-review .steps{
+ display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ gap:var(--hr-nav-gap)!important;width:100%!important;max-width:none!important;
+ margin:0 0 30px!important;padding:0!important;align-items:stretch!important;
+}
+.staff-ui .hr-wizard>*,.translation-editor .hr-wizard>*,.hr-review .steps>*{
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ width:100%!important;min-width:0!important;height:var(--hr-nav-height)!important;
+ min-height:var(--hr-nav-height)!important;max-height:var(--hr-nav-height)!important;
+ padding:0 12px!important;margin:0!important;box-sizing:border-box!important;
+ background:#e7e7e5!important;color:#171717!important;
+ border:0!important;border-radius:0!important;box-shadow:none!important;
+ font:800 13px/1.2 Arial,Helvetica,sans-serif!important;letter-spacing:.02em!important;
+ text-decoration:none!important;text-align:center!important;white-space:nowrap!important;
+ opacity:1!important;transition:background-color .2s ease,color .2s ease!important;
+}
+.staff-ui .hr-wizard>.current,.translation-editor .hr-wizard>.current,.hr-review .steps>.current{
+ background:#e30613!important;color:#fff!important;
+}
+.staff-ui .hr-wizard>.pending{opacity:.5!important;cursor:default!important}
+.staff-ui .hr-wizard>a:not(.current):hover,.translation-editor .hr-wizard>a:not(.current):hover,.hr-review .steps>a:not(.current):hover{background:#171717!important;color:#fff!important}
+@media(max-width:760px){:root{--hr-nav-height:50px;--hr-nav-gap:5px}
+.staff-ui .hr-wizard>*,.translation-editor .hr-wizard>*,.hr-review .steps>*{font-size:10px!important;padding:0 4px!important}}

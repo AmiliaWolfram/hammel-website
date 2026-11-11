@@ -59,6 +59,7 @@
  function sync(){var h=document.querySelector('body > header.top');if(h)h.classList.toggle('public-header-scrolled',window.scrollY>36)}
  document.addEventListener('DOMContentLoaded',sync);
  window.addEventListener('scroll',sync,{passive:true});
+ window.addEventListener('pageshow',sync);
  sync();
 })();
 </script>

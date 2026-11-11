@@ -1,0 +1,674 @@
+[
+  {
+    "model": "hrtip",
+    "pk": 5,
+    "field": "title",
+    "language": "en",
+    "text": "APPLICATION DOCUMENTS"
+  },
+  {
+    "model": "hrtip",
+    "pk": 5,
+    "field": "title",
+    "language": "fr",
+    "text": "DOSSIER DE CANDIDATURE"
+  },
+  {
+    "model": "hrtip",
+    "pk": 5,
+    "field": "title",
+    "language": "es",
+    "text": "DOCUMENTOS DE SOLICITUD"
+  },
+  {
+    "model": "hrtip",
+    "pk": 5,
+    "field": "title",
+    "language": "it",
+    "text": "DOCUMENTI DI CANDIDATURA"
+  },
+  {
+    "model": "hrtip",
+    "pk": 5,
+    "field": "body",
+    "language": "en",
+    "text": "Make sure your application documents are complete. Keep your CV clear, well structured and up to date. You are welcome to include a photo, but it is not required."
+  },
+  {
+    "model": "hrtip",
+    "pk": 5,
+    "field": "body",
+    "language": "fr",
+    "text": "Veille à ce que ton dossier de candidature soit complet. Présente ton CV de manière claire et tiens-le à jour. Tu peux joindre une photo, mais ce n’est pas obligatoire."
+  },
+  {
+    "model": "hrtip",
+    "pk": 5,
+    "field": "body",
+    "language": "es",
+    "text": "Asegúrate de que tu documentación de candidatura esté completa. Presenta tu currículum de forma clara y mantenlo actualizado. Puedes incluir una fotografía, pero no es obligatorio."
+  },
+  {
+    "model": "hrtip",
+    "pk": 5,
+    "field": "body",
+    "language": "it",
+    "text": "Assicurati che la documentazione della candidatura sia completa. Prepara un curriculum chiaro e aggiornato. Puoi allegare una foto, ma non è obbligatorio."
+  },
+  {
+    "model": "hrtip",
+    "pk": 6,
+    "field": "title",
+    "language": "en",
+    "text": "JOB INTERVIEW"
+  },
+  {
+    "model": "hrtip",
+    "pk": 6,
+    "field": "title",
+    "language": "fr",
+    "text": "ENTRETIEN D’EMBAUCHE"
+  },
+  {
+    "model": "hrtip",
+    "pk": 6,
+    "field": "title",
+    "language": "es",
+    "text": "ENTREVISTA DE TRABAJO"
+  },
+  {
+    "model": "hrtip",
+    "pk": 6,
+    "field": "title",
+    "language": "it",
+    "text": "COLLOQUIO DI LAVORO"
+  },
+  {
+    "model": "hrtip",
+    "pk": 6,
+    "field": "body",
+    "language": "en",
+    "text": "Before your interview, find out more about HAMMEL and our company. Think about why you would like to become part of our team."
+  },
+  {
+    "model": "hrtip",
+    "pk": 6,
+    "field": "body",
+    "language": "fr",
+    "text": "Avant ton entretien, renseigne-toi sur HAMMEL et notre entreprise. Réfléchis aux raisons pour lesquelles tu souhaites rejoindre notre équipe."
+  },
+  {
+    "model": "hrtip",
+    "pk": 6,
+    "field": "body",
+    "language": "es",
+    "text": "Antes de la entrevista, infórmate sobre HAMMEL y nuestra empresa. Piensa por qué te gustaría formar parte de nuestro equipo."
+  },
+  {
+    "model": "hrtip",
+    "pk": 6,
+    "field": "body",
+    "language": "it",
+    "text": "Prima del colloquio, informati su HAMMEL e sulla nostra azienda. Rifletti sul motivo per cui vorresti entrare a far parte del nostro team."
+  },
+  {
+    "model": "hrtip",
+    "pk": 7,
+    "field": "title",
+    "language": "en",
+    "text": "BE YOURSELF"
+  },
+  {
+    "model": "hrtip",
+    "pk": 7,
+    "field": "title",
+    "language": "fr",
+    "text": "AUTHENTICITÉ"
+  },
+  {
+    "model": "hrtip",
+    "pk": 7,
+    "field": "title",
+    "language": "es",
+    "text": "AUTENTICIDAD"
+  },
+  {
+    "model": "hrtip",
+    "pk": 7,
+    "field": "title",
+    "language": "it",
+    "text": "AUTENTICITÀ"
+  },
+  {
+    "model": "hrtip",
+    "pk": 7,
+    "field": "body",
+    "language": "en",
+    "text": "Just be yourself. Talk openly about your strengths, previous experience and interests."
+  },
+  {
+    "model": "hrtip",
+    "pk": 7,
+    "field": "body",
+    "language": "fr",
+    "text": "Reste simplement toi-même. Parle ouvertement de tes points forts, de tes expériences et de tes centres d’intérêt."
+  },
+  {
+    "model": "hrtip",
+    "pk": 7,
+    "field": "body",
+    "language": "es",
+    "text": "Sé tú mismo. Habla abiertamente de tus puntos fuertes, tu experiencia y tus intereses."
+  },
+  {
+    "model": "hrtip",
+    "pk": 7,
+    "field": "body",
+    "language": "it",
+    "text": "Sii semplicemente te stesso. Parla apertamente dei tuoi punti di forza, delle tue esperienze e dei tuoi interessi."
+  },
+  {
+    "model": "hrtip",
+    "pk": 8,
+    "field": "title",
+    "language": "en",
+    "text": "PREPARATION"
+  },
+  {
+    "model": "hrtip",
+    "pk": 8,
+    "field": "title",
+    "language": "fr",
+    "text": "PRÉPARATION"
+  },
+  {
+    "model": "hrtip",
+    "pk": 8,
+    "field": "title",
+    "language": "es",
+    "text": "PREPARACIÓN"
+  },
+  {
+    "model": "hrtip",
+    "pk": 8,
+    "field": "title",
+    "language": "it",
+    "text": "PREPARAZIONE"
+  },
+  {
+    "model": "hrtip",
+    "pk": 8,
+    "field": "body",
+    "language": "en",
+    "text": "Feel free to bring your own questions. Use the interview as an opportunity to get to know HAMMEL and the people behind the company better."
+  },
+  {
+    "model": "hrtip",
+    "pk": 8,
+    "field": "body",
+    "language": "fr",
+    "text": "N’hésite pas à préparer tes propres questions. Profite également de l’entretien pour mieux connaître HAMMEL et les personnes qui font vivre l’entreprise."
+  },
+  {
+    "model": "hrtip",
+    "pk": 8,
+    "field": "body",
+    "language": "es",
+    "text": "No dudes en preparar tus propias preguntas. Aprovecha también la entrevista para conocer mejor a HAMMEL y a las personas que forman parte de la empresa."
+  },
+  {
+    "model": "hrtip",
+    "pk": 8,
+    "field": "body",
+    "language": "it",
+    "text": "Prepara pure le tue domande. Approfitta del colloquio anche per conoscere meglio HAMMEL e le persone che lavorano in azienda."
+  },
+  {
+    "model": "hrtip",
+    "pk": 9,
+    "field": "title",
+    "language": "en",
+    "text": "APPLICATION PROCESS"
+  },
+  {
+    "model": "hrtip",
+    "pk": 9,
+    "field": "title",
+    "language": "fr",
+    "text": "PROCESSUS DE CANDIDATURE"
+  },
+  {
+    "model": "hrtip",
+    "pk": 9,
+    "field": "title",
+    "language": "es",
+    "text": "PROCESO DE SELECCIÓN"
+  },
+  {
+    "model": "hrtip",
+    "pk": 9,
+    "field": "title",
+    "language": "it",
+    "text": "PROCESSO DI CANDIDATURA"
+  },
+  {
+    "model": "hrtip",
+    "pk": 9,
+    "field": "body",
+    "language": "en",
+    "text": "Apply as early as possible. If you have any questions, you can contact us at any time."
+  },
+  {
+    "model": "hrtip",
+    "pk": 9,
+    "field": "body",
+    "language": "fr",
+    "text": "Envoie ta candidature le plus tôt possible. Si tu as des questions, tu peux nous contacter à tout moment."
+  },
+  {
+    "model": "hrtip",
+    "pk": 9,
+    "field": "body",
+    "language": "es",
+    "text": "Presenta tu candidatura lo antes posible. Si tienes alguna pregunta, puedes ponerte en contacto con nosotros en cualquier momento."
+  },
+  {
+    "model": "hrtip",
+    "pk": 9,
+    "field": "body",
+    "language": "it",
+    "text": "Invia la tua candidatura il prima possibile. Se hai domande, puoi contattarci in qualsiasi momento."
+  },
+  {
+    "model": "vacancydepartment",
+    "pk": 1,
+    "field": "name",
+    "language": "en",
+    "text": "Sales"
+  },
+  {
+    "model": "vacancydepartment",
+    "pk": 1,
+    "field": "name",
+    "language": "fr",
+    "text": "Ventes"
+  },
+  {
+    "model": "vacancydepartment",
+    "pk": 1,
+    "field": "name",
+    "language": "es",
+    "text": "Ventas"
+  },
+  {
+    "model": "vacancydepartment",
+    "pk": 1,
+    "field": "name",
+    "language": "it",
+    "text": "Vendite"
+  },
+  {
+    "model": "vacancydepartment",
+    "pk": 2,
+    "field": "name",
+    "language": "en",
+    "text": "Service"
+  },
+  {
+    "model": "vacancydepartment",
+    "pk": 2,
+    "field": "name",
+    "language": "fr",
+    "text": "Service"
+  },
+  {
+    "model": "vacancydepartment",
+    "pk": 2,
+    "field": "name",
+    "language": "es",
+    "text": "Servicio técnico"
+  },
+  {
+    "model": "vacancydepartment",
+    "pk": 2,
+    "field": "name",
+    "language": "it",
+    "text": "Assistenza"
+  },
+  {
+    "model": "vacancydepartment",
+    "pk": 3,
+    "field": "name",
+    "language": "en",
+    "text": "Purchasing"
+  },
+  {
+    "model": "vacancydepartment",
+    "pk": 3,
+    "field": "name",
+    "language": "fr",
+    "text": "Achats"
+  },
+  {
+    "model": "vacancydepartment",
+    "pk": 3,
+    "field": "name",
+    "language": "es",
+    "text": "Compras"
+  },
+  {
+    "model": "vacancydepartment",
+    "pk": 3,
+    "field": "name",
+    "language": "it",
+    "text": "Acquisti"
+  },
+  {
+    "model": "vacancydepartment",
+    "pk": 4,
+    "field": "name",
+    "language": "en",
+    "text": "Engineering and Design"
+  },
+  {
+    "model": "vacancydepartment",
+    "pk": 4,
+    "field": "name",
+    "language": "fr",
+    "text": "Conception technique"
+  },
+  {
+    "model": "vacancydepartment",
+    "pk": 4,
+    "field": "name",
+    "language": "es",
+    "text": "Diseño y desarrollo"
+  },
+  {
+    "model": "vacancydepartment",
+    "pk": 4,
+    "field": "name",
+    "language": "it",
+    "text": "Progettazione"
+  },
+  {
+    "model": "vacancydepartment",
+    "pk": 5,
+    "field": "name",
+    "language": "en",
+    "text": "Administration"
+  },
+  {
+    "model": "vacancydepartment",
+    "pk": 5,
+    "field": "name",
+    "language": "fr",
+    "text": "Administration"
+  },
+  {
+    "model": "vacancydepartment",
+    "pk": 5,
+    "field": "name",
+    "language": "es",
+    "text": "Administración"
+  },
+  {
+    "model": "vacancydepartment",
+    "pk": 5,
+    "field": "name",
+    "language": "it",
+    "text": "Amministrazione"
+  },
+  {
+    "model": "vacancydepartment",
+    "pk": 6,
+    "field": "name",
+    "language": "en",
+    "text": "Production"
+  },
+  {
+    "model": "vacancydepartment",
+    "pk": 6,
+    "field": "name",
+    "language": "fr",
+    "text": "Production"
+  },
+  {
+    "model": "vacancydepartment",
+    "pk": 6,
+    "field": "name",
+    "language": "es",
+    "text": "Producción"
+  },
+  {
+    "model": "vacancydepartment",
+    "pk": 6,
+    "field": "name",
+    "language": "it",
+    "text": "Produzione"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 1,
+    "field": "name",
+    "language": "en",
+    "text": "Production"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 1,
+    "field": "name",
+    "language": "fr",
+    "text": "Production"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 1,
+    "field": "name",
+    "language": "es",
+    "text": "Producción"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 1,
+    "field": "name",
+    "language": "it",
+    "text": "Produzione"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 2,
+    "field": "name",
+    "language": "en",
+    "text": "Engineering and Design"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 2,
+    "field": "name",
+    "language": "fr",
+    "text": "Conception technique"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 2,
+    "field": "name",
+    "language": "es",
+    "text": "Diseño y desarrollo"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 2,
+    "field": "name",
+    "language": "it",
+    "text": "Progettazione"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 3,
+    "field": "name",
+    "language": "en",
+    "text": "Service"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 3,
+    "field": "name",
+    "language": "fr",
+    "text": "Service"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 3,
+    "field": "name",
+    "language": "es",
+    "text": "Servicio técnico"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 3,
+    "field": "name",
+    "language": "it",
+    "text": "Assistenza"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 4,
+    "field": "name",
+    "language": "en",
+    "text": "Sales"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 4,
+    "field": "name",
+    "language": "fr",
+    "text": "Ventes"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 4,
+    "field": "name",
+    "language": "es",
+    "text": "Ventas"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 4,
+    "field": "name",
+    "language": "it",
+    "text": "Vendite"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 5,
+    "field": "name",
+    "language": "en",
+    "text": "Administration"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 5,
+    "field": "name",
+    "language": "fr",
+    "text": "Administration"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 5,
+    "field": "name",
+    "language": "es",
+    "text": "Administración"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 5,
+    "field": "name",
+    "language": "it",
+    "text": "Amministrazione"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 6,
+    "field": "name",
+    "language": "en",
+    "text": "Logistics"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 6,
+    "field": "name",
+    "language": "fr",
+    "text": "Logistique"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 6,
+    "field": "name",
+    "language": "es",
+    "text": "Logística"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 6,
+    "field": "name",
+    "language": "it",
+    "text": "Logistica"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 7,
+    "field": "name",
+    "language": "en",
+    "text": "Apprenticeship / Internship"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 7,
+    "field": "name",
+    "language": "fr",
+    "text": "Formation / Stage"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 7,
+    "field": "name",
+    "language": "es",
+    "text": "Formación profesional / Prácticas"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 7,
+    "field": "name",
+    "language": "it",
+    "text": "Apprendistato / Tirocinio"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 8,
+    "field": "name",
+    "language": "en",
+    "text": "Other"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 8,
+    "field": "name",
+    "language": "fr",
+    "text": "Autre"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 8,
+    "field": "name",
+    "language": "es",
+    "text": "Otros"
+  },
+  {
+    "model": "applicationdepartment",
+    "pk": 8,
+    "field": "name",
+    "language": "it",
+    "text": "Altro"
+  }
+]

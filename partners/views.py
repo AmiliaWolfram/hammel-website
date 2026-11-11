@@ -17,8 +17,11 @@ def edit(request,pk=None):
     obj=get_object_or_404(Partner,pk=pk) if pk else None
     form=PartnerForm(request.POST or None,request.FILES or None,instance=obj)
     if request.method=="POST" and form.is_valid():
-        form.save();messages.success(request,"Partner gespeichert.");return redirect("partners_dashboard")
-    return render(request,"partners/form.html",{"form":form,"editing":bool(obj)})
+        saved=form.save()
+        from translations.services import save_inline
+        save_inline(request,saved,form)
+        messages.success(request,"Partner gespeichert.");return redirect("partners_dashboard")
+    return render(request,"partners/form.html",{"form":form,"editing":bool(obj),"object":obj})
 @login_required(login_url="messen_login")
 def delete(request,pk):
     if not request.user.has_perm("partners.delete_partner"):raise PermissionDenied

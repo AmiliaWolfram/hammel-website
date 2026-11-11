@@ -3,16 +3,29 @@
 {% block site_header %}{% include 'recruiting/staff_header.html' %}{% endblock %}
 {% block site_footer %}{% endblock %}
 {% block content %}
-<link rel="stylesheet" href="/assets/css/hr-home.css?v=20261030-2">
-<main class="hr-home"><div class="hr-home-inner">
-  <p class="hr-home-eyebrow">HAMMEL / PERSONALABTEILUNG</p>
-  <h1>HR<span>PORTAL</span></h1>
-  <p class="hr-home-lead">Stellen, Bewerbungen und HR-Inhalte zentral verwalten.</p>
-  <div class="hr-home-grid">
-    <a class="hr-home-card" href="{% url 'hr_section' 'stellen' %}"><div><h2>STELLEN</h2><p>Offene Stellen und Ausbildungsplätze erstellen, ansehen und bearbeiten.</p></div><div class="hr-home-card-foot"><span>STELLEN VERWALTEN</span><b>{{ vacancy_count }}</b></div></a>
-    <a class="hr-home-card" href="{% url 'hr_section' 'bereiche' %}"><div><h2>BEREICHE</h2><p>Bewerbungsbereiche für das öffentliche Formular pflegen.</p></div><div class="hr-home-card-foot"><span>BEREICHE VERWALTEN</span><b>{{ department_count }}</b></div></a>
-    <a class="hr-home-card" href="{% url 'hr_section' 'tipps' %}"><div><h2>HR-TIPPS</h2><p>Tipps für Bewerberinnen und Bewerber verwalten und veröffentlichen.</p></div><div class="hr-home-card-foot"><span>TIPPS VERWALTEN</span><b>{{ tip_count }}</b></div></a>
-    <a class="hr-home-card" href="{% url 'hr_section' 'bewerbungen' %}"><div><h2>BEWERBUNGEN</h2><p>Eingegangene Bewerbungen prüfen und den Bearbeitungsstatus aktualisieren.</p></div><div class="hr-home-card-foot"><span>BEWERBUNGEN ANSEHEN</span><b>{{ new_count }} NEU</b></div></a>
-  </div>
+<link rel="stylesheet" href="/assets/css/hr-dashboard-29.css?v=20261110-exact-header3">
+<main class="hr29"><div class="hr29-wrap">
+  <header class="hr29-intro">
+    <div><p class="hr29-kicker">HAMMEL</p><h1>HR<span>PORTAL</span></h1><p class="hr29-sub">Stellen, Bewerbungen und HR-Inhalte zentral verwalten.</p></div>
+    <a class="hr29-create" href="{% url 'hr_new' 'vacancy' %}"><span aria-hidden="true">＋</span> NEUE STELLE</a>
+  </header>
+  <section class="hr29-section" aria-labelledby="hr29-tasks-title">
+    <div class="hr29-section-head"><h2 id="hr29-tasks-title">MEINE AUFGABEN</h2></div>
+    <div class="hr29-stats">
+      <a class="hr29-stat" href="{% url 'hr_section' 'stellen' %}"><span class="hr29-stat-label">ENTWÜRFE</span><strong>{{ pending_publication }}</strong><span class="hr29-stat-action">Stellen bearbeiten</span></a>
+      <a class="hr29-stat" href="{% url 'translation_catalog' 'hr' %}"><span class="hr29-stat-label">ÜBERSETZUNGEN</span><strong>{{ pending_translations }}</strong><span class="hr29-stat-action">Texte prüfen</span></a>
+      <a class="hr29-stat" href="{% url 'hr_section' 'bewerbungen' %}"><span class="hr29-stat-label">NEUE BEWERBUNGEN</span><strong>{{ new_count }}</strong><span class="hr29-stat-action">Bewerbungen ansehen</span></a>
+    </div>
+  </section>
+  <section class="hr29-recent" aria-labelledby="hr29-recent-title">
+    <div class="hr29-recent-head"><h2 id="hr29-recent-title">ZULETZT BEARBEITETE STELLEN</h2><a href="{% url 'hr_section' 'stellen' %}">ALLE STELLEN</a></div>
+    {% if recent_drafts %}<div class="hr29-recent-list">{% for vacancy in recent_drafts %}<a href="{% url 'hr_edit' 'vacancy' vacancy.pk %}"><span class="hr29-job-title">{{ vacancy.title }}</span><span class="hr29-job-side"><span class="hr29-status">ENTWURF</span><span class="hr29-edit">BEARBEITEN</span></span></a>{% endfor %}</div>{% else %}<p class="hr29-empty">Noch keine Entwürfe vorhanden. Über „Neue Stelle“ können Sie beginnen.</p>{% endif %}
+  </section>
+  <section class="hr29-more" aria-labelledby="hr29-more-title"><h2 id="hr29-more-title">WEITERE BEREICHE</h2><div class="hr29-more-grid">
+    <a href="{% url 'hr_section' 'stellen' %}"><span>STELLEN</span><small>{{ vacancy_count }} insgesamt</small></a>
+    <a href="{% url 'hr_section' 'bereiche' %}"><span>BEREICHE</span><small>{{ department_count }} insgesamt</small></a>
+    <a href="{% url 'hr_section' 'tipps' %}"><span>HR-TIPPS</span><small>{{ tip_count }} insgesamt</small></a>
+    <a href="{% url 'hr_section' 'bewerbungen' %}"><span>BEWERBUNGEN</span><small>{{ new_count }} neu</small></a>
+  </div></section>
 </div></main>
 {% endblock %}

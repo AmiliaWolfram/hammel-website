@@ -71,6 +71,21 @@
 .service-rental-list__name{font-size:clamp(17px,1.3vw,21px)!important;letter-spacing:-.015em!important}
 @media(max-width:900px){.service-mietpark-details__grid{row-gap:20px!important}.service-rental-list{margin-top:12px!important}}
 @media(max-width:440px){.service-rental-list__link{min-height:58px!important;padding:10px!important}}
+</style><link rel="stylesheet" href="../assets/css/hammel-transitions.css?v=2"><link rel="stylesheet" href="../assets/css/hammel-cinematic-sections.css?v=20261103b">
+<style id="hammel-no-red-section-dividers">/* HAMMEL: no decorative red horizontal separator at section boundaries.
+   Does not affect red CTA buttons or their underline animations. */
+main > section, main > .section, .cinematic-scene, .hc-scene,
+.hn-page, .hn-content, .news-section {
+  border-top-color: transparent !important;
+}
+main > section::before, main > .section::before {
+  border-top-color: transparent !important;
+}
+/* Remove the line above the light editorial section, even when the
+   preceding dark band is the shared footer/section wrapper. */
+main > section[style*="background"], .section.white {
+  border-top-color: transparent !important;
+}
 </style></head>
 <body>
 <!-- PUBLIC_SHARED_HEADER -->
@@ -79,5 +94,6 @@
 </script>
 <script defer="" src="../assets/js/cinematic-unified.js">
 </script>
-<script defer="" src="../assets/js/page-hero.js"></script></body>
+<script defer="" src="../assets/js/page-hero.js"></script><script defer src="../assets/js/hammel-transitions.js?v=2"></script><script defer src="../assets/js/hammel-cinematic-sections.js?v=20261103b"></script>
+</body>
 </html>

@@ -1,0 +1,291 @@
+{% extends "translations/hr_portal_base.html" %}
+{% block title %}STELLE PRÜFEN<style>.hr-editor-bottom-back{margin:36px 0 24px;display:flex;justify-content:flex-start}.hr-editor-bottom-back a::before,.hr-editor-bottom-back a::after{content:none!important;display:none!important}
+#hr-review-page .review-layout{align-items:stretch!important;grid-template-columns:minmax(0,1.45fr) minmax(320px,1fr)!important}
+#hr-review-page .review-stack{display:flex!important;flex-direction:column!important;gap:14px!important}
+#hr-review-page .review-stack > .review-card:last-child{flex:1}
+#hr-review-page .review-lang{grid-template-columns:minmax(0,1fr) auto!important;gap:12px!important;padding:10px 0!important}
+#hr-review-page .review-lang-name{font-size:14px!important;margin:0 0 2px!important}
+#hr-review-page .review-lang-stats{font-size:12px!important}
+#hr-review-page .review-lang-link{font-size:12px!important}
+#hr-review-page .review-progress,#hr-review-page .review-lang-code{display:none!important}
+#hr-review-page .review-history-bottom{margin-top:18px}
+#hr-review-page .review-history-bottom .review-card{padding:16px 22px!important}
+#hr-review-page .review-footer{display:flex!important;justify-content:flex-end!important;flex-wrap:wrap!important;gap:12px!important;margin-top:18px!important}
+#hr-review-page .review-footer .review-btn{white-space:nowrap}
+@media(max-width:950px){#hr-review-page .review-layout{grid-template-columns:1fr!important}}
+@media(max-width:650px){#hr-review-page .review-footer .review-btn{width:100%!important}}
+#hr-review-page .review-required-warning{padding:18px 20px;margin-bottom:22px;background:#f2f2f0;border-left:4px solid #e30613}
+#hr-review-page .review-required-warning strong{display:block;margin-bottom:12px;font-size:13px;letter-spacing:.06em}
+#hr-review-page .review-required-warning .review-btn{display:inline-flex;margin-top:12px}
+#hr-review-page .review-stack{min-width:0}
+#hr-review-page .review-card{min-width:0}
+#hr-review-page .review-lang-info{min-width:0;width:100%}
+#hr-review-page .review-progress-track{height:6px;background:#e6e6e4;overflow:hidden;margin-top:12px}
+#hr-review-page .review-progress-fill{display:block;height:100%;background:#e30613}
+#hr-review-page .review-preview{box-sizing:border-box;background:#f2f2f0;padding:24px;margin-top:28px;border-top:3px solid #e30613}
+#hr-review-page .review-preview h3{margin:8px 0}
+#hr-review-page .review-preview .review-btn{display:flex;justify-content:center;text-align:center;margin-top:20px}
+#hr-review-page .review-right-actions{flex:0 0 auto!important}
+#hr-review-page .review-right-actions h2{margin-bottom:10px!important}
+</style>
+{% endblock %}
+{% block site_header %}{% include 'recruiting/staff_header.html' %}{% endblock %}
+{% block site_footer %}{% endblock %}
+{% block content %}<style>
+/* Unified six-button language/review navigation, scoped to editors only. */
+.hr-unified-steps,.hr-multilingual-nav{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:10px!important;width:100%!important;margin:24px 0 20px!important}
+.hr-unified-steps>a,.hr-unified-steps>span,.hr-multilingual-nav>a,.hr-multilingual-nav>span:not(.hr-multilingual-nav__hint){display:flex!important;align-items:center!important;justify-content:center!important;min-width:0!important;min-height:58px!important;padding:12px 6px!important;background:#e8e8e8!important;color:#171717!important;text-decoration:none!important;font-size:13px!important;font-weight:800!important;text-align:center!important;border:0!important;box-sizing:border-box!important}
+.hr-unified-steps>[aria-current],.hr-multilingual-nav>.hr-multilingual-nav__active{background:#e30613!important;color:white!important}
+.hr-unified-steps>.disabled,.hr-multilingual-nav>.disabled{opacity:.45;cursor:not-allowed}
+.hr-unified-steps>a:hover,.hr-multilingual-nav>a:hover{background:#242424!important;color:#fff!important}
+@media(max-width:720px){.hr-unified-steps,.hr-multilingual-nav{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}}
+</style>
+<link rel="stylesheet" href="/assets/css/hr-editor-shared.css?v=20261104-10">
+<link rel="stylesheet" href="/assets/css/hr-editor-reference.css?v=20261104-11">
+<link rel="stylesheet" href="/assets/css/hr-editor-secondary-nav.css?v=20261104-14">
+<link rel="stylesheet" href="/assets/css/hr-editor-heading-unified.css?v=20261104-14">
+<link rel="stylesheet" href="/assets/css/hr-editor-exact-spacing.css?v=20261104-15">
+<link rel="stylesheet" href="/assets/css/hr-editor-unified-v16.css?v=16">
+<link rel="stylesheet" href="/assets/css/hr-editor-geometry-v22.css?v=20261104-22">
+<link rel="stylesheet" href="/assets/css/hr-ux-upgrade.css?v=23">
+<link rel="stylesheet" href="/assets/css/hr-phase37.css?v=37">
+<style>
+html:has(#hr-review-page),body:has(#hr-review-page){background:#f5f5f3!important;color:#171717!important;color-scheme:light}
+#hr-review-page{--hr-red:#e30613;--hr-text:#171717;--hr-gray:#696969;max-width:1480px;width:calc(100% - 48px);margin:48px auto 90px;color:var(--hr-text);font-family:inherit}
+#hr-review-page *{box-sizing:border-box}#hr-review-page h1,#hr-review-page h2,#hr-review-page h3{color:var(--hr-text)!important}
+#hr-review-page .hr-flow-back{display:inline-flex;align-items:center;min-height:46px}
+#hr-review-page .hr-flow-eyebrow{margin-top:36px}
+#hr-review-page h1{font-size:clamp(32px,4.5vw,60px);line-height:1.07;font-weight:900;letter-spacing:-.035em;margin:12px 0 38px}
+#hr-review-page .review-lead{color:var(--hr-gray);font-size:15px;line-height:1.55;margin:20px 0 28px}
+#hr-review-page .review-layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(290px,1fr);gap:22px;align-items:start}
+#hr-review-page .review-stack{display:grid;gap:22px;min-width:0}
+#hr-review-page .review-card{background:#fff;border:1px solid #e8e8e8;padding:clamp(22px,3vw,36px);min-width:0;margin:0}
+#hr-review-page .review-kicker{font-size:12px;letter-spacing:.11em;font-weight:850;color:var(--hr-red);text-transform:uppercase;margin:0 0 13px}
+#hr-review-page .review-card h2{font-size:clamp(21px,2.3vw,29px);font-weight:850;line-height:1.25;letter-spacing:-.02em;margin:0 0 10px;overflow-wrap:anywhere}
+#hr-review-page .review-card h3{font-size:18px;font-weight:850;margin:0 0 10px}
+#hr-review-page .review-muted{font-size:14px;color:#696969;line-height:1.55;margin:0 0 18px}
+#hr-review-page .review-line{border-top:1px solid #e9e9e9;padding-top:18px;margin-top:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+#hr-review-page .review-label{font-size:12px;font-weight:850;letter-spacing:.035em}
+#hr-review-page .review-status{font-size:12px;font-weight:800;color:#666;background:#f1f1f1;padding:8px 12px}
+#hr-review-page .review-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+#hr-review-page .review-btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;min-height:46px;padding:12px 17px;background:#171717;color:#fff!important;font-size:12px;font-weight:850;letter-spacing:.025em;border:1px solid #171717;cursor:pointer;text-align:center;line-height:1.3}
+#hr-review-page .review-btn:hover{background:#333;border-color:#333}
+#hr-review-page .review-btn--outline{background:#fff;color:#171717!important;border-color:#cfcfcf}
+#hr-review-page .review-btn--outline:hover{background:#f2f2f2;border-color:#171717}
+#hr-review-page .review-btn--red{background:var(--hr-red);border-color:var(--hr-red);color:#fff!important}
+#hr-review-page .review-btn--red:hover{background:#b9000a;border-color:#b9000a}
+#hr-review-page .review-btn:disabled{background:#d3d3d3;border-color:#d3d3d3;color:#555!important;cursor:not-allowed}
+#hr-review-page .review-lang{display:grid;grid-template-columns:44px minmax(0,1fr) auto;align-items:center;gap:14px;padding:15px 0;border-bottom:1px solid #eee}
+#hr-review-page .review-lang:last-child{border-bottom:0;padding-bottom:0}
+#hr-review-page .review-lang-code{display:grid;place-items:center;background:#f1f1f1;font-size:12px;font-weight:850;min-height:42px}
+#hr-review-page .review-lang-name{font-weight:800;font-size:15px;margin:0 0 4px}
+#hr-review-page .review-lang-stats{font-size:12px;color:#6b6b6b;line-height:1.5}
+#hr-review-page .review-lang-link{color:#e30613!important;text-decoration:none;font-size:12px;font-weight:850;white-space:nowrap}
+#hr-review-page .review-lang-link:hover{text-decoration:underline}
+#hr-review-page .review-progress{height:5px;background:#eee;margin-top:9px;overflow:hidden}
+#hr-review-page .review-progress>span{display:block;height:100%;background:#e30613}
+#hr-review-page .review-checklist{list-style:none;margin:12px 0 0;padding:0}
+#hr-review-page .review-checklist li{padding:11px 0;border-bottom:1px solid #eee;display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.45}
+#hr-review-page .review-checklist li:last-child{border-bottom:0}
+#hr-review-page .review-checklist li::before{content:'!';display:grid;place-items:center;flex:0 0 22px;height:22px;background:#fff0f0;color:#c4000b;font-weight:900}
+#hr-review-page .review-ok{display:flex;gap:12px;align-items:flex-start;color:#26613b;font-size:14px;line-height:1.5;padding:12px 0}
+#hr-review-page .review-ok::before{content:'✓';font-weight:900}
+#hr-review-page .review-confirm{display:flex;gap:12px;align-items:flex-start;font-size:14px;line-height:1.5;margin:16px 0 20px;cursor:pointer}
+#hr-review-page .review-confirm input{width:18px;height:18px;flex:none;accent-color:#e30613;margin-top:2px}
+#hr-review-page .review-submit{width:100%;font-size:13px}
+#hr-review-page .review-history{margin-top:22px}
+#hr-review-page details.review-history summary{font-size:14px;font-weight:850;cursor:pointer;padding:12px 0}
+#hr-review-page .review-history-item{border-top:1px solid #eee;padding:12px 0;font-size:13px;color:#666;display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap}
+#hr-review-page .review-footer{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+#hr-review-page .review-message{padding:15px 18px;background:#fff;border-left:3px solid #e30613;margin:15px 0;font-size:14px}
+@media(max-width:950px){#hr-review-page .review-layout{grid-template-columns:1fr}#hr-review-page .review-side{grid-row:auto}}
+@media(max-width:650px){#hr-review-page{width:calc(100% - 30px);margin:26px auto 60px}#hr-review-page .hr-flow-eyebrow{margin-top:25px}#hr-review-page h1{margin-bottom:25px}#hr-review-page .review-card{padding:21px}#hr-review-page .review-lang{grid-template-columns:38px minmax(0,1fr)}#hr-review-page .review-lang-link{grid-column:2;justify-self:start}#hr-review-page .review-actions .review-btn,#hr-review-page .review-footer .review-btn{width:100%}}
+/* Phase 42: tighter editorial review layout, matching HAMMEL design */
+#hr-review-page{margin-top:30px}
+#hr-review-page h1{margin-bottom:24px;font-size:clamp(29px,3.3vw,46px)}
+#hr-review-page .review-lead{margin:12px 0 22px;max-width:850px}
+#hr-review-page .review-layout{grid-template-columns:minmax(0,1.6fr) minmax(310px,1fr);gap:14px}
+#hr-review-page .review-stack{gap:14px}
+#hr-review-page .review-card{padding:clamp(18px,2vw,28px)}
+#hr-review-page .review-kicker{margin-bottom:9px}
+#hr-review-page .review-card h2{font-size:clamp(20px,2vw,25px)}
+#hr-review-page .review-line{margin-top:15px;padding-top:13px}
+#hr-review-page .review-actions{margin-top:16px}
+#hr-review-page .review-lang{padding:11px 0;gap:10px}
+#hr-review-page .review-lang-code{min-height:36px}
+#hr-review-page .review-progress{margin-top:6px}
+#hr-review-page .review-btn{min-height:42px;padding:10px 14px;transition:background .2s,border-color .2s,color .2s}
+#hr-review-page .review-footer{margin-top:18px}
+@media(max-width:950px){#hr-review-page .review-layout{grid-template-columns:1fr}}
+</style>
+<main class="hr-review" id="hr-review-page">
+
+<p class="hr-flow-eyebrow">HAMMEL</p>
+<h1>PRÜFUNG &amp; <span class="hr-accent">VERÖFFENTLICHUNG</span></h1>
+{% include "recruiting/partials/wizard.html" with current_step="review" %}
+
+{% for message in messages %}<div class="review-message" role="status">{{ message }}</div>{% endfor %}
+<div class="review-layout">
+  <div class="review-stack">
+    <section class="review-card" aria-labelledby="review-language-title">
+      <p class="review-kicker">ÜBERSETZUNGEN</p><h2 id="review-language-title">Sprachversionen</h2><p class="review-muted">Status und Bearbeitung der Sprachversionen</p>
+      
+      <div class="review-lang"><div class="review-lang-info"><div class="review-lang-heading"><p class="review-lang-name">Deutsch</p><div class="review-lang-stats"><span class="review-stat-ready">Originalversion</span></div></div><div class="review-progress-track"><span class="review-progress-fill" style="width:{% if missing_german %}0{% else %}100{% endif %}%"></span></div></div><a class="review-lang-link" href="{% url 'hr_edit' 'vacancy' object.pk %}">BEARBEITEN</a></div>
+      {% for item in summary %}
+      <div class="review-lang"><div class="review-lang-info"><div class="review-lang-heading"><p class="review-lang-name">{{ item.name }}</p><div class="review-lang-stats"><span class="review-stat-ready">{{ item.ready }} fertig</span><span class="review-stat-review">{{ item.review }} prüfen</span><span class="review-stat-missing">{{ item.missing }} fehlen</span><span class="review-stat-stale">{{ item.stale }} veraltet</span></div></div><div class="review-progress-track"><span class="review-progress-fill review-progress-ready" style="width:{% widthratio item.ready 6 100 %}%"></span><span class="review-progress-fill review-progress-review" style="width:{% widthratio item.review 6 100 %}%"></span><span class="review-progress-fill review-progress-stale" style="width:{% widthratio item.stale 6 100 %}%"></span></div></div><a class="review-lang-link" href="{{ translation_url }}?lang={{ item.code }}">BEARBEITEN</a></div>
+      {% endfor %}
+      <div class="review-preview">
+        <p class="review-kicker">VORSCHAU</p>
+        <h3>Alle Sprachversionen prüfen</h3>
+        <p class="review-muted">Alle Sprachversionen gemeinsam ansehen und prüfen.</p>
+        <a class="review-btn" href="{% url 'hr_preview' object.pk %}" target="_blank" rel="noopener">ALLE SPRACHVERSIONEN PRÜFEN</a>
+      </div>
+    </section>
+  </div>
+  <div class="review-stack review-side">
+    <section class="review-card" aria-labelledby="review-publish-title">
+      {% if missing_german %}
+      <div class="review-required-warning" role="alert">
+        <strong>FEHLENDE PFLICHTANGABEN</strong>
+        <ul class="review-checklist">{% for label in missing_german %}<li>{{ label }}</li>{% endfor %}</ul>
+        <a class="review-btn review-btn--outline" href="{% url 'hr_edit' 'vacancy' object.pk %}">ANGABEN ERGÄNZEN</a>
+      </div>
+      {% endif %}
+      <p class="review-kicker">LETZTER SCHRITT</p><h2 id="review-publish-title">Veröffentlichung</h2>
+      <p class="review-muted">{% if object.published %}Die Stelle ist aktuell veröffentlicht. Sie können sie bei Bedarf deaktivieren.{% else %}Die Stelle ist noch nicht öffentlich. Veröffentlichen Sie sie erst nach Prüfung der Vorschau.{% endif %}</p>
+      <form method="post" class="hr-language-visibility" style="margin:22px 0;padding:18px;background:#f2f2f0" aria-label="Sichtbare Sprachversionen">{% csrf_token %}
+        <input type="hidden" name="publication_action" value="languages">
+        <strong style="display:block;margin-bottom:14px">SPRACHVERSIONEN AUF DER WEBSITE</strong>
+        {% for lang in language_visibility %}
+        <label style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid #ddd">
+          <span>{{ lang.name }}</span><input type="checkbox" name="visible_languages" value="{{ lang.code }}" {% if lang.visible %}checked{% endif %} {% if not object.published %}disabled{% endif %} style="width:20px;height:20px;accent-color:#e30613">
+        </label>{% endfor %}
+        {% if object.published %}<button class="review-btn review-btn--red" type="submit" style="width:100%;margin-top:16px">SICHTBARKEIT SPEICHERN</button>{% else %}<p class="review-muted">Die Sprachversionen können nach Veröffentlichung aktiviert werden.</p>{% endif %}
+      </form>
+      <form method="post" id="hr-publication-form">{% csrf_token %}
+        <label class="review-confirm"><input type="checkbox" name="confirm_publication" value="yes" required><span>Ich habe die Vorschau geprüft und möchte den Veröffentlichungsstatus ausdrücklich ändern.</span></label>
+        {% if object.published %}<button class="review-btn review-submit" name="publication_action" value="unpublish" type="submit">STELLE DEAKTIVIEREN</button>{% else %}<button class="review-btn review-btn--red review-submit" name="publication_action" value="publish" type="submit" {% if missing_german %}disabled title="Pflichtangaben fehlen"{% endif %}>STELLE VERÖFFENTLICHEN</button>{% endif %}
+      </form>
+    </section>
+    <section class="review-card review-right-actions"><h2>Aktionen</h2><a class="review-btn review-btn--outline" href="{% url 'hr_management' %}">ZURÜCK ZUM HR-PORTAL</a></section>
+  </div>
+</div>
+<div class="review-history-bottom"><section class="review-card"><details class="review-history"><summary>ÄNDERUNGSVERLAUF ANZEIGEN</summary>
+<form method="get" class="review-history-filters"><input type="hidden" name="step" value="review"><label>Monat<select class="hr-history-native" name="month"><option value="">Alle Monate</option>{% for m in months %}<option value="{{ m.value }}" {% if selected_month == m.value %}selected{% endif %}>{{ m.label }}</option>{% endfor %}</select></label><label>Jahr<select class="hr-history-native" name="year"><option value="">Alle Jahre</option>{% for y in years %}<option value="{{ y }}" {% if selected_year == y|stringformat:"s" %}selected{% endif %}>{{ y }}</option>{% endfor %}</select></label><button type="submit" class="review-btn">FILTERN</button><a class="review-btn review-btn--outline" href="?step=review">ZURÜCKSETZEN</a></form>
+{% for entry in history %}<article class="review-history-entry"><div class="review-history-meta"><strong>{{ entry.created_at|date:"d.m.Y H:i" }}</strong><span>{{ entry.user.username|default:"System" }}</span><span>{{ entry.detail }}</span></div>{% for change in entry.changes %}<div class="review-diff"><strong>{{ change.field }}</strong><div class="review-diff-columns"><div><small>ALTE VERSION</small><p>{{ change.old|default:"(leer)" }}</p></div><div><small>NEUE VERSION</small><p>{{ change.new|default:"(leer)" }}</p></div></div></div>{% empty %}<p class="review-muted">Für diesen älteren Eintrag wurden keine Einzelwerte protokolliert.</p>{% endfor %}</article>{% empty %}<p class="review-muted">Keine Änderungen im gewählten Zeitraum.</p>{% endfor %}
+</details></section></div>
+<style>
+#hr-review-page .review-layout{grid-template-columns:repeat(2,minmax(0,1fr))!important;align-items:stretch!important;gap:18px!important}
+#hr-review-page .review-stack{min-width:0;display:flex!important;flex-direction:column!important;gap:18px!important}
+#hr-review-page .review-stack>.review-card:last-child{flex:1}
+#hr-review-page .review-lang{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:center!important;gap:18px!important}
+#hr-review-page .review-lang-stats{white-space:normal!important;overflow-wrap:normal!important;word-break:normal!important;line-height:1.6!important}
+#hr-review-page .review-lang-link{justify-self:end!important;white-space:nowrap!important}
+#hr-review-page .review-right-actions{display:flex;flex-direction:column;gap:12px;justify-content:flex-end}
+#hr-review-page .review-right-actions h2{margin-bottom:auto}
+#hr-review-page .review-history-bottom{margin-top:24px}
+#hr-review-page .review-history-filters{display:flex;gap:12px;align-items:end;flex-wrap:wrap;margin:18px 0 24px}
+#hr-review-page .review-history-filters label{display:flex;flex-direction:column;gap:7px;font-size:12px;font-weight:800}
+#hr-review-page .review-history-filters select{min-width:160px;min-height:43px;background:white;border:1px solid #ccc;padding:8px 12px;color:#171717}
+#hr-review-page .review-history-entry{padding:18px 0;border-top:1px solid #ddd}
+#hr-review-page .review-history-meta{margin-bottom:12px;font-size:13px}
+#hr-review-page .review-diff{margin:12px 0}
+#hr-review-page .review-diff>strong{font-size:14px}
+#hr-review-page .review-diff-columns{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+#hr-review-page .review-diff-columns>div{padding:14px;background:#f5f5f5;min-width:0}
+#hr-review-page .review-diff-columns small{font-weight:800;color:#777;font-size:11px}
+#hr-review-page .review-diff-columns p{white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;margin:8px 0 0}
+@media(max-width:950px){#hr-review-page .review-layout{grid-template-columns:1fr!important}}
+@media(max-width:600px){#hr-review-page .review-diff-columns{grid-template-columns:1fr}}
+</style>
+</main>
+
+<style>
+/* Scoped custom HAMMEL dropdowns for history filters only. */
+#hr-review-page .review-history-filters .hr-history-native{display:none!important}
+#hr-review-page .review-history-filters .hr-history-dropdown{position:relative;min-width:180px;width:100%;font-size:14px;font-weight:600}
+#hr-review-page .review-history-filters .hr-history-trigger{display:flex;justify-content:space-between;align-items:center;gap:16px;width:100%;min-height:46px;padding:11px 14px;background:#fff;color:#171717;border:1px solid #c9c9c9;border-radius:0;cursor:pointer;text-align:left;font:inherit}
+#hr-review-page .review-history-filters .hr-history-trigger::after{content:'';width:9px;height:9px;border-right:2px solid #171717;border-bottom:2px solid #171717;transform:translateY(-3px) rotate(45deg);flex:none}
+#hr-review-page .review-history-filters .hr-history-dropdown.is-open .hr-history-trigger{border-color:#e30613;outline:1px solid #e30613}
+#hr-review-page .review-history-filters .hr-history-dropdown.is-open .hr-history-trigger::after{border-color:#e30613;transform:translateY(2px) rotate(225deg)}
+#hr-review-page .review-history-filters .hr-history-options{position:absolute;top:calc(100% + 3px);left:0;right:0;z-index:40;max-height:300px;overflow-y:auto;background:#fff;border:1px solid #e30613;box-shadow:0 12px 25px rgba(0,0,0,.12);padding:4px;display:none}
+#hr-review-page .review-history-filters .hr-history-dropdown.is-open .hr-history-options{display:block}
+#hr-review-page .review-history-filters .hr-history-option{display:block;width:100%;padding:11px 12px;text-align:left;border:0;background:#fff;color:#171717;font:inherit;cursor:pointer;border-radius:0}
+#hr-review-page .review-history-filters .hr-history-option:hover,#hr-review-page .review-history-filters .hr-history-option:focus-visible{background:#f0f0f0;color:#e30613;outline:none}
+#hr-review-page .review-history-filters .hr-history-option[aria-selected="true"]{background:#242424;color:#f2b705}
+#hr-review-page .review-history-filters .hr-history-option[aria-selected="true"]:hover{background:#242424;color:#f2b705}
+@media(max-width:650px){#hr-review-page .review-history-filters .hr-history-dropdown{min-width:150px}}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+ const form=document.querySelector('#hr-review-page .review-history-filters');if(!form)return;
+ form.querySelectorAll('select.hr-history-native').forEach(function(select){
+  const dropdown=document.createElement('div');dropdown.className='hr-history-dropdown';
+  const trigger=document.createElement('button');trigger.type='button';trigger.className='hr-history-trigger';trigger.setAttribute('aria-haspopup','listbox');trigger.setAttribute('aria-expanded','false');
+  const options=document.createElement('div');options.className='hr-history-options';options.setAttribute('role','listbox');
+  function close(){dropdown.classList.remove('is-open');trigger.setAttribute('aria-expanded','false')}
+  function sync(){trigger.textContent=select.options[select.selectedIndex]?.textContent||'';options.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-selected',String(b.dataset.value===select.value))})}
+  Array.from(select.options).forEach(function(option){const b=document.createElement('button');b.type='button';b.className='hr-history-option';b.setAttribute('role','option');b.dataset.value=option.value;b.textContent=option.textContent;b.addEventListener('click',function(){select.value=option.value;sync();close();trigger.focus()});options.appendChild(b)});
+  trigger.addEventListener('click',function(){const opening=!dropdown.classList.contains('is-open');form.querySelectorAll('.hr-history-dropdown').forEach(function(d){d.classList.remove('is-open');d.querySelector('.hr-history-trigger').setAttribute('aria-expanded','false')});dropdown.classList.toggle('is-open',opening);trigger.setAttribute('aria-expanded',String(opening))});
+  dropdown.addEventListener('keydown',function(e){if(e.key==='Escape'){close();trigger.focus()}else if(e.key==='ArrowDown'&&document.activeElement===trigger){e.preventDefault();dropdown.classList.add('is-open');trigger.setAttribute('aria-expanded','true');options.querySelector('[aria-selected="true"]')?.focus()}});
+  dropdown.append(trigger,options);select.insertAdjacentElement('afterend',dropdown);sync();
+ });
+ document.addEventListener('click',function(e){if(!form.contains(e.target)||!e.target.closest('.hr-history-dropdown'))form.querySelectorAll('.hr-history-dropdown').forEach(function(d){d.classList.remove('is-open');d.querySelector('.hr-history-trigger').setAttribute('aria-expanded','false')})});
+});
+</script>
+<style>
+/* Stellen review: aligned editorial layout, scoped only to this page. */
+#hr-review-page .review-layout{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;align-items:start!important;gap:20px!important}
+#hr-review-page .review-stack{display:flex!important;flex-direction:column!important;gap:20px!important;min-width:0}
+#hr-review-page .review-stack>.review-card:last-child{flex:none!important}
+#hr-review-page .review-card{padding:30px!important;border:1px solid #e6e6e4!important;box-shadow:none!important}
+#hr-review-page .review-lang{padding:17px 0!important;gap:22px!important}
+#hr-review-page .review-lang-info{min-width:0}
+#hr-review-page .review-lang-name{font-size:16px!important;margin-bottom:5px!important}
+#hr-review-page .review-lang-stats{display:flex;flex-wrap:wrap;gap:5px 15px;font-size:12px!important;line-height:1.5!important}
+#hr-review-page .review-lang-stats span{display:inline-block;white-space:nowrap}
+#hr-review-page .review-lang-link{padding:10px 0;text-decoration:none!important}
+#hr-review-page .review-lang-link:hover{color:#171717!important}
+#hr-review-page .review-progress-track{height:4px!important;margin-top:12px!important;background:#ebebeb}
+#hr-review-page .review-preview{background:#f3f3f1!important;border:0!important;border-top:2px solid #e30613!important;margin-top:28px!important;padding:24px!important}
+#hr-review-page .review-preview h3{margin:6px 0 10px!important}
+#hr-review-page .review-preview .review-btn{margin-top:18px!important;width:100%;max-width:none}
+#hr-review-page .review-right-actions{padding:24px 30px!important;gap:0!important}
+#hr-review-page .review-right-actions h2{margin:0 0 16px!important;font-size:21px!important}
+#hr-review-page .review-right-actions .review-btn{width:100%}
+#hr-review-page .review-history-bottom{margin-top:20px!important}
+#hr-review-page .review-history-meta{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px}
+#hr-review-page .review-history-meta span{color:#666}
+#hr-review-page .review-kicker{letter-spacing:.07em}
+@media(max-width:950px){#hr-review-page .review-layout{grid-template-columns:1fr!important}}
+@media(max-width:650px){#hr-review-page .review-card{padding:20px!important}#hr-review-page .review-lang{gap:10px!important}#hr-review-page .review-preview{padding:18px!important}}
+</style>
+<style>
+/* Final scoped Stellen review adjustments */
+#hr-review-page .review-layout{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;align-items:stretch!important;gap:20px!important}
+#hr-review-page .review-layout>.review-stack{min-width:0;display:flex!important;flex-direction:column!important;height:100%!important}
+#hr-review-page .review-layout>.review-stack:first-child>.review-card{flex:1 1 auto!important}
+#hr-review-page .review-layout>.review-side>.review-card:first-child{flex:1 1 auto!important}
+#hr-review-page .review-layout>.review-side>.review-card:last-child{flex:0 0 auto!important}
+#hr-review-page .review-preview{border:0!important;border-top:0!important;box-shadow:none!important;margin-top:24px!important;background:#f2f2f0!important}
+#hr-review-page .review-preview:before{display:none!important}
+#hr-review-page .review-lang{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:center!important}
+#hr-review-page .review-lang-info{min-width:0!important}
+#hr-review-page .review-lang-heading{display:flex!important;align-items:baseline!important;justify-content:space-between!important;flex-wrap:wrap!important;gap:6px 14px!important}
+#hr-review-page .review-lang-name{margin:0!important;flex:0 0 auto!important}
+#hr-review-page .review-lang-stats{display:flex!important;align-items:center!important;justify-content:flex-end!important;flex-wrap:wrap!important;gap:4px 12px!important;margin:0!important}
+#hr-review-page .review-lang-stats span{font-size:12px!important;font-weight:600!important;white-space:nowrap!important}
+#hr-review-page .review-stat-ready{color:#19804a!important}
+#hr-review-page .review-stat-review{color:#aa7300!important}
+#hr-review-page .review-stat-missing{color:#d20c18!important}
+#hr-review-page .review-stat-stale{color:#68717b!important}
+#hr-review-page .review-progress-track{display:flex!important;width:100%!important;height:7px!important;background:#e5e5e3!important;overflow:hidden!important;margin-top:12px!important}
+#hr-review-page .review-progress-fill{display:block!important;height:100%!important;flex-shrink:0!important;border-radius:0!important}
+#hr-review-page .review-progress-ready{background:#19804a!important}
+#hr-review-page .review-progress-review{background:#e4b03c!important}
+#hr-review-page .review-progress-stale{background:#8d969e!important}
+#hr-review-page .review-lang-link{white-space:nowrap!important}
+@media(max-width:1000px){#hr-review-page .review-layout{grid-template-columns:1fr!important}#hr-review-page .review-layout>.review-stack{height:auto!important}}
+@media(max-width:650px){#hr-review-page .review-lang-heading{display:block!important}#hr-review-page .review-lang-stats{justify-content:flex-start!important;margin-top:6px!important}}
+</style>
+{% endblock %}

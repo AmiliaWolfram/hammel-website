@@ -1,0 +1,221 @@
+{% extends base_template|default:"translations/hr_portal_base.html" %}
+{% block title %}Sprachversionen{% endblock %}
+{% block site_header %}{% if portal_key == "hr" %}{% include "recruiting/staff_header.html" %}{% endif %}{% endblock %}
+{% block site_footer %}{% endblock %}
+{% block content %}
+
+<style>
+.hml-i18n{--red:#e30613;width:min(100% - 48px,1480px);max-width:none;margin:0 auto;padding:48px 0 96px;color:#171717;font-family:Arial,Helvetica,sans-serif;box-sizing:border-box}.hml-i18n *{box-sizing:border-box}.hml-i18n a{color:inherit;text-decoration:none}.hml-i18n .back{display:inline-block;font-size:13px;font-weight:800;letter-spacing:.02em;margin-bottom:35px}.hml-i18n .back:hover{color:var(--red)}.hml-i18n .eyebrow{font-size:12px;font-weight:800;color:var(--red);letter-spacing:.13em;margin:0 0 12px}.hml-i18n h1{font-size:clamp(32px,5vw,62px);line-height:1.02;letter-spacing:-.035em;margin:0 0 15px;font-weight:900}.hml-i18n .intro{color:#5c5c5c;max-width:740px;margin:0 0 35px;line-height:1.6}.hml-i18n .overview{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}.hml-i18n .stat{background:#fff;padding:22px;border:1px solid #e6e6e4}.hml-i18n .stat strong{display:block;font-size:clamp(27px,3vw,38px);line-height:1.1}.hml-i18n .stat span{display:block;color:#646464;font-size:12px;font-weight:700;margin-top:10px}.hml-i18n .progress{background:#fff;border:1px solid #e6e6e4;padding:25px;margin-bottom:35px}.hml-i18n .progress-head{display:flex;justify-content:space-between;align-items:center;gap:12px;font-weight:800}.hml-i18n .track{background:#e8e8e6;height:8px;margin:17px 0 23px}.hml-i18n .fill{height:100%;background:var(--red)}.hml-i18n .languages{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.hml-i18n .language{border-top:1px solid #ddd;padding-top:12px}.hml-i18n .language-head{display:flex;justify-content:space-between;gap:8px;font-size:12px;font-weight:800}.hml-i18n .language small{display:block;color:#777;font-size:11px;margin-top:5px}.hml-i18n .language .track{height:4px;margin:9px 0 0}.hml-i18n .tools{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:22px}.hml-i18n .search{flex:1 1 270px;min-width:0}.hml-i18n input,.hml-i18n select{height:49px;border:1px solid #d5d5d2;background:#fff;border-radius:0;padding:0 15px;font:inherit;font-size:14px;min-width:0}.hml-i18n input{width:100%}.hml-i18n select{flex:0 1 220px}.hml-i18n input:focus,.hml-i18n select:focus{outline:2px solid var(--red);outline-offset:1px}.hml-i18n .results{font-size:12px;color:#666;margin-bottom:15px}.hml-i18n .group{background:#fff;margin:0 0 14px;border:1px solid #e6e6e4}.hml-i18n .group h2{font-size:19px;margin:0;padding:20px 23px;border-bottom:1px solid #eaeaea}.hml-i18n .entry{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:17px 23px;border-bottom:1px solid #eee}.hml-i18n .entry:last-child{border-bottom:0}.hml-i18n .entry-link{font-weight:800;overflow-wrap:anywhere;min-width:0}.hml-i18n .entry-link:hover{color:var(--red)}.hml-i18n .entry-info{display:flex;align-items:center;justify-content:flex-end;gap:7px;flex-wrap:wrap;flex-shrink:0}.hml-i18n .tag{background:#ededeb;color:#333;padding:6px 9px;font-size:11px;font-weight:800}.hml-i18n .tag.alert{background:#ffe4df;color:#a01912}.hml-i18n .tag.done{background:#e5efe5;color:#28602b}.hml-i18n .action{display:inline-block;margin-top:20px;background:var(--red);color:#fff!important;padding:15px 20px;font-weight:800;font-size:13px;transition:background .2s}.hml-i18n .action:hover{background:#111}.hml-i18n .empty{padding:25px;background:#fff;color:#666}.hml-i18n [hidden]{display:none!important}@media(max-width:850px){.hml-i18n .overview,.hml-i18n .languages{grid-template-columns:repeat(2,minmax(0,1fr))}.hml-i18n .entry{align-items:flex-start;flex-direction:column}.hml-i18n .entry-info{justify-content:flex-start}}@media(max-width:480px){.hml-i18n{width:calc(100% - 32px);padding:32px 0 65px}.hml-i18n .overview{gap:8px}.hml-i18n .stat{padding:14px}.hml-i18n .languages{grid-template-columns:1fr 1fr}.hml-i18n select{flex:1 1 100%}}
+@media(max-width:760px){.hml-items{grid-template-columns:1fr}.hml-item{gap:10px;padding:12px}.hml-edit{padding:10px 12px}}
+</style>
+<style>
+/* Einheitliche, kompakte Kennzahlen nach dem abgestimmten HR-Dashboard */
+.hml-workspace .overview{grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:28px 0 16px}
+.hml-workspace .overview .stat{display:flex;flex-direction:column;min-height:142px;padding:20px 19px;border-top:3px solid #e5e5e5;transition:transform .2s ease,box-shadow .2s ease}
+.hml-workspace .overview .stat:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.055)}
+.hml-workspace .overview .stat:nth-child(2){border-top-color:#f2b705}
+.hml-workspace .overview .stat:nth-child(3){border-top-color:#2563eb}
+.hml-workspace .overview .stat:nth-child(4){border-top-color:#e76f00}
+.hml-workspace .overview .stat:nth-child(5){border-top-color:#0f8b4d}
+.hml-workspace .overview .stat span{order:0;margin:0 0 12px;font-size:11px;letter-spacing:.04em}
+.hml-workspace .overview .stat strong{order:1;font-size:clamp(27px,2.8vw,39px);font-variant-numeric:tabular-nums}
+.hml-workspace .overview .stat small{order:2;margin-top:auto;padding-top:12px;font-size:11px;line-height:1.35;color:#777}
+@media(max-width:1050px){.hml-workspace .overview{grid-template-columns:repeat(3,minmax(0,1fr))}.hml-analytics{grid-template-columns:1fr 1fr}.hml-analytics .hml-panel:last-child{grid-column:1/-1}}
+@media(max-width:680px){.hml-workspace .overview{grid-template-columns:repeat(2,minmax(0,1fr))}.hml-analytics{grid-template-columns:1fr}.hml-analytics .hml-panel:last-child{grid-column:auto}}
+
+.hml-workspace{padding-top:42px}.hml-workspace .intro{max-width:1000px}.hml-analytics{display:grid;grid-template-columns:1fr 1.35fr 1fr;gap:14px;margin:0 0 24px}.hml-panel{background:white;border:1px solid #e3e3e3;padding:22px;min-width:0}.hml-panel h2,.hml-sidebar h2{font-size:14px;margin:0 0 20px;font-weight:900}.hml-donut{width:156px;height:156px;border-radius:50%;background:conic-gradient(#e30613 calc(var(--p)*1%),#e9e9e9 0);margin:12px auto 16px;display:grid;place-items:center}.hml-donut:before{content:'';position:absolute;width:112px;height:112px;background:white;border-radius:50%}.hml-donut span{position:relative;font-size:29px;font-weight:900;text-align:center}.hml-donut small{display:block;font-size:12px;font-weight:500}.hml-muted{text-align:center;color:#777;font-size:12px}.hml-progress-row{display:grid;grid-template-columns:minmax(90px,1fr) minmax(50px,1fr) 48px 68px;gap:12px;align-items:center;border:0;background:transparent;width:100%;text-align:left;padding:9px 0;cursor:pointer;font:inherit;font-size:12px}.hml-progress-row:hover span:first-child{color:#e30613}.hml-progress-row small{color:#777;text-align:right}.hml-progress-row b{text-align:right}.hml-mini-track{height:7px;background:#e7e7e7;display:block;overflow:hidden}.hml-mini-track i{height:100%;background:#e30613;display:block}.hml-lang-row{display:grid;grid-template-columns:35px 1fr 50px;align-items:center;gap:12px;margin:17px 0;font-size:12px}.hml-lang-row strong{text-align:right}.hml-work-grid{display:grid;grid-template-columns:240px minmax(0,1fr);gap:16px;align-items:start}.hml-sidebar,.hml-list-panel{background:white;border:1px solid #e3e3e3;padding:17px;min-width:0}.hml-group-button{width:100%;border:0;background:transparent;display:flex;justify-content:space-between;gap:12px;text-align:left;padding:13px 11px;font-weight:800;font-size:12px;cursor:pointer;color:#171717}.hml-group-button span{color:#777;white-space:nowrap}.hml-group-button:hover{background:#f1f1f1}.hml-group-button.is-active{background:#e30613;color:#fff}.hml-group-button.is-active span{color:#fff}.hml-blocks-link{display:block;margin-top:16px;padding:15px 9px;border-top:1px solid #ddd;font-size:11px;font-weight:900}.hml-filters{display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:12px;margin-bottom:18px}.hml-workspace .hml-filters input{height:47px}.hml-select{position:relative}.hml-select-trigger{width:100%;height:47px;border:1px solid #d5d5d5;background:white;display:flex;align-items:center;justify-content:space-between;padding:0 14px;cursor:pointer;font-weight:700}.hml-select.is-open .hml-select-trigger{border:1px solid #e30613}.hml-chevron{height:10px;width:10px;border-right:2px solid #e30613;border-bottom:2px solid #e30613;transform:rotate(45deg);margin-right:4px}.hml-select.is-open .hml-chevron{transform:rotate(225deg)}.hml-select-menu{position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:20;background:#fff;border:1px solid #d4d4d4;box-shadow:0 8px 25px #0002;padding:5px}.hml-select-menu button{display:block;width:100%;text-align:left;border:0;background:#fff;padding:12px;font-weight:700;cursor:pointer}.hml-select-menu button[aria-selected=true]{background:#252525;color:#f2b705}.hml-select-menu button:not([aria-selected=true]):hover{background:#eee;color:#e30613}.hml-result-info{font-size:12px;color:#777;margin-bottom:12px}.hml-section{border-top:1px solid #e5e5e5;margin-bottom:16px}.hml-section h3{display:flex;justify-content:space-between;font-size:15px;margin:0;padding:16px 0}.hml-section h3 span{color:#e30613}.hml-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.hml-item{display:flex;flex-wrap:nowrap;gap:14px;align-items:center;border:1px solid #e4e4e4;background:#fafafa;padding:12px 16px;min-width:0;min-height:76px;transition:border-color .2s,background-color .2s}.hml-item:hover{border-color:#c8c8c8;background:#fff}.hml-item-content{flex:1 1 auto;min-width:0}.hml-item-content strong{display:block;font-size:13px;overflow-wrap:anywhere}.hml-item-content small{display:block;color:#777;margin-top:6px}.hml-item-status{display:flex;gap:5px;flex-wrap:wrap}.hml-edit{margin-left:auto;flex:0 0 auto;border:0;background:#171717;color:white;font-weight:900;font-size:11px;padding:11px 15px;cursor:pointer}.hml-edit:hover{background:#e30613}.hml-empty{padding:24px;color:#777}.hml-drawer-overlay{position:fixed;inset:0;background:#0007;z-index:9997}.hml-drawer{position:fixed;top:0;right:0;bottom:0;width:min(760px,96vw);z-index:9998;background:#f5f5f3;box-shadow:-12px 0 32px #0002;transform:translateX(102%);transition:transform .22s;display:flex;flex-direction:column}.hml-drawer.is-open{transform:translateX(0)}.hml-drawer header{background:#fff;padding:19px 22px;display:flex;justify-content:space-between;gap:15px;align-items:center;border-bottom:1px solid #ddd}.hml-drawer header small{color:#e30613;font-weight:900;letter-spacing:.1em}.hml-drawer h2{font-size:23px;margin:5px 0 0;overflow-wrap:anywhere}.hml-drawer header button{background:#171717;color:#fff;border:0;padding:11px 14px;cursor:pointer}.hml-drawer-hint{font-size:12px;color:#666;padding:0 20px}.hml-drawer iframe{width:100%;flex:1;border:0;background:#fff}.hml-drawer-open{overflow:hidden}@media(max-width:1100px){.hml-analytics{grid-template-columns:1fr 1fr}.hml-work-grid{grid-template-columns:200px minmax(0,1fr)}}@media(max-width:780px){.hml-analytics,.hml-work-grid,.hml-items{grid-template-columns:1fr}.hml-filters{grid-template-columns:1fr}.hml-workspace .overview{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+<style>
+/* HAMMEL: sachliche Diagramme statt dekorativer Linien */
+.hml-workspace .overview .stat{border-top:1px solid #e3e3e3!important;box-shadow:none!important;transform:none!important}
+.hml-workspace .overview .stat:hover{transform:none!important;box-shadow:none!important}
+.hml-chart-grid{grid-template-columns:1fr 1.55fr 1fr;align-items:stretch}
+.hml-chart-grid .hml-panel{padding:23px 22px}
+.hml-chart-grid .hml-panel h2{font-size:14px;letter-spacing:.015em;margin-bottom:9px}
+.hml-chart{width:100%;height:290px;min-height:240px}
+.hml-panel-groups .hml-chart{height:max(290px,calc({{ groups|length }} * 47px + 105px))}
+.hml-chart-note{font-size:12px;color:#666;margin:0 0 8px;line-height:1.5}
+.hml-group-button span{font-variant-numeric:tabular-nums}
+.hml-section h3 span{color:#555;font-size:12px;font-weight:700}
+@media(max-width:1100px){.hml-chart-grid{grid-template-columns:1fr 1fr}.hml-panel-groups{grid-column:1/-1}}
+@media(max-width:700px){.hml-chart-grid{grid-template-columns:1fr}.hml-panel-groups{grid-column:auto}.hml-chart{height:280px}}
+</style>
+
+<style>
+/* Refined analytics layout: restrained typography, consistent spacing, no decorative strips. */
+.hml-workspace .overview .stat,
+.hml-workspace .overview .stat:nth-child(n){border-top:1px solid #e3e3e3;box-shadow:none;transform:none}
+.hml-workspace .overview .stat:hover{box-shadow:0 5px 16px rgba(0,0,0,.04);transform:none}
+.hml-workspace .hml-chart-grid{display:grid;grid-template-columns:minmax(300px,0.9fr) minmax(0,1.65fr);gap:16px;align-items:stretch}
+.hml-workspace .hml-chart-grid .hml-panel{padding:24px 25px;min-height:365px}
+.hml-workspace .hml-chart-grid .hml-panel h2{font-size:14px;letter-spacing:.025em;margin:0 0 8px;line-height:1.4}
+.hml-workspace .hml-chart-grid .hml-chart{height:285px;min-height:0}
+.hml-workspace .hml-chart-grid .hml-panel-groups .hml-chart{height:max(285px,calc({{ groups|length }} * 43px + 90px))}
+.hml-workspace .hml-chart-grid .hml-panel-languages{grid-column:1/-1;min-height:220px}
+.hml-workspace .hml-chart-grid .hml-panel-languages .hml-chart{height:195px}
+.hml-workspace .hml-chart-note{font-size:12px;color:#777;line-height:1.5;margin:0 0 10px}
+@media(max-width:900px){
+ .hml-workspace .hml-chart-grid{grid-template-columns:minmax(0,1fr)}
+ .hml-workspace .hml-chart-grid .hml-panel-languages{grid-column:auto}
+}
+</style>
+<style>
+.hml-workspace .hml-priority{display:flex;align-items:center;justify-content:space-between;gap:24px;background:#fff;border:1px solid #e2e2e2;padding:22px 26px;margin:16px 0 24px}
+.hml-workspace .hml-priority h2{font-size:20px;margin:5px 0 0;line-height:1.25}
+.hml-workspace .hml-priority-kicker{font-size:11px;letter-spacing:.08em;color:#e30613;font-weight:800}
+.hml-workspace .hml-priority-items{display:grid;grid-template-columns:repeat(3,minmax(130px,1fr));gap:10px;flex:1;max-width:710px}
+.hml-workspace .hml-priority-items button{display:flex;align-items:center;gap:12px;border:1px solid #e7e7e7;background:#fafafa;padding:15px;text-align:left;cursor:pointer;color:#222;font:inherit;transition:background .2s,border-color .2s}
+.hml-workspace .hml-priority-items button:hover{background:#f0f0f0;border-color:#c9c9c9}
+.hml-workspace .hml-priority-items strong{font-size:26px;font-weight:800}
+.hml-workspace .hml-priority-items span{font-size:12px;font-weight:600;line-height:1.3}
+.hml-workspace .hml-panel-languages .hml-chart{height:270px}
+@media(max-width:850px){.hml-workspace .hml-priority{display:block}.hml-workspace .hml-priority-items{margin-top:15px;max-width:none}}
+@media(max-width:550px){.hml-workspace .hml-priority-items{grid-template-columns:1fr}}
+</style>
+<main class="hml-i18n hml-workspace" id="translation-dashboard">
+<p class="eyebrow">HAMMEL HR PORTAL</p><h1>SPRACHVERSIONEN</h1>
+
+<div class="overview" aria-label="Übersetzungsstatistik">
+<div class="stat"><span>ALLE TEXTFELDER</span><strong>{{ total_fields }}</strong><small>Gesamtumfang aller Sprachversionen</small></div>
+<div class="stat"><span>NICHT ÜBERSETZT</span><strong>{{ missing_total }}</strong><small>Übersetzungen fehlen noch</small></div>
+<div class="stat"><span>ENTWURF</span><strong>{{ draft_total|default:0 }}</strong><small>In Bearbeitung</small></div>
+<div class="stat"><span>ZUR PRÜFUNG</span><strong>{{ review_total }}</strong><small>Warten auf Freigabe</small></div>
+<div class="stat"><span>ÜBERSETZT</span><strong>{{ published_total }}</strong><small>Freigegeben</small></div>
+</div>
+<div class="hml-analytics hml-chart-grid">
+<section class="hml-panel hml-panel-overview"><h2>ÜBERSETZUNGSSTATUS</h2><div id="hml-status-chart" class="hml-chart" role="img" aria-label="Verteilung nach Übersetzungsstatus"></div><div class="hml-chart-fallback" hidden>Diagramm kann nicht geladen werden.</div></section>
+<section class="hml-panel hml-panel-groups"><h2>ÜBERSETZUNGSSTAND NACH BEREICH</h2><p class="hml-chart-note">Status je Bereich / Bereich anklicken, um Texte zu öffnen</p><div id="hml-group-chart" class="hml-chart" role="img" aria-label="Statusanteile der Bereiche in Prozent"></div></section>
+<section class="hml-panel hml-panel-languages"><h2>ÜBERSETZUNGSSTATUS NACH SPRACHE</h2><p class="hml-chart-note">Verteilung aller Textfelder nach Status / genaue Anzahl beim Berühren anzeigen</p><div id="hml-language-chart" class="hml-chart" role="img" aria-label="Übersetzungsstand je Sprache"></div></section>
+</div>
+{{ groups|json_script:"hml-groups-json" }}
+{{ language_stats|json_script:"hml-languages-json" }}
+<section class="hml-priority" aria-label="Nächste Schritte">
+ <div><span class="hml-priority-kicker">NÄCHSTE SCHRITTE</span><h2>Was ist jetzt zu tun?</h2></div>
+ <div class="hml-priority-items">
+  <button type="button" data-priority="missing"><strong>{{ missing_total }}</strong><span>Texte übersetzen</span></button>
+  <button type="button" data-priority="review"><strong>{{ review_total }}</strong><span>Übersetzungen prüfen</span></button>
+  <button type="button" data-priority="draft"><strong>{{ draft_total }}</strong><span>Entwürfe bearbeiten</span></button>
+ </div>
+</section>
+<style>
+/* Gruppen-Navigation bleibt beim Scrollen sichtbar. */
+.hml-work-grid{align-items:start}
+.hml-work-grid > .hml-sidebar{position:sticky;top:128px;align-self:start;max-height:calc(100vh - 144px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;z-index:2;scroll-padding-top:12px}
+/* Keep the entire navigation compact enough to fit beneath the sticky HR header. */
+.hml-work-grid > .hml-sidebar{padding:16px}
+.hml-work-grid > .hml-sidebar h2{margin-bottom:12px}
+.hml-work-grid > .hml-sidebar .hml-group-button{padding:10px 9px;min-height:42px}
+.hml-work-grid > .hml-sidebar .hml-blocks-link{margin-top:10px;padding:12px 9px}
+@media(max-height:650px) and (min-width:851px){.hml-work-grid > .hml-sidebar{top:116px;max-height:calc(100vh - 124px)}}
+@media(max-width:850px){.hml-work-grid > .hml-sidebar{position:static;max-height:none;overflow:visible}}
+</style>
+<div class="hml-work-grid"><aside class="hml-sidebar"><h2>GRUPPEN</h2><button type="button" class="hml-group-button is-active" data-group="all">ALLE BEREICHE <span>{{ total_fields }}</span></button>{% for group in groups %}<button type="button" class="hml-group-button" data-group="{{ forloop.counter0 }}">{{ group.label }} <span>{{ group.translated }} / {{ group.total }}</span></button>{% endfor %}<a class="hml-blocks-link" href="{% url 'translation_hr_blocks' %}">TEXTBAUSTEINE BEARBEITEN</a></aside>
+<section class="hml-list-panel"><div class="hml-filters"><input id="hml-translation-search" type="search" placeholder="Inhalte suchen …" aria-label="Inhalte suchen"><div class="hml-select" data-select><button type="button" class="hml-select-trigger" aria-expanded="false" aria-haspopup="listbox"><span>Alle Einträge</span><span class="hml-chevron"></span></button><div class="hml-select-menu" role="listbox" hidden><button type="button" role="option" data-value="all" aria-selected="true">Alle Einträge</button><button type="button" role="option" data-value="missing">Nicht übersetzt</button><button type="button" role="option" data-value="draft">Entwurf</button><button type="button" role="option" data-value="review">Zur Prüfung</button><button type="button" role="option" data-value="complete">Übersetzt</button></div></div></div>
+<div class="hml-result-info" id="hml-result-count" aria-live="polite"></div>
+<div id="hml-translation-list">{% for group in groups %}<section class="hml-section" data-group="{{ forloop.counter0 }}"><h3>{{ group.label }} <span>{{ group.translated }} von {{ group.total }} übersetzt</span></h3><div class="hml-items">{% for obj in group.objects %}<article class="hml-item" data-search="{{ group.label|lower }} {{ obj.title|lower }}" data-missing="{{ obj.missing_count }}" data-stale="{{ obj.stale_count }}" data-review="{{ obj.review_count }}" data-draft="{{ obj.draft_count }}" data-complete="{% if obj.complete %}1{% else %}0{% endif %}"><div class="hml-item-content"><strong>{{ obj.title }}</strong><small>{{ obj.translated }} / {{ obj.total }} übersetzt</small></div><div class="hml-item-status">{% if obj.complete %}<span class="tag done">VOLLSTÄNDIG</span>{% endif %}{% if obj.needs_review %}<span class="tag alert" title="Der deutsche Originaltext wurde geändert. Übersetzung erneut prüfen.">ERNEUT PRÜFEN</span>{% endif %}</div><button class="hml-edit" type="button" data-url="{{ obj.url }}" data-title="{{ obj.title }}">BEARBEITEN</button></article>{% endfor %}</div></section>{% endfor %}</div>
+<p class="hml-empty" id="hml-no-results" hidden>Keine passenden Einträge gefunden.</p>
+</section></div>
+</main>
+<div class="hml-drawer-overlay" id="hml-drawer-overlay" hidden></div><aside class="hml-drawer" id="hml-drawer" aria-label="Übersetzungseditor" aria-hidden="true"><header><div><small>SPRACHVERSIONEN</small><h2 id="hml-drawer-title">TEXT BEARBEITEN</h2></div><button type="button" id="hml-drawer-close" aria-label="Editor schließen">✕</button></header><p class="hml-drawer-hint">Bearbeiten und speichern Sie die Übersetzungen im bestehenden Editor. Die Übersicht bleibt geöffnet.</p><iframe id="hml-drawer-frame" title="Übersetzungseditor" loading="lazy"></iframe></aside>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js" defer></script>
+<script defer>
+document.addEventListener('DOMContentLoaded',function(){
+ const groups=JSON.parse(document.getElementById('hml-groups-json').textContent), langs=JSON.parse(document.getElementById('hml-languages-json').textContent);
+ const colors=['#F2B705','#2563EB','#E76F00','#0F8B4D'];
+ const total={{ total_fields|default:0 }}, missing={{ missing_total|default:0 }}, draft={{ draft_total|default:0 }}, review={{ review_total|default:0 }}, done={{ published_total|default:0 }};
+ if(!window.echarts){document.querySelectorAll('.hml-chart-fallback').forEach(x=>x.hidden=false);return;}
+ const charts=[];function mount(id,option){let el=document.getElementById(id);if(!el)return null;let chart=echarts.init(el);chart.setOption(option);charts.push(chart);return chart;}
+ const labelStyle={color:'#333',fontSize:12};
+
+ const pct=n=>total ? Math.round(n/total*100) : 0;
+ const legendNames=['Nicht übersetzt','Entwurf','Zur Prüfung','Übersetzt'];
+ mount('hml-status-chart',{
+  color:colors,
+  tooltip:{trigger:'item',formatter:p=>p.name+': '+p.value+' Textfelder ('+p.percent.toFixed(1)+' %)'},
+  legend:{bottom:4,left:'center',type:'scroll',itemGap:14,icon:'circle',itemWidth:9,itemHeight:9,textStyle:{fontSize:11,color:'#444'}},
+  graphic:[{type:'group',left:'center',top:'38%',children:[
+   {type:'text',left:'center',top:0,style:{text:String(total),font:'700 31px Arial',fill:'#171717',textAlign:'center'}},
+   {type:'text',left:'center',top:40,style:{text:'TEXTFELDER',font:'600 10px Arial',fill:'#777',textAlign:'center'}}
+  ]}],
+  series:[{type:'pie',radius:['58%','76%'],center:['50%','43%'],minAngle:0,
+   avoidLabelOverlap:true,label:{show:false},labelLine:{show:false},
+   itemStyle:{borderColor:'#fff',borderWidth:2},
+   emphasis:{scale:true,scaleSize:4},
+   data:[{name:legendNames[0],value:missing},{name:legendNames[1],value:draft},
+         {name:legendNames[2],value:review},{name:legendNames[3],value:done}]}]
+ });
+ const categories=groups.map(g=>g.label);
+ const metrics=['missing','draft','review','translated'];
+ const names=legendNames;
+ const gc=mount('hml-group-chart',{
+  color:colors,
+  tooltip:{trigger:'axis',axisPointer:{type:'shadow'},formatter:params=>{
+   const i=params[0].dataIndex,g=groups[i];
+   return '<b>'+categories[i]+'</b><br>'+params.map((p,j)=>
+    p.marker+' '+names[j]+': '+(g[metrics[j]]||0)+' Textfelder ('+p.value+' %)').join('<br>');
+  }},
+  legend:{top:4,left:0,icon:'circle',itemWidth:9,itemHeight:9,itemGap:12,textStyle:{fontSize:11,color:'#444'}},
+  grid:{left:12,right:26,top:54,bottom:32,containLabel:true},
+  xAxis:{type:'value',max:100,interval:25,axisLabel:{formatter:'{value} %',fontSize:10,color:'#777'},axisLine:{show:false},axisTick:{show:false},splitLine:{lineStyle:{color:'#f0f0f0'}}},
+  yAxis:{type:'category',data:categories,inverse:true,axisLine:{show:false},axisTick:{show:false},axisLabel:{color:'#333',fontSize:11,width:160,overflow:'truncate',margin:14}},
+  series:metrics.map((key,i)=>({name:names[i],type:'bar',stack:'status',barMaxWidth:18,
+   data:groups.map(g=>g.total?+(100*(g[key]||0)/g.total).toFixed(2):0),
+   emphasis:{focus:'series'}}))
+ });
+ if(gc)gc.on('click',e=>{const btn=document.querySelector('.hml-group-button[data-group="'+e.dataIndex+'"]');if(btn)btn.click()});
+ mount('hml-language-chart',{
+  color:colors,
+  tooltip:{trigger:'axis',axisPointer:{type:'shadow'},formatter:params=>{
+   const l=langs[params[0].dataIndex];
+   return '<b>'+l.label+'</b><br>'+params.map((p,i)=>
+     p.marker+' '+legendNames[i]+': '+(l[metrics[i]]||0)+' Textfelder ('+p.value.toFixed(1)+' %)').join('<br>');
+  }},
+  legend:{top:0,left:0,icon:'circle',itemWidth:9,itemHeight:9,itemGap:20,
+   textStyle:{fontSize:12,color:'#444'}},
+  grid:{left:26,right:34,top:49,bottom:32,containLabel:true},
+  xAxis:{type:'value',max:100,interval:25,axisLabel:{formatter:'{value} %',fontSize:11,color:'#777'},
+   axisLine:{show:false},axisTick:{show:false},splitLine:{lineStyle:{color:'#f1f1f1'}}},
+  yAxis:{type:'category',data:langs.map(l=>l.label),inverse:true,
+   axisLine:{show:false},axisTick:{show:false},axisLabel:{fontWeight:600,color:'#222',fontSize:12,margin:16}},
+  series:metrics.map((key,i)=>({
+   name:legendNames[i],type:'bar',stack:'status',barMaxWidth:24,
+   data:langs.map(l=>l.total?+(100*(l[key]||0)/l.total).toFixed(2):0),
+   emphasis:{focus:'series'},
+   label:{show:i===0,position:'inside',color:'#222',fontSize:10,
+     formatter:p=>p.value>=15?Math.round(p.value)+' %':''}
+  }))
+ });
+ const resize=()=>charts.forEach(c=>c.resize());window.addEventListener('resize',resize);new ResizeObserver(resize).observe(document.getElementById('translation-dashboard'));
+});
+</script>
+<script>
+(function(){
+const root=document.getElementById('translation-dashboard');if(!root)return;
+const search=root.querySelector('#hml-translation-search'), count=root.querySelector('#hml-result-count'), empty=root.querySelector('#hml-no-results');
+const sections=[...root.querySelectorAll('.hml-section')],buttons=[...root.querySelectorAll('.hml-group-button')];
+const overlay=document.getElementById('hml-drawer-overlay'),drawer=document.getElementById('hml-drawer'),frame=document.getElementById('hml-drawer-frame');
+let group='all',status='all';
+function update(){let visible=0;const q=search.value.trim().toLocaleLowerCase();sections.forEach(section=>{let n=0;section.querySelectorAll('.hml-item').forEach(item=>{const show=(group==='all'||section.dataset.group===group)&&item.dataset.search.includes(q)&&(status==='all'||(status==='missing'&&Number(item.dataset.missing)>0)||(status==='review'&&Number(item.dataset.review)>0)||(status==='draft'&&Number(item.dataset.draft)>0)||(status==='complete'&&item.dataset.complete==='1'));item.hidden=!show;if(show){n++;visible++}});section.hidden=!n});count.textContent=visible+' Einträge angezeigt';empty.hidden=!!visible;}
+function chooseGroup(next){group=next;buttons.forEach(b=>b.classList.toggle('is-active',b.dataset.group===group));update();root.querySelector('.hml-list-panel').scrollIntoView({block:'nearest',behavior:'smooth'});}
+buttons.forEach(b=>b.addEventListener('click',()=>chooseGroup(b.dataset.group)));
+root.querySelectorAll('.hml-progress-row').forEach(b=>b.addEventListener('click',()=>chooseGroup(b.dataset.group)));
+search.addEventListener('input',update);
+root.querySelectorAll('[data-priority]').forEach(btn=>btn.addEventListener('click',()=>{
+ const kind=btn.dataset.priority;
+ status=kind==='missing'?'missing':kind==='review'?'review':'draft';
+ trigger.querySelector('span').textContent=kind==='missing'?'Nicht übersetzt':kind==='review'?'Zur Prüfung':'Entwurf';
+ menu.querySelectorAll('[data-value]').forEach(o=>o.setAttribute('aria-selected',String(o.dataset.value===status)));
+ update();root.querySelector('.hml-list-panel').scrollIntoView({behavior:'smooth',block:'start'});
+}));
+const select=root.querySelector('[data-select]'),trigger=select.querySelector('.hml-select-trigger'),menu=select.querySelector('.hml-select-menu');
+function closeSelect(){menu.hidden=true;trigger.setAttribute('aria-expanded','false');select.classList.remove('is-open');}
+trigger.addEventListener('click',()=>{const opening=menu.hidden;menu.hidden=!opening;trigger.setAttribute('aria-expanded',String(opening));select.classList.toggle('is-open',opening)});
+menu.querySelectorAll('[data-value]').forEach(b=>b.addEventListener('click',()=>{status=b.dataset.value;trigger.querySelector('span').textContent=b.textContent;menu.querySelectorAll('[data-value]').forEach(o=>o.setAttribute('aria-selected',String(o===b)));closeSelect();update()}));
+document.addEventListener('click',e=>{if(!select.contains(e.target))closeSelect()});
+function closeDrawer(){drawer.classList.remove('is-open');drawer.setAttribute('aria-hidden','true');overlay.hidden=true;document.body.classList.remove('hml-drawer-open');frame.removeAttribute('src');}
+root.querySelectorAll('.hml-edit').forEach(b=>b.addEventListener('click',()=>{document.getElementById('hml-drawer-title').textContent=b.dataset.title;frame.src=b.dataset.url;overlay.hidden=false;drawer.classList.add('is-open');drawer.setAttribute('aria-hidden','false');document.body.classList.add('hml-drawer-open');document.getElementById('hml-drawer-close').focus()}));
+document.getElementById('hml-drawer-close').addEventListener('click',closeDrawer);overlay.addEventListener('click',closeDrawer);document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSelect();if(drawer.classList.contains('is-open'))closeDrawer()}});
+update();
+})();
+</script>
+{% endblock %}

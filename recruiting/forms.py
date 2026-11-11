@@ -1,4 +1,6 @@
 from django import forms
+import io
+import zipfile
 from django.core.exceptions import ValidationError
 from .models import Application, ApplicationDepartment
 
@@ -25,11 +27,15 @@ class ApplicationForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.vacancy = vacancy
         self.fields["department"].required = vacancy is None
-        self.fields["department"].choices = [("", "Bitte Bereich auswählen")] + [
-            (item.name, item.name) for item in ApplicationDepartment.objects.filter(active=True)
-        ]
         if vacancy is not None:
-            self.fields["department"].initial = vacancy.get_category_display()
+            # A job application does not render the department selector.
+            # Never validate a hidden field against unrelated initiative choices.
+            self.fields["department"].choices = [("", "Automatisch aus der Stelle übernommen")]
+            self.fields["department"].initial = ""
+        else:
+            self.fields["department"].choices = [("", "Bitte Bereich auswählen")] + [
+                (item.name, item.name) for item in ApplicationDepartment.objects.filter(active=True)
+            ]
 
     class Meta:
         model = Application
@@ -57,13 +63,33 @@ class ApplicationForm(forms.ModelForm):
         return data
 
     def _validate_upload(self, name, file):
-            if file.size > 5 * 1024 * 1024:
-                self.add_error(name, "Maximal 5 MB pro Datei")
-            ext = file.name.rsplit(".", 1)[-1].lower() if "." in file.name else ""
-            allowed = ("pdf",) if name in ("cv", "cover_letter") else ("pdf", "jpg", "jpeg", "png")
-            if ext not in allowed:
-                self.add_error(name, "Bitte PDF verwenden" if name != "certificates_uploads" else "PDF, JPG oder PNG verwenden")
-            file.seek(0)
-            sig = file.read(8); file.seek(0)
-            valid = sig.startswith(b"%PDF-") if ext == "pdf" else (sig.startswith(b"\xff\xd8\xff") if ext in ("jpg", "jpeg") else sig.startswith(b"\x89PNG\r\n\x1a\n"))
-            if not valid: self.add_error(name, "Ungültiges Dateiformat")
+        if file.size > 10 * 1024 * 1024:
+            self.add_error(name, "Maximal 10 MB pro Datei")
+            return
+        ext = file.name.rsplit(".", 1)[-1].lower() if "." in file.name else ""
+        allowed = ("pdf", "doc", "docx") if name in ("cv", "cover_letter") else ("pdf", "jpg", "jpeg", "png")
+        if ext not in allowed:
+            self.add_error(name, "Erlaubte Formate: " + ", ".join(x.upper() for x in allowed))
+            return
+        file.seek(0)
+        signature = file.read(8)
+        file.seek(0)
+        if ext == "pdf":
+            valid = signature.startswith(b"%PDF-")
+        elif ext == "doc":
+            valid = signature.startswith(bytes.fromhex("D0CF11E0A1B11AE1"))
+        elif ext == "docx":
+            valid = False
+            if signature.startswith(b"PK"):
+                try:
+                    with zipfile.ZipFile(file) as document:
+                        valid = "word/document.xml" in document.namelist() and "[Content_Types].xml" in document.namelist()
+                except (zipfile.BadZipFile, OSError, ValueError):
+                    valid = False
+        elif ext in ("jpg", "jpeg"):
+            valid = signature.startswith(bytes.fromhex("FFD8FF"))
+        else:
+            valid = signature.startswith(bytes.fromhex("89504E470D0A1A0A"))
+        file.seek(0)
+        if not valid:
+            self.add_error(name, "Die Datei entspricht nicht dem angegebenen Dateiformat")

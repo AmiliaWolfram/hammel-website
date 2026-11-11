@@ -39,3 +39,19 @@ class ApplicationDepartmentAdmin(admin.ModelAdmin):
     list_filter = ("active",)
     search_fields = ("name",)
     ordering = ("sort_order", "name")
+
+
+from .models import HRTextBlock
+
+@admin.register(HRTextBlock)
+class HRTextBlockAdmin(admin.ModelAdmin):
+    list_display = ("text", "category", "profession", "active")
+    list_filter = ("category", "profession", "active")
+    search_fields = ("text",)
+
+
+from .models import VacancyDepartment
+@admin.register(VacancyDepartment)
+class VacancyDepartmentAdmin(admin.ModelAdmin):
+    list_display = ("name", "active", "sort_order")
+    list_editable = ("active", "sort_order")

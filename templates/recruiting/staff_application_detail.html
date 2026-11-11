@@ -1,0 +1,54 @@
+{% extends "recruiting/base.html" %}
+{% block title %}Bewerbung ansehen | HAMMEL HRPortal{% endblock %}
+{% block site_header %}{% include "recruiting/staff_header.html" %}{% endblock %}
+{% block site_footer %}{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="/assets/css/hr-staff.css?v=20261103-nav-buttons">
+<main class="staff-ui hr-detail"><div class="staff-wrap">
+
+<div class="staff-heading"><div><p class="staff-kicker">HAMMEL</p><h1>BEWERBUNG <span>ANSEHEN</span></h1><p>Eingegangen am {{ application.created_at|date:'d.m.Y' }} um {{ application.created_at|date:'H:i' }} Uhr</p></div></div>
+{% if messages %}{% for message in messages %}<p class="hr-flash" role="status">{{ message }}</p>{% endfor %}{% endif %}
+<div class="hr-detail-layout">
+<section class="hr-detail-card"><p class="staff-kicker">BEWERBERDATEN</p><h2>{{ application.full_name }}</h2>
+<dl class="hr-detail-data">
+<div><dt>BEWORBEN FÜR</dt><dd>{% if application.vacancy %}{{ application.vacancy.title }}{% else %}Initiativbewerbung{% endif %}</dd></div>
+<div><dt>E-MAIL</dt><dd><a href="mailto:{{ application.email }}">{{ application.email }}</a></dd></div>
+<div><dt>TELEFON</dt><dd>{% if application.phone %}<a href="tel:{{ application.phone }}">{{ application.phone }}</a>{% else %}Nicht angegeben{% endif %}</dd></div>
+<div><dt>BEREICH</dt><dd>{{ application.department|default:'Nicht angegeben' }}</dd></div>
+<div><dt>VERFÜGBAR AB</dt><dd>{{ application.available_from|default:'Nicht angegeben' }}</dd></div>
+<div><dt>EINGANG</dt><dd>{{ application.created_at|date:'d.m.Y H:i' }}</dd></div>
+</dl>
+<h3>MOTIVATION</h3><div class="hr-motivation">{{ application.motivation|linebreaksbr }}</div>
+<h3>BEWERBUNGSUNTERLAGEN</h3>
+<div class="hr-document-list">
+{% if application.cv %}<a href="{% url 'hr_application_document' application.pk 'cv' %}"><span>LEBENSLAUF</span><span>HERUNTERLADEN ↓</span></a>{% endif %}
+{% if application.cover_letter %}<a href="{% url 'hr_application_document' application.pk 'cover' %}"><span>ANSCHREIBEN</span><span>HERUNTERLADEN ↓</span></a>{% endif %}
+{% for certificate in application.certificate_files.all %}<a href="{% url 'hr_application_certificate' application.pk 'certificate' certificate.pk %}"><span>ZEUGNIS / ZERTIFIKAT {{ forloop.counter }}</span><span>HERUNTERLADEN ↓</span></a>{% endfor %}
+{% if application.certificates %}<a href="{% url 'hr_application_document' application.pk 'certificate' %}"><span>WEITERES ZEUGNIS</span><span>HERUNTERLADEN ↓</span></a>{% endif %}
+</div>
+</section>
+<aside class="hr-detail-card hr-detail-sidebar"><p class="staff-kicker">INTERN</p><h2>BEARBEITUNG</h2>
+<form method="post">{% csrf_token %}
+<label for="hr-status">STATUS</label><select id="hr-status" name="status" {% if not perms.recruiting.change_application %}disabled{% endif %}>
+{% for value,label in application.STATUS %}<option value="{{ value }}" {% if application.status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+<label for="hr-notes">INTERNE NOTIZEN</label><textarea id="hr-notes" name="notes" rows="9" placeholder="Notizen für die Personalabteilung" {% if not perms.recruiting.change_application %}readonly{% endif %}>{{ application.notes }}</textarea>
+{% if perms.recruiting.change_application %}<button class="hr-detail-save" type="submit">ÄNDERUNGEN SPEICHERN</button>{% endif %}
+</form><p class="hr-privacy">Die Dokumente sind vertraulich und nur für berechtigte HR-Mitarbeitende bestimmt.</p><div class="hr-detail-bottom"><a class="hr-detail-bottom__link" href="{% url 'hr_section' 'bewerbungen' %}">ZURÜCK ZU BEWERBUNGEN</a></div></aside>
+</div></div></main>
+<style>
+.hr-detail-bottom{margin-top:30px;padding-top:22px;display:flex;justify-content:flex-end}.hr-detail-bottom__link{display:inline-flex;align-items:center;background:#191919;color:#fff!important;text-decoration:none!important;padding:16px 24px;font-weight:800;transition:background .2s ease}.hr-detail-bottom__link:hover{background:#e30613}
+.hr-detail{padding-top:clamp(50px,6vw,90px)!important;padding-bottom:90px!important;background:#f5f4f1}
+.hr-detail .staff-heading{margin:28px 0 35px}.hr-detail .staff-heading p{max-width:850px}
+.hr-detail-layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(290px,1fr);gap:24px;align-items:stretch}
+.hr-detail-card{background:white;border:1px solid #e1dfdb;padding:clamp(22px,3vw,44px);min-width:0}
+.hr-detail-sidebar{display:flex;flex-direction:column}.hr-detail-sidebar .hr-detail-bottom{margin-top:auto;padding-top:32px}.hr-detail-card h2{font-size:clamp(26px,3vw,38px);margin:10px 0 28px;color:#191919;text-transform:uppercase}
+.hr-detail-card h3{font-size:19px;margin:32px 0 15px;color:#171717}
+.hr-detail-data{margin:0}.hr-detail-data>div{display:grid;grid-template-columns:minmax(135px,35%) 1fr;gap:16px;border-bottom:1px solid #eae8e5;padding:15px 0;align-items:start}
+.hr-detail-data dt{font-size:12px;font-weight:800;letter-spacing:.07em;color:#6b6b6b}.hr-detail-data dd{margin:0;overflow-wrap:anywhere;color:#222}.hr-detail-data a{color:#222;text-decoration:underline;text-underline-offset:4px}
+.hr-motivation{white-space:normal;line-height:1.65;overflow-wrap:anywhere;background:#f6f5f3;padding:20px}
+.hr-document-list{display:grid;gap:8px}.hr-document-list a{display:flex;justify-content:space-between;gap:12px;align-items:center;border:1px solid #dedbd6;padding:16px;text-decoration:none;color:#161616;font-weight:800;font-size:13px}.hr-document-list a:hover{border-color:#e30613;color:#e30613}
+.hr-detail-sidebar label{display:block;font-weight:800;font-size:13px;letter-spacing:.04em;margin:22px 0 10px}.hr-detail-sidebar select,.hr-detail-sidebar textarea{width:100%;padding:14px;border:1px solid #bfbfbd;border-radius:0;background:#fff;font:inherit;color:#222;box-sizing:border-box}
+.hr-detail-save{margin-top:24px;background:#e30613;color:#fff;border:0;padding:18px 22px;font-weight:800;cursor:pointer;width:100%}.hr-detail-save:hover{background:#161616}.hr-privacy{font-size:13px;color:#777;line-height:1.6;margin-top:22px}.hr-flash{padding:14px 20px;background:#f0f0ee;border-left:3px solid #e30613}
+@media(max-width:850px){.hr-detail-layout{grid-template-columns:1fr}.hr-detail-data>div{grid-template-columns:1fr;gap:5px}}
+</style>
+{% endblock %}

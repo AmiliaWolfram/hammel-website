@@ -1,0 +1,90 @@
+{% extends "translations/hr_portal_base.html" %}
+{% block site_header %}{% include "recruiting/staff_header.html" %}{% endblock %}
+{% block site_footer %}{% endblock %}
+{% block content %}
+<style>
+.hr-translate{width:min(100% - 48px,1480px);max-width:none;margin:0 auto;padding:44px 0 90px;color:#171717}.hr-translate h1{font-size:clamp(30px,4vw,48px);margin:18px 0 8px}.hr-translate p{color:#626262}.hr-translate a{color:inherit}.hr-t-actions{display:flex;flex-wrap:wrap;gap:12px;margin:20px 0}.hr-t-btn{display:inline-flex;align-items:center;padding:14px 20px;background:#191919;color:white!important;text-decoration:none!important;border:0;border-radius:0;font-weight:800;cursor:pointer;transition:background .25s}.hr-t-btn:hover{background:#e30613}.hr-t-btn.primary{background:#e30613}.hr-t-btn.primary:hover{background:#191919}.hr-t-filter{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}.hr-t-filter select{padding:13px;border:1px solid #ccc;border-radius:0;min-width:220px;background:white}.hr-t-tabs{display:flex;gap:6px;margin:24px 0 16px}.hr-t-tabs button{border:1px solid #ddd;background:#fff;padding:12px 23px;font-weight:800;cursor:pointer}.hr-t-tabs button.active{background:#171717;color:#f2b705;border-color:#171717}.hr-t-card{background:#fff;border:1px solid #e0e0e0;margin:0 0 12px;padding:20px}.hr-t-original{font-weight:750;margin:8px 0 14px;padding:15px;background:#f5f4f1;border-left:3px solid #e30613;white-space:pre-wrap}.hr-t-original:before{content:"DE / ORIGINALTEXT";display:block;font-size:11px;letter-spacing:.07em;color:#777;margin-bottom:8px}.hr-t-pending{padding:12px;background:#fff7e6;border:1px solid #edc978;margin:12px 0}.hr-t-version textarea{display:block}.hr-t-meta{font-size:12px;letter-spacing:.04em;color:#777}.hr-t-version{display:none}.hr-t-version.active{display:block}.hr-t-version textarea{width:100%;min-height:74px;border:1px solid #cfcfcf;border-radius:0;padding:12px;font:inherit;resize:vertical}.hr-t-version textarea:focus{outline:2px solid #e30613;outline-offset:1px}.hr-t-version select{padding:10px;border:1px solid #ccc;background:#fff}.hr-t-version label{display:block;font-weight:750;font-size:12px;margin:12px 0 6px}.hr-t-count{color:#e30613;font-weight:800}.hr-t-notice{color:#9c5600;font-size:12px}.hr-t-save{position:sticky;bottom:0;background:#f5f4f1;padding:15px 0;display:flex;justify-content:flex-end;z-index:4}@media(max-width:650px){.hr-t-tabs button{flex:1;padding:12px 5px}.hr-translate{width:calc(100% - 32px);padding:24px 0}}
+
+/* Einheitliches HRPortal-Layout; Originaltext nur einmal je Textbaustein */
+.hr-translate{box-sizing:border-box;width:min(calc(100% - 48px),1480px);padding:36px 0 88px}
+.hr-translate h1{margin:0 0 12px;font-weight:900;line-height:1.08;letter-spacing:-.025em}
+.hr-translate>p{margin:0 0 18px;line-height:1.55}
+.hr-t-summary{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0;background:transparent}
+.hr-t-summary span{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid #e3e3e3;padding:13px 18px;color:#525252;font-size:14px}
+.hr-t-summary strong{font-size:19px;color:#171717}
+.hr-t-filter{display:grid;grid-template-columns:minmax(200px,1fr) minmax(200px,1fr) auto;gap:12px;margin:24px 0}
+.hr-t-filter select{min-width:0;width:100%;height:50px;padding:12px 16px;border:1px solid #d7d7d7;box-sizing:border-box}
+.hr-t-filter .hr-t-btn{height:50px;box-sizing:border-box;justify-content:center}
+.hr-t-tabs{gap:8px;margin:22px 0 16px}
+.hr-t-tabs button{min-width:64px;transition:background .2s,color .2s,border-color .2s}
+.hr-t-tabs button:hover{border-color:#e30613;color:#e30613}
+.hr-t-tabs button.active{background:#171717;color:#f2b705}
+.hr-t-card{padding:22px 26px;margin-bottom:12px;border:1px solid #e2e2e2;transition:border-color .2s}
+.hr-t-card:focus-within{border-color:#aaa}
+.hr-t-meta{font-size:13px;letter-spacing:0;color:#777;margin-bottom:12px}
+.hr-t-original{border-left:0;background:#f3f3f2;padding:15px 18px;margin:0 0 18px;font-weight:700;line-height:1.5}
+.hr-t-original:before{font-size:11px;color:#777}
+.hr-t-version{padding-top:0}
+.hr-t-version label{margin:0 0 8px;font-size:13px}
+.hr-t-version textarea{min-height:92px;box-sizing:border-box;padding:14px 16px;margin:0 0 14px}
+.hr-t-version select{min-width:210px;padding:12px 14px}
+.hr-t-save{padding:12px 0;background:#f5f4f1;border-top:1px solid #e5e5e5}
+@media(max-width:760px){.hr-t-filter{grid-template-columns:1fr}.hr-t-card{padding:16px}.hr-translate{width:calc(100% - 32px)}}
+
+/* Navigationsleiste wie im HR-Stelleneditor; gleiche Breite wie der Hauptheader. */
+.hr-t-workspace{display:grid;grid-template-columns:minmax(245px,290px) minmax(0,1fr);gap:24px;align-items:start;margin-top:24px}
+.hr-t-sidebar{position:sticky;top:20px;border:1px solid #dedede;background:#f0f0ef;padding:26px 20px;box-sizing:border-box}
+.hr-t-sidebar h2{font-size:22px;font-weight:900;letter-spacing:.045em;margin:0 0 24px}
+.hr-t-sideform label{font-size:12px;letter-spacing:.06em;font-weight:800;display:block;margin-bottom:9px}
+.hr-t-sideform select{width:100%;min-width:0;height:48px;padding:10px 12px;background:#fff;border:1px solid #cfcfcf;box-sizing:border-box;font:inherit;font-size:14px}
+.hr-t-filter-submit{width:100%;justify-content:center;margin:10px 0 22px}
+.hr-t-categories{display:grid;gap:5px}
+.hr-t-category{width:100%;min-height:57px;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:13px 14px;text-align:left;border:0;background:transparent;color:#1a1a1a;font:inherit;font-size:15px;font-weight:800;cursor:pointer;transition:background .2s,color .2s}
+.hr-t-category strong{color:#666;font-size:13px;white-space:nowrap}
+.hr-t-category:hover{background:#e2e2e0;color:#e30613}
+.hr-t-category.active,.hr-t-category.active:hover{background:#171717;color:#f2b705}
+.hr-t-category.active strong{color:#f2b705}
+.hr-t-main{min-width:0}
+.hr-t-main .hr-t-tabs{margin-top:0}
+.hr-t-main .hr-t-card{padding:18px 20px}
+@media(max-width:850px){.hr-t-workspace{grid-template-columns:1fr}.hr-t-sidebar{position:static}.hr-t-categories{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.hr-t-categories{grid-template-columns:1fr}}
+
+/* Sprachwahl über die gesamte Breite des rechten Arbeitsbereichs */
+.hr-t-main .hr-t-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));width:100%;gap:8px}
+.hr-t-main .hr-t-tabs button{width:100%;min-width:0;min-height:52px;display:flex;align-items:center;justify-content:center;box-sizing:border-box}
+.hr-t-sideform select{font-weight:700}
+@media(max-width:520px){.hr-t-main .hr-t-tabs{gap:5px}.hr-t-main .hr-t-tabs button{padding:12px 4px}}
+</style>
+<main class="hr-translate">
+
+<h1>TEXTBAUSTEINE ÜBERSETZEN</h1>
+<p>Deutsche Originaltexte prüfen und Übersetzungen für Englisch, Französisch, Spanisch und Italienisch bearbeiten.</p>
+<div class="hr-t-workspace">
+<aside class="hr-t-sidebar" aria-label="Textbausteine filtern">
+  <h2>INHALTE</h2>
+  <form method="get" id="hr-block-filter" class="hr-t-sideform">
+    <label for="hr-profession">BERUFSBEREICH</label>
+    <select id="hr-profession" name="profession"><option value="">Alle Berufsbereiche</option>{% for item in professions %}<option value="{{ item }}" {% if item == profession %}selected{% endif %}>{% if item == "einkauf" %}Einkauf{% elif item == "grosshandel" %}Großhandel{% elif item == "industrie" %}Industrie{% elif item == "it" %}IT / Informationstechnik{% elif item == "kaufmaennisch" %}Kaufmännische Berufe{% else %}{{ item|capfirst }}{% endif %}</option>{% endfor %}</select>
+    <input type="hidden" name="category" id="hr-category" value="{{ category }}">
+    <button type="submit" class="hr-t-btn hr-t-filter-submit">FILTERN</button>
+  </form>
+  <nav class="hr-t-categories" aria-label="Kategorien">
+    <button type="button" class="hr-t-category {% if not category %}active{% endif %}" data-category=""><span>Alle Textbausteine</span><strong>{{ total_blocks }}</strong></button>
+    {% for item in category_navigation %}
+    <button type="button" class="hr-t-category {% if category == item.key %}active{% endif %}" data-category="{{ item.key }}"><span>{{ item.label }}</span><strong>{{ item.count }}</strong></button>
+    {% endfor %}
+  </nav>
+</aside>
+<section class="hr-t-main" aria-label="Übersetzungen bearbeiten">
+<form method="post">{% csrf_token %}
+<div class="hr-t-tabs" role="tablist" aria-label="Sprache auswählen"><button type="button" class="active" data-lang="en">EN</button><button type="button" data-lang="fr">FR</button><button type="button" data-lang="es">ES</button><button type="button" data-lang="it">IT</button></div>
+{% for row in rows %}<article class="hr-t-card"><div class="hr-t-meta">{{ row.block.get_category_display }} / {% if row.block.profession %}{{ row.block.profession }}{% else %}Alle Berufsbereiche{% endif %}</div><div class="hr-t-original" lang="de">{{ row.block.text }}</div>{% if not row.block.active %}<div class="hr-t-pending"><strong>NEUER TEXT / FREIGABE AUSSTEHEND</strong><p>Bitte den deutschen Originaltext zuerst prüfen und freigeben. Erst danach werden Übersetzungsfelder freigeschaltet.</p><button type="submit" class="hr-t-btn primary" name="approve_block" value="{{ row.block.pk }}">DEUTSCHEN TEXT FREIGEBEN</button></div>{% endif %}{% for version in row.versions %}<div class="hr-t-version {% if version.code == 'en' %}active{% endif %}" data-lang="{{ version.code }}"><label for="b{{ row.block.pk }}_{{ version.code }}">{{ version.label }} {% if version.stale %}<span class="hr-t-notice">/ Übersetzung überprüfen</span>{% endif %}</label><textarea id="b{{ row.block.pk }}_{{ version.code }}" name="block_{{ row.block.pk }}_{{ version.code }}" maxlength="300" placeholder="Übersetzung eingeben" {% if not row.block.active %}disabled{% endif %}>{{ version.text }}</textarea><label for="s{{ row.block.pk }}_{{ version.code }}">STATUS</label><select id="s{{ row.block.pk }}_{{ version.code }}" name="status_{{ row.block.pk }}_{{ version.code }}" {% if not row.block.active %}disabled{% endif %}><option value="draft" {% if version.status == 'draft' %}selected{% endif %}>Entwurf</option><option value="review" {% if version.status == 'review' %}selected{% endif %}>Zur Prüfung</option><option value="published" {% if version.status == 'published' %}selected{% endif %}>Übersetzt</option></select></div>{% endfor %}</article>{% empty %}<p>Keine Textbausteine für diesen Filter vorhanden.</p>{% endfor %}
+<div class="hr-t-save"><button class="hr-t-btn primary" type="submit">ALLE ÄNDERUNGEN SPEICHERN</button></div></form></section></div></main>
+<script>
+document.querySelectorAll('.hr-t-category').forEach(button=>button.addEventListener('click',()=>{
+  document.getElementById('hr-category').value=button.dataset.category;
+  document.getElementById('hr-block-filter').submit();
+}));
+document.querySelectorAll('.hr-t-tabs button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.hr-t-tabs button').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.hr-t-version').forEach(x=>x.classList.toggle('active',x.dataset.lang===b.dataset.lang));}));</script>
+{% endblock %}

@@ -1,0 +1,25 @@
+/* HAMMEL history: deliberately tiny, subtle, scroll-fading traces. */
+.about-main .story__chapter {position:relative;isolation:isolate;overflow:hidden}
+.about-main .story__chapter > .history-drawing {
+  position:absolute!important;display:block!important;pointer-events:none!important;
+  inset:auto 3.5% 3% auto!important;
+  width:clamp(130px,18vw,260px)!important;height:clamp(100px,14vw,195px)!important;
+  background-color:#fff!important;background-image:none!important;
+  -webkit-mask:url('../img/unternehmen/abstrakte-mechanik-konturen.svg') center/contain no-repeat!important;
+  mask:url('../img/unternehmen/abstrakte-mechanik-konturen.svg') center/contain no-repeat!important;
+  opacity:var(--hammel-drawing-opacity,0)!important;
+  transform:translateY(var(--hammel-drawing-shift,0px))!important;
+  z-index:0!important;filter:none!important;animation:none!important;transition:none!important;
+}
+.about-main .story__chapter--light > .history-drawing {background-color:#222!important}
+.about-main .story__chapter:nth-of-type(even) > .history-drawing {inset:auto auto 3% 3.5%!important}
+.about-main .story__chapter > .history-drawing--echo {display:none!important}
+.about-main .story__chapter > .story__wrap {position:relative!important;z-index:2!important}
+/* Old generated machinery illustrations must not appear. */
+.about-main .story__chapter .story__schematic,
+.about-main .story__chapter .story__blueprint,
+.about-main .story__chapter .story__pulse {display:none!important}
+.about-main .story__chapter .story__art::before,
+.about-main .story__chapter .story__art::after {content:none!important;display:none!important}
+@media(max-width:850px){.about-main .story__chapter > .history-drawing {width:125px!important;height:105px!important;inset:auto 2% 2% auto!important}}
+@media(prefers-reduced-motion:reduce){.about-main .story__chapter > .history-drawing{display:none!important}}

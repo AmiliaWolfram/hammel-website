@@ -1,4 +1,9 @@
-{% extends "recruiting/base.html" %}{% block content %}<section class="hammel-page-hero" data-page="karriere"><video autoplay muted loop playsinline class="hammel-page-hero__video" poster="/assets/video/hammel-poster.jpg"><source src="/assets/video/hammel-hero.mp4" type="video/mp4"></video><div class="hammel-page-hero__shade"></div><div class="wrap hammel-page-hero__inner"><span class="hammel-page-hero__eyebrow">KARRIERE BEI HAMMEL</span><h1 class="hammel-page-hero__title">GEMEINSAM <em>MEHR BEWEGEN</em></h1><p class="hammel-page-hero__description">Entdecken Sie Ihre beruflichen Möglichkeiten bei HAMMEL Recyclingtechnik in Bad Salzungen</p><a class="cinematic-link hr-cinematic-link hr-cinematic-link--hero" href="#stellen"><span class="cinematic-link__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg></span><span class="cinematic-link__label">STELLEN ENTDECKEN</span></a></div><span class="hammel-page-hero__signature">THE ORIGINAL SINCE 1996</span></section><main class="hr-main hr-careers-redesign">
+{% extends "recruiting/base.html" %}{% load hr_format %}{% block content %}<style>
+.hr-editorial-accordion__content .hr-vacancy-list{padding-left:21px;margin:12px 0 22px;display:grid;gap:10px;list-style:disc}
+.hr-editorial-accordion__content .hr-vacancy-list li{color:#222;line-height:1.65;font-size:16px}
+.hr-editorial-accordion__content .hr-vacancy-list li::marker{color:#e30613}
+.hr-editorial-accordion__content .hr-editorial-accordion__section h5{color:#e30613}
+</style><section class="hammel-page-hero" data-page="karriere"><video autoplay muted loop playsinline class="hammel-page-hero__video" poster="/assets/video/hammel-poster.jpg"><source src="/assets/video/hammel-hero.mp4" type="video/mp4"></video><div class="hammel-page-hero__shade"></div><div class="wrap hammel-page-hero__inner"><span class="hammel-page-hero__eyebrow">KARRIERE BEI HAMMEL</span><h1 class="hammel-page-hero__title">GEMEINSAM <em>MEHR BEWEGEN</em></h1><p class="hammel-page-hero__description">Entdecken Sie Ihre beruflichen Möglichkeiten bei HAMMEL Recyclingtechnik in Bad Salzungen</p><a class="cinematic-link hr-cinematic-link hr-cinematic-link--hero" href="#stellen"><span class="cinematic-link__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg></span><span class="cinematic-link__label">STELLEN ENTDECKEN</span></a></div><span class="hammel-page-hero__signature">THE ORIGINAL SINCE 1996</span></section><main class="hr-main hr-careers-redesign">
 
 <section class="hr-journey hr-journey-scroll" id="bewerbungsweg" aria-labelledby="hr-journey-title">
   <div class="wrap hr-journey-scroll__layout">
@@ -50,16 +55,16 @@
         <summary class="hr-editorial-item hr-editorial-accordion__trigger">
           <span class="hr-editorial-item__body">
             <span class="hr-editorial-accordion__title">{{ job.title }}</span>
-            <span class="hr-editorial-accordion__meta">{{ job.location }}{% if job.employment_type %} · {{ job.employment_type }}{% endif %}</span>
+            <span class="hr-editorial-accordion__meta">{{ job.location }}{% if job.employment_type %} / {{ job.employment_type }}{% endif %}</span>
           </span>
           <span class="hr-editorial-accordion__toggle"><span class="hr-editorial-accordion__toggle-label">WEITERE INFORMATIONEN</span><span class="hr-editorial-accordion__plus" aria-hidden="true"></span></span>
         </summary>
         <div class="hr-editorial-accordion__panel">
           <div class="hr-editorial-accordion__content">
             {% if job.introduction %}<div class="hr-editorial-accordion__section"><h5>ÜBER DIE POSITION</h5><p>{{ job.introduction|linebreaksbr }}</p></div>{% endif %}
-            {% if job.responsibilities %}<div class="hr-editorial-accordion__section"><h5>DEINE AUFGABEN</h5><p>{{ job.responsibilities|linebreaksbr }}</p></div>{% endif %}
-            {% if job.requirements %}<div class="hr-editorial-accordion__section"><h5>DAS BRINGST DU MIT</h5><p>{{ job.requirements|linebreaksbr }}</p></div>{% endif %}
-            {% if job.benefits %}<div class="hr-editorial-accordion__section"><h5>DAS BIETEN WIR</h5><p>{{ job.benefits|linebreaksbr }}</p></div>{% endif %}
+            {% if job.responsibilities %}<div class="hr-editorial-accordion__section"><h5>DEINE AUFGABEN</h5><ul class="hr-vacancy-list">{% for item in job.responsibilities|hr_lines %}<li>{{ item }}</li>{% endfor %}</ul></div>{% endif %}
+            {% if job.hard_skills %}<div class="hr-editorial-accordion__section"><h5>FACHLICHE KENNTNISSE</h5><ul class="hr-vacancy-list">{% for item in job.hard_skills|hr_lines %}<li>{{ item }}</li>{% endfor %}</ul></div>{% endif %}{% if job.soft_skills %}<div class="hr-editorial-accordion__section"><h5>PERSÖNLICHE STÄRKEN</h5><ul class="hr-vacancy-list">{% for item in job.soft_skills|hr_lines %}<li>{{ item }}</li>{% endfor %}</ul></div>{% endif %}{% if job.requirements %}<div class="hr-editorial-accordion__section"><h5>WEITERE ANFORDERUNGEN</h5><ul class="hr-vacancy-list">{% for item in job.requirements|hr_lines %}<li>{{ item }}</li>{% endfor %}</ul></div>{% endif %}
+            {% if job.benefits %}<div class="hr-editorial-accordion__section"><h5>DAS BIETEN WIR</h5><ul class="hr-vacancy-list">{% for item in job.benefits|hr_lines %}<li>{{ item }}</li>{% endfor %}</ul></div>{% endif %}
             <div class="hr-job-apply-action">
               <a class="cinematic-link hr-cinematic-link" href="{% url 'hr_apply_job' job.slug %}"><span class="cinematic-link__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg></span><span class="cinematic-link__label">JETZT BEWERBEN</span></a>
             </div>

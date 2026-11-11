@@ -1,0 +1,19 @@
+/* HAMMEL seamless page navigation: no loading curtain, dimming, or delay.
+   Native cross-document View Transitions reveal the next page in-place. */
+@view-transition { navigation: auto; }
+::view-transition-old(root) {
+  animation: none !important;
+  mix-blend-mode: normal;
+}
+::view-transition-new(root) {
+  animation: hammel-page-reveal 260ms cubic-bezier(.22,1,.36,1) both !important;
+  mix-blend-mode: normal;
+}
+@keyframes hammel-page-reveal {
+  from { clip-path: inset(0 0 100% 0); transform: translateY(9px); }
+  to { clip-path: inset(0 0 0 0); transform: translateY(0); }
+}
+/* The existing cinematic section system handles scroll effects separately. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),::view-transition-new(root) {animation:none!important}
+}

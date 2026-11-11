@@ -1,0 +1,10 @@
+<nav class="hr-unified-steps" aria-label="Sprachen und Prüfung">
+{% if current_step == "de" %}<span aria-current="page">DE</span>{% else %}<a href="{% url 'hr_edit' 'vacancy' object.pk %}">DE</a>{% endif %}
+{% if object %}
+{% if current_step == "translations" and language == "en" %}<span aria-current="page">EN</span>{% else %}<a href="{% url 'translation_edit' 'recruiting' 'vacancy' object.pk %}?lang=en">EN</a>{% endif %}
+{% if current_step == "translations" and language == "fr" %}<span aria-current="page">FR</span>{% else %}<a href="{% url 'translation_edit' 'recruiting' 'vacancy' object.pk %}?lang=fr">FR</a>{% endif %}
+{% if current_step == "translations" and language == "es" %}<span aria-current="page">ES</span>{% else %}<a href="{% url 'translation_edit' 'recruiting' 'vacancy' object.pk %}?lang=es">ES</a>{% endif %}
+{% if current_step == "translations" and language == "it" %}<span aria-current="page">IT</span>{% else %}<a href="{% url 'translation_edit' 'recruiting' 'vacancy' object.pk %}?lang=it">IT</a>{% endif %}
+{% if current_step == "review" %}<span aria-current="page">PRÜFUNG</span>{% else %}<a href="{% url 'hr_edit' 'vacancy' object.pk %}?step=review">PRÜFUNG</a>{% endif %}
+{% else %}<span class="disabled">EN</span><span class="disabled">FR</span><span class="disabled">ES</span><span class="disabled">IT</span><span class="disabled">PRÜFUNG</span>{% endif %}
+</nav>

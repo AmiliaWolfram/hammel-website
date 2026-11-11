@@ -86,7 +86,7 @@ body.machine-detail-page .mv-actions .mv-home-compare .cinematic-link__icon{bord
 body.machine-detail-page .mv-actions .mv-home-compare .cinematic-link__icon svg{stroke:#fff!important}
 </style>
 <style id="hammel-compare-text-white-enforced">body.machine-detail-page .mv-actions a.mv-home-compare span.cinematic-link__label,body.machine-detail-page .mv-actions a.mv-home-compare:hover span.cinematic-link__label,body.machine-detail-page .mv-actions a.mv-home-compare:focus-visible span.cinematic-link__label{color:#fff!important;-webkit-text-fill-color:#fff!important;opacity:1!important}</style></head>
-<body class="machine-detail-page">{% include 'public_shared/header.html' %}{% if editor_preview %}<div style="position:fixed;z-index:99999;top:0;left:0;right:0;background:#f2b705;color:#111;text-align:center;padding:12px;font-weight:900">VORSCHAU · NICHT VERÖFFENTLICHT · DATEI-UPLOADS ERST NACH DEM SPEICHERN SICHTBAR</div>{% endif %}
+<body class="machine-detail-page">{% include 'public_shared/header.html' %}{% if editor_preview %}<div style="position:fixed;z-index:99999;top:0;left:0;right:0;background:#f2b705;color:#111;text-align:center;padding:12px;font-weight:900">VORSCHAU / NICHT VERÖFFENTLICHT / DATEI-UPLOADS ERST NACH DEM SPEICHERN SICHTBAR</div>{% endif %}
 <section class="mv-video-hero" aria-label="{{ variant.name }}">
   <div class="mv-hero-media">
     {% if variant.hero_media_choice == "image" %}
@@ -105,7 +105,7 @@ body.machine-detail-page .mv-actions .mv-home-compare .cinematic-link__icon svg{
       {% else %}<video autoplay muted loop playsinline preload="metadata" aria-hidden="true"><source src="/assets/video/hammel-hero.mp4" type="video/mp4"></video>{% endif %}
     {% endif %}
   </div><div class="mv-hero-shade"></div>
-  <div class="mv-hero-content"><span class="mv-hero-eyebrow">{{ product.get_category_display|upper }} · {{ product.model_name }}</span><h1>{{ variant.name }}</h1><a class="cinematic-link mv-series-back" href="{% url 'machine_product_detail' product.pk %}" aria-label="Zurück zur {{ product.model_name }} Serie"><span class="cinematic-link__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M19 12H5m7-7-7 7 7 7"/></svg></span><span class="cinematic-link__label">ZUR {{ product.model_name }} SERIE</span></a></div>
+  <div class="mv-hero-content"><span class="mv-hero-eyebrow">{{ product.get_category_display|upper }} / {{ product.model_name }}</span><h1>{{ variant.name }}</h1><a class="cinematic-link mv-series-back" href="{% url 'machine_product_detail' product.pk %}" aria-label="Zurück zur {{ product.model_name }} Serie"><span class="cinematic-link__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M19 12H5m7-7-7 7 7 7"/></svg></span><span class="cinematic-link__label">ZUR {{ product.model_name }} SERIE</span></a></div>
 
 </section>
 <main id="details" class="mv-wrap mv-details">

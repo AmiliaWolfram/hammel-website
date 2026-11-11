@@ -1,0 +1,61 @@
+/* HAMMEL HR: single geometry for all three workflow pages. */
+:root{--hr-flow-width:1480px;--hr-flow-side:24px;--hr-flow-top:72px;--hr-flow-red:#e30613}
+body:has(.staff-ui),body:has(main.translation-editor),body:has(main.hr-review){background:#f5f5f3!important}
+.staff-ui .staff-wrap,main.translation-editor,main.hr-review{
+ width:calc(100% - 2 * var(--hr-flow-side))!important;
+ max-width:var(--hr-flow-width)!important;
+ margin-left:auto!important;margin-right:auto!important;
+ padding-left:0!important;padding-right:0!important;box-sizing:border-box!important;
+}
+body:has(.staff-ui) main.staff-ui{padding-top:var(--hr-flow-top)!important}
+main.translation-editor,main.hr-review{margin-top:var(--hr-flow-top)!important}
+/* Back button, eyebrow, title and secondary navigation: identical vertical rhythm. */
+.staff-ui .staff-wrap>a.hr-nav-button--back,
+main.translation-editor>a.back,
+main.hr-review>a.hr-flow-back{
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ min-height:56px!important;box-sizing:border-box!important;
+ padding:16px 23px!important;margin:0 0 38px!important;
+ background:#171717!important;color:white!important;
+ font:800 12px/1.3 Arial,Helvetica,sans-serif!important;letter-spacing:.025em!important;
+ border:0!important;border-radius:0!important;text-decoration:none!important;
+}
+.staff-ui .staff-wrap>.staff-heading{margin:0 0 0!important;padding:0!important}
+.staff-ui .staff-heading .staff-kicker,
+.staff-ui .staff-heading .eyebrow,
+main.translation-editor>p.eyebrow,
+main.hr-review>p.hr-flow-eyebrow{
+ margin:0 0 13px!important;padding:0!important;
+ font:850 12px/1.4 Arial,Helvetica,sans-serif!important;
+ letter-spacing:.15em!important;color:var(--hr-flow-red)!important;text-transform:uppercase!important;
+}
+.staff-ui .staff-heading h1,
+main.translation-editor>h1,
+main.hr-review>h1{
+ font-family:Arial,Helvetica,sans-serif!important;
+ font-size:clamp(40px,5.2vw,76px)!important;
+ font-weight:900!important;line-height:1.05!important;letter-spacing:-.06em!important;
+ margin:0 0 48px!important;padding:0!important;color:#171717!important;
+ text-transform:uppercase!important;overflow-wrap:break-word!important;
+}
+.staff-ui .staff-heading h1 span,main.translation-editor>h1 .hr-accent,main.hr-review>h1 .hr-accent{color:var(--hr-flow-red)!important}
+.staff-ui .staff-wrap>.hr-wizard,main.translation-editor>.hr-wizard,main.hr-review>.steps{
+ display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ gap:8px!important;margin:0 0 32px!important;width:100%!important;
+}
+.staff-ui .staff-wrap>.hr-wizard>*,main.translation-editor>.hr-wizard>*,main.hr-review>.steps>*{
+ height:60px!important;min-height:60px!important;padding:10px!important;
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ font:850 13px/1.2 Arial,Helvetica,sans-serif!important;letter-spacing:0!important;
+ box-sizing:border-box!important;border:0!important;border-radius:0!important;
+}
+.staff-ui .staff-wrap>.hr-wizard-note,main.translation-editor>p.intro,main.hr-review>p.muted{
+ margin:0 0 34px!important;padding:0!important;
+ font:400 16px/1.6 Arial,Helvetica,sans-serif!important;color:#626262!important;
+ max-width:none!important;
+}
+@media(max-width:760px){:root{--hr-flow-side:16px;--hr-flow-top:36px}
+ .staff-ui .staff-heading h1,main.translation-editor>h1,main.hr-review>h1{font-size:clamp(32px,7vw,48px)!important;margin-bottom:30px!important;letter-spacing:-.045em!important}
+ .staff-ui .staff-wrap>a.hr-nav-button--back,main.translation-editor>a.back,main.hr-review>a.hr-flow-back{margin-bottom:28px!important}
+ .staff-ui .staff-wrap>.hr-wizard>*,main.translation-editor>.hr-wizard>*,main.hr-review>.steps>*{height:50px!important;min-height:50px!important;font-size:10px!important;padding:6px 3px!important}
+}

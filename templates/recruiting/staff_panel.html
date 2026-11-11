@@ -1,9 +1,248 @@
 {% extends "recruiting/base.html" %}{% block title %}HR PORTAL{% endblock %}{% block site_header %}{% include 'recruiting/staff_header.html' %}{% endblock %}{% block site_footer %}{% endblock %}{% block content %}
-<link rel="stylesheet" href="/assets/css/hr-staff.css?v=20261030-select-single-v4"><style>body:has(.staff-ui) main.staff-ui{padding-top:clamp(55px,6vw,92px)!important}@media(max-width:760px){body:has(.staff-ui) main.staff-ui{padding-top:44px!important}}</style><main class="staff-ui"><div class="staff-wrap"><div class="staff-heading"><div><a class="hr-back-home" href="{% url 'hr_dashboard' %}">ZUR STARTSEITE</a><p class="staff-kicker">HAMMEL · PERSONALABTEILUNG</p><h1>KARRIERE <span>VERWALTEN</span></h1><p>Stellen, Bewerbungsbereiche, HR-Tipps und eingegangene Bewerbungen an einem Ort</p></div><a href="{% url 'hr_careers' %}" class="staff-link">KARRIERE ANSEHEN</a></div>
+<link rel="stylesheet" href="/assets/css/hr-staff.css?v=20261103-nav-buttons"><style>body:has(.staff-ui) main.staff-ui{padding-top:clamp(55px,6vw,92px)!important}@media(max-width:760px){body:has(.staff-ui) main.staff-ui{padding-top:44px!important}}</style><style>
+.staff-ui .staff-actions a[href*="bewerbung"],.staff-ui .staff-actions a[href*="application"]{background:#e30613!important;color:#fff!important;border:1px solid #e30613!important;padding:13px 22px!important;text-decoration:none!important;display:inline-flex;align-items:center;justify-content:center;font-weight:800;transition:background .2s ease,color .2s ease}
+.staff-ui .staff-actions a[href*="bewerbung"]:hover,.staff-ui .staff-actions a[href*="application"]:hover{background:#b9000b!important;border-color:#b9000b!important;color:#fff!important}
+.hr-careers-bottom{margin-top:48px;padding-top:24px;display:flex;justify-content:flex-start;clear:both}
+.hr-careers-bottom__link{display:inline-flex;background:#191919;color:#fff!important;text-decoration:none!important;padding:16px 24px;font-weight:800;transition:background .2s ease}
+.hr-careers-bottom__link:hover{background:#e30613}
+</style><main class="staff-ui"><div class="staff-wrap"><div class="staff-heading"><div><p class="staff-kicker">HAMMEL</p><h1>KARRIERE <span>VERWALTEN</span></h1></div><a href="{% url 'hr_careers' %}" class="hr-nav-button hr-nav-button--public">KARRIERESEITE ANSEHEN</a></div>
 {% if messages %}{% for message in messages %}<p class="staff-message">{{ message }}</p>{% endfor %}{% endif %}
 <div class="staff-stats"><div><strong>{{ vacancies|length }}</strong><span>STELLEN</span></div><div><strong>{{ departments|length }}</strong><span>BEREICHE</span></div><div><strong>{{ new_count }}</strong><span>NEUE BEWERBUNGEN</span></div><div><strong>{{ tips|length }}</strong><span>HR-TIPPS</span></div></div>
-{% if not section or section == "stellen" %}<section class="staff-section" id="stellen"><div class="staff-section-head"><div><p class="staff-kicker">STELLEN</p><h2>OFFENE STELLEN</h2></div>{% if perms.recruiting.add_vacancy %}<a class="staff-button" href="{% url 'hr_new' 'vacancy' %}">+ STELLE ANLEGEN</a>{% endif %}</div><div class="staff-list">{% for item in vacancies %}<div class="staff-item"><div><b>{{ item.title }}</b><small>{{ item.location }} · {{ item.get_category_display }} · {% if item.published %}Veröffentlicht{% else %}Entwurf{% endif %}</small></div><div class="staff-actions">{% if perms.recruiting.change_vacancy %}<a href="{% url 'hr_edit' 'vacancy' item.pk %}">BEARBEITEN</a>{% endif %}{% if perms.recruiting.delete_vacancy %}<form method="post" action="{% url 'hr_delete' 'vacancy' item.pk %}" onsubmit="return confirm('Stelle wirklich löschen?')">{% csrf_token %}<button>LÖSCHEN</button></form>{% endif %}</div></div>{% empty %}<p>Noch keine Stellen angelegt</p>{% endfor %}</div></section>{% endif %}
-{% if not section or section == "bereiche" %}<section class="staff-section" id="bereiche"><div class="staff-section-head"><div><p class="staff-kicker">AUSWAHL IM FORMULAR</p><h2>BEWERBUNGSBEREICHE</h2></div>{% if perms.recruiting.add_applicationdepartment %}<a class="staff-button" href="{% url 'hr_new' 'department' %}">+ BEREICH ANLEGEN</a>{% endif %}</div><div class="staff-list">{% for item in departments %}<div class="staff-item"><div><b>{{ item.name }}</b><small>{% if item.active %}Aktiv{% else %}Ausgeblendet{% endif %} · Reihenfolge {{ item.sort_order }}</small></div><div class="staff-actions">{% if perms.recruiting.change_applicationdepartment %}<a href="{% url 'hr_edit' 'department' item.pk %}">BEARBEITEN</a>{% endif %}{% if perms.recruiting.delete_applicationdepartment %}<form method="post" action="{% url 'hr_delete' 'department' item.pk %}" onsubmit="return confirm('Bereich wirklich löschen?')">{% csrf_token %}<button>LÖSCHEN</button></form>{% endif %}</div></div>{% endfor %}</div></section>{% endif %}
-{% if not section or section == "tipps" %}<section class="staff-section" id="tipps"><div class="staff-section-head"><div><p class="staff-kicker">REDAKTION</p><h2>TIPPS VOM HR-TEAM</h2></div>{% if perms.recruiting.add_hrtip %}<a class="staff-button" href="{% url 'hr_new' 'tip' %}">+ TIPP ANLEGEN</a>{% endif %}</div><div class="staff-list">{% for item in tips %}<div class="staff-item"><div><b>{{ item.title }}</b><small>{% if item.published %}Veröffentlicht{% else %}Entwurf{% endif %}</small></div><div class="staff-actions">{% if perms.recruiting.change_hrtip %}<a href="{% url 'hr_edit' 'tip' item.pk %}">BEARBEITEN</a>{% endif %}{% if perms.recruiting.delete_hrtip %}<form method="post" action="{% url 'hr_delete' 'tip' item.pk %}" onsubmit="return confirm('Tipp wirklich löschen?')">{% csrf_token %}<button>LÖSCHEN</button></form>{% endif %}</div></div>{% endfor %}</div></section>{% endif %}
-{% if not section or section == "bewerbungen" %}<section class="staff-section" id="bewerbungen"><div class="staff-section-head"><div><p class="staff-kicker">VERTRAULICH</p><h2>BEWERBUNGEN</h2></div></div><div class="staff-list">{% for item in applications %}<div class="staff-item"><div><b>{{ item.full_name }}</b><small>{{ item.created_at|date:'d.m.Y H:i' }} · {{ item.get_status_display }} · {{ item.vacancy|default:'Initiativbewerbung' }} · {{ item.email }}</small></div><div class="staff-actions">{% if perms.recruiting.change_application %}<a href="{% url 'hr_edit' 'application' item.pk %}">STATUS / NOTIZEN ↗</a>{% endif %}<a href="{% url 'admin:recruiting_application_change' item.pk %}">DETAILS ↗</a></div></div>{% empty %}<p>Noch keine Bewerbungen eingegangen</p>{% endfor %}</div></section>{% endif %}
-</div></main>{% endblock %}
+{% if not section or section == "stellen" %}<section class="staff-section" id="stellen"><div class="staff-section-head"><div><p class="staff-kicker">STELLEN</p><h2>OFFENE STELLEN</h2></div>{% if perms.recruiting.add_vacancy %}<a class="staff-button" href="{% url 'hr_new' 'vacancy' %}">+ STELLE ANLEGEN</a>{% endif %}</div>{% if perms.recruiting.change_vacancy %}<p class="hr-sort-hint">Stellen sind nach Art gruppiert. Innerhalb einer Gruppe am Griff ziehen, um die Reihenfolge zu ändern. Änderungen werden automatisch gespeichert.</p><p class="hr-sort-status" id="hr-sort-status" role="status" aria-live="polite"></p>{% endif %}
+<div class="hr-vacancy-groups" id="hr-vacancy-sort" data-save-url="{% url 'hr_reorder_vacancies' %}">
+{% for group in vacancy_groups %}
+<details class="hr-vacancy-group" data-category="{{ group.key }}">
+<summary class="hr-vacancy-group-heading"><h3>{{ group.title|upper }}</h3><span class="hr-vacancy-count">{{ group.items|length }} {% if group.items|length == 1 %}Stelle{% else %}Stellen{% endif %}</span><span class="hr-chevron">⌄</span></summary>
+<div class="hr-vacancy-group-body">
+{% if group.key == "job" %}
+<div class="hr-job-department-actions">
+<span>Nach Abteilungen gegliedert</span>
+<div class="hr-department-edit-links">
+{% for dept in job_departments %}
+{% if dept.active and perms.recruiting.change_vacancydepartment %}<a href="{% url 'hr_edit' 'job_department' dept.pk %}" title="Abteilung bearbeiten">{{ dept.name }} ✎</a>{% endif %}
+{% endfor %}
+</div>
+{% if perms.recruiting.add_vacancydepartment %}<a href="{% url 'hr_new' 'job_department' %}">+ ABTEILUNG ANLEGEN</a>{% endif %}
+</div>
+{% endif %}
+{% for subgroup in group.subgroups %}
+{% if group.key == "job" %}<details class="hr-vacancy-subgroup"><summary class="hr-vacancy-subheading"><strong>{{ subgroup.title }}</strong><span>{{ subgroup.items|length }} {% if subgroup.items|length == 1 %}Stelle{% else %}Stellen{% endif %}</span></summary>{% endif %}
+<div class="staff-list hr-vacancy-group-list" data-category="{{ group.key }}" data-department="{{ subgroup.key }}">
+{% for item in subgroup.items %}<div class="staff-item hr-sort-item" data-id="{{ item.pk }}">{% if perms.recruiting.change_vacancy %}<button class="hr-sort-handle" type="button" draggable="true" aria-label="{{ item.title }} verschieben" title="Zum Sortieren ziehen">⠿</button>{% endif %}<div class="hr-vacancy-info"><b>{{ item.title }}</b><small>{{ item.location }} / {{ item.get_category_display }} / {% if item.published %}Veröffentlicht{% else %}Entwurf{% endif %}</small></div><div class="staff-actions">{% if perms.recruiting.change_vacancy %}<a href="{% url 'hr_edit' 'vacancy' item.pk %}">BEARBEITEN</a>{% endif %}{% if perms.recruiting.delete_vacancy %}<form method="post" action="{% url 'hr_delete' 'vacancy' item.pk %}" onsubmit="return confirm('Stelle wirklich löschen?')">{% csrf_token %}<button>LÖSCHEN</button></form>{% endif %}</div></div>{% empty %}<p class="hr-vacancy-empty">Noch keine Einträge in dieser Gruppe</p>{% endfor %}
+</div>
+{% if group.key == "job" %}</details>{% endif %}
+{% endfor %}
+</div></details>{% endfor %}
+</div></section>{% endif %}
+{% if not section or section == "bereiche" %}<section class="staff-section" id="bereiche"><div class="staff-section-head"><div><p class="staff-kicker">AUSWAHL IM FORMULAR</p><h2>BEWERBUNGSBEREICHE</h2></div>{% if perms.recruiting.add_applicationdepartment %}<a class="staff-button" href="{% url 'hr_new' 'department' %}">+ BEREICH ANLEGEN</a>{% endif %}</div>{% if perms.recruiting.change_applicationdepartment %}<p class="bereich-sort-help">Bereiche am Griff ziehen, um die Reihenfolge zu ändern. Änderungen werden automatisch gespeichert.</p><p class="bereich-sort-status" id="bereich-sort-status" role="status" aria-live="polite"></p>{% endif %}
+<div class="bereich-grid" id="bereich-sort" data-save-url="{% url 'hr_reorder_departments' %}">
+{% for item in departments %}
+<div class="staff-item bereich-item" data-id="{{ item.pk }}">
+{% if perms.recruiting.change_applicationdepartment %}<button class="bereich-drag-handle" type="button" draggable="true" aria-label="{{ item.name }} verschieben" title="Ziehen oder Pfeiltasten verwenden">⠿</button>{% endif %}
+<div class="bereich-item-info"><b>{{ item.name }}</b><small class="bereich-meta"><span>{% if item.active %}Aktiv{% else %}Ausgeblendet{% endif %}</span><span class="bereich-position">Reihenfolge <span class="bereich-position-number">{{ forloop.counter }}</span></span></small></div>
+<div class="staff-actions">{% if perms.recruiting.change_applicationdepartment %}<a href="{% url 'hr_edit' 'department' item.pk %}">BEARBEITEN</a>{% endif %}{% if perms.recruiting.delete_applicationdepartment %}<form method="post" action="{% url 'hr_delete' 'department' item.pk %}" onsubmit="return confirm('Bereich wirklich löschen?')">{% csrf_token %}<button>LÖSCHEN</button></form>{% endif %}</div>
+</div>
+{% endfor %}
+</div></section>{% endif %}
+{% if not section or section == "tipps" %}<section class="staff-section" id="tipps"><div class="staff-section-head"><div><p class="staff-kicker">REDAKTION</p><h2>TIPPS VOM HR-TEAM</h2></div>{% if perms.recruiting.add_hrtip %}<a class="staff-button" href="{% url 'hr_new' 'tip' %}">+ TIPP ANLEGEN</a>{% endif %}</div>{% if perms.recruiting.change_hrtip %}<p class="tip-sort-help">Tipps am Griff ziehen, um die Reihenfolge zu ändern. Änderungen werden automatisch gespeichert.</p><p class="tip-sort-status" id="tip-sort-status" role="status" aria-live="polite"></p>{% endif %}
+<div class="tip-grid" id="tip-sort" data-save-url="{% url 'hr_reorder_tips' %}">{% for item in tips %}
+<div class="staff-item tip-item" data-id="{{ item.pk }}">
+{% if perms.recruiting.change_hrtip %}<button type="button" class="tip-drag-handle" draggable="true" aria-label="{{ item.title }} verschieben" title="Ziehen oder Pfeiltasten verwenden">⠿</button>{% endif %}
+<div class="tip-item-info"><b>{{ item.title }}</b><small class="tip-meta"><span>{% if item.published %}Veröffentlicht{% else %}Entwurf{% endif %}</span><span>Reihenfolge <span class="tip-position-number">{{ forloop.counter }}</span></span></small></div>
+<div class="staff-actions">{% if perms.recruiting.change_hrtip %}<a href="{% url 'hr_edit' 'tip' item.pk %}">BEARBEITEN</a>{% endif %}{% if perms.recruiting.delete_hrtip %}<form method="post" action="{% url 'hr_delete' 'tip' item.pk %}" onsubmit="return confirm('Tipp wirklich löschen?')">{% csrf_token %}<button>LÖSCHEN</button></form>{% endif %}</div>
+</div>{% endfor %}</div></section>{% endif %}
+{% if not section or section == "bewerbungen" %}<section class="staff-section" id="bewerbungen"><div class="staff-section-head"><div><p class="staff-kicker">VERTRAULICH</p><h2>BEWERBUNGEN</h2></div></div><div class="staff-list">{% for item in applications %}<div class="staff-item"><div><b>{{ item.full_name }}</b><small>{{ item.created_at|date:'d.m.Y H:i' }} / {{ item.get_status_display }} / {{ item.vacancy|default:'Initiativbewerbung' }} / {{ item.email }}</small></div><div class="staff-actions">{% if perms.recruiting.change_application %}{% endif %}<a href="{% url 'hr_application_detail' item.pk %}">ANSEHEN</a></div></div>{% empty %}<p>Noch keine Bewerbungen eingegangen</p>{% endfor %}</div></section>{% endif %}
+<div class="hr-careers-bottom"><a href="{% url 'hr_dashboard' %}" class="hr-careers-bottom__link">ZURÜCK ZUM HR-PORTAL</a></div></div></main>
+<style>
+.hr-vacancy-groups{display:grid;gap:18px}
+.hr-vacancy-group-heading,.hr-vacancy-subheading{cursor:pointer;list-style:none}
+.hr-vacancy-group-heading::-webkit-details-marker,.hr-vacancy-subheading::-webkit-details-marker{display:none}
+.hr-vacancy-group-heading{margin-bottom:0!important}
+.hr-vacancy-group[open]>.hr-vacancy-group-heading{margin-bottom:16px!important}
+.hr-vacancy-group-body{display:grid;gap:12px}
+.hr-vacancy-subgroup{border:1px solid #e7e4df;background:#faf9f7}
+.hr-vacancy-subheading{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:14px 17px;color:#222}
+.hr-vacancy-subheading span{font-size:13px;color:#777}
+.hr-vacancy-subgroup>.staff-list{padding:0 15px 15px}
+.hr-job-department-actions{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-size:13px;color:#777}
+.hr-department-edit-links{display:flex;flex-wrap:wrap;gap:8px 14px}.hr-department-edit-links a{font-size:12px}.hr-job-department-actions a{color:#e30613;text-decoration:none;font-weight:800}
+.hr-chevron{font-size:22px;color:#777}
+.hr-vacancy-group:not([open]) .hr-chevron{transform:rotate(-90deg)}
+
+.hr-vacancy-group{border:1px solid #e2dfda;background:#fff;padding:clamp(15px,2.5vw,26px)}
+.hr-vacancy-group-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;border-bottom:1px solid #ece9e5;padding-bottom:13px}
+.hr-vacancy-group-heading h3{margin:0;color:#171717;font-size:18px;letter-spacing:.05em}
+.hr-vacancy-count{color:#777;font-size:13px;white-space:nowrap}
+.hr-vacancy-empty{color:#858585;font-size:14px;margin:12px 0}
+.hr-vacancy-group-list{min-height:30px}
+.hr-sort-hint{color:#666;font-size:14px;line-height:1.5;margin:0 0 14px}
+.hr-sort-status{font-size:13px;min-height:1.4em;color:#21714b;margin:4px 0 12px}
+.hr-sort-status.hr-sort-error{color:#c80014}
+.hr-sort-item{display:flex;align-items:center;gap:14px;transition:background .15s ease,opacity .15s ease}
+.hr-sort-handle{flex:0 0 40px;width:40px;height:44px;display:grid;place-items:center;background:transparent;border:1px solid #dedede;color:#555;font-size:27px;line-height:1;cursor:grab;touch-action:none;border-radius:4px}
+.hr-sort-handle:hover,.hr-sort-handle:focus-visible{border-color:#e30613;color:#e30613}
+.hr-sort-handle:active{cursor:grabbing}
+.hr-sort-item.hr-dragging{opacity:.38}
+.hr-sort-item.hr-drag-over{outline:2px solid #e30613;outline-offset:-2px}
+@media(max-width:650px){.hr-sort-item{flex-wrap:wrap}.hr-sort-handle{flex:0 0 36px}}
+
+
+/* Vacancy rows: fixed columns prevent inherited flex centering. */
+.hr-vacancy-group-list > .staff-item.hr-sort-item {
+  display: grid !important;
+  grid-template-columns: 44px minmax(0, 1fr) max-content !important;
+  align-items: center !important;
+  justify-content: initial !important;
+  column-gap: 18px !important;
+  width: 100%;
+  text-align: left !important;
+}
+.hr-vacancy-group-list > .hr-sort-item > .hr-sort-handle {
+  grid-column: 1;
+  justify-self: start;
+  margin: 0 !important;
+}
+.hr-vacancy-group-list > .hr-sort-item > .hr-vacancy-info {
+  grid-column: 2;
+  min-width: 0;
+  width: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+  justify-self: stretch;
+  flex: none !important;
+}
+.hr-vacancy-group-list > .hr-sort-item > .hr-vacancy-info > b,
+.hr-vacancy-group-list > .hr-sort-item > .hr-vacancy-info > small {
+  display: block;
+  text-align: left !important;
+  margin-left: 0 !important;
+}
+.hr-vacancy-group-list > .hr-sort-item > .staff-actions {
+  grid-column: 3;
+  justify-self: end;
+  margin-left: 0 !important;
+  width: auto !important;
+}
+@media (max-width: 680px) {
+  .hr-vacancy-group-list > .staff-item.hr-sort-item {
+    grid-template-columns: 40px minmax(0, 1fr) !important;
+    row-gap: 10px;
+  }
+  .hr-vacancy-group-list > .hr-sort-item > .staff-actions {
+    grid-column: 2;
+    justify-self: start;
+  }
+}
+</style>
+<script>
+(()=>{const list=document.getElementById('hr-vacancy-sort');if(!list)return;
+const status=document.getElementById('hr-sort-status');
+const handles=[...list.querySelectorAll('.hr-sort-handle')];if(!handles.length)return;
+let dragged=null,busy=false;
+const cookie=document.cookie.split('; ').find(v=>v.startsWith('csrftoken='));
+const token=cookie?decodeURIComponent(cookie.slice(10)):(document.querySelector('input[name=csrfmiddlewaretoken]')?.value||'');
+const report=(message,error=false)=>{if(status){status.textContent=message;status.classList.toggle('hr-sort-error',error)}};
+function updatePositions(){[...grid.querySelectorAll('.bereich-item')].forEach((item,index)=>{const label=item.querySelector('.bereich-position-number');if(label)label.textContent=String(index+1)})}
+async function save(){if(busy)return;busy=true;report('Reihenfolge wird gespeichert …');
+ const ids=[...list.querySelectorAll('.hr-vacancy-group-list')].flatMap(group=>[...group.querySelectorAll('.hr-sort-item')].map(el=>Number(el.dataset.id)));
+ try{const response=await fetch(list.dataset.saveUrl,{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','X-CSRFToken':token},body:JSON.stringify(ids)});
+ const result=await response.json();if(!response.ok||!result.ok)throw new Error(result.error||'Speichern fehlgeschlagen');report('Reihenfolge gespeichert ✓');}
+ catch(e){report((e.message||'Fehler beim Speichern')+' – bitte Seite neu laden.',true)}finally{busy=false}}
+handles.forEach(handle=>{const item=handle.closest('.hr-sort-item');
+ handle.addEventListener('dragstart',e=>{dragged=item;item.classList.add('hr-dragging');e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',item.dataset.id)});
+ handle.addEventListener('dragend',()=>{item.classList.remove('hr-dragging');list.querySelectorAll('.hr-drag-over').forEach(x=>x.classList.remove('hr-drag-over'));dragged=null});
+ // Accessible keyboard reordering: focus the handle, use ArrowUp/ArrowDown.
+ handle.addEventListener('keydown',e=>{if(e.key!=='ArrowUp'&&e.key!=='ArrowDown')return;e.preventDefault();const group=item.closest('.hr-vacancy-group-list');const sibling=e.key==='ArrowUp'?item.previousElementSibling:item.nextElementSibling;if(!sibling||!sibling.classList.contains('hr-sort-item'))return;
+ if(e.key==='ArrowUp')group.insertBefore(item,sibling);else group.insertBefore(sibling,item);handle.focus();save()});
+ });
+ list.addEventListener('dragover',e=>{if(!dragged)return;e.preventDefault();const target=e.target.closest('.hr-sort-item');if(!target||target===dragged||target.closest('.hr-vacancy-group-list')!==dragged.closest('.hr-vacancy-group-list'))return;
+ list.querySelectorAll('.hr-drag-over').forEach(x=>x.classList.remove('hr-drag-over'));target.classList.add('hr-drag-over');
+ const midpoint=target.getBoundingClientRect().top+target.getBoundingClientRect().height/2;
+ target.parentElement.insertBefore(dragged,e.clientY<midpoint?target:target.nextSibling)});
+ list.addEventListener('drop',e=>{if(!dragged)return;e.preventDefault();list.querySelectorAll('.hr-drag-over').forEach(x=>x.classList.remove('hr-drag-over'));dragged.classList.remove('hr-dragging');dragged=null;save()});
+})();
+</script><style>
+/* Only Bereiche management: compact two-column reorder cards */
+#bereiche .bereich-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 16px}
+#bereiche .bereich-item{display:grid!important;grid-template-columns:28px minmax(0,1fr) auto;gap:12px!important;align-items:center!important;min-width:0;padding:18px!important;margin:0!important;border:1px solid #e6e6e4;background:#fafafa}
+#bereiche .bereich-meta{display:flex!important;flex-wrap:wrap;gap:4px 14px}#bereiche .bereich-position{color:#777}#bereiche .bereich-item-info{min-width:0}#bereiche .bereich-item-info b{display:block;font-size:16px}#bereiche .bereich-item-info small{display:block;margin-top:5px;color:#777}
+#bereiche .bereich-item .staff-actions{display:flex;align-items:center;gap:12px;margin:0!important;white-space:nowrap}
+#bereiche .bereich-drag-handle{cursor:grab;border:0;background:transparent;color:#777;font-size:24px;padding:3px;touch-action:none}
+#bereiche .bereich-drag-handle:active{cursor:grabbing}
+#bereiche .bereich-item.bereich-dragging{opacity:.5}#bereiche .bereich-item.bereich-drag-over{outline:2px solid #e30613;outline-offset:-2px}
+#bereiche .bereich-sort-help{font-size:13px;color:#666;margin:8px 0 12px}
+#bereiche .bereich-sort-status{font-size:13px;color:#19804a;min-height:1em;margin:0 0 12px}
+#bereiche .bereich-sort-status.is-error{color:#e30613}
+@media(max-width:1000px){#bereiche .bereich-grid{grid-template-columns:1fr}}
+@media(max-width:520px){#bereiche .bereich-item{grid-template-columns:28px minmax(0,1fr)}#bereiche .bereich-item .staff-actions{grid-column:2;justify-content:flex-start}}
+</style>
+<script>
+(()=>{
+const grid=document.getElementById('bereich-sort');if(!grid)return;
+const status=document.getElementById('bereich-sort-status');
+const handles=[...grid.querySelectorAll('.bereich-drag-handle')];if(!handles.length)return;
+let dragged=null, pending=false, version=0;
+let confirmed=[...grid.querySelectorAll('.bereich-item')].map(el=>el.dataset.id);
+const getItems=()=>[...grid.querySelectorAll('.bereich-item')];
+const ids=()=>getItems().map(el=>el.dataset.id);
+const report=(msg,error=false)=>{if(status){status.textContent=msg;status.classList.toggle('is-error',error)}};
+const renumber=()=>getItems().forEach((el,i)=>{const num=el.querySelector('.bereich-position-number');if(num)num.textContent=String(i+1)});
+const cookie=document.cookie.split('; ').find(x=>x.startsWith('csrftoken='));
+const csrf=cookie?decodeURIComponent(cookie.slice('csrftoken='.length)):(document.querySelector('input[name=csrfmiddlewaretoken]')?.value||'');
+function restore(){const map=new Map(getItems().map(el=>[el.dataset.id,el]));confirmed.forEach(id=>{const el=map.get(id);if(el)grid.appendChild(el)});renumber()}
+async function persist(){version++;if(pending)return;pending=true;
+try{while(true){const batch=version;const desired=ids();report('Reihenfolge wird gespeichert …');
+const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),12000);
+let response,payload;
+try{response=await fetch(grid.dataset.saveUrl,{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','X-CSRFToken':csrf,'Accept':'application/json'},body:JSON.stringify(desired.map(Number)),signal:controller.signal});
+const raw=await response.text();try{payload=JSON.parse(raw)}catch{throw Error('Server antwortet nicht mit JSON (HTTP '+response.status+').')}}
+finally{clearTimeout(timeout)}
+if(!response.ok||!payload.ok)throw Error(payload.error||'HTTP '+response.status);
+confirmed=desired;
+if(batch===version){renumber();report('Reihenfolge gespeichert');break}
+}}
+catch(err){restore();report('Speichern fehlgeschlagen: '+(err.name==='AbortError'?'Zeitüberschreitung':err.message)+'. Reihenfolge zurückgesetzt.',true)}
+finally{pending=false}}
+function move(item,target,after){if(!target||target===item)return;const old=ids().join(',');grid.insertBefore(item,after?target.nextElementSibling:target);if(ids().join(',')!==old){renumber();return true}return false}
+handles.forEach(handle=>{const item=handle.closest('.bereich-item');
+handle.addEventListener('dragstart',e=>{dragged=item;item.classList.add('bereich-dragging');e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',item.dataset.id)});
+handle.addEventListener('dragend',()=>{item.classList.remove('bereich-dragging');grid.querySelectorAll('.bereich-drag-over').forEach(el=>el.classList.remove('bereich-drag-over'));dragged=null});
+handle.addEventListener('keydown',e=>{if(!['ArrowUp','ArrowDown'].includes(e.key))return;e.preventDefault();const target=e.key==='ArrowUp'?item.previousElementSibling:item.nextElementSibling;if(!target)return;if(move(item,target,e.key==='ArrowDown'))persist();handle.focus()});
+});
+grid.addEventListener('dragover',e=>{if(!dragged)return;e.preventDefault();e.dataTransfer.dropEffect='move';const target=e.target.closest('.bereich-item');grid.querySelectorAll('.bereich-drag-over').forEach(el=>el.classList.remove('bereich-drag-over'));if(target&&target!==dragged)target.classList.add('bereich-drag-over')});
+grid.addEventListener('drop',e=>{if(!dragged)return;e.preventDefault();const target=e.target.closest('.bereich-item');grid.querySelectorAll('.bereich-drag-over').forEach(el=>el.classList.remove('bereich-drag-over'));if(!target||target===dragged)return;
+const bounds=target.getBoundingClientRect();const after=e.clientY>bounds.top+bounds.height/2;
+if(move(dragged,target,after))persist();});
+renumber();
+})();
+</script><style>
+/* HR-Tipps only */
+#tipps .tip-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 16px}
+#tipps .tip-item{display:grid!important;grid-template-columns:28px minmax(0,1fr) auto;align-items:center!important;gap:12px!important;min-width:0;padding:18px!important;margin:0!important;border:1px solid #e6e6e4;background:#fafafa}
+#tipps .tip-item-info{min-width:0}#tipps .tip-item-info b{display:block;font-size:16px;overflow-wrap:anywhere}#tipps .tip-meta{display:flex!important;flex-wrap:wrap;gap:4px 14px;margin-top:5px;color:#777}
+#tipps .tip-item .staff-actions{display:flex;align-items:center;gap:12px;margin:0!important;white-space:nowrap}
+#tipps .tip-drag-handle{cursor:grab;border:0;background:transparent;color:#777;font-size:24px;padding:3px;touch-action:none}#tipps .tip-drag-handle:active{cursor:grabbing}
+#tipps .tip-item.tip-dragging{opacity:.5}#tipps .tip-item.tip-drag-over{outline:2px solid #e30613;outline-offset:-2px}
+#tipps .tip-sort-help{font-size:13px;color:#666;margin:8px 0 12px}#tipps .tip-sort-status{font-size:13px;color:#19804a;min-height:1em;margin:0 0 12px}#tipps .tip-sort-status.is-error{color:#e30613}
+@media(max-width:1100px){#tipps .tip-grid{grid-template-columns:1fr}}@media(max-width:520px){#tipps .tip-item{grid-template-columns:28px minmax(0,1fr)}#tipps .tip-item .staff-actions{grid-column:2}}
+</style>
+<script>
+(()=>{const grid=document.getElementById('tip-sort');if(!grid)return;const handles=[...grid.querySelectorAll('.tip-drag-handle')];if(!handles.length)return;
+const status=document.getElementById('tip-sort-status');let dragged=null,saving=false,dirty=false;let confirmed=[...grid.querySelectorAll('.tip-item')].map(el=>el.dataset.id);
+const cookie=document.cookie.split('; ').find(x=>x.startsWith('csrftoken='));const csrf=cookie?decodeURIComponent(cookie.slice(10)):(document.querySelector('input[name=csrfmiddlewaretoken]')?.value||'');
+const report=(msg,error=false)=>{status.textContent=msg;status.classList.toggle('is-error',error)};
+const ids=()=>[...grid.querySelectorAll('.tip-item')].map(el=>el.dataset.id);
+const renumber=()=>{[...grid.querySelectorAll('.tip-item')].forEach((el,i)=>{const n=el.querySelector('.tip-position-number');if(n)n.textContent=String(i+1)})};
+function rollback(){const byId=new Map([...grid.querySelectorAll('.tip-item')].map(el=>[el.dataset.id,el]));confirmed.forEach(id=>grid.appendChild(byId.get(id)));renumber()}
+async function save(){dirty=true;if(saving)return;saving=true;
+while(dirty){dirty=false;const desired=ids();report('Reihenfolge wird gespeichert …');
+try{const ctrl=new AbortController();const timer=setTimeout(()=>ctrl.abort(),12000);let response;try{response=await fetch(grid.dataset.saveUrl,{method:'POST',credentials:'same-origin',signal:ctrl.signal,headers:{'Content-Type':'application/json','X-CSRFToken':csrf},body:JSON.stringify(desired.map(Number))})}finally{clearTimeout(timer)}
+const result=await response.json();if(!response.ok||!result.ok)throw new Error(result.error||'Speichern fehlgeschlagen');confirmed=result.ids.map(String);if(!dirty&&ids().join(',')!==confirmed.join(','))dirty=true;report('Reihenfolge gespeichert');}
+catch(err){dirty=false;rollback();report((err.name==='AbortError'?'Zeitüberschreitung':err.message||'Speichern fehlgeschlagen')+'. Bitte erneut versuchen.',true);break}}
+saving=false}
+handles.forEach(h=>{const item=h.closest('.tip-item');h.addEventListener('dragstart',e=>{dragged=item;item.classList.add('tip-dragging');e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',item.dataset.id)});h.addEventListener('dragend',()=>{item.classList.remove('tip-dragging');grid.querySelectorAll('.tip-drag-over').forEach(el=>el.classList.remove('tip-drag-over'));dragged=null});h.addEventListener('keydown',e=>{if(!['ArrowUp','ArrowDown'].includes(e.key))return;e.preventDefault();const neighbor=e.key==='ArrowUp'?item.previousElementSibling:item.nextElementSibling;if(!neighbor)return;if(e.key==='ArrowUp')grid.insertBefore(item,neighbor);else grid.insertBefore(neighbor,item);renumber();h.focus();save()})});
+grid.addEventListener('dragover',e=>{if(!dragged)return;e.preventDefault();const target=e.target.closest('.tip-item');if(!target||target===dragged)return;grid.querySelectorAll('.tip-drag-over').forEach(el=>el.classList.remove('tip-drag-over'));target.classList.add('tip-drag-over');const r=target.getBoundingClientRect();grid.insertBefore(dragged,e.clientY<r.top+r.height/2?target:target.nextSibling);renumber()});
+grid.addEventListener('drop',e=>{if(!dragged)return;e.preventDefault();grid.querySelectorAll('.tip-drag-over').forEach(el=>el.classList.remove('tip-drag-over'));if(ids().join(',')!==confirmed.join(','))save()});
+})();
+</script>{% endblock %}

@@ -1,0 +1,75 @@
+/* HISTORY: remove ALL decorative technical drawings, without touching text/photos. */
+body .about-main .story__chapter .history-drawing,
+body .about-main .story__chapter .history-drawing--echo,
+body .about-main .story__chapter .story__schematic,
+body .about-main .story__chapter .story__blueprint,
+body .about-main .story__chapter .story__pulse,
+body .about-main .story__chapter .blueprint-spark,
+body .about-main .story__chapter .schematic__geometry,
+body .about-main .story__chapter .schematic__dimension,
+body .about-main .story__chapter .schematic__spark {display:none!important;visibility:hidden!important;opacity:0!important;}
+body .about-main .story__chapter::before,
+body .about-main .story__chapter::after,
+body .about-main .story__chapter .story__art::before,
+body .about-main .story__chapter .story__art::after {content:none!important;display:none!important;background-image:none!important;}
+body .about-main .story__chapter,
+body .about-main .story__chapter .story__wrap,
+body .about-main .story__chapter .story__art {background-image:none!important;}
+
+/* Remove the last yellow vertical technical guide and all technical overlays. */
+body .about-main .story .story__chapter svg:not(.cinematic-link__icon svg),
+body .about-main .story .story__chapter canvas,
+body .about-main .story .story__chapter [class*="schematic"],
+body .about-main .story .story__chapter [class*="blueprint"],
+body .about-main .story .story__chapter [class*="drawing"],
+body .about-main .story .story__chapter [class*="guide"],
+body .about-main .story .story__chapter [class*="timeline-line"],
+body .about-main .story .story__chapter [class*="technical"] {display:none!important;visibility:hidden!important;}
+body .about-main .story .story__chapter .story__art,
+body .about-main .story .story__chapter .story__wrap,
+body .about-main .story .story__chapter {border-left:0!important;border-right:0!important;background-image:none!important;}
+body .about-main .story .story__chapter .story__art::before,
+body .about-main .story .story__chapter .story__art::after,
+body .about-main .story .story__chapter .story__wrap::before,
+body .about-main .story .story__chapter .story__wrap::after,
+body .about-main .story .story__chapter::before,
+body .about-main .story .story__chapter::after {content:none!important;display:none!important;}
+
+/* History clean-up: no drawing/measurement overlays anywhere, including
+   photo surrounds and the final building/photo section. */
+body .about-main .story [class*="schematic"],
+body .about-main .story [class*="blueprint"],
+body .about-main .story [class*="drawing"],
+body .about-main .story [class*="technical"],
+body .about-main .story [class*="dimension"],
+body .about-main .story [class*="guide"],
+body .about-main .story [class*="measure"],
+body .about-main .story [class*="draft"],
+body .about-main .story [class*="grid-overlay"],
+body .about-main .story .story__pulse,
+body .about-main .story .story__art > svg,
+body .about-main .story .story__art > canvas,
+body .about-main .story .story__hq > svg,
+body .about-main .story .story__hq > canvas {
+ display:none!important;visibility:hidden!important;opacity:0!important;
+}
+body .about-main .story .story__art::before,
+body .about-main .story .story__art::after,
+body .about-main .story .story__hq::before,
+body .about-main .story .story__hq::after,
+body .about-main .story .story__end::before,
+body .about-main .story .story__end::after,
+body .about-main .story .story__end .story__wrap::before,
+body .about-main .story .story__end .story__wrap::after,
+body .about-main .story .story__chapter::before,
+body .about-main .story .story__chapter::after,
+body .about-main .story .story__chapter .story__wrap::before,
+body .about-main .story .story__chapter .story__wrap::after {
+ content:none!important;display:none!important;background-image:none!important;
+}
+body .about-main .story .story__hq,
+body .about-main .story .story__art,
+body .about-main .story .story__end,
+body .about-main .story .story__chapter {
+ background-image:none!important;
+}

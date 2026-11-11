@@ -10,12 +10,17 @@ from recruiting import views as hr_views
 from contacts.views import published_contacts
 from contacts import staff_views as contact_staff
 from partners import views as partner_views
+from translations.views import autosave as translations_autosave, edit as translation_edit, catalog as translation_catalog, hr_blocks as translation_hr_blocks
 
 admin.site.site_header = "HAMMEL · Vertriebsportal"
 admin.site.site_title = "HAMMEL Messen"
 admin.site.index_title = "Veranstaltungen verwalten"
 
 urlpatterns = [
+    path("staff/sprachversionen/hr/textbausteine/", translation_hr_blocks, name="translation_hr_blocks"),
+    path("staff/sprachversionen/<str:portal>/", translation_catalog, name="translation_catalog"),
+    path("staff/uebersetzungen/<str:app_label>/<str:model_name>/<int:pk>/", translation_edit, name="translation_edit"),
+    path("staff/uebersetzungen/<str:app_label>/<str:model_name>/<int:pk>/autosave/", translations_autosave, name="translation_autosave"),
     path("api/loesungen/maschinen/", __import__("messen.views", fromlist=["recycling_machines_overview"]).recycling_machines_overview, name="recycling_machines_overview"),
     path("api/partner/", partner_views.published, name="published_partners"),
     path("staff/partner/", partner_views.dashboard, name="partners_dashboard"),
@@ -48,6 +53,14 @@ urlpatterns = [
     path("staff/karriere/logout/", hr_views.HRLogoutView.as_view(), name="hr_logout"),
     path("staff/karriere/", hr_views.hr_dashboard, name="hr_dashboard"),
     path("staff/karriere/verwaltung/", hr_views.hr_management, name="hr_management"),
+    path("staff/karriere/bewerbung/<int:pk>/", hr_views.hr_application_detail, name="hr_application_detail"),
+    path("staff/karriere/bewerbung/<int:pk>/dokument/<str:kind>/", hr_views.hr_application_document, name="hr_application_document"),
+    path("staff/karriere/bewerbung/<int:pk>/dokument/<str:kind>/<int:certificate_id>/", hr_views.hr_application_document, name="hr_application_certificate"),
+    path("staff/karriere/vacancy/<int:pk>/autosave/", hr_views.hr_autosave, name="hr_autosave"),
+    path("staff/karriere/vacancy/<int:pk>/vorschau/", hr_views.hr_preview, name="hr_preview"),
+    path("staff/karriere/stellen/reihenfolge/", hr_views.hr_reorder_vacancies, name="hr_reorder_vacancies"),
+    path("staff/karriere/bereiche/reihenfolge/", hr_views.hr_reorder_departments, name="hr_reorder_departments"),
+    path("staff/karriere/tipps/reihenfolge/", hr_views.hr_reorder_tips, name="hr_reorder_tips"),
     path("staff/karriere/verwaltung/<slug:section>/", hr_views.hr_section, name="hr_section"),
     path("staff/karriere/<str:kind>/neu/", hr_views.hr_edit, name="hr_new"),
     path("staff/karriere/<str:kind>/<int:pk>/", hr_views.hr_edit, name="hr_edit"),
@@ -85,7 +98,6 @@ urlpatterns = [
     path("django-intern-admin/", admin.site.urls),
     path("api/messen/", published_messen, name="published_messen"),
     path("api/news/", published_news, name="published_news"),
-    path("was-uns-bewegt/story/<int:pk>/<slug:slug>/", news_story, name="news_story"),
     path("was-uns-bewegt/story/<int:pk>/<slug:slug>/", news_story, name="news_story"),
 ]
 for service_section in ("gebrauchtmaschinen", "mietpark", "transport"):

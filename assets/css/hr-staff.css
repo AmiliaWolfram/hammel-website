@@ -46,3 +46,24 @@
 .staff-ui .hr-select-option:hover,.staff-ui .hr-select-option:focus-visible{background:#f3f2ef!important;color:#e30613!important;outline:0!important}
 .staff-ui .hr-select-option[aria-selected="true"]{background:#222629!important;color:#f2b705!important}
 .staff-ui .hr-select-option[aria-selected="true"]:hover{background:#34383a!important}
+
+/* HRPortal: vacancy text follows the drag handle, actions remain right aligned. */
+.hr-vacancy-group-list .staff-item.hr-sort-item{justify-content:flex-start;align-items:center;gap:18px}
+.hr-vacancy-group-list .hr-sort-item>.hr-sort-handle{flex:0 0 auto}
+.hr-vacancy-group-list .hr-sort-item>.hr-vacancy-info{flex:1 1 auto;min-width:0;text-align:left}
+.hr-vacancy-group-list .hr-sort-item>.hr-vacancy-info b,
+.hr-vacancy-group-list .hr-sort-item>.hr-vacancy-info small{text-align:left}
+.hr-vacancy-group-list .hr-sort-item>.staff-actions{margin-left:auto;flex:0 0 auto;justify-content:flex-end}
+@media(max-width:650px){.hr-vacancy-group-list .staff-item.hr-sort-item{flex-wrap:wrap}.hr-vacancy-group-list .hr-sort-item>.staff-actions{margin-left:0;width:100%;padding-left:58px;justify-content:flex-start}}
+
+
+/* Consistent HRPortal navigation buttons */
+.staff-ui a.hr-nav-button{display:inline-flex!important;align-items:center!important;justify-content:center;gap:11px;min-height:46px;padding:12px 19px!important;box-sizing:border-box;border:1px solid transparent!important;border-radius:2px!important;background:#1b1b1b!important;color:#fff!important;font-size:12px!important;line-height:1.25!important;font-weight:800!important;letter-spacing:.045em!important;text-transform:uppercase;text-decoration:none!important;box-shadow:none!important;white-space:normal;transition:background-color .25s ease,color .25s ease,border-color .25s ease!important;cursor:pointer}
+.staff-ui a.hr-nav-button:hover,.staff-ui a.hr-nav-button:focus-visible{background:#e30613!important;color:#fff!important;text-decoration:none!important}
+.staff-ui a.hr-nav-button--public{background:#e30613!important;color:#fff!important}
+.staff-ui a.hr-nav-button--public:hover,.staff-ui a.hr-nav-button--public:focus-visible{background:#1b1b1b!important;color:#fff!important}
+.staff-ui a.hr-nav-button:focus-visible{outline:3px solid #f2b705!important;outline-offset:3px}
+.staff-ui .hr-nav-button__icon{font-size:18px;font-weight:700;line-height:1;flex-shrink:0}
+.staff-ui .staff-heading>a.hr-nav-button{align-self:center;margin:0!important}
+.staff-ui .staff-wrap>a.hr-nav-button{margin-bottom:26px!important}
+@media(max-width:760px){.staff-ui .staff-heading>a.hr-nav-button{align-self:flex-start}.staff-ui a.hr-nav-button{min-height:44px}}

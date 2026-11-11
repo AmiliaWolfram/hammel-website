@@ -1,0 +1,200 @@
+{
+  "Ausbildung Kaufmann/-frau für Groß- und Außenhandelsmanagement": {
+    "en": {
+      "title": "Apprenticeship: Wholesale and Foreign Trade Management Clerk"
+    },
+    "fr": {
+      "title": "Formation : employé(e) de commerce de gros et international"
+    },
+    "es": {
+      "title": "Formación profesional: Gestión de comercio mayorista e internacional"
+    },
+    "it": {
+      "title": "Apprendistato: Addetto/a alla gestione del commercio all’ingrosso e internazionale"
+    }
+  },
+  "Ausbildung Industriekaufmann/-frau": {
+    "en": {
+      "title": "Apprenticeship: Industrial Management Assistant"
+    },
+    "fr": {
+      "title": "Formation : employé(e) de gestion industrielle"
+    },
+    "es": {
+      "title": "Formación profesional: Técnico/a en gestión industrial"
+    },
+    "it": {
+      "title": "Apprendistato: Impiegato/a amministrativo/a industriale"
+    }
+  },
+  "Ausbildung Konstruktionsmechaniker/-in": {
+    "en": {
+      "title": "Apprenticeship: Metal Construction Mechanic"
+    },
+    "fr": {
+      "title": "Formation : mécanicien(ne) en construction métallique"
+    },
+    "es": {
+      "title": "Formación profesional: Mecánico/a de construcciones metálicas"
+    },
+    "it": {
+      "title": "Apprendistato: Meccanico/a delle costruzioni metalliche"
+    }
+  },
+  "Servicetechniker": {
+    "en": {
+      "title": "Service Technician",
+      "introduction": "Join the HAMMEL team and help us shape the future of recycling technology."
+    },
+    "fr": {
+      "title": "Technicien(ne) de maintenance",
+      "introduction": "Rejoins l’équipe HAMMEL et contribue avec nous à façonner l’avenir des technologies de recyclage."
+    },
+    "es": {
+      "title": "Técnico/a de servicio",
+      "introduction": "Únete al equipo HAMMEL y ayúdanos a construir el futuro de la tecnología de reciclaje."
+    },
+    "it": {
+      "title": "Tecnico/a dell’assistenza",
+      "introduction": "Entra a far parte del team HAMMEL e contribuisci a plasmare il futuro delle tecnologie di riciclaggio."
+    }
+  },
+  "Metallbauer / Schlosser": {
+    "en": {
+      "title": "Metalworker / Fitter",
+      "introduction": "Join the HAMMEL team and help us shape the future of recycling technology."
+    },
+    "fr": {
+      "title": "Métallier / Serrurier",
+      "introduction": "Rejoins l’équipe HAMMEL et contribue avec nous à façonner l’avenir des technologies de recyclage."
+    },
+    "es": {
+      "title": "Trabajador/a del metal / Cerrajero/a",
+      "introduction": "Únete al equipo HAMMEL y ayúdanos a construir el futuro de la tecnología de reciclaje."
+    },
+    "it": {
+      "title": "Carpentiere metallico / Fabbro",
+      "introduction": "Entra a far parte del team HAMMEL e contribuisci a plasmare il futuro delle tecnologie di riciclaggio."
+    }
+  },
+  "Kaufmännischer Mitarbeiter": {
+    "en": {
+      "title": "Commercial Administration Assistant",
+      "introduction": "Join the HAMMEL team and help us shape the future of recycling technology."
+    },
+    "fr": {
+      "title": "Employé(e) administratif(ve) commercial(e)",
+      "introduction": "Rejoins l’équipe HAMMEL et contribue avec nous à façonner l’avenir des technologies de recyclage."
+    },
+    "es": {
+      "title": "Empleado/a administrativo/a comercial",
+      "introduction": "Únete al equipo HAMMEL y ayúdanos a construir el futuro de la tecnología de reciclaje."
+    },
+    "it": {
+      "title": "Impiegato/a commerciale",
+      "introduction": "Entra a far parte del team HAMMEL e contribuisci a plasmare il futuro delle tecnologie di riciclaggio."
+    }
+  },
+  "Deal-Maker / Vertriebsheld im Innendienst": {
+    "en": {
+      "title": "Inside Sales Specialist / Deal Maker",
+      "introduction": "Join the HAMMEL team and help us shape the future of recycling technology.",
+      "responsibilities": "Manage quotations, orders and internal workflows\nSupport customers with solution-oriented advice\nCoordinate customer enquiries and communication\nCollaborate with field sales, logistics and accounting",
+      "hard_skills": "Commercial qualification or experience in sales\nProficiency in MS Office",
+      "soft_skills": "Ability to handle a high volume of enquiries\nStrong communication skills and customer focus\nOrganisational talent",
+      "benefits": "Coffee\nFree lunch"
+    },
+    "fr": {
+      "title": "Commercial(e) sédentaire / Négociateur(trice)",
+      "introduction": "Rejoins l’équipe HAMMEL et contribue avec nous à façonner l’avenir des technologies de recyclage.",
+      "responsibilities": "Gérer les offres, les commandes et les processus internes\nAccompagner les clients en proposant des solutions adaptées\nCoordonner les demandes des clients et la communication\nCollaborer avec les équipes commerciales terrain, la logistique et la comptabilité",
+      "hard_skills": "Formation commerciale ou expérience dans la vente\nMaîtrise de MS Office",
+      "soft_skills": "Capacité à gérer un grand nombre de demandes\nAisance relationnelle et sens du service client\nSens de l’organisation",
+      "benefits": "Café\nDéjeuner gratuit"
+    },
+    "es": {
+      "title": "Especialista en ventas internas / Negociador(a)",
+      "introduction": "Únete al equipo HAMMEL y ayúdanos a construir el futuro de la tecnología de reciclaje.",
+      "responsibilities": "Gestionar ofertas, pedidos y procesos internos\nAsesorar a los clientes con soluciones adaptadas a sus necesidades\nCoordinar las consultas de clientes y la comunicación\nColaborar con ventas externas, logística y contabilidad",
+      "hard_skills": "Formación comercial o experiencia en ventas\nConocimientos de MS Office",
+      "soft_skills": "Capacidad para gestionar numerosas consultas\nBuenas habilidades de comunicación y orientación al cliente\nCapacidad de organización",
+      "benefits": "Café\nAlmuerzo gratuito"
+    },
+    "it": {
+      "title": "Specialista commerciale interno / Negoziazione",
+      "introduction": "Entra a far parte del team HAMMEL e contribuisci a plasmare il futuro delle tecnologie di riciclaggio.",
+      "responsibilities": "Gestire offerte, ordini e processi interni\nAssistere i clienti individuando soluzioni adeguate\nCoordinare le richieste dei clienti e la comunicazione\nCollaborare con vendite esterne, logistica e contabilità",
+      "hard_skills": "Formazione commerciale o esperienza nelle vendite\nConoscenza di MS Office",
+      "soft_skills": "Capacità di gestire numerose richieste\nOttime capacità comunicative e orientamento al cliente\nCapacità organizzative",
+      "benefits": "Caffè\nPranzo gratuito"
+    }
+  },
+  "Mediengestalter": {
+    "en": {
+      "title": "Media Designer",
+      "introduction": "Join the HAMMEL team and help us shape the future of recycling technology."
+    },
+    "fr": {
+      "title": "Graphiste multimédia",
+      "introduction": "Rejoins l’équipe HAMMEL et contribue avec nous à façonner l’avenir des technologies de recyclage."
+    },
+    "es": {
+      "title": "Diseñador/a de medios",
+      "introduction": "Únete al equipo HAMMEL y ayúdanos a construir el futuro de la tecnología de reciclaje."
+    },
+    "it": {
+      "title": "Grafico/a multimediale",
+      "introduction": "Entra a far parte del team HAMMEL e contribuisci a plasmare il futuro delle tecnologie di riciclaggio."
+    }
+  },
+  "Recruiter / Personalreferent": {
+    "en": {
+      "title": "Recruiter / HR Specialist",
+      "introduction": "Join the HAMMEL team and help us shape the future of recycling technology."
+    },
+    "fr": {
+      "title": "Chargé(e) de recrutement / RH",
+      "introduction": "Rejoins l’équipe HAMMEL et contribue avec nous à façonner l’avenir des technologies de recyclage."
+    },
+    "es": {
+      "title": "Especialista en selección de personal / RR. HH.",
+      "introduction": "Únete al equipo HAMMEL y ayúdanos a construir el futuro de la tecnología de reciclaje."
+    },
+    "it": {
+      "title": "Recruiter / Specialista risorse umane",
+      "introduction": "Entra a far parte del team HAMMEL e contribuisci a plasmare il futuro delle tecnologie di riciclaggio."
+    }
+  },
+  "Lagerist": {
+    "en": {
+      "title": "Warehouse Operative",
+      "introduction": "Join the HAMMEL team and help us shape the future of recycling technology."
+    },
+    "fr": {
+      "title": "Magasinier(ère)",
+      "introduction": "Rejoins l’équipe HAMMEL et contribue avec nous à façonner l’avenir des technologies de recyclage."
+    },
+    "es": {
+      "title": "Operario/a de almacén",
+      "introduction": "Únete al equipo HAMMEL y ayúdanos a construir el futuro de la tecnología de reciclaje."
+    },
+    "it": {
+      "title": "Magazziniere/a",
+      "introduction": "Entra a far parte del team HAMMEL e contribuisci a plasmare il futuro delle tecnologie di riciclaggio."
+    }
+  },
+  "Ausbildung Fachkraft für Lagerlogistik": {
+    "en": {
+      "title": "Apprenticeship: Warehouse Logistics Specialist"
+    },
+    "fr": {
+      "title": "Formation : spécialiste en logistique d’entrepôt"
+    },
+    "es": {
+      "title": "Formación profesional: Especialista en logística de almacén"
+    },
+    "it": {
+      "title": "Apprendistato: Specialista in logistica di magazzino"
+    }
+  }
+}

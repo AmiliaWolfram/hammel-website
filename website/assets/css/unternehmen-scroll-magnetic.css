@@ -1,0 +1,5 @@
+/* Scroll-scrubbed story entrance. Keep photographs and text unobscured. */
+.story__chapter .story__text,.story__chapter .story__art{will-change:transform,opacity;transition:none!important;animation:none!important;}
+.story__chapter .story__text{transform:translate3d(var(--reveal-text-x,0px),var(--reveal-text-y,0px),0)!important;opacity:var(--reveal-text-alpha,1)!important;}
+.story__chapter .story__art{transform:translate3d(0,var(--reveal-art-y,0px),0) scale(var(--reveal-art-scale,1))!important;opacity:var(--reveal-art-alpha,1)!important;}
+@media(prefers-reduced-motion:reduce){.story__chapter .story__text,.story__chapter .story__art{transform:none!important;opacity:1!important;will-change:auto!important;}}

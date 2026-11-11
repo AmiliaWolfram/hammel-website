@@ -316,3 +316,18 @@
 #aktuelles .news-grid--editorial .news-panel--editorial:focus-visible .news-panel__cta .cinematic-link__label::after {
   transform: scaleX(1) !important;
 }
+
+/* FIX 2026-11-03: remove the CARD underline itself (not the CTA). */
+#aktuelles .news-grid--editorial a.news-panel.news-panel--editorial::after,
+#aktuelles .news-grid--editorial a.news-panel.news-panel--editorial::before,
+#aktuelles .news-grid--editorial a.news-panel.news-panel--editorial:hover::after,
+#aktuelles .news-grid--editorial a.news-panel.news-panel--editorial:focus-visible::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  height: 0 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  animation: none !important;
+}
+/* Preserve the MEHR ERFAHREN CTA underline and red circular arrow. */

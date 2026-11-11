@@ -167,7 +167,22 @@ body .solutions-page .wrap{box-sizing:border-box;width:calc(100% - 2 * var(--cin
 @media(max-width:600px){.solution-machines__category-tabs{gap:6px}.solution-machines__category-tab{padding:11px 12px;font-size:11px}}
 </style>
 <link rel="stylesheet" href="../assets/css/hammel-alignment-fix.css?v=20261030b">
-</head><body><!-- PUBLIC_SHARED_HEADER -->
+<link rel="stylesheet" href="../assets/css/hammel-transitions.css?v=2"><link rel="stylesheet" href="../assets/css/hammel-cinematic-sections.css?v=20261103b">
+<style id="hammel-no-red-section-dividers">/* HAMMEL: no decorative red horizontal separator at section boundaries.
+   Does not affect red CTA buttons or their underline animations. */
+main > section, main > .section, .cinematic-scene, .hc-scene,
+.hn-page, .hn-content, .news-section {
+  border-top-color: transparent !important;
+}
+main > section::before, main > .section::before {
+  border-top-color: transparent !important;
+}
+/* Remove the line above the light editorial section, even when the
+   preceding dark band is the shared footer/section wrapper. */
+main > section[style*="background"], .section.white {
+  border-top-color: transparent !important;
+}
+</style></head><body><!-- PUBLIC_SHARED_HEADER -->
 <section aria-label="LÖSUNGEN" class="hammel-page-hero" data-page="loesungen">
 <video aria-hidden="true" autoplay="" class="hammel-page-hero__video" loop="" muted="" playsinline="" poster="../assets/video/hammel-poster.jpg" preload="metadata"><source src="../assets/video/hammel-hero.mp4" type="video/mp4"/></video>
 <div aria-hidden="true" class="hammel-page-hero__shade"></div>
@@ -187,7 +202,7 @@ body .solutions-page .wrap{box-sizing:border-box;width:calc(100% - 2 * var(--cin
 </div></section>
 <div class="wrap solutions-layout">
 <nav class="solutions-nav" aria-label="Einsatzbereiche auswählen" role="tablist">
-<button type="button" role="tab" aria-selected="true" aria-controls="solution-panel" data-solution="0">SCHROTTVERARBEITUNG</button>
+<button type="button" role="tab" aria-selected="true" aria-controls="solution-panel" data-solution="0">METALLRECYCLING</button>
 <button type="button" role="tab" aria-selected="false" aria-controls="solution-panel" data-solution="1">ALTHOLZ &amp; GRÜNABFÄLLE</button>
 <button type="button" role="tab" aria-selected="false" aria-controls="solution-panel" data-solution="2">GEWERBE-, INDUSTRIE- &amp; HAUSMÜLL</button>
 <button type="button" role="tab" aria-selected="false" aria-controls="solution-panel" data-solution="3">BAUSCHUTT</button>
@@ -195,7 +210,7 @@ body .solutions-page .wrap{box-sizing:border-box;width:calc(100% - 2 * var(--cin
 </nav>
 <article class="solutions-feature" id="solution-panel" role="tabpanel" aria-live="polite">
 <img id="solution-image" src="../assets/video/materials/metall.jpg" alt="Metallaufbereitung mit Recyclingtechnik" loading="lazy">
-<div class="solutions-feature__body"><div class="solutions-feature__tag" id="solution-tag">EINSATZBEREICH</div><h3 id="solution-title">Schrottverarbeitung</h3><p id="solution-description">Metallhaltige Materialien müssen vor der weiteren Sortierung und Verwertung häufig zerkleinert werden. HAMMEL-Technik kann die Aufbereitung von Mischschrott und weiteren Metallfraktionen unterstützen.</p><ul class="solutions-feature__chips" id="solution-chips"><li>Mischschrott</li><li>Metallschrott</li><li>Metallhaltige Mischfraktionen</li></ul>
+<div class="solutions-feature__body"><div class="solutions-feature__tag" id="solution-tag">EINSATZBEREICH</div><h3 id="solution-title">Metallrecycling</h3><p id="solution-description">Metallhaltige Materialien müssen vor der weiteren Sortierung und Verwertung häufig zerkleinert werden. HAMMEL-Technik kann die Aufbereitung von Mischschrott und weiteren Metallfraktionen unterstützen.</p><ul class="solutions-feature__chips" id="solution-chips"><li>Mischschrott</li><li>Metallschrott</li><li>Metallhaltige Mischfraktionen</li></ul>
 <section class="solution-machines" aria-labelledby="solution-machines-heading">
 <h4 id="solution-machines-heading">PASSENDE HAMMEL MASCHINEN</h4>
 <div id="solution-machines-list" aria-live="polite"><p class="solution-machines__empty">Maschinendaten werden geladen …</p></div>
@@ -286,7 +301,7 @@ update(false);
 <script>
 (function(){
 const data=[
-{title:"Schrottverarbeitung",image:"../assets/video/materials/metall.jpg",alt:"Metallaufbereitung",description:"Metallhaltige Materialien müssen vor der weiteren Sortierung und Verwertung häufig zerkleinert werden. HAMMEL-Technik kann die Aufbereitung von Mischschrott und weiteren Metallfraktionen unterstützen.",chips:["Mischschrott","Metallschrott","Metallhaltige Mischfraktionen"]},
+{title:"Metallrecycling",image:"../assets/video/materials/metall.jpg",alt:"Metallaufbereitung",description:"Metallhaltige Materialien müssen vor der weiteren Sortierung und Verwertung häufig zerkleinert werden. HAMMEL-Technik kann die Aufbereitung von Mischschrott und weiteren Metallfraktionen unterstützen.",chips:["Mischschrott","Metallschrott","Metallhaltige Mischfraktionen"]},
 {title:"Altholz & Grünabfälle",image:"../assets/video/materials/holz.jpg",alt:"Holz und Grünabfälle",description:"Ob Paletten, Bau- und Abbruchholz oder Grünschnitt: Unterschiedliche Holz- und Grünfraktionen erfordern eine auf das Material abgestimmte Zerkleinerung als Vorbereitung für weitere Verarbeitungsschritte.",chips:["Altholz","Paletten","Baum- und Strauchschnitt","Grünschnitt"]},
 {title:"Gewerbe-, Industrie- & Hausmüll",image:"../assets/video/materials/abfall.jpg",alt:"Aufbereitung gemischter Abfälle",description:"Gemischte Abfallströme stellen besondere Anforderungen an robuste Technik. Die Vorzerkleinerung bereitet Materialien auf nachfolgende Trenn-, Sortier- und Verwertungsschritte vor.",chips:["Gewerbeabfälle","Industrieabfälle","Gemischte Siedlungsabfälle"]},
 {title:"Bauschutt",image:"../assets/video/materials/abfall.jpg",alt:"Materialaufbereitung im Baubereich",description:"Bei Bau- und Abbruchmaterialien kommt es auf die Zusammensetzung und die gewünschte Weiterverarbeitung an. Die geeignete Aufbereitung wird anhand der konkreten Materialfraktion geplant.",chips:["Bau- und Abbruchabfälle","Beton- und Ziegelbruch","Mineralische Materialien"]},
@@ -372,5 +387,6 @@ tabs.forEach((b,i)=>{b.addEventListener('click',()=>select(i));b.addEventListene
 </script>
 <script defer="" src="../assets/js/cinematic-unified.js">
 </script>
-<script defer="" src="../assets/js/page-hero.js"></script></body>
+<script defer="" src="../assets/js/page-hero.js"></script><script defer src="../assets/js/hammel-transitions.js?v=2"></script><script defer src="../assets/js/hammel-cinematic-sections.js?v=20261103b"></script>
+</body>
 </html>

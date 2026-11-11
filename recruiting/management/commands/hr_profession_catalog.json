@@ -1,0 +1,715 @@
+{
+  "grosshandel": {
+    "label": "Groß- und Außenhandelsmanagement · Ausbildung",
+    "keywords": [
+      "groß- und außenhandel",
+      "gross- und aussenhandel",
+      "großhandel"
+    ],
+    "responsibilities": [
+      "Kundenanfragen bearbeiten und Angebote vorbereiten",
+      "Einkaufs- und Verkaufsprozesse kennenlernen",
+      "Aufträge und Liefertermine koordinieren",
+      "Mit internationalen Geschäftspartnern kommunizieren",
+      "Arbeitsabläufe mit dem Team abstimmen",
+      "Ergebnisse und wichtige Informationen dokumentieren",
+      "Bei Verbesserungen im eigenen Aufgabenbereich mitwirken"
+    ],
+    "hard_skills": [
+      "Interesse an kaufmännischen Abläufen",
+      "Grundkenntnisse in MS Office",
+      "Interesse an internationalen Handelsprozessen",
+      "Sicherer Umgang mit den für den Bereich relevanten Arbeitsmitteln",
+      "Bereitschaft, neue Systeme und Prozesse kennenzulernen"
+    ],
+    "soft_skills": [
+      "Kommunikationsfreude",
+      "Sorgfältige Arbeitsweise",
+      "Teamfähigkeit",
+      "Zuverlässigkeit",
+      "Eigeninitiative",
+      "Sorgfalt"
+    ],
+    "benefits": [
+      "Strukturierte Einarbeitung und feste Ansprechpersonen",
+      "Abwechslungsreiche Aufgaben in einem international tätigen Unternehmen",
+      "Zusammenarbeit mit erfahrenen Kolleginnen und Kollegen",
+      "Möglichkeiten zur fachlichen Weiterentwicklung",
+      "Kurze Abstimmungswege und eigenverantwortliches Arbeiten",
+      "Langfristige Perspektiven bei entsprechender Eignung",
+      "Moderne Arbeitsmittel passend zum Aufgabenbereich",
+      "Raum für eigene Ideen und Verbesserungsvorschläge"
+    ]
+  },
+  "industrie": {
+    "label": "Industriekaufmann/-frau · Ausbildung",
+    "keywords": [
+      "industriekauf"
+    ],
+    "responsibilities": [
+      "Kaufmännische Abläufe in verschiedenen Abteilungen kennenlernen",
+      "Bestellungen und Aufträge bearbeiten",
+      "Bei der Planung und Organisation betrieblicher Prozesse mitwirken",
+      "Arbeitsabläufe mit dem Team abstimmen",
+      "Ergebnisse und wichtige Informationen dokumentieren",
+      "Bei Verbesserungen im eigenen Aufgabenbereich mitwirken"
+    ],
+    "hard_skills": [
+      "Interesse an wirtschaftlichen Zusammenhängen",
+      "Grundkenntnisse in MS Office",
+      "Sicherer Umgang mit Zahlen",
+      "Sicherer Umgang mit den für den Bereich relevanten Arbeitsmitteln",
+      "Bereitschaft, neue Systeme und Prozesse kennenzulernen"
+    ],
+    "soft_skills": [
+      "Organisationstalent",
+      "Teamfähigkeit",
+      "Sorgfältige Arbeitsweise",
+      "Zuverlässigkeit",
+      "Eigeninitiative",
+      "Sorgfalt"
+    ],
+    "benefits": [
+      "Strukturierte Einarbeitung und feste Ansprechpersonen",
+      "Abwechslungsreiche Aufgaben in einem international tätigen Unternehmen",
+      "Zusammenarbeit mit erfahrenen Kolleginnen und Kollegen",
+      "Möglichkeiten zur fachlichen Weiterentwicklung",
+      "Kurze Abstimmungswege und eigenverantwortliches Arbeiten",
+      "Langfristige Perspektiven bei entsprechender Eignung",
+      "Moderne Arbeitsmittel passend zum Aufgabenbereich",
+      "Raum für eigene Ideen und Verbesserungsvorschläge"
+    ]
+  },
+  "konstruktion": {
+    "label": "Konstruktionsmechaniker/in · Ausbildung",
+    "keywords": [
+      "konstruktionsmechanik"
+    ],
+    "responsibilities": [
+      "Metallbauteile bearbeiten und montieren",
+      "Technische Zeichnungen lesen und anwenden",
+      "Bauteile und Konstruktionen auf Maßhaltigkeit prüfen",
+      "Arbeitsabläufe mit dem Team abstimmen",
+      "Ergebnisse und wichtige Informationen dokumentieren",
+      "Bei Verbesserungen im eigenen Aufgabenbereich mitwirken"
+    ],
+    "hard_skills": [
+      "Technisches Verständnis",
+      "Handwerkliches Geschick",
+      "Interesse an Metallbearbeitung",
+      "Sicherer Umgang mit den für den Bereich relevanten Arbeitsmitteln",
+      "Bereitschaft, neue Systeme und Prozesse kennenzulernen"
+    ],
+    "soft_skills": [
+      "Sorgfältige Arbeitsweise",
+      "Teamfähigkeit",
+      "Lernbereitschaft",
+      "Zuverlässigkeit",
+      "Eigeninitiative",
+      "Sorgfalt"
+    ],
+    "benefits": [
+      "Strukturierte Einarbeitung und feste Ansprechpersonen",
+      "Abwechslungsreiche Aufgaben in einem international tätigen Unternehmen",
+      "Zusammenarbeit mit erfahrenen Kolleginnen und Kollegen",
+      "Möglichkeiten zur fachlichen Weiterentwicklung",
+      "Kurze Abstimmungswege und eigenverantwortliches Arbeiten",
+      "Langfristige Perspektiven bei entsprechender Eignung",
+      "Moderne Arbeitsmittel passend zum Aufgabenbereich",
+      "Raum für eigene Ideen und Verbesserungsvorschläge"
+    ]
+  },
+  "vertrieb": {
+    "label": "Vertrieb / Sales",
+    "keywords": [
+      "vertrieb",
+      "sales",
+      "außendienst"
+    ],
+    "responsibilities": [
+      "Kunden und Vertriebspartner betreuen",
+      "Angebote erstellen und nachverfolgen",
+      "Kundenanforderungen mit internen Abteilungen abstimmen",
+      "Arbeitsabläufe mit dem Team abstimmen",
+      "Ergebnisse und wichtige Informationen dokumentieren",
+      "Bei Verbesserungen im eigenen Aufgabenbereich mitwirken"
+    ],
+    "hard_skills": [
+      "Erfahrung im Vertrieb oder kaufmännischen Bereich",
+      "Sicherer Umgang mit MS Office",
+      "Technisches Produktverständnis",
+      "Sicherer Umgang mit den für den Bereich relevanten Arbeitsmitteln",
+      "Bereitschaft, neue Systeme und Prozesse kennenzulernen"
+    ],
+    "soft_skills": [
+      "Kommunikationsstärke",
+      "Eigeninitiative",
+      "Verhandlungsgeschick",
+      "Zuverlässigkeit",
+      "Teamfähigkeit",
+      "Sorgfalt"
+    ],
+    "benefits": [
+      "Strukturierte Einarbeitung und feste Ansprechpersonen",
+      "Abwechslungsreiche Aufgaben in einem international tätigen Unternehmen",
+      "Zusammenarbeit mit erfahrenen Kolleginnen und Kollegen",
+      "Möglichkeiten zur fachlichen Weiterentwicklung",
+      "Kurze Abstimmungswege und eigenverantwortliches Arbeiten",
+      "Langfristige Perspektiven bei entsprechender Eignung",
+      "Moderne Arbeitsmittel passend zum Aufgabenbereich",
+      "Raum für eigene Ideen und Verbesserungsvorschläge"
+    ]
+  },
+  "service": {
+    "label": "Service / Technischer Kundendienst",
+    "keywords": [
+      "service",
+      "servicetechn",
+      "kundendienst"
+    ],
+    "responsibilities": [
+      "Kunden bei technischen Fragen unterstützen",
+      "Wartungs- und Serviceeinsätze vorbereiten",
+      "Servicefälle dokumentieren",
+      "Arbeitsabläufe mit dem Team abstimmen",
+      "Ergebnisse und wichtige Informationen dokumentieren",
+      "Bei Verbesserungen im eigenen Aufgabenbereich mitwirken"
+    ],
+    "hard_skills": [
+      "Technische Ausbildung oder vergleichbare Kenntnisse",
+      "Grundkenntnisse in Maschinen- oder Anlagentechnik",
+      "Sicherer Umgang mit technischen Unterlagen",
+      "Sicherer Umgang mit den für den Bereich relevanten Arbeitsmitteln",
+      "Bereitschaft, neue Systeme und Prozesse kennenzulernen"
+    ],
+    "soft_skills": [
+      "Lösungsorientiertes Denken",
+      "Zuverlässigkeit",
+      "Kundenorientierung",
+      "Eigeninitiative",
+      "Teamfähigkeit",
+      "Sorgfalt"
+    ],
+    "benefits": [
+      "Strukturierte Einarbeitung und feste Ansprechpersonen",
+      "Abwechslungsreiche Aufgaben in einem international tätigen Unternehmen",
+      "Zusammenarbeit mit erfahrenen Kolleginnen und Kollegen",
+      "Möglichkeiten zur fachlichen Weiterentwicklung",
+      "Kurze Abstimmungswege und eigenverantwortliches Arbeiten",
+      "Langfristige Perspektiven bei entsprechender Eignung",
+      "Moderne Arbeitsmittel passend zum Aufgabenbereich",
+      "Raum für eigene Ideen und Verbesserungsvorschläge"
+    ]
+  },
+  "it": {
+    "label": "IT / Digitalisierung",
+    "keywords": [
+      "informatik",
+      "it-",
+      " it ",
+      "digital",
+      "systemadministr"
+    ],
+    "responsibilities": [
+      "Interne IT-Systeme betreuen und weiterentwickeln",
+      "Mitarbeitende bei technischen Fragen unterstützen",
+      "Digitale Prozesse dokumentieren und optimieren",
+      "Arbeitsabläufe mit dem Team abstimmen",
+      "Ergebnisse und wichtige Informationen dokumentieren",
+      "Bei Verbesserungen im eigenen Aufgabenbereich mitwirken"
+    ],
+    "hard_skills": [
+      "Grundkenntnisse in IT-Systemen",
+      "Interesse an Software und Digitalisierung",
+      "Analytisches Verständnis",
+      "Sicherer Umgang mit den für den Bereich relevanten Arbeitsmitteln",
+      "Bereitschaft, neue Systeme und Prozesse kennenzulernen"
+    ],
+    "soft_skills": [
+      "Analytisches Denken",
+      "Teamfähigkeit",
+      "Selbstständige Arbeitsweise",
+      "Zuverlässigkeit",
+      "Eigeninitiative",
+      "Sorgfalt"
+    ],
+    "benefits": [
+      "Strukturierte Einarbeitung und feste Ansprechpersonen",
+      "Abwechslungsreiche Aufgaben in einem international tätigen Unternehmen",
+      "Zusammenarbeit mit erfahrenen Kolleginnen und Kollegen",
+      "Möglichkeiten zur fachlichen Weiterentwicklung",
+      "Kurze Abstimmungswege und eigenverantwortliches Arbeiten",
+      "Langfristige Perspektiven bei entsprechender Eignung",
+      "Moderne Arbeitsmittel passend zum Aufgabenbereich",
+      "Raum für eigene Ideen und Verbesserungsvorschläge"
+    ]
+  },
+  "servicetechniker": {
+    "label": "Servicetechniker/in",
+    "keywords": [
+      "servicetechniker",
+      "servicemonteur",
+      "kundendiensttechniker"
+    ],
+    "responsibilities": [
+      "Wartungs-, Inspektions- und Instandsetzungsarbeiten an Maschinen durchführen",
+      "Mechanische und hydraulische Baugruppen prüfen und instand setzen",
+      "Störungen systematisch analysieren und Fehlerursachen beheben",
+      "Maschinen und Anlagen beim Kunden in Betrieb nehmen",
+      "Serviceeinsätze im In- und Ausland vorbereiten und dokumentieren",
+      "Kunden bei technischen Fragen vor Ort unterstützen",
+      "Ersatzteilbedarf ermitteln und mit dem Innendienst abstimmen",
+      "Serviceberichte und Prüfprotokolle sorgfältig erstellen"
+    ],
+    "hard_skills": [
+      "Abgeschlossene technische Berufsausbildung, z. B. Mechatronik oder Industriemechanik",
+      "Erfahrung in der Wartung und Reparatur von Maschinen",
+      "Grundkenntnisse in Hydraulik und Elektrotechnik",
+      "Sicherer Umgang mit technischen Zeichnungen",
+      "Führerschein Klasse B",
+      "Reisebereitschaft je nach Einsatzgebiet",
+      "Grundkenntnisse im Umgang mit digitalen Serviceberichten"
+    ],
+    "soft_skills": [
+      "Selbstständige und lösungsorientierte Arbeitsweise",
+      "Freundlicher und professioneller Kundenkontakt",
+      "Zuverlässigkeit auch bei wechselnden Einsatzorten",
+      "Sorgfalt und Sicherheitsbewusstsein",
+      "Teamfähigkeit und Kommunikationsstärke"
+    ],
+    "benefits": [
+      "Strukturierte Einarbeitung und feste Ansprechpersonen",
+      "Abwechslungsreiche Aufgaben in einem international tätigen Unternehmen",
+      "Zusammenarbeit mit erfahrenen Kolleginnen und Kollegen",
+      "Möglichkeiten zur fachlichen Weiterentwicklung",
+      "Kurze Abstimmungswege und eigenverantwortliches Arbeiten",
+      "Langfristige Perspektiven bei entsprechender Eignung",
+      "Moderne Arbeitsmittel passend zum Aufgabenbereich",
+      "Raum für eigene Ideen und Verbesserungsvorschläge",
+      "Technische Produktschulungen nach Einarbeitung"
+    ]
+  },
+  "metallbauer": {
+    "label": "Metallbauer/in / Schlosser/in",
+    "keywords": [
+      "metallbauer",
+      "schlosser",
+      "schweißer",
+      "schweisser"
+    ],
+    "responsibilities": [
+      "Metallbauteile nach Zeichnungen fertigen und bearbeiten",
+      "Baugruppen montieren und auf Maßhaltigkeit prüfen",
+      "Schweiß-, Bohr-, Schleif- und Trennarbeiten ausführen",
+      "Maschinenkomponenten für die Endmontage vorbereiten",
+      "Fertigungszeichnungen und Stücklisten lesen",
+      "Werkzeuge und Maschinen fachgerecht bedienen",
+      "Qualitätskontrollen durchführen und Abweichungen melden",
+      "Bei der Optimierung von Fertigungsabläufen mitwirken"
+    ],
+    "hard_skills": [
+      "Abgeschlossene Ausbildung im Metallbereich oder vergleichbare Praxis",
+      "Kenntnisse in Metallbearbeitung und Montage",
+      "Erfahrung mit Schweißverfahren von Vorteil",
+      "Technische Zeichnungen sicher lesen",
+      "Grundkenntnisse der Arbeitssicherheit",
+      "Sorgfältiger Umgang mit Messmitteln und Werkzeugen"
+    ],
+    "soft_skills": [
+      "Handwerkliches Geschick",
+      "Präzision und Qualitätsbewusstsein",
+      "Verantwortungsbewusstsein",
+      "Teamfähigkeit",
+      "Belastbarkeit und Zuverlässigkeit"
+    ],
+    "benefits": [
+      "Strukturierte Einarbeitung und feste Ansprechpersonen",
+      "Abwechslungsreiche Aufgaben in einem international tätigen Unternehmen",
+      "Zusammenarbeit mit erfahrenen Kolleginnen und Kollegen",
+      "Möglichkeiten zur fachlichen Weiterentwicklung",
+      "Kurze Abstimmungswege und eigenverantwortliches Arbeiten",
+      "Langfristige Perspektiven bei entsprechender Eignung",
+      "Moderne Arbeitsmittel passend zum Aufgabenbereich",
+      "Raum für eigene Ideen und Verbesserungsvorschläge"
+    ]
+  },
+  "lager": {
+    "label": "Lagerist/in / Fachkraft für Lagerlogistik",
+    "keywords": [
+      "lagerist",
+      "lagerlogistik",
+      "fachlagerist",
+      "lagerfachkraft"
+    ],
+    "responsibilities": [
+      "Wareneingänge annehmen, kontrollieren und verbuchen",
+      "Materialien und Ersatzteile fachgerecht einlagern",
+      "Kommissionierung und Bereitstellung für Produktion und Versand übernehmen",
+      "Lagerbestände erfassen und Inventuren unterstützen",
+      "Versandpapiere vorbereiten und Lieferungen abstimmen",
+      "Innerbetriebliche Materialflüsse koordinieren",
+      "Ordnung und Sicherheit im Lager gewährleisten",
+      "Mit Einkauf, Produktion und Service zusammenarbeiten"
+    ],
+    "hard_skills": [
+      "Erfahrung im Lager oder abgeschlossene logistische Ausbildung",
+      "Grundkenntnisse in Warenwirtschaftssystemen",
+      "Sicherer Umgang mit Lieferscheinen und Bestandslisten",
+      "Staplerschein von Vorteil",
+      "Grundkenntnisse in MS Office",
+      "Verständnis für Lagerorganisation und Materialkennzeichnung"
+    ],
+    "soft_skills": [
+      "Strukturierte und sorgfältige Arbeitsweise",
+      "Körperliche Belastbarkeit",
+      "Zuverlässigkeit",
+      "Teamfähigkeit",
+      "Organisationstalent"
+    ],
+    "benefits": [
+      "Strukturierte Einarbeitung und feste Ansprechpersonen",
+      "Abwechslungsreiche Aufgaben in einem international tätigen Unternehmen",
+      "Zusammenarbeit mit erfahrenen Kolleginnen und Kollegen",
+      "Möglichkeiten zur fachlichen Weiterentwicklung",
+      "Kurze Abstimmungswege und eigenverantwortliches Arbeiten",
+      "Langfristige Perspektiven bei entsprechender Eignung",
+      "Moderne Arbeitsmittel passend zum Aufgabenbereich",
+      "Raum für eigene Ideen und Verbesserungsvorschläge"
+    ]
+  },
+  "mediengestaltung": {
+    "label": "Mediengestalter/in / Marketing",
+    "keywords": [
+      "mediengestalter",
+      "grafikdesign",
+      "marketing",
+      "content creator"
+    ],
+    "responsibilities": [
+      "Print- und Digitalmedien nach Corporate Design gestalten",
+      "Bild- und Videomaterial für Website und Social Media aufbereiten",
+      "Marketingmaterialien für Messen und Vertrieb erstellen",
+      "Produktinformationen visuell verständlich präsentieren",
+      "Druckdaten prüfen und für die Produktion vorbereiten",
+      "Mit Vertrieb und Fachabteilungen Inhalte abstimmen",
+      "Bestehende Vorlagen pflegen und weiterentwickeln",
+      "Kampagnen und Veranstaltungen gestalterisch begleiten"
+    ],
+    "hard_skills": [
+      "Ausbildung oder Erfahrung im Bereich Mediengestaltung oder Design",
+      "Sicherer Umgang mit gängiger Grafiksoftware",
+      "Grundkenntnisse in Bildbearbeitung und Layout",
+      "Verständnis für Corporate Design und Typografie",
+      "Erfahrung mit Video oder Webgestaltung von Vorteil",
+      "Sorgfalt bei Dateiformaten und Druckdaten"
+    ],
+    "soft_skills": [
+      "Kreativität und gutes visuelles Gespür",
+      "Sorgfalt und Qualitätsbewusstsein",
+      "Eigeninitiative",
+      "Kommunikationsfähigkeit",
+      "Gute Selbstorganisation"
+    ],
+    "benefits": [
+      "Strukturierte Einarbeitung und feste Ansprechpersonen",
+      "Abwechslungsreiche Aufgaben in einem international tätigen Unternehmen",
+      "Zusammenarbeit mit erfahrenen Kolleginnen und Kollegen",
+      "Möglichkeiten zur fachlichen Weiterentwicklung",
+      "Kurze Abstimmungswege und eigenverantwortliches Arbeiten",
+      "Langfristige Perspektiven bei entsprechender Eignung",
+      "Moderne Arbeitsmittel passend zum Aufgabenbereich",
+      "Raum für eigene Ideen und Verbesserungsvorschläge"
+    ]
+  },
+  "recruiting": {
+    "label": "Recruiter/in / Personalreferent/in",
+    "keywords": [
+      "recruiter",
+      "personalreferent",
+      "personalwesen",
+      "hr manager"
+    ],
+    "responsibilities": [
+      "Stellenausschreibungen erstellen und aktuell halten",
+      "Bewerbungen sichten und Auswahlprozesse koordinieren",
+      "Vorstellungsgespräche vorbereiten und begleiten",
+      "Mit Fachabteilungen Personalbedarfe abstimmen",
+      "Bewerberinnen und Bewerber professionell betreuen",
+      "Onboarding neuer Mitarbeitender organisatorisch begleiten",
+      "Personalunterlagen und Termine sorgfältig verwalten",
+      "Recruiting-Prozesse und Arbeitgeberkommunikation verbessern"
+    ],
+    "hard_skills": [
+      "Ausbildung oder Studium im kaufmännischen oder Personalbereich",
+      "Erfahrung im Recruiting oder Personalwesen von Vorteil",
+      "Sicherer Umgang mit MS Office",
+      "Kenntnisse im Bewerbermanagement",
+      "Grundverständnis für Datenschutz und vertrauliche Personalunterlagen",
+      "Sehr gute schriftliche Deutschkenntnisse"
+    ],
+    "soft_skills": [
+      "Diskretion und Vertraulichkeit",
+      "Empathie und Kommunikationsstärke",
+      "Organisationstalent",
+      "Sorgfältige Arbeitsweise",
+      "Verbindliches Auftreten"
+    ],
+    "benefits": [
+      "Strukturierte Einarbeitung und feste Ansprechpersonen",
+      "Abwechslungsreiche Aufgaben in einem international tätigen Unternehmen",
+      "Zusammenarbeit mit erfahrenen Kolleginnen und Kollegen",
+      "Möglichkeiten zur fachlichen Weiterentwicklung",
+      "Kurze Abstimmungswege und eigenverantwortliches Arbeiten",
+      "Langfristige Perspektiven bei entsprechender Eignung",
+      "Moderne Arbeitsmittel passend zum Aufgabenbereich",
+      "Raum für eigene Ideen und Verbesserungsvorschläge"
+    ]
+  },
+  "kaufmaennisch": {
+    "label": "Kaufmännische/r Mitarbeiter/in",
+    "keywords": [
+      "kaufmännischer mitarbeiter",
+      "kaufmaennischer mitarbeiter",
+      "sachbearbeiter",
+      "bürokaufmann"
+    ],
+    "responsibilities": [
+      "Kaufmännische Vorgänge erfassen und bearbeiten",
+      "Kunden- und Lieferantendaten pflegen",
+      "Angebote, Aufträge und Rechnungsunterlagen vorbereiten",
+      "Telefonische und schriftliche Anfragen bearbeiten",
+      "Termine und interne Abläufe koordinieren",
+      "Dokumente digital ablegen und prüfen",
+      "Fachabteilungen organisatorisch unterstützen",
+      "Auswertungen und Übersichten erstellen"
+    ],
+    "hard_skills": [
+      "Abgeschlossene kaufmännische Ausbildung oder vergleichbare Erfahrung",
+      "Sicherer Umgang mit MS Office",
+      "Gute Deutschkenntnisse in Wort und Schrift",
+      "Erfahrung mit ERP-Systemen von Vorteil",
+      "Grundkenntnisse kaufmännischer Prozesse",
+      "Sorgfalt im Umgang mit Zahlen und Dokumenten"
+    ],
+    "soft_skills": [
+      "Organisationstalent",
+      "Kommunikationsfähigkeit",
+      "Zuverlässigkeit",
+      "Serviceorientierung",
+      "Selbstständigkeit"
+    ],
+    "benefits": [
+      "Strukturierte Einarbeitung und feste Ansprechpersonen",
+      "Abwechslungsreiche Aufgaben in einem international tätigen Unternehmen",
+      "Zusammenarbeit mit erfahrenen Kolleginnen und Kollegen",
+      "Möglichkeiten zur fachlichen Weiterentwicklung",
+      "Kurze Abstimmungswege und eigenverantwortliches Arbeiten",
+      "Langfristige Perspektiven bei entsprechender Eignung",
+      "Moderne Arbeitsmittel passend zum Aufgabenbereich",
+      "Raum für eigene Ideen und Verbesserungsvorschläge"
+    ]
+  },
+  "konstrukteur": {
+    "label": "Konstrukteur/in / Technische Produktentwicklung",
+    "keywords": [
+      "konstrukteur",
+      "technischer zeichner",
+      "produktentwickler",
+      "cad-konstruktion"
+    ],
+    "responsibilities": [
+      "Maschinenbauteile und Baugruppen in CAD konstruieren",
+      "Technische Zeichnungen und Stücklisten erstellen",
+      "Bestehende Konstruktionen prüfen und weiterentwickeln",
+      "Technische Anforderungen mit Produktion und Service abstimmen",
+      "Änderungen dokumentieren und Zeichnungsstände pflegen",
+      "Bauteile hinsichtlich Fertigbarkeit und Montage bewerten",
+      "Bei der Entwicklung neuer Maschinenlösungen mitwirken",
+      "Technische Unterlagen für Fertigung und Einkauf vorbereiten"
+    ],
+    "hard_skills": [
+      "Technische Ausbildung oder Studium im Maschinenbau",
+      "Erfahrung mit 3D-CAD-Systemen",
+      "Sicherer Umgang mit technischen Zeichnungen",
+      "Kenntnisse in Fertigungsverfahren und Werkstoffkunde",
+      "Grundlagen von Toleranzen und Bemaßung",
+      "Erfahrung mit Stücklisten und Änderungsmanagement"
+    ],
+    "soft_skills": [
+      "Analytisches Denken",
+      "Präzision und Detailorientierung",
+      "Teamfähigkeit",
+      "Lösungsorientierung",
+      "Eigeninitiative"
+    ],
+    "benefits": [
+      "Strukturierte Einarbeitung und feste Ansprechpersonen",
+      "Abwechslungsreiche Aufgaben in einem international tätigen Unternehmen",
+      "Zusammenarbeit mit erfahrenen Kolleginnen und Kollegen",
+      "Möglichkeiten zur fachlichen Weiterentwicklung",
+      "Kurze Abstimmungswege und eigenverantwortliches Arbeiten",
+      "Langfristige Perspektiven bei entsprechender Eignung",
+      "Moderne Arbeitsmittel passend zum Aufgabenbereich",
+      "Raum für eigene Ideen und Verbesserungsvorschläge"
+    ]
+  },
+  "produktion": {
+    "label": "Produktionsmitarbeiter/in / Montage",
+    "keywords": [
+      "produktionsmitarbeiter",
+      "montagemitarbeiter",
+      "fertigungsmitarbeiter"
+    ],
+    "responsibilities": [
+      "Maschinenbauteile und Komponenten montieren",
+      "Arbeitsaufträge anhand von Vorgaben bearbeiten",
+      "Werkzeuge und Hilfsmittel sicher einsetzen",
+      "Bauteile auf Vollständigkeit und Qualität prüfen",
+      "Arbeitsplätze und Materialien vorbereiten",
+      "Fertigungsabweichungen dokumentieren",
+      "Mit anderen Produktionsbereichen zusammenarbeiten",
+      "Sicherheits- und Qualitätsstandards einhalten"
+    ],
+    "hard_skills": [
+      "Erfahrung in Produktion oder Montage von Vorteil",
+      "Handwerkliches und technisches Grundverständnis",
+      "Umgang mit Handwerkzeugen",
+      "Grundkenntnisse technischer Zeichnungen von Vorteil",
+      "Bereitschaft zur Einarbeitung in neue Abläufe"
+    ],
+    "soft_skills": [
+      "Zuverlässigkeit",
+      "Sorgfalt",
+      "Teamfähigkeit",
+      "Lernbereitschaft",
+      "Sicherheitsbewusstsein"
+    ],
+    "benefits": [
+      "Strukturierte Einarbeitung und feste Ansprechpersonen",
+      "Abwechslungsreiche Aufgaben in einem international tätigen Unternehmen",
+      "Zusammenarbeit mit erfahrenen Kolleginnen und Kollegen",
+      "Möglichkeiten zur fachlichen Weiterentwicklung",
+      "Kurze Abstimmungswege und eigenverantwortliches Arbeiten",
+      "Langfristige Perspektiven bei entsprechender Eignung",
+      "Moderne Arbeitsmittel passend zum Aufgabenbereich",
+      "Raum für eigene Ideen und Verbesserungsvorschläge"
+    ]
+  },
+  "einkauf": {
+    "label": "Einkäufer/in / Beschaffung",
+    "keywords": [
+      "einkäufer",
+      "einkaeufer",
+      "beschaffung",
+      "operativer einkauf"
+    ],
+    "responsibilities": [
+      "Anfragen bei Lieferanten einholen und vergleichen",
+      "Bestellungen auslösen und Liefertermine überwachen",
+      "Preise und Konditionen dokumentieren",
+      "Materialbedarfe mit Produktion und Konstruktion abstimmen",
+      "Lieferantenstammdaten pflegen",
+      "Auftragsbestätigungen und Rechnungsabweichungen prüfen",
+      "Bei Lieferengpässen Alternativen abstimmen",
+      "Einkaufsprozesse und Bestände optimieren"
+    ],
+    "hard_skills": [
+      "Kaufmännische Ausbildung oder vergleichbare Erfahrung",
+      "Kenntnisse in Beschaffung und Bestellabwicklung",
+      "Sicherer Umgang mit MS Office und ERP-Systemen",
+      "Gutes Zahlenverständnis",
+      "Verhandlungssichere Kommunikation von Vorteil",
+      "Grundverständnis technischer Produkte von Vorteil"
+    ],
+    "soft_skills": [
+      "Verhandlungsgeschick",
+      "Sorgfalt",
+      "Organisationstalent",
+      "Kommunikationsfähigkeit",
+      "Kostenbewusstsein"
+    ],
+    "benefits": [
+      "Strukturierte Einarbeitung und feste Ansprechpersonen",
+      "Abwechslungsreiche Aufgaben in einem international tätigen Unternehmen",
+      "Zusammenarbeit mit erfahrenen Kolleginnen und Kollegen",
+      "Möglichkeiten zur fachlichen Weiterentwicklung",
+      "Kurze Abstimmungswege und eigenverantwortliches Arbeiten",
+      "Langfristige Perspektiven bei entsprechender Eignung",
+      "Moderne Arbeitsmittel passend zum Aufgabenbereich",
+      "Raum für eigene Ideen und Verbesserungsvorschläge"
+    ]
+  },
+  "praktikum": {
+    "label": "Praktikum · Allgemein",
+    "keywords": [
+      "praktikum",
+      "praktikant"
+    ],
+    "responsibilities": [
+      "Einblicke in den ausgewählten Fachbereich gewinnen",
+      "Mitarbeitende bei einfachen Aufgaben unterstützen",
+      "Arbeitsabläufe kennenlernen und dokumentieren",
+      "Kleine Aufgaben nach Anleitung selbstständig übernehmen",
+      "An Teamabsprachen teilnehmen",
+      "Fragen stellen und praktische Erfahrungen sammeln"
+    ],
+    "hard_skills": [
+      "Interesse am jeweiligen Fachgebiet",
+      "Grundkenntnisse aus Schule, Ausbildung oder Studium je nach Einsatz",
+      "Bereitschaft zum Lernen"
+    ],
+    "soft_skills": [
+      "Neugier",
+      "Zuverlässigkeit",
+      "Teamfähigkeit",
+      "Offenheit für Feedback"
+    ],
+    "benefits": [
+      "Betreuung durch Ansprechpersonen",
+      "Einblick in betriebliche Abläufe",
+      "Praxisnahe Aufgaben nach Einarbeitung",
+      "Gelegenheit, unterschiedliche Tätigkeiten kennenzulernen"
+    ]
+  },
+  "werkstudent": {
+    "label": "Werkstudent/in · Allgemein",
+    "keywords": [
+      "werkstudent",
+      "studentische aushilfe"
+    ],
+    "responsibilities": [
+      "Fachabteilung im Tagesgeschäft unterstützen",
+      "Eigenständige Teilaufgaben nach Einarbeitung übernehmen",
+      "Informationen recherchieren und strukturieren",
+      "Ergebnisse dokumentieren und im Team abstimmen",
+      "Bei Projekten und Prozessverbesserungen mitarbeiten",
+      "Praktische Erfahrung im Fachbereich sammeln"
+    ],
+    "hard_skills": [
+      "Laufendes Studium in einem passenden Fach",
+      "Sicherer Umgang mit gängigen Office-Anwendungen",
+      "Grundkenntnisse im jeweiligen Fachgebiet",
+      "Bereitschaft zur Einarbeitung"
+    ],
+    "soft_skills": [
+      "Selbstorganisation",
+      "Lernbereitschaft",
+      "Zuverlässigkeit",
+      "Teamfähigkeit"
+    ],
+    "benefits": [
+      "Praxisbezug zum Studium",
+      "Einblicke in laufende Projekte",
+      "Fachliche Betreuung",
+      "Flexible Aufgabenabstimmung nach betrieblicher Möglichkeit"
+    ]
+  },
+  "other": {
+    "label": "Eigenes Berufsprofil",
+    "keywords": [],
+    "responsibilities": [],
+    "hard_skills": [],
+    "soft_skills": [],
+    "benefits": []
+  }
+}

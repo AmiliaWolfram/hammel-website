@@ -1,0 +1,28 @@
+/* HRPortal vacancy workflow: visual reference is the German edit screen. */
+:root{--hr-page:#f5f5f3;--hr-black:#171717;--hr-red:#e30613;--hr-muted:#686868;--hr-max:1480px}
+body:has(.staff-ui),body:has(.translation-editor),body:has(.hr-review){background:var(--hr-page)!important;color:var(--hr-black)!important;color-scheme:light!important}
+.staff-ui .staff-wrap,.translation-editor,.hr-review{width:calc(100% - 48px)!important;max-width:var(--hr-max)!important;margin-left:auto!important;margin-right:auto!important;box-sizing:border-box!important}
+.translation-editor,.hr-review{margin-top:clamp(55px,6vw,92px)!important;margin-bottom:90px!important}
+/* Same top area: back button, red eyebrow, black title with red final word, steps, description. */
+.hr-flow-back,.translation-editor .back{display:inline-flex!important;align-items:center!important;gap:10px!important;background:var(--hr-black)!important;color:white!important;text-decoration:none!important;padding:16px 23px!important;font-size:12px!important;font-weight:850!important;letter-spacing:.025em!important;margin:0 0 36px!important;border:0!important;border-radius:0!important}
+.hr-flow-back:hover,.translation-editor .back:hover{background:var(--hr-red)!important;color:white!important}
+.translation-editor .eyebrow,.hr-review .hr-flow-eyebrow{color:var(--hr-red)!important;font-size:12px!important;font-weight:850!important;letter-spacing:.15em!important;text-transform:uppercase!important;margin:0 0 13px!important}
+.translation-editor h1,.hr-review h1{font-family:Arial,Helvetica,sans-serif!important;font-size:clamp(34px,4.1vw,58px)!important;line-height:1.08!important;letter-spacing:-.025em!important;font-weight:900!important;color:var(--hr-black)!important;margin:0 0 28px!important}
+.translation-editor h1 .hr-accent,.hr-review h1 .hr-accent{color:var(--hr-red)!important}
+.staff-ui .staff-heading h1{margin-bottom:0!important}
+/* All three step bars share identical geometry and active state. */
+.staff-ui .hr-wizard,.translation-editor .hr-wizard,.hr-review .steps{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;width:100%!important;max-width:none!important;margin:0 0 30px!important}
+.staff-ui .hr-wizard>*,.translation-editor .hr-wizard>*,.hr-review .steps>*{display:flex!important;align-items:center!important;justify-content:center!important;min-width:0!important;min-height:50px!important;box-sizing:border-box!important;padding:12px 8px!important;background:#e7e7e5!important;color:var(--hr-black)!important;text-align:center!important;text-decoration:none!important;border:0!important;border-radius:0!important;font:850 12px/1.3 Arial,Helvetica,sans-serif!important;opacity:1!important}
+.translation-editor .hr-wizard>span>a,.staff-ui .hr-wizard>span>a{display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;height:100%!important;color:inherit!important;text-decoration:none!important}
+.staff-ui .hr-wizard>.current,.translation-editor .hr-wizard>.current,.hr-review .steps>.current{background:var(--hr-red)!important;color:#fff!important}
+.staff-ui .hr-wizard>span.pending{opacity:.55!important}
+.staff-ui .hr-wizard>a:not(.current):hover,.translation-editor .hr-wizard>span:not(.current):hover,.hr-review .steps>a:not(.current):hover{background:var(--hr-black)!important;color:white!important}
+.translation-editor .intro,.hr-review .muted{color:var(--hr-muted)!important;line-height:1.55!important;max-width:none!important;margin:0 0 32px!important;font-size:15px!important}
+/* Cards and form controls follow the German step. */
+.translation-editor .field,.hr-review .panel{background:white!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:clamp(24px,3.5vw,52px)!important;margin:0 0 18px!important}
+.translation-editor .field-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:20px!important}
+.translation-editor textarea,.translation-editor input,.translation-editor select{max-width:100%!important;box-sizing:border-box!important;border-radius:0!important}
+.hr-review .panel h2{color:var(--hr-black)!important}
+.hr-review .row{gap:15px!important}
+.translation-editor .edit-toolbar{margin-top:30px!important}
+@media(max-width:760px){.staff-ui .staff-wrap,.translation-editor,.hr-review{width:calc(100% - 32px)!important}.translation-editor,.hr-review{margin-top:36px!important}.staff-ui .hr-wizard,.translation-editor .hr-wizard,.hr-review .steps{gap:5px!important;margin-bottom:24px!important}.staff-ui .hr-wizard>*,.translation-editor .hr-wizard>*,.hr-review .steps>*{font-size:10px!important;padding:10px 4px!important;min-height:48px!important}.translation-editor .field-grid{grid-template-columns:minmax(0,1fr)!important}.translation-editor .field,.hr-review .panel{padding:22px 18px!important}.translation-editor h1,.hr-review h1{font-size:clamp(29px,7vw,42px)!important}.hr-flow-back,.translation-editor .back{margin-bottom:27px!important}}

@@ -1,0 +1,19 @@
+/* Accessible progressive enhancement of native select elements in staff portals. */
+(()=>{'use strict';
+const scope='[data-hml-i18n],.staff-ui,.hr-builder,.staff-form,.machine-fields-form,.staff-content,.staff-wrap,.hr-translate,.translation-editor';
+let counter=0;
+function closeAll(except){document.querySelectorAll('.hml-dropdown.is-open').forEach(w=>{if(w!==except){w.classList.remove('is-open');w.querySelector('.hml-dropdown-trigger')?.setAttribute('aria-expanded','false')}})}
+function enhance(select){if(select.dataset.hmlDropdown||select.multiple||select.closest('.hml-dropdown')||select.dataset.hrEnhanced)return;
+ select.dataset.hmlDropdown='1';const w=document.createElement('div');w.className='hml-dropdown';const btn=document.createElement('button');btn.type='button';btn.className='hml-dropdown-trigger';btn.setAttribute('aria-haspopup','listbox');btn.setAttribute('aria-expanded','false');const value=document.createElement('span');const arrow=document.createElement('span');arrow.className='hml-dropdown-arrow';arrow.setAttribute('aria-hidden','true');btn.append(value,arrow);const menu=document.createElement('div');menu.className='hml-dropdown-menu';menu.setAttribute('role','listbox');menu.id='hml-dropdown-'+(++counter);btn.setAttribute('aria-controls',menu.id);
+ select.parentNode.insertBefore(w,select);w.append(select,btn,menu);select.classList.add('hml-dropdown-native');select.tabIndex=-1;
+ function sync(){value.textContent=select.selectedOptions[0]?.textContent?.trim()||'Bitte auswählen';menu.replaceChildren();Array.from(select.options).forEach((opt,i)=>{if(opt.disabled||(!opt.value&&!opt.textContent.trim().replace(/[-–—]/g,'')))return;const item=document.createElement('button');item.type='button';item.className='hml-dropdown-option';item.textContent=opt.textContent.trim();item.setAttribute('role','option');item.setAttribute('aria-selected',String(i===select.selectedIndex));item.addEventListener('click',()=>{select.selectedIndex=i;select.dispatchEvent(new Event('change',{bubbles:true}));closeAll();btn.focus()});menu.append(item)});btn.disabled=select.disabled}
+ sync();select.addEventListener('change',sync);btn.addEventListener('click',()=>{const open=!w.classList.contains('is-open');closeAll(w);w.classList.toggle('is-open',open);btn.setAttribute('aria-expanded',String(open));if(open)menu.querySelector('[aria-selected=true]')?.scrollIntoView({block:'nearest'})});
+ const choices=()=>Array.from(menu.querySelectorAll('.hml-dropdown-option'));
+ function key(e){const opts=choices();if(['ArrowDown','ArrowUp','Home','End'].includes(e.key)){e.preventDefault();if(!w.classList.contains('is-open'))btn.click();let i=opts.indexOf(document.activeElement);if(i<0)i=opts.findIndex(x=>x.getAttribute('aria-selected')==='true');if(e.key==='Home')i=0;else if(e.key==='End')i=opts.length-1;else i=(i+(e.key==='ArrowDown'?1:-1)+opts.length)%opts.length;opts[i]?.focus()}else if(e.key==='Escape'){closeAll();btn.focus();e.preventDefault()}else if(e.key==='Enter'&&document.activeElement===btn&&w.classList.contains('is-open')){e.preventDefault();opts.find(x=>x.getAttribute('aria-selected')==='true')?.focus()}}
+ btn.addEventListener('keydown',key);menu.addEventListener('keydown',key);
+ }
+function scan(){document.querySelectorAll(scope).forEach(root=>root.querySelectorAll('select:not([data-hml-dropdown]):not([data-hr-enhanced])').forEach(enhance))}
+document.addEventListener('pointerdown',e=>{if(!e.target.closest('.hml-dropdown'))closeAll()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',scan);else scan();
+const obs=new MutationObserver(()=>scan());obs.observe(document.documentElement,{childList:true,subtree:true});
+})();

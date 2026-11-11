@@ -6,13 +6,17 @@ class Vacancy(models.Model):
     title = models.CharField(max_length=180)
     slug = models.SlugField(max_length=210, unique=True, blank=True)
     category = models.CharField(max_length=20, choices=CATEGORY, default="job")
+    department = models.ForeignKey("VacancyDepartment", null=True, blank=True, on_delete=models.SET_NULL, related_name="vacancies", verbose_name="Abteilung (nur Stellenangebote)")
     location = models.CharField(max_length=120, default="Bad Salzungen")
     employment_type = models.CharField(max_length=120, blank=True)
     introduction = models.TextField(blank=True)
     responsibilities = models.TextField(blank=True, help_text="Eine Aufgabe pro Zeile")
     requirements = models.TextField(blank=True, help_text="Eine Anforderung pro Zeile")
     benefits = models.TextField(blank=True, help_text="Ein Vorteil pro Zeile")
+    hard_skills = models.TextField(blank=True, help_text="Fachliche Kenntnisse, eine pro Zeile")
+    soft_skills = models.TextField(blank=True, help_text="Persönliche Stärken, eine pro Zeile")
     published = models.BooleanField(default=False)
+    visible_languages = models.JSONField(default=list, blank=True, help_text="Öffentlich sichtbare Sprachversionen (de, en, fr, es, it)")
     sort_order = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -83,3 +87,45 @@ class ApplicationCertificate(models.Model):
 
     def __str__(self):
         return self.file.name.rsplit("/", 1)[-1]
+
+
+class HRTextBlock(models.Model):
+    CATEGORY = [
+        ("responsibilities", "Deine Aufgaben"),
+        ("hard_skills", "Fachliche Kenntnisse"),
+        ("soft_skills", "Persönliche Stärken"),
+        ("benefits", "Das bieten wir"),
+    ]
+    category = models.CharField(max_length=32, choices=CATEGORY)
+    text = models.CharField(max_length=300)
+    active = models.BooleanField(default=True)
+    profession = models.CharField(max_length=40, blank=True, default="", help_text="Leer = für alle Berufsprofile")
+    class Meta:
+        ordering = ["category", "text"]
+        constraints = [models.UniqueConstraint(fields=["category", "text"], name="hr_textblock_category_text_unique")]
+    def __str__(self):
+        return self.text
+
+
+class VacancyDepartment(models.Model):
+    name = models.CharField(max_length=120, unique=True, verbose_name="Abteilung")
+    active = models.BooleanField(default=True, verbose_name="Aktiv")
+    sort_order = models.PositiveIntegerField(default=0, verbose_name="Reihenfolge")
+    class Meta:
+        ordering = ("sort_order", "name")
+        verbose_name = "Stellenabteilung"
+        verbose_name_plural = "Stellenabteilungen"
+    def __str__(self):
+        return self.name
+
+
+class HREditLog(models.Model):
+    """Append-only audit of vacancy changes; never contains candidate data."""
+    vacancy = models.ForeignKey("Vacancy", on_delete=models.CASCADE, related_name="edit_history")
+    user = models.ForeignKey("auth.User", null=True, on_delete=models.SET_NULL)
+    action = models.CharField(max_length=40)
+    changes = models.JSONField(default=list, blank=True)
+    detail = models.CharField(max_length=250, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        ordering = ["-created_at"]

@@ -17,7 +17,22 @@
 <link href="../assets/css/messen.css" rel="stylesheet"/><link href="../assets/css/page-hero.css" rel="stylesheet"/><link href="../assets/css/messen-home-design.css" rel="stylesheet"/><link href="../assets/css/messen-gallery.css" rel="stylesheet"/><link href="../assets/css/messen-folder.css" rel="stylesheet"/><link href="../assets/css/messen-snake.css" rel="stylesheet"/><link href="../assets/css/cinematic-cta.css" rel="stylesheet"/><link href="../assets/css/messen-story-light.css?v=20261016-2" rel="stylesheet"/><link href="../assets/css/messen-year-gallery.css?v=extra-compact-20261016" rel="stylesheet"/>
 <link href="../assets/css/was-uns-bewegt.css?v=feature-layout-2" rel="stylesheet"/><link rel="stylesheet" href="../assets/css/hammel-eyebrow-palette.css?v=20261023palette1">
 <link rel="stylesheet" href="../assets/css/hammel-alignment-fix.css?v=20261030b">
-</head>
+<link rel="stylesheet" href="../assets/css/hammel-transitions.css?v=2"><link rel="stylesheet" href="../assets/css/hammel-cinematic-sections.css?v=20261103b">
+<style id="hammel-no-red-section-dividers">/* HAMMEL: no decorative red horizontal separator at section boundaries.
+   Does not affect red CTA buttons or their underline animations. */
+main > section, main > .section, .cinematic-scene, .hc-scene,
+.hn-page, .hn-content, .news-section {
+  border-top-color: transparent !important;
+}
+main > section::before, main > .section::before {
+  border-top-color: transparent !important;
+}
+/* Remove the line above the light editorial section, even when the
+   preceding dark band is the shared footer/section wrapper. */
+main > section[style*="background"], .section.white {
+  border-top-color: transparent !important;
+}
+</style></head>
 <body>
 <!-- PUBLIC_SHARED_HEADER -->
 <section aria-label="MESSEN &amp; EVENTS" class="hammel-page-hero" data-page="was-uns-bewegt">
@@ -37,5 +52,6 @@
 </script>
 <script defer="" src="../assets/js/cinematic-unified.js">
 </script>
-<script defer="" src="../assets/js/messen-tabs.js?v=current-year-open-5"></script><script defer="" src="../assets/js/messen-folder.js?v=current-year-open-5"></script><script defer="" src="../assets/js/page-hero.js"></script><script defer="True" src="../assets/js/was-uns-bewegt.js?v=feature-layout-2"></script></body>
+<script defer="" src="../assets/js/messen-tabs.js?v=current-year-open-5"></script><script defer="" src="../assets/js/messen-folder.js?v=current-year-open-5"></script><script defer="" src="../assets/js/page-hero.js"></script><script defer="True" src="../assets/js/was-uns-bewegt.js?v=feature-layout-2"></script><script defer src="../assets/js/hammel-transitions.js?v=2"></script><script defer src="../assets/js/hammel-cinematic-sections.js?v=20261103b"></script>
+</body>
 </html>

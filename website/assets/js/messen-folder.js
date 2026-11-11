@@ -8,7 +8,7 @@
   const safeURL = url => { try { const u=new URL(url,location.href); return ['http:','https:'].includes(u.protocol)?u.href:null; } catch {return null;} };
   const date = value => new Intl.DateTimeFormat('de-DE',{day:'2-digit',month:'short',year:'numeric',timeZone:'UTC'}).format(new Date(value+'T12:00:00Z'));
   const dates = e => e.start_date===e.end_date ? date(e.start_date) : `${date(e.start_date)} — ${date(e.end_date)}`;
-  const place = e => [e.city,e.country].filter(Boolean).join(' · ');
+  const place = e => [e.city,e.country].filter(Boolean).join(' / ');
   const image = (url,alt) => { const i=create('img');i.src=url;i.alt=alt;i.loading='lazy';return i; };
   const photoList = e => {
     const photos=(Array.isArray(e.photos)?e.photos:[]).filter(p=>validPhoto(p.image));
@@ -125,7 +125,7 @@
     });
     const visual=create('div','mf-story-visual');
     visual.append(galleryHead,gallery);
-    if(photos.length>1)visual.append(create('p','mf-story-photo-count',photos.length+' FOTOS  ·  ZUM VERGRÖSSERN ANKLICKEN'));
+    if(photos.length>1)visual.append(create('p','mf-story-photo-count',photos.length+' FOTOS  /  ZUM VERGRÖSSERN ANKLICKEN'));
     detail.append(heading,visual);
   }
   // Continuous circular archive: seven visible positions with perspective depth.
@@ -154,7 +154,7 @@
       });
       stage.append(card);
     });
-    $('mf-folder-position').textContent=(current+1)+' / '+past.length+'  ·  '+active.title;
+    $('mf-folder-position').textContent=(current+1)+' / '+past.length+'  /  '+active.title;
     renderDetail(active);
     document.querySelectorAll('.mf-folder-nav').forEach(b=>b.disabled=past.length<2);
   }

@@ -1,0 +1,19 @@
+/* HAMMEL — cinematic section continuity, public website */
+@media (prefers-reduced-motion:no-preference){
+  .hc-scene{position:relative;isolation:isolate;--hc-reveal:1;--hc-edge:0;--hc-drift:0px;--hc-image-drift:0px}
+  /* Independent translate does not overwrite legacy transforms/animations. */
+  .hc-scene:not(.hc-story-scene){translate:0 var(--hc-drift);}
+  .hc-scene::before{content:"";position:absolute;z-index:8;inset:0 0 auto;height:clamp(45px,12vh,150px);pointer-events:none;opacity:var(--hc-edge);background:linear-gradient(180deg,rgba(0,0,0,.12),transparent);mix-blend-mode:multiply}
+  .hc-scene.hc-dark::before{background:linear-gradient(180deg,rgba(255,255,255,.09),transparent);mix-blend-mode:screen}
+  .hc-scene.hc-scene--media img:not(.history-drawing):not(.story__drawing),
+  .hc-scene.hc-scene--media video{transition:filter .3s ease;filter:brightness(calc(0.94 + var(--hc-reveal)*0.06))}
+  /* Cinematic panel reveal at section entry, never obscures clickable content. */
+  .hc-scene::after{content:"";position:absolute;inset:0;z-index:7;pointer-events:none;background:var(--hc-cover, #101010);clip-path:inset(0 0 calc(var(--hc-reveal)*100%) 0);opacity:calc((1 - var(--hc-reveal))*0.16)}
+  .hc-scene.hc-dark::after{--hc-cover:#111}
+  .hc-scene.hc-red::after{--hc-cover:#e30613}
+  .hc-scene.hc-light::after{--hc-cover:#f4f2ed}
+  /* Do not touch the intro 'THE ORIGINAL — SINCE 1996' or history drawings. */
+  .story .hc-scene,.story__chapter.hc-scene{translate:none!important}
+  .story .hc-scene::before,.story .hc-scene::after,.story__chapter.hc-scene::before,.story__chapter.hc-scene::after{content:none!important}
+}
+@media (prefers-reduced-motion:reduce){.hc-scene{--hc-reveal:1!important;--hc-edge:0!important;translate:none!important}}

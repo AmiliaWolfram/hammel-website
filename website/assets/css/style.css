@@ -1136,3 +1136,18 @@ body {
     min-height: 400px
   }
 }
+
+/* HAMMEL: no decorative red horizontal separator at section boundaries.
+   Does not affect red CTA buttons or their underline animations. */
+main > section, main > .section, .cinematic-scene, .hc-scene,
+.hn-page, .hn-content, .news-section {
+  border-top-color: transparent !important;
+}
+main > section::before, main > .section::before {
+  border-top-color: transparent !important;
+}
+/* Remove the line above the light editorial section, even when the
+   preceding dark band is the shared footer/section wrapper. */
+main > section[style*="background"], .section.white {
+  border-top-color: transparent !important;
+}

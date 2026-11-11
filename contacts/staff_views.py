@@ -27,10 +27,12 @@ def edit(request, kind, pk=None):
     instance = get_object_or_404(model, pk=pk) if pk is not None else None
     form = form_class(request.POST or None, instance=instance)
     if request.method == "POST" and form.is_valid():
-        form.save()
+        saved = form.save()
+        from translations.services import save_inline
+        save_inline(request, saved, form)
         messages.success(request, "Änderungen wurden gespeichert.")
         return redirect("contacts_dashboard")
-    return render(request, "contacts/form.html", {"form": form, "editing": bool(instance), "kind": kind})
+    return render(request, "contacts/form.html", {"form": form, "editing": bool(instance), "kind": kind, "object": instance})
 
 @login_required(login_url="messen_login")
 def delete(request, kind, pk):

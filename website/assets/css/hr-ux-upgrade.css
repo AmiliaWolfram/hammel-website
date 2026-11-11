@@ -1,0 +1,15 @@
+/* HR usability enhancements. Keep the established HAMMEL editorial typography. */
+.hr-quick-guide{display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:#fff;border-left:4px solid #e30613;padding:16px 22px;margin:0 0 22px;font-size:13px;color:#222}
+.hr-quick-guide strong{color:#e30613}.hr-quick-guide span{padding-right:12px;border-right:1px solid #ddd}.hr-quick-guide a{margin-left:auto;color:#e30613;font-weight:800;text-decoration:none}
+.hr-required{color:#e30613;font-weight:900}.hr-save-status{font-size:13px;font-weight:700;color:#555;padding:12px 0}
+.staff-ui .staff-form .hr-section-links{display:flex;gap:8px;flex-wrap:wrap;background:#f4f4f2;padding:14px;margin-bottom:12px}
+.staff-ui .staff-form .hr-section-links a{color:#171717;text-decoration:none;background:#e5e5e3;padding:11px 14px;font-size:12px;font-weight:850}.staff-ui .staff-form .hr-section-links a:hover{background:#171717;color:#fff}
+.staff-ui .staff-form .hr-form-section{width:100%;display:grid;gap:20px;border-bottom:1px solid #ddd;padding:10px 0 26px;scroll-margin-top:35px}
+.staff-ui .staff-form .hr-form-section-head h2{font-size:23px;margin:0 0 5px;color:#171717}.staff-ui .staff-form .hr-form-section-head p{font-size:13px;color:#666;margin:0}
+.hr-tasks{background:#f4f4f2;padding:clamp(20px,3vw,38px);margin:28px 0 36px}.hr-tasks-heading h2{font-size:clamp(22px,2.5vw,32px);margin:0 0 6px}.hr-tasks-heading p{color:#666;margin:0 0 22px}.hr-tasks-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.hr-tasks-grid>a,.hr-tasks-grid>div{background:#fff;color:#171717;text-decoration:none;padding:22px;display:flex;flex-direction:column;gap:8px;border:1px solid #ddd}
+.hr-tasks-grid strong{font-size:38px;color:#e30613}.hr-tasks-grid span{font-weight:800}.hr-tasks-grid small{font-size:11px;color:#666;font-weight:700}.hr-tasks-recent{display:grid;gap:8px;margin-top:24px}.hr-tasks-recent>a{display:flex;justify-content:space-between;gap:12px;color:#171717;text-decoration:none;background:#fff;padding:13px 16px}.hr-tasks-recent>a span{color:#e30613;font-size:12px;font-weight:800}
+@media(max-width:800px){.hr-tasks-grid{grid-template-columns:1fr}.hr-quick-guide{flex-direction:column;align-items:flex-start}.hr-quick-guide a{margin-left:0}}
+.hr-translation-progress{background:#fff;padding:18px 20px;margin:18px 0 12px;border-bottom:5px solid #e5e5e3;font-weight:800;font-size:14px;position:relative}
+.hr-translation-progress:after{content:"";position:absolute;bottom:-5px;left:0;width:var(--complete,0%);height:5px;background:#e30613;transition:width .2s}
+#jump-missing{background:#171717;color:#fff;border:0;padding:12px 15px;font-weight:800;cursor:pointer}

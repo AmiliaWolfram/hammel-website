@@ -1,0 +1,10 @@
+/* Shared vacancy navigation: all language versions and publication check */
+.hr-vacancy-languages{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 22px;align-items:stretch}
+.hr-vacancy-languages>a,.hr-vacancy-languages>span{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;min-height:49px;padding:12px 18px;background:#e8e8e6;color:#171717;font-size:12px;font-weight:850;letter-spacing:.02em;text-decoration:none;text-align:center;line-height:1.35;transition:background .2s,color .2s}
+.hr-vacancy-languages>a:hover{background:#171717;color:#fff}
+.hr-vacancy-languages>.hr-vacancy-languages__active{background:#e30613;color:#fff}
+.hr-vacancy-languages>.hr-vacancy-languages__disabled{color:#999;background:#f1f1ef;cursor:not-allowed}
+.hr-vacancy-languages>.hr-vacancy-languages__review{margin-left:auto;background:#202020;color:#fff}
+.hr-vacancy-languages>.hr-vacancy-languages__review:hover{background:#e30613;color:#fff}
+.hr-vacancy-languages>.hr-vacancy-languages__review.hr-vacancy-languages__active{background:#e30613;color:#fff}
+@media(max-width:800px){.hr-vacancy-languages>.hr-vacancy-languages__review{margin-left:0;flex:1 1 100%}.hr-vacancy-languages>a,.hr-vacancy-languages>span{flex:1 1 auto;padding:10px}}

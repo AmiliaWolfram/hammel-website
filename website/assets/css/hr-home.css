@@ -28,3 +28,14 @@
 .hr-home-card p{font-size:clamp(17px,1.45vw,22px)!important;line-height:1.48!important}
 .hr-home-card-foot{font-size:clamp(13px,.9vw,16px)!important;margin-top:42px!important}
 @media(max-width:800px){.hr-home{padding:42px 0 70px!important}.hr-home-inner{width:calc(100% - 36px)!important}.hr-home-grid{grid-template-columns:1fr!important;gap:16px!important}.hr-home-card{min-height:230px!important;border-radius:12px!important}}
+
+/* One shared horizontal grid for HR header and landing content. */
+.hr-home .hr-home-inner {
+  box-sizing:border-box!important;
+  width:min(100% - 48px, 1480px)!important;
+  max-width:1480px!important;
+  margin-inline:auto!important;
+}
+@media (max-width:650px) {
+  .hr-home .hr-home-inner {width:calc(100% - 32px)!important;}
+}

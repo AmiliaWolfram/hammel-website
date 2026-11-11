@@ -1,0 +1,21 @@
+{% if inline %}
+<section class="hml-i18n" data-hml-i18n>
+  <div class="hml-i18n-top"><strong>SPRACHVERSIONEN</strong><a href="{% url 'translation_catalog' portal %}" style="color:#e30613;text-decoration:none;font-weight:800;font-size:12px">ÜBERSETZUNGSÜBERSICHT</a></div>
+  <div class="hml-i18n-tabs" role="tablist" aria-label="Sprache wählen">
+    <button type="button" data-hml-lang="de" class="active">DE <small>Original</small></button>
+    <button type="button" data-hml-lang="en">EN <small data-count="en"></small></button>
+    <button type="button" data-hml-lang="fr">FR <small data-count="fr"></small></button>
+    <button type="button" data-hml-lang="es">ES <small data-count="es"></small></button>
+    <button type="button" data-hml-lang="it">IT <small data-count="it"></small></button>
+  </div>
+  <p class="hml-i18n-help" data-hml-help>Deutsch ist der Originaltext. Die Felder unten bearbeiten den deutschen Inhalt.</p>
+  <div class="hml-i18n-fields" data-hml-fields hidden></div>
+  <input type="hidden" name="inline_translations" data-hml-output>
+</section>
+{{ inline|json_script:"hml-inline-data" }}
+<link rel="stylesheet" href="/assets/css/hml-inline-translations.css">
+<script defer src="/assets/js/hml-inline-translations.js"></script>
+{% endif %}
+
+<link rel="stylesheet" href="/assets/css/hml-dropdown.css?v=2">
+<script defer src="/assets/js/hml-dropdown.js?v=2"></script>

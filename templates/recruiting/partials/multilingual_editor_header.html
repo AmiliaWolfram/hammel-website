@@ -1,0 +1,72 @@
+{% comment %}Shared visual layout for HR tips and application areas. Original vacancy header is unchanged.{% endcomment %}
+<style>
+/* Vacancy editor shared header */
+.hr-vacancy-header,.hr-vacancy-header *{box-sizing:border-box!important}
+.hr-vacancy-header{width:100%!important;max-width:none!important;margin:0 0 34px!important;padding:0!important;font-family:Arial,Helvetica,sans-serif!important;color:#171717!important}
+.hr-vacancy-header__eyebrow{margin:0 0 16px!important;color:#e30613!important;font-size:13px!important;font-weight:800!important;letter-spacing:.12em!important;line-height:1.5!important}
+.hr-vacancy-header__title{font-family:Arial,Helvetica,sans-serif!important;font-size:54px!important;font-weight:900!important;line-height:1.08!important;letter-spacing:-.025em!important;margin:0 0 28px!important;padding:0!important;color:#171717!important}
+.hr-vacancy-header__title span{color:#e30613!important}
+.hr-vacancy-header__identity{display:flex!important;flex-wrap:wrap!important;align-items:center!important;gap:6px 20px!important;background:#e9e9e7!important;height:84px!important;min-height:84px!important;margin:0 0 20px!important;padding:18px 24px!important;border:0!important}
+.hr-vacancy-header__identity strong{font-size:19px!important;font-weight:800!important;line-height:1.35!important;color:#171717!important}
+.hr-vacancy-header__identity small{font-size:13px!important;font-weight:600!important;color:#666!important;line-height:1.5!important}
+.hr-vacancy-header__tabs{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important;margin:0!important;padding:0!important;width:100%!important;border:0!important}
+.hr-vacancy-header__tabs>a,.hr-vacancy-header__tabs>span{display:flex!important;align-items:center!important;justify-content:center!important;min-width:0!important;height:72px!important;min-height:72px!important;padding:16px 10px!important;margin:0!important;background:#e8e8e8!important;color:#171717!important;font-size:15px!important;font-family:Arial,Helvetica,sans-serif!important;font-weight:800!important;line-height:1.25!important;text-align:center!important;text-decoration:none!important;border:0!important;box-shadow:none!important;border-radius:0!important}
+.hr-vacancy-header__tabs>[aria-current="step"]{background:#e30613!important;color:#fff!important}
+.hr-vacancy-header__tabs>a:hover{background:#171717!important;color:#fff!important;transition:background .2s,color .2s}
+.hr-vacancy-header__tabs>a:focus-visible{outline:3px solid #e30613!important;outline-offset:3px!important}
+.hr-vacancy-header__tabs>.disabled{color:#777!important}
+.hr-vacancy-header__note{font-size:15px!important;line-height:1.55!important;color:#666!important;font-weight:400!important;margin:20px 0 0!important;padding:0!important;max-width:none!important;min-height:48px!important}
+@media(max-width:640px){.hr-vacancy-header__title{font-size:34px!important;height:auto!important}.hr-vacancy-header__identity{padding:14px!important;min-height:64px!important}.hr-vacancy-header__identity strong{font-size:16px!important}.hr-vacancy-header__tabs{gap:5px!important}.hr-vacancy-header__tabs>a,.hr-vacancy-header__tabs>span{min-height:55px!important;font-size:11px!important;padding:12px 4px!important}.hr-vacancy-header__note{font-size:13px!important}}
+
+/* Identical sizing on all three editor screens. */
+.hr-vacancy-header{font-size:16px!important;line-height:1.4!important}
+.hr-vacancy-header__eyebrow{font-family:Arial,Helvetica,sans-serif!important;font-size:13px!important}
+.hr-vacancy-header__identity{overflow:hidden!important}
+.hr-vacancy-header__identity strong{font-family:Arial,Helvetica,sans-serif!important;font-size:19px!important}
+.hr-vacancy-header__identity small{font-family:Arial,Helvetica,sans-serif!important;font-size:13px!important}
+.hr-vacancy-header__tabs>a,.hr-vacancy-header__tabs>span{font-size:15px!important;letter-spacing:0!important;text-transform:none!important}
+.hr-vacancy-header__note{font-family:Arial,Helvetica,sans-serif!important;font-size:15px!important;min-height:48px!important}
+@media(min-width:641px){.hr-vacancy-header__eyebrow{height:20px!important}.hr-vacancy-header__title{height:60px!important}.hr-vacancy-header__identity{height:84px!important}}
+
+
+/* Use the DEUTSCH editor title as the single typography reference.
+   These scoped selectors prevent page-specific h1 rules from changing it. */
+main.staff-ui .hr-vacancy-header h1.hr-vacancy-header__title,
+main.translation-editor .hr-vacancy-header h1.hr-vacancy-header__title,
+main.hr-review .hr-vacancy-header h1.hr-vacancy-header__title {
+  font-family:Arial,Helvetica,sans-serif!important;
+  font-size:54px!important;
+  font-weight:900!important;
+  line-height:1.08!important;
+  letter-spacing:-.025em!important;
+  margin:0 0 28px!important;
+  padding:0!important;
+}
+@media(max-width:640px){
+  main.staff-ui .hr-vacancy-header h1.hr-vacancy-header__title,
+  main.translation-editor .hr-vacancy-header h1.hr-vacancy-header__title,
+  main.hr-review .hr-vacancy-header h1.hr-vacancy-header__title {
+    font-size:34px!important;
+    height:auto!important;
+  }
+}
+</style>
+
+
+<header class="hr-vacancy-header">
+ <p class="hr-vacancy-header__eyebrow">HAMMEL HR PORTAL</p>
+ <h1 class="hr-vacancy-header__title">{% if kind == 'tip' or hr_kind == 'tip' %}HR-TIPP{% else %}BEREICH{% endif %} <span>{% if object or current_step == 'translations' %}BEARBEITEN{% else %}ERSTELLEN{% endif %}</span></h1>
+ <div class="hr-vacancy-header__identity"><strong>{% if current_step == 'translations' %}{{ object }}{% elif object %}{% if kind == 'tip' %}{{ object.title }}{% else %}{{ object.name }}{% endif %}{% else %}{% if kind == 'tip' %}Neuer HR-Tipp{% else %}Neuer Bereich{% endif %}{% endif %}</strong>{% if object %}<small>{% if current_step == 'translations' %}Sprachversionen{% elif object.published %}Veröffentlicht{% elif object.active %}Aktiv{% else %}Entwurf{% endif %}</small>{% endif %}</div>
+ <nav class="hr-vacancy-header__tabs" aria-label="Sprachversionen">
+ {% if current_step == 'de' %}<span aria-current="step">DEUTSCH</span>{% else %}<a href="{% if hr_kind == 'tip' %}{% url 'hr_edit' 'tip' object.pk %}{% elif hr_kind == 'department' %}{% url 'hr_edit' 'department' object.pk %}{% elif hr_kind == 'job_department' %}{% url 'hr_edit' 'job_department' object.pk %}{% endif %}">DEUTSCH</a>{% endif %}
+ {% if object %}
+ {% if current_step == 'de' %}
+ <a href="{{ translation_url }}?lang=en">ENGLISH</a><a href="{{ translation_url }}?lang=fr">FRANÇAIS</a><a href="{{ translation_url }}?lang=es">ESPAÑOL</a><a href="{{ translation_url }}?lang=it">ITALIANO</a>
+ {% else %}
+ <a href="?lang=en" {% if language == 'en' %}aria-current="step"{% endif %}>ENGLISH</a><a href="?lang=fr" {% if language == 'fr' %}aria-current="step"{% endif %}>FRANÇAIS</a><a href="?lang=es" {% if language == 'es' %}aria-current="step"{% endif %}>ESPAÑOL</a><a href="?lang=it" {% if language == 'it' %}aria-current="step"{% endif %}>ITALIANO</a>
+ {% endif %}
+ {% else %}<span class="disabled">ENGLISH</span><span class="disabled">FRANÇAIS</span><span class="disabled">ESPAÑOL</span><span class="disabled">ITALIANO</span>{% endif %}
+ <span class="disabled" title="Die Veröffentlichung wird in den jeweiligen Formularen verwaltet">PRÜFUNG &amp; VERÖFFENTLICHUNG</span>
+ </nav>
+ <p class="hr-vacancy-header__note">{% if current_step == 'translations' %}Ergänzen Sie die Sprachversionen. Die deutsche Originalfassung bleibt erhalten.{% else %}Bearbeiten Sie die deutsche Originalfassung und speichern Sie Ihre Änderungen. Anschließend können Sie die Übersetzungen bearbeiten.{% endif %}</p>
+</header>

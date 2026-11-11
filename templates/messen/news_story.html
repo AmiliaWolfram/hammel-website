@@ -1,6 +1,21 @@
 {% load static %}<!doctype html>
 <html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{{ article.title }} | HAMMEL</title><meta name="description" content="{{ article.teaser|truncatechars:155 }}"><link rel="stylesheet" href="/assets/css/news-story.css?v=home3"><link rel="stylesheet" href="/assets/css/hammel-eyebrow-palette.css?v=20261023palette1">
-<link rel="stylesheet" href="/assets/css/style.css"><link rel="stylesheet" href="/assets/css/navigation-2026.css"><link rel="stylesheet" href="/assets/css/footer-unified.css"><link rel="stylesheet" href="/assets/css/public-header-unified.css?v=20261030"></head>
+<link rel="stylesheet" href="/assets/css/style.css"><link rel="stylesheet" href="/assets/css/navigation-2026.css"><link rel="stylesheet" href="/assets/css/footer-unified.css"><link rel="stylesheet" href="/assets/css/public-header-unified.css?v=20261030"><style id="hammel-story-light-palette">
+/* 2026-11-03: HAMMEL palette — light article surface */
+.story-article, .story-article .article-layout, .story-article .article-main,
+.story-article .article-text { color:#17191b !important; }
+.story-article .article-text, .story-article .article-text p,
+.story-article .article-text li, .story-article .article-text blockquote,
+.story-article .article-text strong, .story-article .article-text em,
+.story-article .article-text span { color:#17191b !important; }
+.story-article .article-layout aside, .story-article .article-layout aside span,
+.story-article .article-main .all-stories { color:#b30811 !important; }
+.story-article .article-text h1, .story-article .article-text h2,
+.story-article .article-text h3, .story-article .article-text h4 { color:#b30811 !important; }
+.story-article .article-text a { color:#b30811 !important; }
+.story-article .article-main .all-stories { border-bottom-color:#b30811 !important; }
+/* Keep the existing white-on-dark hero and related-story palette. */
+</style></head>
 <body>{% include 'public_shared/header.html' %}
 
 <main><article>

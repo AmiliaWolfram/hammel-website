@@ -41,7 +41,7 @@
         const items = [];
         const kinds = ['workshop', 'bridge', 'vb750', 'twin', 'metal', 'giant'];
         root.querySelectorAll('.story__chapter').forEach((section, index) => { if (section.querySelector('.story__association-grid'))
-            return; const art = section.querySelector('.story__art'); if (!art)
+            return; const art = section.querySelector('.story__art'); if (!art || art.querySelector('img[src*="/archiv/"]'))
             return; const design = designs[kinds[index] || 'twin']; items.push({ section, ...create(art, design) }); });
         const end = root.querySelector('.story__end');
         if (end) {
