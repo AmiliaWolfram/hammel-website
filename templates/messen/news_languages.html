@@ -1,0 +1,132 @@
+{% extends 'messen/base.html' %}
+{% block title %}News & Stories – Sprachversionen{% endblock %}
+{% block content %}
+<style>
+.news-languages .news-publication-form{margin-top:28px}
+.news-languages .news-publication-toggle{display:block;width:100%;min-height:54px;padding:12px 18px;border:0;border-radius:0;cursor:pointer;font-weight:850;letter-spacing:.035em;font-size:14px}
+.news-languages .news-publication-enable{background:#e30613;color:white}
+.news-languages .news-publication-disable{background:#222;color:white}
+.news-languages .news-publication-toggle:hover{filter:brightness(.88)}
+.news-languages .nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:18px 0 14px}
+.news-languages .nav a{display:flex;align-items:center;justify-content:center;min-height:48px;background:#e9e9e9;color:#191919;text-decoration:none;font-weight:850;font-size:15px}
+.news-languages .nav a.active{background:#e30613;color:#fff}
+.news-languages .current-title{font-size:24px;line-height:1.35;border-bottom:1px solid #ddd;padding-bottom:13px;margin:0 0 24px;overflow-wrap:anywhere}
+.news-languages .translation-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
+.news-languages .translation-card{min-width:0;background:#fff;border:1px solid #e0e0e0;padding:18px}
+.news-languages .translation-card.wide{grid-column:1/-1}
+.news-languages .translation-card h2{font-size:16px;margin:0 0 13px}
+.news-languages .original{background:#f1f1f0;padding:12px 14px;margin-bottom:12px;overflow-wrap:anywhere}
+.news-languages .original strong,.news-languages .translation-card label{display:block;font-size:11px;font-weight:850;margin:0 0 7px}
+.news-languages .original p{font-size:13px;line-height:1.55;margin:0;white-space:pre-wrap}
+.news-languages .translation-card textarea{box-sizing:border-box;display:block;width:100%;height:80px;min-height:80px;padding:10px 12px;border:1px solid #ccc;resize:vertical;font:inherit;font-size:13px}
+.news-languages .translation-card.wide textarea{height:180px;min-height:180px}
+.news-languages .status-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:11px}
+.news-languages .status-row select{height:38px;min-width:180px;border:1px solid #ccc;background:white;padding:5px 10px}
+.news-languages .stale{color:#a26000;font-weight:750;font-size:12px}
+.news-languages .actions{display:flex;justify-content:flex-end;gap:12px;flex-wrap:wrap;margin:24px 0 42px}
+.news-languages .actions .btn{min-width:205px;min-height:49px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;text-decoration:none;border-radius:0}
+.news-languages .review-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:stretch}
+.news-languages .review-panel{background:white;border:1px solid #ddd;padding:26px;min-width:0}
+.news-languages .review-panel h2{font-size:24px;margin:8px 0 12px}.news-languages .eyebrow-small{color:#e30613;font-size:12px;font-weight:850}
+.news-languages .review-muted{font-size:13px;color:#666;line-height:1.5}
+.news-languages .language-line{padding:16px 0;border-bottom:1px solid #eee}
+.news-languages .language-line>div:first-child{display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap}
+.news-languages .language-line strong{font-size:14px}.news-languages .language-line a{font-size:11px;font-weight:850;color:#e30613;text-decoration:none}
+.news-languages .counts{display:flex;flex-wrap:wrap;gap:9px;font-size:11px;font-weight:800}
+.news-languages .ready{color:#128046}.news-languages .review{color:#a67800}.news-languages .missing{color:#c50016}.news-languages .outdated{color:#68717a}
+.news-languages .track{height:7px;background:#eee;display:flex;margin-top:10px}.news-languages .track .ready{background:#128046}.news-languages .track .review{background:#e5b030}.news-languages .track .outdated{background:#8e9ba4}.news-languages .track .missing{background:#c50016}
+.news-languages .preview{background:#f1f1f0;padding:22px;margin-top:24px}
+.news-languages .preview-link{display:flex;align-items:center;justify-content:center;background:#1b1b1b;color:#fff;text-decoration:none;font-weight:850;font-size:12px;min-height:46px;margin-top:18px}.news-languages .preview-link:hover{background:#e30613}.news-languages .preview h3{font-size:16px;margin:0 0 14px}.news-languages .preview p{font-size:13px;color:#666}
+.news-languages .review-right{display:flex;flex-direction:column;gap:18px;align-self:stretch;min-width:0;height:100%}.news-languages .review-right .review-panel:first-child{flex:1 1 auto}.news-languages .review-right .review-panel:last-child{flex:0 0 auto}
+.news-languages .review-right .review-panel a{display:flex;align-items:center;justify-content:center;min-height:44px;text-decoration:none;background:#222;color:#fff;font-weight:800;font-size:12px}
+.news-languages .history{margin:22px 0 40px}.news-languages .history-form{display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin:18px 0}
+.news-languages .history-form label{display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800}.news-languages .history-form select{min-height:42px;min-width:155px;padding:8px;border:1px solid #ccc;background:white}
+.news-languages .history-form button,.news-languages .history-form a{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-height:42px;padding:8px 20px;font-weight:800;font-size:12px;border:0;text-decoration:none;background:#222;color:#fff}
+.news-languages .history-form a{background:#eee;color:#222}
+.news-languages .history-entry{border-top:1px solid #ddd;padding:17px 0}.news-languages .history-entry header{display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:13px}
+.news-languages .history-values{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.news-languages .history-values>div{padding:13px;background:#f4f4f4;min-width:0}.news-languages .history-values strong{font-size:11px}.news-languages .history-values p{font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere}
+@media(max-width:900px){.news-languages .review-grid{grid-template-columns:1fr}.news-languages .review-right{height:auto}}
+@media(max-width:720px){.news-languages .translation-grid,.news-languages .history-values{grid-template-columns:1fr}.news-languages .translation-card.wide{grid-column:auto}.news-languages .nav{gap:5px}.news-languages .nav a{font-size:12px;min-height:42px}.news-languages .actions>*{flex:1}.news-languages .review-panel{padding:18px}}
+
+/* HRPortal-inspired publication controls; scoped to Messen/News only. */
+.publication-visibility-box{background:#f1f1f0;padding:22px 20px;margin:24px 0 18px}
+.publication-visibility-box h3{font-size:16px;margin:0 0 15px;font-weight:850}
+.publication-language{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:47px;border-bottom:1px solid #d9d9d9;font-size:14px}
+.publication-language label{cursor:pointer;flex:1}
+.publication-language input,.publication-confirm input{width:17px;height:17px;accent-color:#e30613;cursor:pointer;flex-shrink:0}
+.publication-language input:disabled{opacity:1;cursor:default}
+.publication-save,.publication-action{display:block;width:100%;min-height:49px;border:0;border-radius:0;font-size:12px;font-weight:850;cursor:pointer;color:white}
+.publication-save{background:#e30613;margin-top:17px}.publication-action{background:#1d1d1d;margin-top:18px}
+.publication-enable{background:#e30613}
+.publication-confirm{display:flex;align-items:flex-start;gap:12px;font-size:13px;line-height:1.55;margin-top:20px;cursor:pointer}
+.publication-confirm input{margin-top:2px}
+.publication-save:hover,.publication-action:hover{filter:brightness(.9)}
+.news-languages .news-history-details>summary{cursor:pointer;font-size:21px;font-weight:850;padding:12px 0;list-style:disclosure-closed}
+.news-languages .news-history-details[open]>summary{list-style:disclosure-open}
+.news-languages .news-history-content{padding-top:10px}
+
+/* Balanced review columns: let translation rows use the available height. */
+@media (min-width:901px){
+ .news-languages .review-grid > .review-panel:first-child{display:flex;flex-direction:column;}
+ .news-languages .review-grid > .review-panel:first-child > .language-line{flex:1 1 auto;display:flex;flex-direction:column;justify-content:center;min-height:70px;}
+ .news-languages .review-grid > .review-panel:first-child > .preview{margin-top:18px;}
+}
+
+/* Compact, consistent collapsible history header in Messen and News. */
+.messe-history-card,.news-languages .review-panel.history{padding:0!important;overflow:hidden}
+.messe-history-details>summary,.news-languages .news-history-details>summary{display:flex!important;align-items:center;gap:16px;min-height:78px;box-sizing:border-box;padding:18px 26px!important;margin:0!important;cursor:pointer;list-style:none!important;user-select:none;background:#fff;transition:background .2s ease}
+.messe-history-details>summary::-webkit-details-marker,.news-languages .news-history-details>summary::-webkit-details-marker{display:none}
+.messe-history-details>summary:hover,.news-languages .news-history-details>summary:hover{background:#f6f6f5}
+.messe-history-details>summary .history-toggle-icon,.news-languages .news-history-details>summary .history-toggle-icon{width:34px;height:34px;flex:0 0 34px;background:#f1f1f0;display:flex;align-items:center;justify-content:center;color:#e30613;font-size:20px;font-family:Arial,sans-serif;font-weight:600;transition:transform .2s ease,background .2s ease}
+.messe-history-details[open]>summary .history-toggle-icon,.news-languages .news-history-details[open]>summary .history-toggle-icon{transform:rotate(90deg);background:#fce9ea}
+.messe-history-details>summary .history-toggle-text,.news-languages .news-history-details>summary .history-toggle-text{display:flex;flex:1;flex-direction:column;gap:5px;min-width:0}
+.messe-history-details>summary .history-toggle-label,.news-languages .news-history-details>summary .history-toggle-label{font-size:11px;font-weight:850;letter-spacing:.05em;color:#e30613;line-height:1.2}
+.messe-history-details>summary .history-toggle-title,.news-languages .news-history-details>summary .history-toggle-title{font-size:19px;font-weight:850;color:#1c1c1c;line-height:1.25;letter-spacing:0}
+.messe-history-details>summary .history-toggle-state,.news-languages .news-history-details>summary .history-toggle-state{font-size:11px;font-weight:800;color:#666;white-space:nowrap}
+.messe-history-details>summary .history-toggle-state:before,.news-languages .news-history-details>summary .history-toggle-state:before{content:'ANZEIGEN'}
+.messe-history-details[open]>summary .history-toggle-state:before,.news-languages .news-history-details[open]>summary .history-toggle-state:before{content:'SCHLIESSEN'}
+.messe-history-details[open]>summary,.news-languages .news-history-details[open]>summary{border-bottom:1px solid #e5e5e5}
+.messe-history-details>.messe-history-filters,.messe-history-details>.messe-history-list{margin-left:26px;margin-right:26px}
+.news-languages .news-history-content{padding:20px 26px 26px}
+@media(max-width:600px){.messe-history-details>summary,.news-languages .news-history-details>summary{padding:16px!important;gap:10px}.messe-history-details>summary .history-toggle-title,.news-languages .news-history-details>summary .history-toggle-title{font-size:16px}.messe-history-details>.messe-history-filters,.messe-history-details>.messe-history-list{margin-left:16px;margin-right:16px}.news-languages .news-history-content{padding:16px}}
+
+</style>
+<div class="news-languages">
+<div class="eyebrow">HAMMEL</div><h1>NEWS <span class="red">& STORIES</span></h1>
+<nav class="nav" aria-label="Sprachversionen und Prüfung"><a href="{% url 'news_edit' item.pk %}">DE</a><a class="{% if lang == 'en' %}active{% endif %}" href="{% url 'news_language_editor' item.pk 'en' %}">EN</a><a class="{% if lang == 'fr' %}active{% endif %}" href="{% url 'news_language_editor' item.pk 'fr' %}">FR</a><a class="{% if lang == 'es' %}active{% endif %}" href="{% url 'news_language_editor' item.pk 'es' %}">ES</a><a class="{% if lang == 'it' %}active{% endif %}" href="{% url 'news_language_editor' item.pk 'it' %}">IT</a><a class="{% if review %}active{% endif %}" href="{% url 'news_language_editor' item.pk 'review' %}">PRÜFUNG</a></nav>
+<h2 class="current-title">{{ item.title }}</h2>
+{% if review %}
+<div class="review-grid"><section class="review-panel"><div class="eyebrow-small">ÜBERSETZUNGEN</div><h2>Sprachversionen</h2><p class="review-muted">Status und Bearbeitung der Sprachversionen</p>
+<div class="language-line"><div><strong>Deutsch</strong><span class="ready">Originalversion</span><a href="{% url 'news_edit' item.pk %}">BEARBEITEN</a></div><div class="track"><span class="ready" style="width:100%"></span></div></div>
+{% for summary in review_summary %}<div class="language-line"><div><strong>{{ summary.name }}</strong><span class="counts"><span class="ready">{{ summary.ready }} fertig</span><span class="review">{{ summary.review }} prüfen</span><span class="missing">{{ summary.missing }} fehlen</span><span class="outdated">{{ summary.stale }} veraltet</span></span><a href="{% url 'news_language_editor' item.pk summary.code %}">BEARBEITEN</a></div><div class="track">{% if summary.total %}<span class="ready" style="width:{% widthratio summary.ready summary.total 100 %}%"></span><span class="review" style="width:{% widthratio summary.review summary.total 100 %}%"></span><span class="missing" style="width:{% widthratio summary.missing summary.total 100 %}%"></span><span class="outdated" style="width:{% widthratio summary.stale summary.total 100 %}%"></span>{% endif %}</div></div>{% endfor %}
+<div class="preview"><div class="eyebrow-small">VORSCHAU</div><h3>Beitrag in der Vorschau ansehen</h3><a class="preview-link" href="{% url 'news_staff_preview' item.pk %}" target="_blank" rel="noopener">VORSCHAU ANZEIGEN</a></div></section>
+<div class="review-right"><section class="review-panel"><div class="eyebrow-small">LETZTER SCHRITT</div><h2>Veröffentlichung</h2><p class="review-muted">{% if item.published %}Der Beitrag ist aktuell veröffentlicht. Sie können ihn bei Bedarf deaktivieren.{% else %}Der Beitrag ist aktuell nicht veröffentlicht. Sie können ihn bei Bedarf veröffentlichen.{% endif %}</p><form method="post" class="publication-visibility-form">
+  {% csrf_token %}
+  <div class="publication-visibility-box">
+  <h3>SPRACHVERSIONEN AUF DER WEBSITE</h3>
+  <div class="publication-language"><span>Deutsch</span><input type="checkbox" checked disabled aria-label="Deutsch ist die Originalversion"></div>
+  {% for code, label in publication_languages %}
+  <div class="publication-language"><label for="visible-{{ code }}">{{ label }}</label><input id="visible-{{ code }}" type="checkbox" name="visible_languages" value="{{ code }}" {% if code in enabled_languages %}checked{% endif %}></div>
+  {% endfor %}
+  <button type="submit" name="visibility_action" value="save" class="publication-save">SICHTBARKEIT SPEICHERN</button>
+</div>
+</form>
+<form method="post" class="publication-confirm-form">
+  {% csrf_token %}
+  <label class="publication-confirm"><input type="checkbox" name="publication_confirm" required> Ich habe die Vorschau geprüft und möchte den Veröffentlichungsstatus ausdrücklich ändern.</label>
+  {% if item.published %}
+  <button type="submit" name="publication_action" value="unpublish" class="publication-action publication-disable">BEITRAG DEAKTIVIEREN</button>
+  {% else %}
+  <button type="submit" name="publication_action" value="publish" class="publication-action publication-enable">BEITRAG VERÖFFENTLICHEN</button>
+  {% endif %}
+</form></section><section class="review-panel"><h2>Aktionen</h2><a href="{% url 'news_dashboard' %}">ZUR ÜBERSICHT</a></section></div></div>
+<section class="review-panel history"><details class="news-history-details"><summary><span class="history-toggle-icon" aria-hidden="true">›</span><span class="history-toggle-text"><span class="history-toggle-label">ÄNDERUNGSVERLAUF</span><span class="history-toggle-title">Änderungen nachvollziehen</span></span><span class="history-toggle-state" aria-hidden="true"></span></summary><div class="news-history-content">
+<form class="history-form" method="get"><label>MONAT<select name="month"><option value="">Alle Monate</option>{% for month in history_months %}<option value="{{ month.value }}" {% if selected_month == month.value %}selected{% endif %}>{{ month.label }}</option>{% endfor %}</select></label><label>JAHR<select name="year"><option value="">Alle Jahre</option>{% for year in history_years %}<option value="{{ year }}" {% if selected_year == year|stringformat:'s' %}selected{% endif %}>{{ year }}</option>{% endfor %}</select></label><button type="submit">FILTERN</button><a href="{% url 'news_language_editor' item.pk 'review' %}">ZURÜCKSETZEN</a></form>
+{% for change in history_entries %}<article class="history-entry"><header><strong>{{ change.created_at|date:'d.m.Y H:i' }}</strong><span>{{ change.author.get_username|default:'System' }}</span><strong>{{ change.get_language_display }}</strong><span>{{ change.field_label }}</span></header><div class="history-values"><div><strong>ALTE VERSION</strong><p>{{ change.old_text|default:'—' }}</p><small>{{ change.old_status }}</small></div><div><strong>NEUE VERSION</strong><p>{{ change.new_text|default:'—' }}</p><small>{{ change.new_status }}</small></div></div></article>{% empty %}<p class="review-muted">Keine Änderungen für diesen Zeitraum vorhanden.</p>{% endfor %}</div></details></section>
+{% else %}
+<form method="post" class="news-translation-form">{% csrf_token %}<div class="translation-grid">
+{% for row in rows %}<section class="translation-card {% if row.name == 'body' %}wide{% endif %}"><h2>{{ row.label }}</h2><div class="original"><strong>DEUTSCH</strong><p>{{ row.original|default:'—' }}</p></div><label for="translation_{{ row.name }}">ÜBERSETZUNG</label><textarea id="translation_{{ row.name }}" name="translation_{{ row.name }}">{{ row.text }}</textarea>{% if row.stale %}<p class="stale">Der deutsche Originaltext wurde geändert.</p><label><input type="checkbox" name="confirm_{{ row.name }}"> Übersetzung nach Prüfung bestätigen</label>{% endif %}<div class="status-row"><label for="status_{{ row.name }}">STATUS</label><select id="status_{{ row.name }}" name="status_{{ row.name }}"><option value="draft" {% if row.status == 'draft' %}selected{% endif %}>Entwurf</option><option value="review" {% if row.status == 'review' %}selected{% endif %}>In Prüfung</option><option value="published" {% if row.status == 'published' %}selected{% endif %}>Veröffentlicht</option></select></div></section>{% endfor %}
+</div><div class="actions"><button class="btn primary" type="submit">SPRACHVERSION SPEICHERN</button><a class="btn outline" href="{% url 'news_dashboard' %}">ZUR ÜBERSICHT</a></div></form>
+{% endif %}
+</div>{% endblock %}

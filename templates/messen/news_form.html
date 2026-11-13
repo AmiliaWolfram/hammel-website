@@ -1,25 +1,40 @@
-{% extends 'messen/base.html' %}{% block title %}Beitrag bearbeiten<style>
-/* News publication controls: separate, evenly spaced cards */
-main .form-card.publish .publish-option{background:#f6f6f6;border:1px solid #e7e7e7;padding:22px 24px;margin:0!important;min-width:0;border-radius:2px;box-sizing:border-box}
-main .form-card.publish .publish-option + .publish-option{margin-top:16px!important}
-main .form-card.publish .publish-option .check-row,
-main .form-card.publish .publish-option label.check-row:has(> .vp-help-button){display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:16px!important;width:100%!important;max-width:100%!important;min-width:0!important;flex-wrap:nowrap!important;box-sizing:border-box}
-main .form-card.publish .publish-option .check-row > input[type=checkbox]{flex:0 0 20px!important;width:20px!important;height:20px!important;margin:0!important;accent-color:#e30613}
-main .form-card.publish .publish-option .check-row > span{display:flex;flex-direction:column;align-items:flex-start;gap:5px;flex:0 1 auto;min-width:0;line-height:1.35}
-main .form-card.publish .publish-option .check-row strong{font-weight:700}
-main .form-card.publish .publish-option .check-row small{display:block!important;color:#777;line-height:1.4;margin:0!important}
-main .form-card.publish .publish-option .check-row > .vp-help-button{flex:0 0 24px!important;margin:0 0 0 2px!important;align-self:center!important}
-@media(max-width:600px){main .form-card.publish .publish-option{padding:17px 14px}main .form-card.publish .publish-option .check-row{gap:10px!important}main .form-card.publish .publish-option .check-row strong{font-size:15px}}
-</style>{% endblock %}{% block content %}<a class="back" href="{% url 'news_dashboard' %}">← ZUR ÜBERSICHT</a><div class="eyebrow">HAMMEL / NEWS & STORIES</div><h1>{% if editing %}BEITRAG <span class="red">BEARBEITEN</span>{% else %}NEUEN BEITRAG <span class="red">ERSTELLEN</span>{% endif %}</h1><form method="post" enctype="multipart/form-data" class="edit-form">{% csrf_token %}{% load content_i18n %}{% inline_translations object|default:item form %}{{ form.non_field_errors }}<section class="form-card"><h2>BEITRAG</h2><div class="form-grid">{% for field in form %}{% if field.name != 'featured' and field.name != 'published' %}<div class="field {% if field.name == 'body' or field.name == 'teaser' or field.name == 'title' %}wide{% endif %}"><label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} *{% endif %}</label>{{ field }}{{ field.errors }}{% if field.name == 'image' and editing and item.image %}<small>Aktuelles Bild: <a href="{{ item.image.url }}" target="_blank" rel="noopener">Ansehen</a></small>{% endif %}</div>{% endif %}{% endfor %}</div></section><section class="form-card publish"><h2>VERÖFFENTLICHUNG</h2><div class="publish-option"><label class="check-row" for="{{ form.featured.id_for_label }}">{{ form.featured }}<span><strong>Als Hauptstory hervorheben</strong></span></label>{{ form.featured.errors }}</div><div class="publish-option"><label class="check-row" for="{{ form.published.id_for_label }}">{{ form.published }}<span><strong>Auf der Website veröffentlichen</strong><small>Entwürfe bleiben intern.</small></span></label>{{ form.published.errors }}</div></section><div class="form-actions"><a class="btn outline" href="{% url 'news_dashboard' %}">ABBRECHEN</a><button class="btn primary" type="submit">BEITRAG SPEICHERN</button></div></form><style>
-/* News publication controls: separate, evenly spaced cards */
-main .form-card.publish .publish-option{background:#f6f6f6;border:1px solid #e7e7e7;padding:22px 24px;margin:0!important;min-width:0;border-radius:2px;box-sizing:border-box}
-main .form-card.publish .publish-option + .publish-option{margin-top:16px!important}
-main .form-card.publish .publish-option .check-row,
-main .form-card.publish .publish-option label.check-row:has(> .vp-help-button){display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:16px!important;width:100%!important;max-width:100%!important;min-width:0!important;flex-wrap:nowrap!important;box-sizing:border-box}
-main .form-card.publish .publish-option .check-row > input[type=checkbox]{flex:0 0 20px!important;width:20px!important;height:20px!important;margin:0!important;accent-color:#e30613}
-main .form-card.publish .publish-option .check-row > span{display:flex;flex-direction:column;align-items:flex-start;gap:5px;flex:0 1 auto;min-width:0;line-height:1.35}
-main .form-card.publish .publish-option .check-row strong{font-weight:700}
-main .form-card.publish .publish-option .check-row small{display:block!important;color:#777;line-height:1.4;margin:0!important}
-main .form-card.publish .publish-option .check-row > .vp-help-button{flex:0 0 24px!important;margin:0 0 0 2px!important;align-self:center!important}
-@media(max-width:600px){main .form-card.publish .publish-option{padding:17px 14px}main .form-card.publish .publish-option .check-row{gap:10px!important}main .form-card.publish .publish-option .check-row strong{font-size:15px}}
-</style>{% endblock %}
+{% extends 'messen/base.html' %}
+{% block title %}News & Stories – Beitrag{% endblock %}
+{% block content %}
+<style>
+.news-edit .news-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:18px 0 15px}
+.news-edit .news-nav a,.news-edit .news-nav span{display:flex;align-items:center;justify-content:center;background:#e9e9e9;color:#191919;text-decoration:none;font-weight:850;font-size:15px;min-height:48px;padding:8px;box-sizing:border-box}
+.news-edit .news-nav .active{background:#e30613;color:#fff}.news-edit .news-nav span{opacity:.45}
+.news-edit .news-current-title{font-size:24px;font-weight:850;border-bottom:1px solid #ddd;padding:0 0 14px;margin:0 0 22px;overflow-wrap:anywhere}
+.news-edit .news-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.news-edit .news-field{min-width:0}.news-edit .news-field.wide{grid-column:1/-1}
+.news-edit .news-field label{display:block;font-size:12px;font-weight:850;margin-bottom:7px}
+.news-edit .news-field input:not([type=checkbox]),.news-edit .news-field textarea,.news-edit .news-field select{box-sizing:border-box;width:100%;max-width:100%;font-size:14px;min-height:42px;padding:9px 12px;border:1px solid #ccc;background:#fff}
+.news-edit .news-field textarea{min-height:90px;resize:vertical}.news-edit .news-field textarea[name=body]{min-height:230px}
+.news-edit .news-publish-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.news-edit .news-publish-grid label{display:flex;align-items:center;gap:12px;background:#f5f5f5;padding:16px;font-weight:750}
+.news-edit .news-publish-grid input{width:19px;height:19px;accent-color:#e30613}
+.news-edit .news-actions{display:flex;justify-content:flex-end;gap:12px;flex-wrap:wrap;margin:24px 0 40px}
+.news-edit .news-actions .btn{display:inline-flex;align-items:center;justify-content:center;min-width:190px;min-height:48px;box-sizing:border-box;text-decoration:none;border-radius:0}
+@media(max-width:700px){.news-edit .news-form-grid,.news-edit .news-publish-grid{grid-template-columns:1fr}.news-edit .news-nav{gap:5px}.news-edit .news-nav a,.news-edit .news-nav span{font-size:12px;min-height:42px}.news-edit .news-actions>*{flex:1}}
+</style>
+<div class="news-edit">
+<div class="eyebrow">HAMMEL</div>
+<h1>{% if editing %}BEITRAG <span class="red">BEARBEITEN</span>{% else %}NEUEN BEITRAG <span class="red">ERSTELLEN</span>{% endif %}</h1>
+<nav class="news-nav" aria-label="Sprachversionen und Prüfung">
+<a class="active" href="{% if editing %}{% url 'news_edit' item.pk %}{% else %}#{% endif %}">DE</a>
+{% if editing %}
+<a href="{% url 'news_language_editor' item.pk 'en' %}">EN</a><a href="{% url 'news_language_editor' item.pk 'fr' %}">FR</a><a href="{% url 'news_language_editor' item.pk 'es' %}">ES</a><a href="{% url 'news_language_editor' item.pk 'it' %}">IT</a><a href="{% url 'news_language_editor' item.pk 'review' %}">PRÜFUNG</a>
+{% else %}<span>EN</span><span>FR</span><span>ES</span><span>IT</span><span>PRÜFUNG</span>{% endif %}
+</nav>
+{% if editing %}<h2 class="news-current-title">{{ item.title }}</h2>{% endif %}
+<form method="post" enctype="multipart/form-data" class="edit-form">{% csrf_token %}
+{{ form.non_field_errors }}
+<section class="form-card"><h2>BEITRAG</h2><div class="news-form-grid">
+{% for field in form %}{% if field.name != 'featured' and field.name != 'published' %}
+<div class="news-field {% if field.name == 'title' or field.name == 'teaser' or field.name == 'body' %}wide{% endif %}"><label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} *{% endif %}</label>{{ field }}{{ field.errors }}{% if field.name == 'image' and editing and item.image %}<small>Aktuelles Bild: <a href="{{ item.image.url }}" target="_blank" rel="noopener">Ansehen</a></small>{% endif %}</div>
+{% endif %}{% endfor %}
+</div></section>
+<section class="form-card"><h2>VERÖFFENTLICHUNG</h2><div class="news-publish-grid"><label>{{ form.featured }} Als Hauptstory hervorheben</label><label>{{ form.published }} Auf der Website veröffentlichen</label></div>{{ form.featured.errors }}{{ form.published.errors }}</section>
+<div class="news-actions"><button class="btn primary" type="submit">BEITRAG SPEICHERN</button><a class="btn outline" href="{% url 'news_dashboard' %}">ZUR ÜBERSICHT</a></div>
+</form></div>
+{% endblock %}

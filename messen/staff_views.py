@@ -88,9 +88,9 @@ def news_dashboard(request):
 def news_create(request):
     form = NewsArticleForm(request.POST or None, request.FILES or None)
     if request.method == "POST" and form.is_valid():
-        form.save()
-        messages.success(request, "Beitrag wurde gespeichert.")
-        return redirect("news_dashboard")
+        article = form.save()
+        messages.success(request, "Beitrag wurde gespeichert. Weitere Sprachversionen können jetzt bearbeitet werden.")
+        return redirect("news_edit", pk=article.pk)
     return render(request, "messen/news_form.html", {"form": form, "editing": False})
 
 @login_required(login_url="messen_login")
@@ -103,7 +103,7 @@ def news_edit(request, pk):
         from translations.services import save_inline
         save_inline(request, saved, form)
         messages.success(request, "Änderungen wurden gespeichert.")
-        return redirect("news_dashboard")
+        return redirect("news_edit", pk=saved.pk)
     return render(request, "messen/news_form.html", {"form": form, "editing": True, "item": item, "object": item})
 
 @login_required(login_url="messen_login")
@@ -440,6 +440,28 @@ def messe_language_editor(request, pk, lang):
     from .models import MesseTranslationChange
     from translations.services import fields_for, fingerprint
     messe = get_object_or_404(Messe, pk=pk)
+    if request.method == "POST" and lang == "review":
+        if not request.user.has_perm("messen.change_messe"):
+            from django.core.exceptions import PermissionDenied
+            raise PermissionDenied
+        if request.POST.get("visibility_action") == "save":
+            # DE is the original; the other languages are individually configurable.
+            visible = {code: code in request.POST.getlist("visible_languages") for code in ("en", "fr", "es", "it")}
+            messe.language_visibility = visible
+            messe.save(update_fields=["language_visibility"])
+            messages.success(request, "Sichtbarkeit der Sprachversionen gespeichert.")
+            return redirect("messen_language_editor", pk=pk, lang="review")
+        if request.POST.get("publication_confirm") != "on":
+            from django.http import HttpResponseBadRequest
+            return HttpResponseBadRequest("Bitte bestätigen Sie die Prüfung vor der Änderung des Veröffentlichungsstatus.")
+        action = request.POST.get("publication_action")
+        if action not in {"publish", "unpublish"}:
+            from django.http import HttpResponseBadRequest
+            return HttpResponseBadRequest("Ungültige Veröffentlichungsaktion.")
+        messe.published = action == "publish"
+        messe.save(update_fields=["published", "updated_at"])
+        messages.success(request, "Messe veröffentlicht." if messe.published else "Messe deaktiviert.")
+        return redirect("messen_language_editor", pk=pk, lang="review")
     if lang not in {"en", "fr", "es", "it", "review"}:
         raise Http404
     # Messe-specific fields: do not change shared translation rules or HRPortal.
@@ -526,4 +548,141 @@ def messe_language_editor(request, pk, lang):
         if selected_month.isdigit() and 1 <= int(selected_month) <= 12:
             all_changes = all_changes.filter(created_at__month=int(selected_month))
         history_entries = list(all_changes[:100])
-    return render(request, "messen/messe_languages.html", {"item": messe, "lang": lang, "rows": rows, "review": lang == "review", "review_summary": review_summary, "history_entries": history_entries, "history_years": history_years, "history_months": history_months, "selected_month": selected_month, "selected_year": selected_year})
+    return render(request, "messen/messe_languages.html", {"item": messe, "visible_languages": messe.language_visibility or {}, "enabled_languages": [code for code in ("en", "fr", "es", "it") if (messe.language_visibility or {}).get(code, False)], "publication_languages": [("en", "English"), ("fr", "Français"), ("es", "Español"), ("it", "Italiano")], "lang": lang, "rows": rows, "review": lang == "review", "review_summary": review_summary, "history_entries": history_entries, "history_years": history_years, "history_months": history_months, "selected_month": selected_month, "selected_year": selected_year})
+
+
+@login_required(login_url="messen_login")
+@permission_required("messen.change_newsarticle", raise_exception=True)
+def news_language_editor(request, pk, lang):
+    """News-only language editor; never changes HRPortal or Messen translation records."""
+    from datetime import date
+    from django.contrib.contenttypes.models import ContentType
+    from django.db import transaction
+    from django.http import Http404
+    from django.utils.formats import date_format
+    from translations.models import ContentTranslation
+    from translations.services import fingerprint
+    from .models import NewsTranslationChange
+
+    if lang not in {"en", "fr", "es", "it", "review"}:
+        raise Http404
+    article = get_object_or_404(NewsArticle, pk=pk)
+    if request.method == "POST" and lang == "review":
+        if request.POST.get("visibility_action") == "save":
+            # DE is the original; the other languages are individually configurable.
+            visible = {code: code in request.POST.getlist("visible_languages") for code in ("en", "fr", "es", "it")}
+            article.language_visibility = visible
+            article.save(update_fields=["language_visibility"])
+            messages.success(request, "Sichtbarkeit der Sprachversionen gespeichert.")
+            return redirect("news_language_editor", pk=pk, lang="review")
+        if request.POST.get("publication_confirm") != "on":
+            from django.http import HttpResponseBadRequest
+            return HttpResponseBadRequest("Bitte bestätigen Sie die Prüfung vor der Änderung des Veröffentlichungsstatus.")
+        action = request.POST.get("publication_action")
+        if action not in {"publish", "unpublish"}:
+            from django.http import HttpResponseBadRequest
+            return HttpResponseBadRequest("Ungültige Veröffentlichungsaktion.")
+        article.published = action == "publish"
+        article.save(update_fields=["published"])
+        messages.success(request, "Beitrag veröffentlicht." if article.published else "Beitrag deaktiviert.")
+        return redirect("news_language_editor", pk=pk, lang="review")
+    fields = [article._meta.get_field(name) for name in ("title", "teaser", "body")]
+    ct = ContentType.objects.get_for_model(NewsArticle)
+    translations = {(t.language, t.field_name): t for t in ContentTranslation.objects.filter(content_type=ct, object_id=article.pk)}
+    if request.method == "POST":
+        if lang == "review":
+            raise Http404
+        submitted = []
+        for field in fields:
+            value = request.POST.get("translation_" + field.name, "")
+            if len(value) > 100000:
+                messages.error(request, "Der Text ist zu lang (maximal 100.000 Zeichen).")
+                return redirect("news_language_editor", pk=pk, lang=lang)
+            status = request.POST.get("status_" + field.name, "draft")
+            if status not in {"draft", "review", "published"}:
+                status = "draft"
+            submitted.append((field, value, status))
+        with transaction.atomic():
+            for field, value, status in submitted:
+                previous = translations.get((lang, field.name))
+                old_text = previous.text if previous else ""
+                old_status = previous.status if previous else ""
+                original_hash = fingerprint(getattr(article, field.name))
+                changed = previous is None or old_text != value
+                confirmed = request.POST.get("confirm_" + field.name) == "on"
+                source_hash = original_hash if changed or confirmed else previous.source_hash
+                if previous and previous.source_hash != original_hash and not (changed or confirmed) and status == "published":
+                    status = "review"
+                final_status = status if value.strip() else "draft"
+                ContentTranslation.objects.update_or_create(
+                    content_type=ct, object_id=article.pk, language=lang, field_name=field.name,
+                    defaults={"text": value, "status": final_status, "source_hash": source_hash, "updated_by": request.user},
+                )
+                if old_text != value or old_status != final_status:
+                    NewsTranslationChange.objects.create(
+                        article=article, author=request.user, language=lang,
+                        field_name=field.name, field_label=str(field.verbose_name).capitalize(),
+                        old_text=old_text, new_text=value, old_status=old_status, new_status=final_status,
+                    )
+        messages.success(request, "Sprachversion gespeichert.")
+        return redirect("news_language_editor", pk=pk, lang=lang)
+
+    rows = []
+    for field in fields:
+        original = str(getattr(article, field.name) or "")
+        if lang == "review":
+            cells = []
+            for code in ("en", "fr", "es", "it"):
+                t = translations.get((code, field.name))
+                cells.append({"code": code, "text": t.text if t else "", "status": t.status if t else "draft",
+                              "stale": bool(t and t.text.strip() and t.source_hash != fingerprint(original))})
+            rows.append({"name": field.name, "label": str(field.verbose_name).capitalize(), "original": original, "cells": cells})
+        else:
+            t = translations.get((lang, field.name))
+            rows.append({"name": field.name, "label": str(field.verbose_name).capitalize(), "original": original,
+                         "text": t.text if t else "", "status": t.status if t else "draft",
+                         "stale": bool(t and t.text.strip() and t.source_hash != fingerprint(original))})
+    summary = []
+    history_entries, history_years, history_months = [], [], []
+    selected_month, selected_year = request.GET.get("month", ""), request.GET.get("year", "")
+    if lang == "review":
+        for code, name in (("en", "English"), ("fr", "Français"), ("es", "Español"), ("it", "Italiano")):
+            counts = {"ready": 0, "review": 0, "missing": 0, "stale": 0}
+            for row in rows:
+                cell = next(c for c in row["cells"] if c["code"] == code)
+                if not cell["text"].strip(): counts["missing"] += 1
+                elif cell["stale"]: counts["stale"] += 1
+                elif cell["status"] == "published": counts["ready"] += 1
+                else: counts["review"] += 1
+            total = sum(counts.values())
+            summary.append({"code": code, "name": name, **counts, "total": total})
+        changes = NewsTranslationChange.objects.filter(article=article).select_related("author")
+        history_years = sorted({d.year for d in changes.dates("created_at", "year")}, reverse=True)
+        history_months = [{"value": str(m), "label": date_format(date(2024, m, 1), "F")} for m in range(1, 13)]
+        if selected_year.isdigit() and len(selected_year) == 4:
+            changes = changes.filter(created_at__year=int(selected_year))
+        if selected_month.isdigit() and 1 <= int(selected_month) <= 12:
+            changes = changes.filter(created_at__month=int(selected_month))
+        history_entries = list(changes[:100])
+    return render(request, "messen/news_languages.html", {
+        "item": article, "visible_languages": article.language_visibility or {}, "enabled_languages": [code for code in ("en", "fr", "es", "it") if (article.language_visibility or {}).get(code, False)], "publication_languages": [("en", "English"), ("fr", "Français"), ("es", "Español"), ("it", "Italiano")], "lang": lang, "rows": rows, "review": lang == "review", "review_summary": summary,
+        "history_entries": history_entries, "history_years": history_years, "history_months": history_months,
+        "selected_month": selected_month, "selected_year": selected_year,
+    })
+
+
+@login_required(login_url="messen_login")
+@permission_required("messen.view_messe", raise_exception=True)
+def messen_staff_preview(request, pk):
+    """Staff-only preview, including unpublished fairs; never changes publication state."""
+    item = get_object_or_404(Messe, pk=pk)
+    return render(request, "messen/messe_staff_preview.html", {"item": item})
+
+
+@login_required(login_url="messen_login")
+@permission_required("messen.view_newsarticle", raise_exception=True)
+def news_staff_preview(request, pk):
+    """Staff-only article preview, including unpublished stories."""
+    article = get_object_or_404(NewsArticle, pk=pk)
+    related = NewsArticle.objects.none()
+    return render(request, "messen/news_story.html", {"article": article, "related": related})

@@ -12,6 +12,7 @@ class Messe(models.Model):
     url = models.URLField("Messe-Website", blank=True)
     image = models.ImageField("Messebild", upload_to="messen/", blank=True)
     published = models.BooleanField("Öffentlich sichtbar", default=False)
+    language_visibility = models.JSONField("Sichtbare Sprachversionen", default=dict, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -50,6 +51,7 @@ class NewsArticle(models.Model):
     external_url = models.URLField("Externer Link", blank=True)
     featured = models.BooleanField("Hauptstory", default=False)
     published = models.BooleanField("Veröffentlicht", default=False)
+    language_visibility = models.JSONField("Sichtbare Sprachversionen", default=dict, blank=True)
     class Meta:
         ordering = ["-published_at", "-id"]
         verbose_name = "Newsbeitrag"
@@ -252,6 +254,23 @@ class MesseTranslationChange(models.Model):
     messe = models.ForeignKey(Messe, on_delete=models.CASCADE, related_name="translation_changes")
     author = models.ForeignKey("auth.User", on_delete=models.SET_NULL, null=True, blank=True)
     language = models.CharField(max_length=2, choices=LANGUAGE_CHOICES)
+    field_name = models.CharField(max_length=100)
+    field_label = models.CharField(max_length=160)
+    old_text = models.TextField(blank=True)
+    new_text = models.TextField(blank=True)
+    old_status = models.CharField(max_length=30, blank=True)
+    new_status = models.CharField(max_length=30, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    class Meta:
+        ordering = ("-created_at", "-pk")
+
+
+class NewsTranslationChange(models.Model):
+    """Audit of manual News & Stories translations, isolated from HR and Messen."""
+    article = models.ForeignKey(NewsArticle, on_delete=models.CASCADE, related_name="translation_changes")
+    author = models.ForeignKey("auth.User", null=True, blank=True, on_delete=models.SET_NULL)
+    language = models.CharField(max_length=2, choices=[("en", "English"), ("fr", "Français"), ("es", "Español"), ("it", "Italiano")])
     field_name = models.CharField(max_length=100)
     field_label = models.CharField(max_length=160)
     old_text = models.TextField(blank=True)
