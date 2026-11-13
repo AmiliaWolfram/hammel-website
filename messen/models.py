@@ -245,3 +245,20 @@ class HomepageShowcase(models.Model):
     class Meta:
         ordering = ["position", "pk"]
     def __str__(self): return self.category
+
+
+class MesseTranslationChange(models.Model):
+    LANGUAGE_CHOICES = [("en", "English"), ("fr", "Français"), ("es", "Español"), ("it", "Italiano")]
+    messe = models.ForeignKey(Messe, on_delete=models.CASCADE, related_name="translation_changes")
+    author = models.ForeignKey("auth.User", on_delete=models.SET_NULL, null=True, blank=True)
+    language = models.CharField(max_length=2, choices=LANGUAGE_CHOICES)
+    field_name = models.CharField(max_length=100)
+    field_label = models.CharField(max_length=160)
+    old_text = models.TextField(blank=True)
+    new_text = models.TextField(blank=True)
+    old_status = models.CharField(max_length=30, blank=True)
+    new_status = models.CharField(max_length=30, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    class Meta:
+        ordering = ("-created_at", "-pk")

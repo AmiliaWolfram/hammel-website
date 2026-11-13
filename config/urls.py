@@ -94,6 +94,7 @@ urlpatterns = [
     path("staff/messen/logout/", staff_views.StaffLogoutView.as_view(), name="messen_logout"),
     path("staff/messen/neu/", staff_views.create, name="messen_create"),
     path("staff/messen/<int:pk>/bearbeiten/", staff_views.edit, name="messen_edit"),
+    path("staff/messen/<int:pk>/sprachen/<str:lang>/", staff_views.messe_language_editor, name="messen_language_editor"),
     path("staff/messen/<int:pk>/loeschen/", staff_views.delete, name="messen_delete"),
     path("django-intern-admin/", admin.site.urls),
     path("api/messen/", published_messen, name="published_messen"),

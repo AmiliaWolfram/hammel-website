@@ -1,4 +1,4 @@
-{% load static %}<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{% block title %}Messenverwaltung{% endblock %} | HAMMEL</title><link rel="stylesheet" href="{% static 'css/messen-staff.css' %}?v=20261101"><link rel="stylesheet" href="/assets/css/hammel-eyebrow-palette.css?v=20261023palette1">
+{% load static %}<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{% block title %}Messenverwaltung{% endblock %} | HAMMEL</title><link rel="stylesheet" href="{% static 'css/messen-staff.css' %}?v=20261101"><link rel="stylesheet" href="/assets/css/hammel-eyebrow-palette.css?v=20261023palette1"><link rel="stylesheet" href="/assets/css/vertrieb-messen-languages.css?v=20261113grid4">
 <style>.top{border-bottom:0!important;box-shadow:none!important}.top:after,.top-inner:after{display:none!important}.top-actions{gap:clamp(9px,1.25vw,22px)!important;flex-wrap:wrap}.top-actions a{white-space:nowrap;font-size:clamp(11px,.82vw,14px)!important}@media(max-width:1100px){.top-inner{flex-wrap:wrap;gap:14px;padding-block:15px}.top-actions{width:100%;justify-content:flex-start}}.vertrieb-brand-logo{display:block;width:clamp(140px,12vw,205px);height:auto;max-height:75px;object-fit:contain;object-position:left center}.top .brand{display:flex;align-items:center;flex-shrink:0;text-decoration:none}.top .brand-name,.top .brand-sub{display:none!important}@media(max-width:650px){.vertrieb-brand-logo{width:145px;max-height:60px}}
 .top-inner{display:grid!important;grid-template-columns:minmax(175px,240px) minmax(0,1fr) minmax(170px,235px);gap:clamp(20px,2.4vw,45px)!important;align-items:center!important;width:min(100% - 48px,1480px);max-width:1480px;margin:auto;padding:22px 0!important;box-sizing:border-box}.top .brand{justify-self:start}.vertrieb-brand-logo{width:clamp(175px,14vw,230px)!important;max-height:70px!important}.top-actions{display:flex!important;justify-content:center!important;align-items:center;gap:clamp(12px,1.25vw,24px)!important;flex-wrap:wrap!important;width:auto!important;min-width:0}.top-actions a{font-size:clamp(11px,.75vw,13px)!important;white-space:nowrap}.vertrieb-account{justify-self:end;min-width:0;text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:5px}.vertrieb-account-title{color:#f2b705;font-weight:900;letter-spacing:.065em;font-size:clamp(17px,1.45vw,25px);line-height:1.05;white-space:nowrap}.vertrieb-account-title span{color:#fff}.vertrieb-account-user{color:#c4c4c4;font-size:12px;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.vertrieb-account-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#f2b705;margin-right:8px;vertical-align:middle}.vertrieb-logout{background:transparent;border:0;color:#aaa;font:inherit;font-size:11px;padding:4px 0;cursor:pointer}.vertrieb-logout:hover{color:#fff}@media(max-width:1120px){.top-inner{grid-template-columns:1fr auto!important;gap:18px!important}.top-actions{grid-column:1/-1;grid-row:2;justify-content:flex-start!important}.vertrieb-account{grid-column:2;grid-row:1}}@media(max-width:650px){.top-inner{width:calc(100% - 32px);grid-template-columns:minmax(0,1fr) auto!important;padding:16px 0!important}.vertrieb-brand-logo{width:150px!important}.vertrieb-account-title{font-size:15px}.vertrieb-account-user{font-size:10px;max-width:140px}.top-actions{gap:14px!important}.top-actions a{font-size:12px!important}}.vertrieb-account{min-width:0!important;align-items:flex-end!important}.vertrieb-account-grid{display:grid;grid-template-columns:max-content max-content;column-gap:0;align-items:start;text-align:left}.vertrieb-account-part{display:flex;flex-direction:column;align-items:flex-start;gap:7px;min-width:0}.vertrieb-account-heading{font-size:clamp(17px,1.45vw,25px);font-weight:900;line-height:1.05;letter-spacing:.065em;white-space:nowrap}.vertrieb-account-heading-yellow{color:#f2b705}.vertrieb-account-heading-white{color:#fff}.vertrieb-account-user{margin:0!important;max-width:145px!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px!important}.vertrieb-account-part form{margin:0}.vertrieb-logout{margin:0!important;padding:0!important;line-height:1.4;text-align:left}@media(max-width:650px){.vertrieb-account-heading{font-size:15px}.vertrieb-account-user{max-width:100px!important;font-size:10px!important}.vertrieb-account-part{gap:6px}}
 /* Account area: the username and logout action share the exact same baseline. */
@@ -40,78 +40,6 @@ body:not(:has(.staff-login)) > .main :is(.edit-form,.machine-edit-form,form){max
 @media(max-width:650px){body:not(:has(.staff-login)) > .main{width:calc(100% - 32px)}main form label:has(> .vp-help-button){gap:7px!important}}
 </style>
 <script>
-(function(){
-'use strict';
-const help={
-'kategorie':['Ordnet den Eintrag einer Maschinen- oder Inhaltskategorie zu.','Vorbrecher'],
-'produkt':['Wählen Sie das passende Produkt aus dem Maschinenkatalog. Dieses Feld kann optional sein.','VB 950 DK'],
-'oberzeile':['Kurze Zeile über dem großen Titel im Showcase.','RED GIANT'],
-'titel':['Hauptüberschrift, die Besucher auf der Website sehen.','VB 950 DK'],
-'werbetext':['Kurzer werblicher Beschreibungstext; unabhängig von technischen Stammdaten.','Leistungsstarke Vorzerkleinerung'],
-'weitere modelle':['Zusätzliche Modellnamen, getrennt durch einen Mittelpunkt oder Kommas.','VB 850 DK / VB 750 DLV / VB 650'],
-'beschreibung':['Beschreiben Sie das Angebot verständlich für Website-Besucher.','Zuverlässige Lösungen für anspruchsvolle Materialien.'],
-'kurzbeschreibung':['Kurze Zusammenfassung für Listen und Vorschaukarten.','Robuste Technik für den täglichen Einsatz.'],
-'gruppe':['Wählen Sie die Abteilung, in der die Kontaktperson angezeigt wird.','Service'],
-'funktion':['Tätigkeit oder Position der Kontaktperson.','Außendienst'],
-'name':['Offizieller Name, so wie er auf der Website erscheinen soll.','Max Mustermann'],
-'vorname':['Vorname der Kontaktperson.','Max'],
-'nachname':['Nachname der Kontaktperson.','Mustermann'],
-'firma':['Offizieller Firmenname.','HAMMEL Recyclingtechnik GmbH'],
-'land':['Land des Partners oder Veranstaltungsortes.','Deutschland'],
-'stadt':['Stadt des Partners oder Veranstaltungsortes.','Bad Salzungen'],
-'kontinent':['Kontinent für die Zuordnung auf der Weltkarte.','Europa'],
-'adresse':['Vollständige Anschrift mit Straße und Hausnummer.','Leimbacher Str. 130'],
-'anschrift':['Vollständige Anschrift mit Straße und Hausnummer.','Leimbacher Str. 130'],
-'ort':['Veranstaltungsort oder Stadt.','Luzern, Schweiz'],
-'website':['Vollständige Internetadresse einschließlich https://.','https://www.beispiel.de'],
-'auf der website veröffentlichen':['Aktivieren Sie diese Option, damit die Messe unter Aktuelles / Messen öffentlich erscheint. Ohne Häkchen bleibt sie im Portal gespeichert, ist aber auf der Website nicht sichtbar.','Aktiviert: Messe öffentlich sichtbar / Deaktiviert: nur im Portal'],
-'auf der website':['Diese Eigenschaft wird im Maschinenprofil auf der öffentlichen Website angezeigt, wenn die Option aktiviert ist.','Aktiviert: im Maschinenprofil sichtbar'],
-'im vergleich':['Diese Eigenschaft wird in der Vergleichstabelle angezeigt, wenn die Option aktiviert ist.','Aktiviert: in der Vergleichstabelle sichtbar'],
-'sichtbar':['Steuert, ob der jeweilige Inhalt öffentlich sichtbar ist. Gespeicherte Daten bleiben beim Ausblenden erhalten.','Aktiviert: sichtbar / Deaktiviert: verborgen'],
-'veroffentlichung':['Hier steuern Sie, ob die Messe öffentlich auf der Website erscheint.','Aktiviert: veröffentlicht'],
-'url':['Vollständige Zieladresse oder relativer Pfad innerhalb der Website.','/maschinen/index.html'],
-'link':['Zieladresse der Schaltfläche oder des Beitrags.','/kontakt/index.html'],
-'e-mail':['Gültige geschäftliche E-Mail-Adresse.','info@hammel.de'],
-'email':['Gültige geschäftliche E-Mail-Adresse.','info@hammel.de'],
-'telefon':['Telefonnummer möglichst mit internationaler Vorwahl.','+49 3695 6991 0'],
-'logo':['Laden Sie das Firmenlogo hoch. Bevorzugt eine transparente PNG- oder SVG-Datei.','partner-logo.png'],
-'bild':['Passendes Bild für die öffentliche Darstellung.','maschine-vb950.jpg'],
-'foto':['Laden Sie ein aussagekräftiges Foto hoch.','maschine-detail.jpg'],
-'video':['Videodatei oder Video-Link, je nach Feldtyp.','maschinen-demo.mp4'],
-'datum':['Wählen Sie das Datum im vorgesehenen Format.','28.10.2026'],
-'beginn':['Beginn der Veranstaltung oder des Veröffentlichungszeitraums.','21.01.2027'],
-'ende':['Ende der Veranstaltung oder des Veröffentlichungszeitraums.','23.01.2027'],
-'reihenfolge':['Kleinere Zahlen erscheinen zuerst.','10'],
-'sortierung':['Kleinere Zahlen erscheinen zuerst.','10'],
-'aktiv':['Aktivieren, um den Eintrag öffentlich anzuzeigen.','Aktiviert = sichtbar'],
-'veroffentlicht':['Aktivieren, um den Eintrag öffentlich anzuzeigen.','Aktiviert = ONLINE'],
-'status':['Steuert, ob der Eintrag auf der öffentlichen Website sichtbar ist.','ONLINE'],
-'schwerpunkte':['Nennen Sie die wichtigsten Fachgebiete oder Leistungen des Partners.','Vertrieb, Wartung, Ersatzteile'],
-'slogan':['Kurzer prägnanter Leitsatz der Firma.','JUST SHRED IT'],
-'farbe':['Farbwert im HEX-Format, falls für die Darstellung benötigt.','#E30613'],
-'button':['Text oder Zieladresse der Schaltfläche, abhängig vom Feld.','MEHR ERFAHREN'],
-'button text':['Beschriftung der Schaltfläche auf der Website.','VORBRECHER ENTDECKEN'],
-'button url':['Zieladresse der Schaltfläche.','/maschinen/index.html'],
-'koordinaten':['Geografische Position zur Platzierung auf der Karte.','50.814, 10.235'],
-'einsatzgebiete':['Legt fest, für welche Einsatzbereiche diese Eigenschaft auf der Website sichtbar ist. Der eigentliche Wert wird im Maschineneditor bearbeitet.','Einsatzgebiete: sichtbar'],
-'feldname':['Interne Bezeichnung des Feldes. Sie wird auch als Überschrift auf der Website verwendet.','Einsatzgebiete'],
-'bereich':['Wählen Sie den Bereich, zu dem das Feld gehört.','Technische Daten'],
-'hero media choice':['Wählen Sie, ob auf der Produktseite ein Bild oder Video im Hauptbereich angezeigt wird.','Bild verwenden'],
-'latitude':['Breitengrad als Dezimalzahl.','50.814'],
-'longitude':['Längengrad als Dezimalzahl.','10.235']
-};
-function normalize(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s*\*\s*/g,'').replace(/\s+/g,' ').trim()}
-let panel=null, active=null;
-function close(){if(panel){panel.remove();panel=null}if(active){active.setAttribute('aria-expanded','false');active=null}}
-function info(label,field){let key=normalize(label);if(help[key])return help[key];let match=Object.keys(help).filter(k=>k.length>=5).sort((a,b)=>b.length-a.length).find(k=>key===k||key.startsWith(k+' ')||key.endsWith(' '+k));if(match)return help[match];let type=(field?.getAttribute('type')||'').toLowerCase();if(type==='file')return ['Laden Sie eine passende Datei hoch. Prüfen Sie vor dem Speichern das Dateiformat.','beispiel-datei.jpg'];if(type==='date')return help.datum;if(type==='url')return help.url;if(type==='email')return help.email;if(type==='checkbox')return ['Aktivieren oder deaktivieren Sie diese Einstellung.','Häkchen gesetzt = aktiviert'];if(field?.tagName==='SELECT')return ['Wählen Sie den passenden Eintrag aus der Liste.','Passende Option auswählen'];return ['Tragen Sie hier die passende Information ein. Der Wert wird beim Speichern übernommen.','Beispiel passend zum Feldnamen: '+label.trim()]}
-function show(button,label,field){if(active===button){close();return}close();let [desc,example]=info(label,field);panel=document.createElement('div');panel.className='vp-help-panel';panel.setAttribute('role','note');panel.id='vp-help-'+Math.random().toString(36).slice(2);let title=document.createElement('strong');title.className='vp-help-title';title.textContent='Gut zu wissen';let body=document.createElement('div');body.textContent=desc;let ex=document.createElement('div');ex.className='vp-example';let exlabel=document.createElement('span');exlabel.className='vp-example-label';exlabel.textContent='BEISPIEL';let value=document.createElement('span');value.textContent=example;ex.append(exlabel,value);panel.append(title,body,ex);const wrapper=button.closest('.machine-field,.staff-field,.field,.form-field,.form-group,.vp-field')||button.closest('label')?.parentElement||button.parentElement;// Keep the hint in document flow, but outside the label/control grid cell.
-const anchor=field?.closest('.machine-field,.staff-field,.field,.form-field,.form-group,.vp-field')||wrapper;
-anchor.insertAdjacentElement('afterend',panel);button.setAttribute('aria-expanded','true');button.setAttribute('aria-controls',panel.id);active=button}
-function init(){document.querySelectorAll('main form label').forEach(label=>{if(label.querySelector('.vp-help-button')||label.closest('.vp-help-panel')||label.closest('.machine-edit-form')||label.closest('.machine-field-label-row')||label.parentElement?.querySelector('.machine-field-help,.custom-help-button,.fv-help-button,[data-field-help]')||label.closest('.machine-field,.staff-field')?.querySelector('.machine-field-help,[data-field-help]'))return;let text=label.textContent.trim();if(!text||text.length>95||/^(Zurücksetzen|Clear|Löschen)$/i.test(text)||label.querySelector('input[type="checkbox"][name$="-clear"]'))return;let field=label.htmlFor?document.getElementById(label.htmlFor):null;if(!field){let parent=label.parentElement;field=parent?.querySelector('input,select,textarea')||parent?.parentElement?.querySelector('input,select,textarea')}if(!field)return;let b=document.createElement('button');b.type='button';b.className='vp-help-button';b.textContent='?';b.setAttribute('aria-label','Hilfe zu '+text);b.setAttribute('aria-expanded','false');b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();show(b,text,field)});label.appendChild(b)});
-}
-document.addEventListener('DOMContentLoaded',init);document.addEventListener('click',e=>{if(panel&&!panel.contains(e.target)&&!e.target.closest('.vp-help-button'))close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});window.addEventListener('resize',close);
-})();
-</script><script>
 /* Accessible custom single-choice dropdowns. Original Django select remains the submitted control. */
 (function(){
  const closeAll=(except)=>document.querySelectorAll('.vp-select.is-open').forEach(w=>{if(w===except)return;w.classList.remove('is-open');w.querySelector('.vp-select-trigger').setAttribute('aria-expanded','false');w.querySelector('.vp-select-menu').hidden=true});
@@ -241,5 +169,10 @@ function init(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
+
+<style>
+.vp-help-button,.vp-help-panel,.custom-help-button,.fv-help-button,.machine-field-help,[data-field-help],button[aria-label^="Hilfe zu"]{display:none!important}
+</style>
+<script>document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.vp-help-button,.vp-help-panel,.custom-help-button,.fv-help-button,.machine-field-help,[data-field-help],button[aria-label^="Hilfe zu"]').forEach(function(el){el.remove()})});</script>
 </body></html>
 <style>main form label:has(> .vp-help-button){display:inline-flex!important;align-items:center!important;gap:9px!important;flex-wrap:nowrap!important;width:auto!important;max-width:100%!important}main form label>.vp-help-button{display:inline-flex!important;flex:0 0 24px!important;margin:0!important;vertical-align:middle!important}.vp-help-panel{max-width:100%;box-sizing:border-box}</style>

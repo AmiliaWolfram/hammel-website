@@ -427,3 +427,103 @@ def showcase_edit(request, pk):
         messages.success(request, 'Showcase gespeichert.')
         return redirect('showcase_dashboard')
     return render(request, 'messen/showcase_edit.html', {'form':form, 'item':obj})
+
+
+@login_required(login_url="messen_login")
+@permission_required("messen.change_messe", raise_exception=True)
+def messe_language_editor(request, pk, lang):
+    """Messe-only language/review workflow. HRPortal and shared editors stay untouched."""
+    from django.contrib.contenttypes.models import ContentType
+    from django.db import transaction
+    from django.http import Http404
+    from translations.models import ContentTranslation
+    from .models import MesseTranslationChange
+    from translations.services import fields_for, fingerprint
+    messe = get_object_or_404(Messe, pk=pk)
+    if lang not in {"en", "fr", "es", "it", "review"}:
+        raise Http404
+    # Messe-specific fields: do not change shared translation rules or HRPortal.
+    fields = [messe._meta.get_field(name) for name in ("title", "booth", "city", "country", "description")]
+    ct = ContentType.objects.get_for_model(Messe)
+    translations = {(t.language, t.field_name): t for t in ContentTranslation.objects.filter(content_type=ct, object_id=messe.pk)}
+    if request.method == "POST" and lang != "review":
+        with transaction.atomic():
+            for field in fields:
+                value = request.POST.get("translation_" + field.name, "")
+                if len(value) > 30000:
+                    messages.error(request, "Ein Text ist zu lang (maximal 30.000 Zeichen).")
+                    return redirect("messen_language_editor", pk=pk, lang=lang)
+                previous = translations.get((lang, field.name))
+                requested_status = request.POST.get("status_" + field.name, "draft")
+                if requested_status not in {"draft", "review", "published"}:
+                    requested_status = "draft"
+                original_hash = fingerprint(getattr(messe, field.name))
+                changed = previous is None or previous.text != value
+                confirmed = request.POST.get("confirm_" + field.name) == "on"
+                source_hash = original_hash if changed or confirmed else previous.source_hash
+                if previous and previous.source_hash != original_hash and not (changed or confirmed) and requested_status == "published":
+                    requested_status = "review"
+                ContentTranslation.objects.update_or_create(
+                    content_type=ct, object_id=messe.pk, language=lang, field_name=field.name,
+                    defaults={"text": value, "status": requested_status if value.strip() else "draft", "source_hash": source_hash, "updated_by": request.user},
+                )
+                final_status = requested_status if value.strip() else "draft"
+                if previous is None:
+                    old_text, old_status = "", ""
+                else:
+                    old_text, old_status = previous.text, previous.status
+                if old_text != value or old_status != final_status:
+                    MesseTranslationChange.objects.create(
+                        messe=messe, author=request.user, language=lang,
+                        field_name=field.name, field_label=str(field.verbose_name).capitalize(),
+                        old_text=old_text, new_text=value, old_status=old_status, new_status=final_status,
+                    )
+        messages.success(request, "Sprachversion gespeichert.")
+        return redirect("messen_language_editor", pk=pk, lang=lang)
+    rows = []
+    for field in fields:
+        original = str(getattr(messe, field.name) or "")
+        if lang == "review":
+            cells = []
+            for code in ("en", "fr", "es", "it"):
+                t = translations.get((code, field.name))
+                cells.append({"code": code, "text": t.text if t else "", "status": t.status if t else "draft", "stale": bool(t and t.text.strip() and t.source_hash != fingerprint(original))})
+            rows.append({"name": field.name, "label": str(field.verbose_name).capitalize(), "original": original, "cells": cells})
+        else:
+            t = translations.get((lang, field.name))
+            rows.append({"name": field.name, "label": str(field.verbose_name).capitalize(), "original": original, "text": t.text if t else "", "status": t.status if t else "draft", "stale": bool(t and t.text.strip() and t.source_hash != fingerprint(original))})
+    review_summary = []
+    if lang == "review":
+        language_names = {"en": "English", "fr": "Français", "es": "Español", "it": "Italiano"}
+        for code, name in language_names.items():
+            counts = {"ready": 0, "review": 0, "missing": 0, "stale": 0}
+            for row in rows:
+                cell = next(c for c in row["cells"] if c["code"] == code)
+                if not cell["text"].strip():
+                    counts["missing"] += 1
+                elif cell["stale"]:
+                    counts["stale"] += 1
+                elif cell["status"] == "published":
+                    counts["ready"] += 1
+                else:
+                    counts["review"] += 1
+            total = sum(counts.values())
+            review_summary.append({"code": code, "name": name, **counts,
+                                   "total": total, "progress": round(counts["ready"] * 100 / total) if total else 0})
+    history_entries = []
+    history_months = []
+    history_years = []
+    selected_month = request.GET.get("month", "")
+    selected_year = request.GET.get("year", "")
+    if lang == "review":
+        from django.utils.formats import date_format
+        from datetime import date
+        all_changes = MesseTranslationChange.objects.filter(messe=messe).select_related("author")
+        history_years = sorted({d.year for d in all_changes.dates("created_at", "year")}, reverse=True)
+        history_months = [{"value": str(m), "label": date_format(date(2024, m, 1), "F")} for m in range(1, 13)]
+        if selected_year.isdigit() and len(selected_year) == 4:
+            all_changes = all_changes.filter(created_at__year=int(selected_year))
+        if selected_month.isdigit() and 1 <= int(selected_month) <= 12:
+            all_changes = all_changes.filter(created_at__month=int(selected_month))
+        history_entries = list(all_changes[:100])
+    return render(request, "messen/messe_languages.html", {"item": messe, "lang": lang, "rows": rows, "review": lang == "review", "review_summary": review_summary, "history_entries": history_entries, "history_years": history_years, "history_months": history_months, "selected_month": selected_month, "selected_year": selected_year})

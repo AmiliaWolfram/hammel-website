@@ -1,0 +1,222 @@
+{% extends 'messen/base.html' %}
+{% block title %}Messe – Sprachversionen{% endblock %}
+{% block content %}
+<style id="messe-actions-inline-v5">
+/* Applies exclusively to the Messen translation/review template. */
+.messe-editor-actions{display:flex!important;flex-direction:row!important;justify-content:flex-end!important;align-items:stretch!important;flex-wrap:wrap!important;gap:12px!important;margin:24px 0 44px!important}
+.messe-editor-actions>.btn,.messe-editor-actions>.messe-overview-button{box-sizing:border-box!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;width:auto!important;min-width:210px!important;min-height:52px!important;height:52px!important;margin:0!important;padding:10px 24px!important;border-radius:0!important;border:1px solid transparent!important;font-size:14px!important;line-height:1.2!important;font-weight:800!important;letter-spacing:.035em!important;text-align:center!important;text-decoration:none!important;white-space:nowrap!important;box-shadow:none!important}
+.messe-editor-actions>.btn.primary{background:#e30613!important;color:#fff!important;border-color:#e30613!important;cursor:pointer!important}
+.messe-editor-actions>.btn.primary:hover{background:#b90010!important;border-color:#b90010!important}
+.messe-editor-actions>.messe-overview-button{background:#222!important;color:#fff!important;border-color:#222!important}
+.messe-editor-actions>.messe-overview-button:hover{background:#e30613!important;border-color:#e30613!important;color:#fff!important}
+@media(max-width:600px){.messe-editor-actions{flex-direction:column!important}.messe-editor-actions>.btn,.messe-editor-actions>.messe-overview-button{width:100%!important;min-width:0!important}}
+</style>
+
+<style id="messe-grid-fix">
+form.messe-translation-form > .messe-translation-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important;align-items:start!important}
+form.messe-translation-form > .messe-translation-grid > .messe-lang-card{margin:0!important;min-width:0!important;padding:16px!important}
+form.messe-translation-form .messe-lang-columns{display:flex!important;flex-direction:column!important;gap:12px!important}
+form.messe-translation-form .messe-original{width:100%!important;box-sizing:border-box!important;min-height:0!important;height:auto!important;padding:12px 14px!important}
+form.messe-translation-form .messe-translation{width:100%!important;min-width:0!important}
+form.messe-translation-form .messe-translation textarea{width:100%!important;box-sizing:border-box!important;min-height:70px!important;height:70px!important;padding:9px 11px!important}
+form.messe-translation-form .messe-field-bottom{display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:10px!important}
+form.messe-translation-form .messe-field-bottom select{width:190px!important;max-width:100%!important;min-height:36px!important;height:36px!important}
+@media(max-width:850px){form.messe-translation-form > .messe-translation-grid{grid-template-columns:1fr!important}}
+</style>
+
+<style id="messe-description-fullwidth">
+/* Messen only: final description card uses the entire row. */
+form.messe-translation-form > .messe-translation-grid > .messe-lang-card:last-child{
+ grid-column:1/-1!important;
+}
+form.messe-translation-form > .messe-translation-grid > .messe-lang-card:last-child textarea{
+ min-height:115px!important;
+ height:115px!important;
+}
+@media(max-width:850px){
+ form.messe-translation-form > .messe-translation-grid > .messe-lang-card:last-child{grid-column:auto!important}
+}
+</style>
+<style id="messe-review-hr-layout">
+.messe-review-layout{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:18px 0 24px;align-items:start}
+.messe-review-panel{background:#fff;border:1px solid #e1e1e1;padding:26px;min-width:0}
+.messe-review-eyebrow{color:#e30613;font-size:12px;font-weight:800;letter-spacing:.06em}
+.messe-review-panel h2{font-size:25px;margin:10px 0 9px}
+.messe-review-intro{color:#626262;font-size:14px;margin:0 0 24px;line-height:1.5}
+.messe-review-language{padding:15px 0;border-bottom:1px solid #eee}
+.messe-review-language-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.messe-review-language-head>strong{font-size:15px;flex:1 0 100px}
+.messe-review-numbers{display:flex;gap:9px;flex-wrap:wrap;font-size:11px;font-weight:750}
+.messe-review-numbers .is-ready,.messe-review-help .is-ready{color:#148047}
+.messe-review-numbers .is-review,.messe-review-help .is-review{color:#b67b00}
+.messe-review-numbers .is-missing,.messe-review-help .is-missing{color:#c50016}
+.messe-review-numbers .is-stale,.messe-review-help .is-stale{color:#68717a}
+.messe-review-language-head>a{color:#e30613;text-decoration:none;font-size:11px;font-weight:900}
+.messe-review-track{height:6px;background:#e6e6e6;display:flex;margin-top:12px;overflow:hidden}
+.messe-review-track span.is-ready{background:#148047}.messe-review-track span.is-review{background:#e8ad2d}.messe-review-track span.is-stale{background:#929ba3}
+.messe-review-help{margin-top:24px;background:#f4f4f3;padding:18px;font-size:12px;line-height:1.7}
+.messe-review-help>strong{font-size:14px}.messe-review-help p{margin:8px 0 0}
+.messe-review-field{border:1px solid #e1e1e1;margin:0 0 10px;background:#fff}
+.messe-review-field>summary{cursor:pointer;padding:15px;font-size:14px;font-weight:850;display:flex;justify-content:space-between;gap:10px}
+.messe-review-field>summary span{color:#e30613;font-size:10px}
+.messe-review-original{background:#f2f2f1;padding:13px;margin:0 12px 12px}
+.messe-review-original strong{font-size:11px}.messe-review-original p{font-size:13px;margin:8px 0 0;overflow-wrap:anywhere}
+.messe-review-cell-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 12px 12px}
+.messe-review-cell-grid .messe-review-cell{padding:12px;border:1px solid #e5e5e5;min-width:0}
+.messe-review-cell-heading{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.messe-review-tag{font-size:10px;font-weight:850}.messe-review-tag.ready{color:#148047}.messe-review-tag.review{color:#b67b00}.messe-review-tag.missing{color:#c50016}.messe-review-tag.stale{color:#68717a}
+.messe-review-cell-grid .messe-review-cell p{font-size:12px;min-height:30px;margin:10px 0;overflow-wrap:anywhere}
+.messe-review-cell-grid .messe-review-cell a{font-size:11px;color:#e30613;text-decoration:none;font-weight:850}
+@media(max-width:1000px){.messe-review-layout{grid-template-columns:1fr}}
+@media(max-width:540px){.messe-review-panel{padding:16px}.messe-review-cell-grid{grid-template-columns:1fr}}
+</style>
+<style id="messe-hr-review-exact">
+/* Match HR review composition; strictly scoped to Messen. */
+.messe-hr-review-layout{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(320px,1fr);gap:20px;align-items:stretch;margin:18px 0 20px}
+.messe-hr-review-right{display:flex;flex-direction:column;gap:20px;min-width:0}
+.messe-hr-review-card{box-sizing:border-box;background:#fff;border:1px solid #e2e2e2;padding:32px;min-width:0}
+.messe-hr-review-layout>.messe-hr-review-card{height:100%}
+.messe-hr-eyebrow{font-size:12px;font-weight:850;letter-spacing:.05em;color:#e30613}
+.messe-hr-review-card h2{font-size:27px;line-height:1.25;margin:10px 0}
+.messe-hr-review-card h3{font-size:18px;line-height:1.3;margin:10px 0 12px}
+.messe-hr-muted{font-size:14px;color:#666;line-height:1.6;margin:0 0 28px}
+.messe-hr-language{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:14px;align-items:center;border-bottom:1px solid #ededed;padding:17px 0}
+.messe-hr-language-info{min-width:0}
+.messe-hr-lang-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.messe-hr-language strong{font-size:15px}
+.messe-hr-language>a{color:#e30613;font-size:11px;font-weight:850;text-decoration:none}
+.messe-hr-original-label{font-size:11px;color:#148047;font-weight:800}
+.messe-hr-stats{display:flex;flex-wrap:wrap;gap:10px;font-size:11px;font-style:normal;font-weight:800}
+.messe-hr-stats em{font-style:normal}
+.messe-hr-stats .ready,.messe-hr-review-cell-head .ready{color:#148047}
+.messe-hr-stats .review,.messe-hr-review-cell-head .review{color:#ae7600}
+.messe-hr-stats .missing,.messe-hr-review-cell-head .missing{color:#d20018}
+.messe-hr-stats .stale,.messe-hr-review-cell-head .stale{color:#707982}
+.messe-hr-progress{display:flex;height:7px;background:#e5e5e5;margin-top:12px;overflow:hidden}
+.messe-hr-progress .ready{background:#148047}.messe-hr-progress .review{background:#e7ac30}.messe-hr-progress .stale{background:#9099a1}
+.messe-hr-preview{background:#f1f1f0;padding:24px;margin-top:28px}
+.messe-hr-preview p{font-size:14px;color:#666;line-height:1.6}
+.messe-hr-dark-btn,.messe-hr-red-btn,.messe-hr-outline-btn{box-sizing:border-box;display:flex;align-items:center;justify-content:center;padding:15px;text-decoration:none;font-weight:850;font-size:12px;min-height:46px;text-align:center}
+.messe-hr-dark-btn{background:#191919;color:#fff;margin-top:26px}.messe-hr-red-btn{background:#e30613;color:#fff;margin-top:18px}
+.messe-hr-outline-btn{border:1px solid #d4d4d4;color:#191919}
+.messe-hr-visibility{display:flex;justify-content:space-between;gap:10px;padding:15px 0;border-bottom:1px solid #ddd;font-size:14px}
+.messe-hr-visibility-count{font-size:12px;color:#666;font-weight:750}
+.messe-hr-explain{margin:18px 0 0;font-size:12px}
+.messe-hr-actions{flex:1}.messe-hr-actions h2{margin:0 0 20px}
+.messe-hr-review-details{margin:24px 0}
+.messe-hr-review-field{border:1px solid #e3e3e3;margin:12px 0}
+.messe-hr-review-field summary{padding:16px;cursor:pointer;font-size:15px;font-weight:850}
+.messe-hr-original{background:#f2f2f1;padding:16px;margin:0 14px 14px}
+.messe-hr-original strong{font-size:11px}.messe-hr-original p{font-size:13px;margin:9px 0 0;overflow-wrap:anywhere}
+.messe-hr-review-field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0 14px 14px}
+.messe-hr-review-cell{padding:16px;border:1px solid #e4e4e4;min-width:0}
+.messe-hr-review-cell-head{display:flex;justify-content:space-between;gap:8px;font-size:11px}
+.messe-hr-review-cell p{font-size:13px;line-height:1.5;min-height:32px;overflow-wrap:anywhere}
+.messe-hr-review-cell a{font-size:11px;color:#e30613;text-decoration:none;font-weight:850}
+@media(max-width:1000px){.messe-hr-review-layout{grid-template-columns:1fr}.messe-hr-review-right{display:grid;grid-template-columns:1fr 1fr}}
+@media(max-width:680px){.messe-hr-review-card{padding:18px}.messe-hr-review-right{grid-template-columns:1fr}.messe-hr-review-field-grid{grid-template-columns:1fr}.messe-hr-language{grid-template-columns:minmax(0,1fr) auto}.messe-hr-language .messe-hr-original-label{grid-column:1}}
+</style>
+<style id="messe-history-styles">
+.messe-history-details>summary{cursor:pointer;font-size:21px;font-weight:850;padding:14px 0;list-style:disclosure-closed}
+.messe-history-details[open]>summary{list-style:disclosure-open}
+.messe-history-filters{display:flex;flex-wrap:wrap;align-items:end;gap:14px;margin:24px 0 30px}
+.messe-history-filters label{display:flex;flex-direction:column;gap:10px;font-weight:800;font-size:14px;min-width:160px;flex:0 1 230px}
+.messe-history-filters select{height:47px;background:#fff;border:1px solid #bbb;padding:9px 12px;font-size:15px;width:100%;box-sizing:border-box}
+.messe-history-filter-btn,.messe-history-reset-btn{height:47px;padding:0 20px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;font-size:12px;font-weight:850;text-decoration:none;border-radius:0;cursor:pointer}
+.messe-history-filter-btn{background:#1b1b1b;color:white;border:1px solid #1b1b1b}.messe-history-reset-btn{background:white;color:#1b1b1b;border:1px solid #bbb}
+.messe-history-entry{border-top:1px solid #ddd;padding:24px 0}.messe-history-meta{display:flex;flex-wrap:wrap;gap:12px 25px;align-items:center;font-size:14px}.messe-history-meta span{color:#666}
+.messe-history-comparison{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:18px}.messe-history-comparison>div{background:#f3f3f3;padding:20px;min-width:0}.messe-history-comparison strong{font-size:12px;color:#777}.messe-history-comparison p{font-size:14px;overflow-wrap:anywhere}.messe-history-comparison small{color:#666}
+@media(max-width:650px){.messe-history-comparison{grid-template-columns:1fr}}
+</style><div class="eyebrow">HAMMEL</div>
+<h1>MESSE <span class="red">{% if review %}PRÜFEN{% else %}ÜBERSETZEN{% endif %}</span></h1>
+{% include 'messen/partials/messe_language_nav.html' %}
+<h2 class="messe-current-title">{{ item.title|cut:"HAMMEL " }}</h2>
+{% if review %}
+<div class="messe-hr-review-layout">
+  <section class="messe-hr-review-card">
+    <div class="messe-hr-eyebrow">ÜBERSETZUNGEN</div>
+    <h2>Sprachversionen</h2>
+    <p class="messe-hr-muted">Status und Bearbeitung der Sprachversionen</p>
+    <div class="messe-hr-languages">
+      <div class="messe-hr-language">
+        <div class="messe-hr-language-info"><strong>Deutsch</strong><div class="messe-hr-progress"><span class="ready" style="width:100%"></span></div></div>
+        <span class="messe-hr-original-label">Originalversion</span>
+        <a href="{% url 'messen_language_editor' item.pk 'de' %}">BEARBEITEN</a>
+      </div>
+      {% for summary in review_summary %}
+      <div class="messe-hr-language">
+        <div class="messe-hr-language-info">
+          <div class="messe-hr-lang-head"><strong>{{ summary.name }}</strong>
+            <span class="messe-hr-stats"><em class="ready">{{ summary.ready }} fertig</em><em class="review">{{ summary.review }} prüfen</em><em class="missing">{{ summary.missing }} fehlen</em><em class="stale">{{ summary.stale }} veraltet</em></span>
+          </div>
+          <div class="messe-hr-progress">
+            {% if summary.total %}
+            <span class="ready" style="width:{% widthratio summary.ready summary.total 100 %}%"></span>
+            <span class="review" style="width:{% widthratio summary.review summary.total 100 %}%"></span>
+            <span class="stale" style="width:{% widthratio summary.stale summary.total 100 %}%"></span>
+            {% endif %}
+          </div>
+        </div>
+        <a href="{% url 'messen_language_editor' item.pk summary.code %}">BEARBEITEN</a>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="messe-hr-preview">
+      <div class="messe-hr-eyebrow">VORSCHAU</div>
+      <h3>Änderungsverlauf prüfen</h3>
+      <p>Änderungen mit Datum, Autor und Vorher-Nachher-Vergleich ansehen.</p>
+      <a class="messe-hr-dark-btn" href="#messe-history">ÄNDERUNGSVERLAUF ANZEIGEN</a>
+    </div>
+  </section>
+  <div class="messe-hr-review-right">
+    <section class="messe-hr-review-card">
+      <div class="messe-hr-eyebrow">LETZTER SCHRITT</div>
+      <h2>Prüfung</h2>
+      <p class="messe-hr-muted">Kontrollieren Sie die Übersetzungen und bearbeiten Sie fehlende oder veraltete Sprachversionen.</p>
+      <div class="messe-hr-preview">
+        <h3>SPRACHVERSIONEN</h3>
+        {% for summary in review_summary %}
+        <div class="messe-hr-visibility"><span>{{ summary.name }}</span>
+          <span class="messe-hr-visibility-count">{{ summary.ready }} / {{ summary.total }} fertig</span>
+        </div>
+        {% endfor %}
+        <a class="messe-hr-red-btn" href="#messe-history">ÄNDERUNGEN ANZEIGEN</a>
+      </div>
+      <p class="messe-hr-muted messe-hr-explain">Die Veröffentlichung wird weiterhin über die bestehende Messen-Verwaltung gesteuert.</p>
+    </section>
+    <section class="messe-hr-review-card messe-hr-actions">
+      <h2>Aktionen</h2>
+      <a class="messe-hr-outline-btn" href="{% url 'messen_dashboard' %}">ZURÜCK ZUR ÜBERSICHT</a>
+    </section>
+  </div>
+</div>
+<section id="messe-history" class="messe-hr-review-card messe-history-card">
+  <details class="messe-history-details" open>
+    <summary>ÄNDERUNGSVERLAUF ANZEIGEN</summary>
+    <form method="get" class="messe-history-filters">
+      <label>Monat<select name="month"><option value="">Alle Monate</option>{% for m in history_months %}<option value="{{ m.value }}" {% if selected_month == m.value %}selected{% endif %}>{{ m.label }}</option>{% endfor %}</select></label>
+      <label>Jahr<select name="year"><option value="">Alle Jahre</option>{% for y in history_years %}<option value="{{ y }}" {% if selected_year == y %}selected{% endif %}>{{ y }}</option>{% endfor %}</select></label>
+      <button type="submit" class="messe-history-filter-btn">FILTERN</button>
+      <a class="messe-history-reset-btn" href="{% url 'messen_language_editor' item.pk 'review' %}">ZURÜCKSETZEN</a>
+    </form>
+    <div class="messe-history-list">
+    {% for change in history_entries %}
+      <article class="messe-history-entry">
+        <div class="messe-history-meta"><strong>{{ change.created_at|date:'d.m.Y H:i' }}</strong><span>{{ change.author.username|default:'System' }}</span><span>{{ change.get_language_display }} · {{ change.field_label }}</span></div>
+        <div class="messe-history-comparison"><div><strong>ALTE VERSION</strong><p>{{ change.old_text|default:'—'|linebreaksbr }}</p><small>Status: {{ change.old_status }}</small></div><div><strong>NEUE VERSION</strong><p>{{ change.new_text|default:'—'|linebreaksbr }}</p><small>Status: {{ change.new_status }}</small></div></div>
+      </article>
+    {% empty %}<p class="messe-hr-muted">Für diesen Zeitraum sind keine protokollierten Änderungen vorhanden.</p>{% endfor %}
+    </div>
+  </details>
+</section>
+{% else %}
+<form method="post" class="messe-translation-form">{% csrf_token %}
+
+<div class="messe-translation-grid">{% for row in rows %}<section class="messe-lang-card"><h2>{{ row.label }} {% if row.stale %}<span class="messe-stale">ORIGINAL GEÄNDERT</span>{% endif %}</h2><div class="messe-lang-columns"><div class="messe-original"><strong>DEUTSCH</strong><p>{{ row.original|default:'—'|linebreaksbr }}</p></div><div class="messe-translation"><label for="translation_{{ row.name }}">ÜBERSETZUNG · {{ lang|upper }}</label><textarea id="translation_{{ row.name }}" name="translation_{{ row.name }}" rows="5">{{ row.text }}</textarea><div class="messe-field-bottom"><label for="status_{{ row.name }}">STATUS</label><select id="status_{{ row.name }}" name="status_{{ row.name }}"><option value="draft" {% if row.status == 'draft' %}selected{% endif %}>Entwurf</option><option value="review" {% if row.status == 'review' %}selected{% endif %}>In Prüfung</option><option value="published" {% if row.status == 'published' %}selected{% endif %}>Veröffentlicht</option></select>{% if row.stale %}<label class="messe-confirm"><input type="checkbox" name="confirm_{{ row.name }}"> Originaländerung geprüft</label>{% endif %}</div></div></div></section>{% endfor %}</div>
+<div class="messe-editor-actions">
+  <button type="submit" class="btn primary">SPRACHVERSION SPEICHERN</button>
+  <a class="messe-overview-button" href="{% url 'messen_dashboard' %}">ZUR ÜBERSICHT</a>
+</div></form>
+{% endif %}
+
+{% endblock %}

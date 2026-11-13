@@ -1,0 +1,166 @@
+/* Vertriebportal / Messen only: six large steps, three columns, two rows. */
+.messe-language-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:28px 0 34px}
+.messe-language-nav>a,.messe-language-nav>span{min-height:76px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:15px;background:#e9e9e7;color:#171717;text-decoration:none;font-size:15px;font-weight:900;letter-spacing:.04em;transition:background .2s,color .2s}
+.messe-language-nav small{font-size:10px;letter-spacing:.12em;font-weight:700;opacity:.75}.messe-language-nav>a:hover{background:#202020;color:#fff}.messe-language-nav>.active{background:#e30613!important;color:#fff!important}.messe-language-nav>.disabled{opacity:.42;cursor:not-allowed}
+.messe-lang-info{padding:20px 24px;background:#f1f1ef;color:#444;font-weight:650;margin:0 0 22px}.messe-lang-card{background:#fff;border:1px solid #e2e2df;padding:26px;margin-bottom:18px}.messe-lang-card h2{margin:0 0 20px;font-size:20px;letter-spacing:.01em}.messe-lang-columns{display:grid;grid-template-columns:1fr 1fr;gap:24px}.messe-original{padding:20px;background:#f4f4f2;min-height:120px;overflow-wrap:anywhere}.messe-original strong,.messe-translation>label{display:block;font-size:12px;font-weight:900;letter-spacing:.07em;margin-bottom:14px}.messe-original p{margin:0;white-space:normal;line-height:1.6}.messe-translation textarea{width:100%;min-height:142px;padding:15px;border:1px solid #cfcfca;resize:vertical;font:inherit;box-sizing:border-box}.messe-translation textarea:focus{outline:2px solid #e30613;outline-offset:0}.messe-field-bottom{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:12px}.messe-field-bottom label{font-size:12px;font-weight:800}.messe-field-bottom select{padding:12px 36px 12px 12px;border:1px solid #aaa;background:#fff;color:#222;font:inherit}.messe-confirm{display:flex;align-items:center;gap:8px}.messe-stale{display:inline-block;color:#b9000b;font-size:11px;font-weight:900;margin-left:8px}.messe-review-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:18px}.messe-review-cell{padding:18px;border:1px solid #e2e2df;overflow-wrap:anywhere}.messe-review-cell>strong{font-size:17px}.messe-review-cell p{line-height:1.6}.messe-review-cell a{font-weight:800;color:#b9000b;font-size:12px}.messe-status{font-size:11px;color:#666;margin-left:10px}.messe-lang-actions{display:flex;justify-content:flex-end;gap:14px;margin:28px 0 80px}@media(max-width:700px){.messe-language-nav{gap:7px}.messe-language-nav>a,.messe-language-nav>span{min-height:64px;font-size:11px;padding:8px 4px}.messe-lang-columns,.messe-review-grid{grid-template-columns:1fr}.messe-lang-card{padding:16px}}
+
+/* Messen-only language selector: match the approved 3 x 2 reference. */
+.messe-language-nav{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:16px!important;
+  margin:28px 0 34px!important;
+}
+.messe-language-nav>a,.messe-language-nav>span{
+  min-height:128px!important;
+  box-sizing:border-box!important;
+  padding:16px!important;
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:0!important;
+  background:#e9e9e9!important;
+  color:#191919!important;
+  font-size:27px!important;
+  font-weight:800!important;
+  letter-spacing:0!important;
+  text-align:center!important;
+  text-decoration:none!important;
+  border:0!important;
+  border-radius:0!important;
+  opacity:1!important;
+}
+.messe-language-nav>a.active{background:#e30613!important;color:white!important}
+.messe-language-nav>a:not(.active):hover{background:#d8d8d8!important;color:#191919!important}
+.messe-language-nav>span.disabled{opacity:.55!important}
+@media(max-width:700px){
+ .messe-language-nav{gap:9px!important}
+ .messe-language-nav>a,.messe-language-nav>span{min-height:80px!important;font-size:clamp(13px,3.2vw,22px)!important;padding:8px!important}
+}
+
+/* Only Vertriebportal / Messen: compact translation cards and bottom navigation. */
+.messe-lang-card{padding:18px 22px!important;margin-bottom:12px!important}
+.messe-lang-card h2{font-size:17px!important;margin:0 0 12px!important}
+.messe-lang-columns{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:18px!important;align-items:start!important}
+.messe-original{min-height:0!important;padding:14px 16px!important}
+.messe-original strong,.messe-translation>label{font-size:11px!important;margin-bottom:8px!important}
+.messe-original p{line-height:1.45!important;font-size:14px!important}
+.messe-translation textarea{min-height:0!important;height:78px!important;padding:10px 12px!important;line-height:1.45!important;font-size:14px!important;resize:vertical!important}
+.messe-field-bottom{margin-top:8px!important;gap:10px!important}
+.messe-field-bottom select{padding:8px 32px 8px 10px!important;font-size:13px!important;min-height:38px!important}
+.messe-lang-actions{margin:20px 0 12px!important}
+.messe-bottom-navigation{display:flex;justify-content:flex-end;margin:24px 0 64px}
+.messe-overview-button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 28px;box-sizing:border-box;background:#202020;color:#fff!important;font-size:13px;font-weight:800;letter-spacing:.055em;text-decoration:none!important;border:1px solid #202020;border-radius:0;transition:background .2s ease,border-color .2s ease,color .2s ease}
+.messe-overview-button:hover,.messe-overview-button:focus-visible{background:#e30613;border-color:#e30613;color:#fff!important}
+@media(max-width:700px){.messe-lang-columns{grid-template-columns:1fr!important;gap:12px!important}.messe-lang-card{padding:14px!important}.messe-bottom-navigation{justify-content:stretch}.messe-overview-button{width:100%}}
+
+/* Messen-only UI v3: compact language navigation and readable editing fields. */
+main .messe-language-nav{
+ display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ gap:9px!important;margin:16px 0 14px!important;max-width:100%!important
+}
+main .messe-language-nav>a,main .messe-language-nav>span{
+ min-height:48px!important;height:48px!important;padding:8px 12px!important;
+ font-size:15px!important;line-height:1.2!important;font-weight:800!important;
+ border-radius:0!important;letter-spacing:.02em!important
+}
+main .messe-language-nav>.active{background:#e30613!important;color:#fff!important}
+main .messe-current-title{
+ font-size:clamp(18px,2vw,25px)!important;line-height:1.3!important;
+ font-weight:800!important;letter-spacing:0!important;margin:0 0 20px!important;
+ padding:0 0 12px!important;border-bottom:1px solid #ddd!important;
+ text-transform:none!important
+}
+main .messe-lang-card{
+ padding:14px 18px!important;margin:0 0 10px!important;
+ border:1px solid #e4e4e4!important
+}
+main .messe-lang-card h2{font-size:16px!important;line-height:1.3!important;margin:0 0 10px!important}
+main .messe-lang-columns{
+ display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+ gap:14px!important;align-items:start!important
+}
+main .messe-original{padding:11px 13px!important;min-height:0!important;height:auto!important}
+main .messe-original strong,main .messe-translation>label{
+ display:block!important;font-size:11px!important;line-height:1.3!important;
+ margin:0 0 7px!important
+}
+main .messe-original p{font-size:13px!important;line-height:1.45!important;margin:0!important}
+main .messe-translation textarea{
+ display:block!important;box-sizing:border-box!important;width:100%!important;
+ height:70px!important;min-height:70px!important;padding:9px 11px!important;
+ font-size:13px!important;line-height:1.45!important;resize:vertical!important
+}
+main .messe-field-bottom{
+ display:grid!important;grid-template-columns:auto minmax(130px,190px)!important;
+ justify-content:start!important;align-items:center!important;gap:8px 12px!important;
+ margin-top:9px!important
+}
+main .messe-field-bottom>label:not(.messe-confirm){margin:0!important;font-size:11px!important}
+main .messe-field-bottom select{
+ width:190px!important;max-width:100%!important;min-height:36px!important;
+ height:36px!important;padding:5px 28px 5px 10px!important;font-size:12px!important
+}
+main .messe-field-bottom .messe-confirm{grid-column:1/-1!important;font-size:11px!important}
+main .messe-lang-actions{margin:18px 0 12px!important}
+main .messe-review-grid{gap:10px!important;margin-top:10px!important}
+main .messe-review-cell{padding:12px!important}
+main .messe-lang-info{padding:10px 14px!important;margin-bottom:14px!important;font-size:12px!important}
+@media(max-width:700px){
+ main .messe-language-nav{gap:6px!important}
+ main .messe-language-nav>a,main .messe-language-nav>span{height:43px!important;min-height:43px!important;font-size:12px!important;padding:6px!important}
+ main .messe-lang-columns{grid-template-columns:1fr!important;gap:9px!important}
+ main .messe-lang-card{padding:12px!important}
+ main .messe-field-bottom{grid-template-columns:auto minmax(0,1fr)!important}
+}
+
+/* Messen translation editor v4: two field cards per row, original ABOVE translation. */
+main form.messe-translation-form .messe-translation-grid{
+ display:grid!important;
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ align-items:start!important;
+ gap:14px!important;
+ margin:0 0 18px!important;
+}
+main form.messe-translation-form .messe-translation-grid>.messe-lang-card{
+ min-width:0!important;
+ margin:0!important;
+ padding:16px!important;
+}
+main form.messe-translation-form .messe-lang-columns{
+ display:flex!important;
+ flex-direction:column!important;
+ gap:12px!important;
+}
+main form.messe-translation-form .messe-original{
+ box-sizing:border-box!important;
+ width:100%!important;
+ min-height:0!important;
+ padding:12px 14px!important;
+}
+main form.messe-translation-form .messe-translation{
+ width:100%!important;
+ min-width:0!important;
+}
+main form.messe-translation-form .messe-translation textarea{
+ box-sizing:border-box!important;
+ width:100%!important;
+ height:74px!important;
+ min-height:74px!important;
+}
+main form.messe-translation-form .messe-field-bottom{
+ display:flex!important;
+ flex-wrap:wrap!important;
+ align-items:center!important;
+ justify-content:flex-start!important;
+ gap:10px!important;
+}
+main form.messe-translation-form .messe-field-bottom select{
+ flex:0 1 190px!important;
+ width:190px!important;
+ max-width:100%!important;
+}
+@media(max-width:850px){
+ main form.messe-translation-form .messe-translation-grid{grid-template-columns:1fr!important}
+}
