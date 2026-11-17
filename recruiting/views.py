@@ -265,6 +265,67 @@ HR_EDITABLE = {
 }
 
 
+def _vacancy_edit_changes(form, instance, old_values):
+    """Prepare the German-original audit diff without touching translations."""
+    return [
+        {
+            "field": str(form.fields[name].label or name),
+            "old": old_values.get(name, ""),
+            "new": str(getattr(instance, name) or ""),
+        }
+        for name in form.changed_data
+    ]
+
+
+def _save_vacancy_new_blocks(raw_json, block_model):
+    """Save only valid new draft text blocks; never modify existing library entries."""
+    import json
+
+    try:
+        custom = json.loads(raw_json)
+    except (ValueError, TypeError):
+        return
+    if not isinstance(custom, list):
+        return
+    for item in custom[:100]:
+        if not isinstance(item, dict):
+            continue
+        category = item.get("category")
+        text = str(item.get("text", "")).strip()[:300]
+        profession = str(item.get("profession", ""))[:40]
+        if category in ("responsibilities", "hard_skills", "soft_skills", "benefits") and text:
+            block_model.objects.get_or_create(
+                category=category, text=text,
+                defaults={"profession": profession, "active": False},
+            )
+
+
+def _vacancy_translation_summary(required, translations, languages, fingerprint):
+    """Summarize translation readiness without modifying any database records."""
+    summary = []
+    for code, name in languages[1:]:
+        entries = {item.field_name: item for item in translations if item.language == code}
+        ready = review = missing = stale = 0
+        for field, value in required:
+            entry = entries.get(field)
+            if not entry or not entry.text.strip() or entry.text.strip().casefold() in {'example', 'test', 'übersetzung fehlt'}:
+                missing += 1
+            elif entry.source_hash != fingerprint(value):
+                stale += 1
+            elif entry.status == "published":
+                ready += 1
+            else:
+                review += 1
+        summary.append({
+            "code": code, "name": name, "ready": ready,
+            "review": review, "missing": missing, "stale": stale,
+            "total": len(required),
+            "percent": round(100 * ready / len(required)) if required else 100,
+            "complete": bool(required) and ready == len(required),
+        })
+    return summary
+
+
 def _vacancy_publication_checks(vacancy):
     """Required public-facing German content, independent of translation readiness."""
     labels = {
@@ -405,6 +466,13 @@ def hr_edit(request, kind, pk=None):
     Form = forms.modelform_factory(model, fields=fields, widgets={
         f.name: forms.Textarea(attrs={"rows": 5}) for f in model._meta.fields if f.name in fields and isinstance(f, db_models.TextField)
     })
+    # ModelForm.is_valid() mutates its bound instance during validation.
+    # Snapshot the original database values before validation for a truthful audit.
+    original_vacancy_values = (
+        {name: str(getattr(obj, name) or "") for name in fields}
+        if kind == "vacancy" and obj is not None and request.method == "POST"
+        else {}
+    )
     form = Form(request.POST or None, instance=obj)
     if kind == "vacancy" and obj is not None and request.GET.get("step") == "review":
         from translations.models import ContentTranslation, LANGUAGES
@@ -415,28 +483,7 @@ def hr_edit(request, kind, pk=None):
         translations = ContentTranslation.objects.filter(content_type=content_type, object_id=obj.pk)
         required = [(field, str(getattr(obj, field, "") or "")) for field in (f.name for f in fields_for(obj))]
         required = [(field, value) for field, value in required if value.strip()]
-        summary = []
-        for code, name in LANGUAGES[1:]:
-            entries = {item.field_name: item for item in translations if item.language == code}
-            ready = 0
-            review = 0
-            missing = 0
-            stale = 0
-            for field, value in required:
-                entry = entries.get(field)
-                if not entry or not entry.text.strip() or entry.text.strip().casefold() in {'example', 'test', 'übersetzung fehlt'}:
-                    missing += 1
-                elif entry.source_hash != fingerprint(value):
-                    stale += 1
-                elif entry.status == "published":
-                    ready += 1
-                else:
-                    review += 1
-            summary.append({"code": code, "name": name, "ready": ready,
-                            "review": review, "missing": missing, "stale": stale,
-                            "total": len(required),
-                            "percent": round(100 * ready / len(required)) if required else 100,
-                            "complete": bool(required) and ready == len(required)})
+        summary = _vacancy_translation_summary(required, translations, LANGUAGES, fingerprint)
         missing_german = _vacancy_publication_checks(obj)
         if request.method == "POST":
             if not request.user.has_perm("recruiting.change_vacancy"):
@@ -523,14 +570,14 @@ def hr_edit(request, kind, pk=None):
         if field_name in form.fields:
             form.fields[field_name].label = label
     if request.method == "POST" and form.is_valid():
-        old_values = {name: str(getattr(obj, name) or "") for name in form.changed_data} if kind == "vacancy" and obj else {}
+        old_values = {name: original_vacancy_values.get(name, "") for name in form.changed_data} if kind == "vacancy" and obj else {}
         instance = form.save(commit=False)
         if kind == "vacancy" and instance.category != "job":
             instance.department = None
         instance.save()
         if kind == "vacancy":
             from .models import HREditLog
-            HREditLog.objects.create(vacancy=instance, user=request.user, action="updated" if obj else "created", detail="Deutsche Originalfassung gespeichert", changes=[{"field": str(form.fields[name].label or name), "old": old_values.get(name, ""), "new": str(getattr(instance, name) or "")} for name in form.changed_data])
+            HREditLog.objects.create(vacancy=instance, user=request.user, action="updated" if obj else "created", detail="Deutsche Originalfassung gespeichert", changes=_vacancy_edit_changes(form, instance, old_values))
         if kind == "vacancy":
             from translations.services import fill_vacancy_from_library
             fill_vacancy_from_library(instance)
@@ -538,20 +585,7 @@ def hr_edit(request, kind, pk=None):
             from translations.services import save_inline
             save_inline(request, instance, form)
         if kind == "vacancy" and request.POST.get("save_new_blocks") == "1":
-            import json
-            try:
-                custom = json.loads(request.POST.get("hr_new_blocks", "[]"))
-            except (ValueError, TypeError):
-                custom = []
-            if isinstance(custom, list):
-                for item in custom[:100]:
-                    if not isinstance(item, dict):
-                        continue
-                    category = item.get("category")
-                    text = str(item.get("text", "")).strip()[:300]
-                    profession = str(item.get("profession", ""))[:40]
-                    if category in ("responsibilities", "hard_skills", "soft_skills", "benefits") and text:
-                        HRTextBlock.objects.get_or_create(category=category, text=text, defaults={"profession": profession, "active": False})
+            _save_vacancy_new_blocks(request.POST.get("hr_new_blocks", "[]"), HRTextBlock)
         messages.success(request, "Deutsche Originalfassung gespeichert. Jetzt können Sie die Sprachversionen bearbeiten.")
         if kind == "vacancy":
             return redirect("translation_edit", app_label=instance._meta.app_label,
@@ -600,53 +634,63 @@ class HRLogoutView(LogoutView):
     next_page = reverse_lazy("hr_login")
 
 
-@login_required(login_url="hr_login")
-@permission_required("recruiting.change_hrtip", raise_exception=True)
-@require_http_methods(["POST"])
-def hr_reorder_tips(request):
-    """Atomically reorder existing HR tips, preserving content and publication status."""
+def _reorder_hr_items(request, model, order_field, changed_message, allow_empty):
+    """Validate and atomically save the complete order of HR items."""
     import json
     from django.db import transaction
+
     try:
         ids = json.loads(request.body.decode("utf-8"))
     except (ValueError, UnicodeDecodeError):
         return JsonResponse({"ok": False, "error": "Ungültige JSON-Daten"}, status=400)
-    if not isinstance(ids, list) or any(type(pk) is not int or pk <= 0 for pk in ids) or len(ids) != len(set(ids)):
+
+    valid = (
+        isinstance(ids, list)
+        and (allow_empty or bool(ids))
+        and all(type(pk) is int and pk > 0 for pk in ids)
+        and len(ids) == len(set(ids))
+    )
+    if not valid:
         return JsonResponse({"ok": False, "error": "Ungültige Reihenfolge"}, status=400)
+
     with transaction.atomic():
-        current = set(HRTip.objects.select_for_update().values_list("pk", flat=True))
+        current = set(model.objects.select_for_update().values_list("pk", flat=True))
         if set(ids) != current:
-            return JsonResponse({"ok": False, "error": "Tipps wurden geändert. Bitte Seite neu laden."}, status=409)
+            return JsonResponse({"ok": False, "error": changed_message}, status=409)
         for position, pk in enumerate(ids, 1):
-            HRTip.objects.filter(pk=pk).update(order=position)
-    saved = list(HRTip.objects.order_by("order", "pk").values_list("pk", flat=True))
+            model.objects.filter(pk=pk).update(**{order_field: position})
+
+    saved = list(model.objects.order_by(order_field, "pk").values_list("pk", flat=True))
     if saved != ids:
-        return JsonResponse({"ok": False, "error": "Gespeicherte Reihenfolge stimmt nicht überein"}, status=500)
+        return JsonResponse(
+            {"ok": False, "error": "Gespeicherte Reihenfolge stimmt nicht überein"},
+            status=500,
+        )
     return JsonResponse({"ok": True, "ids": saved})
+
+
+@login_required(login_url="hr_login")
+@permission_required("recruiting.change_hrtip", raise_exception=True)
+@require_http_methods(["POST"])
+def hr_reorder_tips(request):
+    """Atomically reorder existing HR tips, preserving their content and status."""
+    return _reorder_hr_items(
+        request, HRTip, "order", "Tipps wurden geändert. Bitte Seite neu laden.",
+        allow_empty=True,
+    )
+
 
 @login_required(login_url="hr_login")
 @permission_required("recruiting.change_applicationdepartment", raise_exception=True)
 @require_http_methods(["POST"])
 def hr_reorder_departments(request):
-    """Save the complete visible order in one atomic operation."""
-    import json
-    from django.db import transaction
-    try:
-        ids = json.loads(request.body.decode("utf-8"))
-    except (ValueError, UnicodeDecodeError):
-        return JsonResponse({"ok": False, "error": "Ungültige JSON-Daten"}, status=400)
-    if not isinstance(ids, list) or not ids or any(type(pk) is not int or pk <= 0 for pk in ids) or len(set(ids)) != len(ids):
-        return JsonResponse({"ok": False, "error": "Ungültige Reihenfolge"}, status=400)
-    with transaction.atomic():
-        current = set(ApplicationDepartment.objects.select_for_update().values_list("pk", flat=True))
-        if set(ids) != current:
-            return JsonResponse({"ok": False, "error": "Bereiche wurden geändert. Bitte Seite neu laden."}, status=409)
-        for position, pk in enumerate(ids, 1):
-            ApplicationDepartment.objects.filter(pk=pk).update(sort_order=position)
-    saved = list(ApplicationDepartment.objects.order_by("sort_order", "pk").values_list("pk", flat=True))
-    if saved != ids:
-        return JsonResponse({"ok": False, "error": "Gespeicherte Reihenfolge stimmt nicht überein"}, status=500)
-    return JsonResponse({"ok": True, "ids": saved})
+    """Save the complete department order in one atomic operation."""
+    return _reorder_hr_items(
+        request, ApplicationDepartment, "sort_order",
+        "Bereiche wurden geändert. Bitte Seite neu laden.",
+        allow_empty=False,
+    )
+
 
 @login_required(login_url="hr_login")
 @permission_required("recruiting.change_vacancy", raise_exception=True)

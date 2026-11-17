@@ -2,8 +2,7 @@
 .comparison-page{padding-top:48px}.comparison-page .mv-back{margin-bottom:54px}.comparison-page h1{font-size:clamp(42px,6vw,92px);margin-bottom:42px}.comparison-controls{display:flex;gap:0;margin:0 0 24px;border-bottom:1px solid #c9c9c7}.comparison-filter{appearance:none;background:transparent;border:0;border-bottom:3px solid transparent;margin-bottom:-1px;padding:17px 26px;font:900 12px/1.3 Arial,sans-serif;letter-spacing:.1em;color:#5a5a5a;cursor:pointer;transition:color .2s,border-color .2s}.comparison-filter:hover{color:#e30613}.comparison-filter.is-active{border-bottom-color:#e30613;color:#171b1e}.comparison-filter:focus-visible{outline:2px solid #e30613;outline-offset:-2px}.comparison-scroll{overflow-x:auto;max-width:100%;scrollbar-color:#e30613 #e8e8e8}.comparison-table{width:100%;border-collapse:separate;border-spacing:0;text-align:left;table-layout:fixed;min-width:850px}.comparison-table th,.comparison-table td{border:0;border-bottom:1px solid #d5d5d3;padding:22px 20px;vertical-align:middle}.comparison-table thead th{vertical-align:bottom;padding:0 16px 26px;border-bottom:2px solid #171b1e}.comparison-table .comparison-label{width:24%;min-width:185px;position:sticky;left:0;z-index:3;background:#f5f4f0;color:#777;font-size:11px;letter-spacing:.12em}.comparison-table thead .comparison-label{z-index:5}.comparison-table .comparison-model{width:25%;min-width:200px}.comparison-model-link{display:flex;flex-direction:column;gap:9px;text-decoration:none;color:#171b1e}.comparison-image{display:grid;place-items:center;aspect-ratio:4/3;background:#e9e8e5;overflow:hidden}.comparison-image img{width:100%;height:100%;object-fit:contain;transition:transform .4s}.comparison-model-link:hover img{transform:scale(1.045)}.comparison-image-placeholder{font-size:14px;font-weight:900;letter-spacing:.13em;color:#9a9a9a}.comparison-model-link strong{font-size:clamp(19px,2vw,27px);line-height:1.1}.comparison-detail{font-size:10px;letter-spacing:.1em;color:#e30613;font-weight:900}.comparison-row th{position:sticky;left:0;z-index:2;background:#f5f4f0;color:#676b6c;font-size:11px;letter-spacing:.09em;font-weight:900}.comparison-row td{font-size:clamp(14px,1.3vw,18px);line-height:1.5;overflow-wrap:anywhere}.comparison-row:hover td,.comparison-row:hover th{background:#edebe7}.comparison-row[hidden]{display:none}.comparison-empty{padding:32px 0;color:#676b6c}.comparison-page .mv-note{margin-top:28px}@media(max-width:650px){.comparison-page{padding-top:24px}.comparison-page .mv-back{margin-bottom:32px}.comparison-page h1{margin-bottom:28px}.comparison-filter{padding:14px 12px;font-size:10px}.comparison-table{min-width:700px}.comparison-table .comparison-label{width:155px;min-width:155px}.comparison-table th,.comparison-table td{padding:16px 12px}}
 
 /* Comparison contrast: light surface to ensure all labels and values are readable. */
-body:has(.comparison-page){background:#f5f4f0!important;color:#171b1e!important}
-.comparison-page{background:#f5f4f0!important;color:#171b1e!important}
+body:has(.comparison-page),.comparison-page{background:#f5f4f0!important;color:#171b1e!important}
 .comparison-page h1{color:#171b1e!important}
 .comparison-page h1 em,.comparison-page .mv-kicker{color:#e30613!important}
 .comparison-page .comparison-filter{color:#51585a!important}
@@ -19,7 +18,7 @@ body:has(.comparison-page){background:#f5f4f0!important;color:#171b1e!important}
 /* 2026-10-30: Machine comparison — consistent Home gutter and legible dark theme. */
 body:has(.comparison-page){background:#090909!important;color:#fff!important}
 .comparison-page{--comparison-gutter:clamp(20px,4vw,80px);width:100%!important;max-width:none!important;margin:0!important;padding:72px var(--comparison-gutter) 100px!important;background:#090909!important;color:#fff!important}
-.comparison-page .mv-kicker{color:#f2b705!important}
+
 .comparison-page h1{color:#fff!important;font-size:clamp(50px,6vw,96px);margin-bottom:42px}
 .comparison-page .comparison-controls{border-bottom-color:#555!important}
 .comparison-page .comparison-filter,.comparison-page .comparison-filter.is-active{color:#fff!important;opacity:1!important}
@@ -27,8 +26,8 @@ body:has(.comparison-page){background:#090909!important;color:#fff!important}
 .comparison-page .comparison-filter.is-active{border-bottom-color:#e30613!important}
 .comparison-page .comparison-table thead th.comparison-model{color:#fff!important;background:#090909!important}
 .comparison-page .comparison-model-link,.comparison-page .comparison-model-link strong{color:#fff!important;opacity:1!important}
-.comparison-page .comparison-model-link:hover strong{color:#f2b705!important}
-.comparison-page .comparison-detail{color:#f2b705!important}
+
+
 .comparison-page .comparison-row td{color:#f5f5f5!important;background:#090909!important}
 .comparison-page .comparison-row th,.comparison-page .comparison-label{color:#333!important;background:#f5f4f0!important}
 .comparison-page .comparison-row:hover td{background:#202020!important}
@@ -36,7 +35,7 @@ body:has(.comparison-page){background:#090909!important;color:#fff!important}
 .comparison-page .comparison-table thead th{border-bottom-color:#666!important}
 .comparison-page .mv-note,.comparison-page .comparison-empty{color:#d2d2d2!important}
 .comparison-page .mv-back{color:#fff!important}
-.comparison-page .mv-back:hover{color:#f2b705!important}
+
 @media(max-width:650px){.comparison-page{padding:40px 20px 70px!important}}
 
 
@@ -115,8 +114,7 @@ body:has(.comparison-page){background:#090909!important}
 .comparison-page .comparison-image{border-radius:0!important;background:#202020!important}
 .comparison-page .comparison-image-placeholder{color:#b4b4b4!important}
 .comparison-page .comparison-model-link strong{color:#fff!important}
-.comparison-page .comparison-model-link:hover strong{color:#f2b705!important}
-.comparison-page .comparison-detail{color:#f2b705!important}
+.comparison-page .comparison-model-link:hover strong,.comparison-page .comparison-detail{color:#f2b705!important}
 .comparison-page .comparison-row th,.comparison-page .comparison-row td{background:#e30613!important;color:#fff!important;border-bottom:1px solid rgba(255,255,255,.34)!important}
 .comparison-page .comparison-row th{color:#f2b705!important}
 .comparison-page .comparison-row:hover th,.comparison-page .comparison-row:hover td{background:#c90011!important}
@@ -200,8 +198,7 @@ html body .comparison-page .comparison-table thead th.comparison-model,
 html body .comparison-page .comparison-table thead th.comparison-label{background:#292c2e!important;color:#f2b705!important;border-bottom:2px solid #f2b705!important}
 html body .comparison-page .comparison-model-link,
 html body .comparison-page .comparison-model-link strong{color:#fff!important}
-html body .comparison-page .comparison-model-link:hover strong{color:#f2b705!important}
-html body .comparison-page .comparison-detail{color:#f2b705!important}
+html body .comparison-page .comparison-model-link:hover strong,html body .comparison-page .comparison-detail{color:#f2b705!important}
 html body .comparison-page .comparison-image{background:#35393b!important;border-radius:0!important}
 html body .comparison-page .comparison-image-placeholder{color:#aeb2b3!important}
 html body .comparison-page .comparison-row th{background:#303436!important;color:#f2b705!important;border-bottom:1px solid #505557!important}

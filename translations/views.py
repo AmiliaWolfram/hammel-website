@@ -64,9 +64,12 @@ def edit(request, app_label, model_name, pk):
                     defaults={"text": text, "status": status if text.strip() else "draft",
                               "source_hash": source_hash, "updated_by": request.user},
                 )
-        if app_label == "recruiting" and model_name == "vacancy":
-            from recruiting.models import HREditLog
-            HREditLog.objects.create(vacancy=obj, user=request.user, action="translation", detail=f"Sprachversion {language.upper()} gespeichert", changes=audit_changes)
+            if app_label == "recruiting" and model_name == "vacancy" and audit_changes:
+                from recruiting.models import HREditLog
+                HREditLog.objects.create(
+                    vacancy=obj, user=request.user, action="translation",
+                    detail=f"Sprachversion {language.upper()} gespeichert", changes=audit_changes,
+                )
         messages.success(request, "Sprachversion gespeichert")
         return redirect(request.path + "?lang=" + language)
     rows = []
@@ -286,6 +289,8 @@ def autosave(request, app_label, model_name, pk):
         existing, _ = ContentTranslation.objects.select_for_update().get_or_create(
             content_type=ct, object_id=obj.pk, language=language, field_name=field_name,
             defaults={"text": "", "status": "draft", "source_hash": source_hash})
+        # Keep the audit and the translation update in the same transaction.
+        old_text, old_status = existing.text, existing.status
         # A previous approved translation is preserved when no text has changed.
         if existing.text != value:
             existing.text = value
@@ -298,6 +303,20 @@ def autosave(request, app_label, model_name, pk):
             if existing.status == "published":
                 existing.status = "review"
                 existing.save(update_fields=["status", "updated_at"])
+        if app_label == "recruiting" and model_name == "vacancy":
+            changes = []
+            field_label = f"{language.upper()} · {field_name}"
+            if old_text != existing.text:
+                changes.append({"field": field_label, "old": old_text, "new": existing.text})
+            if old_status != existing.status:
+                changes.append({"field": f"{field_label} (Status)", "old": old_status, "new": existing.status})
+            if changes:
+                from recruiting.models import HREditLog
+                HREditLog.objects.create(
+                    vacancy=obj, user=request.user, action="translation",
+                    detail=f"Sprachversion {language.upper()} automatisch gespeichert",
+                    changes=changes,
+                )
     from django.utils import timezone
     return JsonResponse({"ok": True, "saved_at": timezone.localtime().strftime("%H:%M:%S"),
                          "status": existing.status})

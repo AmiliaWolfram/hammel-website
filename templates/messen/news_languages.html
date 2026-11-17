@@ -106,9 +106,7 @@
   <div class="publication-visibility-box">
   <h3>SPRACHVERSIONEN AUF DER WEBSITE</h3>
   <div class="publication-language"><span>Deutsch</span><input type="checkbox" checked disabled aria-label="Deutsch ist die Originalversion"></div>
-  {% for code, label in publication_languages %}
-  <div class="publication-language"><label for="visible-{{ code }}">{{ label }}</label><input id="visible-{{ code }}" type="checkbox" name="visible_languages" value="{{ code }}" {% if code in enabled_languages %}checked{% endif %}></div>
-  {% endfor %}
+  {% include 'messen/partials/publication_language_visibility.html' %}
   <button type="submit" name="visibility_action" value="save" class="publication-save">SICHTBARKEIT SPEICHERN</button>
 </div>
 </form>

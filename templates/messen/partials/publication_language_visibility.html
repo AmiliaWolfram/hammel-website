@@ -1,0 +1,3 @@
+{% for code, label in publication_languages %}
+  <div class="publication-language"><label for="visible-{{ code }}">{{ label }}</label><input id="visible-{{ code }}" type="checkbox" name="visible_languages" value="{{ code }}" {% if code in enabled_languages %}checked{% endif %}></div>
+  {% endfor %}

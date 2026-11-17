@@ -1,8 +1,10 @@
+/* Local design tokens: vertrieb-messen. Keep portal and public styles independent. */
+:root{--hml-vertrieb-messen-red:#e30613;--hml-vertrieb-messen-dark:#202020;--hml-vertrieb-messen-border:#e2e2df;--hml-vertrieb-messen-red-hover:#b9000b;--hml-vertrieb-messen-ink:#191919;}
 /* Vertriebportal / Messen only: six large steps, three columns, two rows. */
 .messe-language-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:28px 0 34px}
 .messe-language-nav>a,.messe-language-nav>span{min-height:76px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:15px;background:#e9e9e7;color:#171717;text-decoration:none;font-size:15px;font-weight:900;letter-spacing:.04em;transition:background .2s,color .2s}
-.messe-language-nav small{font-size:10px;letter-spacing:.12em;font-weight:700;opacity:.75}.messe-language-nav>a:hover{background:#202020;color:#fff}.messe-language-nav>.active{background:#e30613!important;color:#fff!important}.messe-language-nav>.disabled{opacity:.42;cursor:not-allowed}
-.messe-lang-info{padding:20px 24px;background:#f1f1ef;color:#444;font-weight:650;margin:0 0 22px}.messe-lang-card{background:#fff;border:1px solid #e2e2df;padding:26px;margin-bottom:18px}.messe-lang-card h2{margin:0 0 20px;font-size:20px;letter-spacing:.01em}.messe-lang-columns{display:grid;grid-template-columns:1fr 1fr;gap:24px}.messe-original{padding:20px;background:#f4f4f2;min-height:120px;overflow-wrap:anywhere}.messe-original strong,.messe-translation>label{display:block;font-size:12px;font-weight:900;letter-spacing:.07em;margin-bottom:14px}.messe-original p{margin:0;white-space:normal;line-height:1.6}.messe-translation textarea{width:100%;min-height:142px;padding:15px;border:1px solid #cfcfca;resize:vertical;font:inherit;box-sizing:border-box}.messe-translation textarea:focus{outline:2px solid #e30613;outline-offset:0}.messe-field-bottom{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:12px}.messe-field-bottom label{font-size:12px;font-weight:800}.messe-field-bottom select{padding:12px 36px 12px 12px;border:1px solid #aaa;background:#fff;color:#222;font:inherit}.messe-confirm{display:flex;align-items:center;gap:8px}.messe-stale{display:inline-block;color:#b9000b;font-size:11px;font-weight:900;margin-left:8px}.messe-review-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:18px}.messe-review-cell{padding:18px;border:1px solid #e2e2df;overflow-wrap:anywhere}.messe-review-cell>strong{font-size:17px}.messe-review-cell p{line-height:1.6}.messe-review-cell a{font-weight:800;color:#b9000b;font-size:12px}.messe-status{font-size:11px;color:#666;margin-left:10px}.messe-lang-actions{display:flex;justify-content:flex-end;gap:14px;margin:28px 0 80px}@media(max-width:700px){.messe-language-nav{gap:7px}.messe-language-nav>a,.messe-language-nav>span{min-height:64px;font-size:11px;padding:8px 4px}.messe-lang-columns,.messe-review-grid{grid-template-columns:1fr}.messe-lang-card{padding:16px}}
+.messe-language-nav small{font-size:10px;letter-spacing:.12em;font-weight:700;opacity:.75}.messe-language-nav>a:hover{background:var(--hml-vertrieb-messen-dark);color:#fff}.messe-language-nav>.active{background:var(--hml-vertrieb-messen-red)!important;color:#fff!important}.messe-language-nav>.disabled{opacity:.42;cursor:not-allowed}
+.messe-lang-info{padding:20px 24px;background:#f1f1ef;color:#444;font-weight:650;margin:0 0 22px}.messe-lang-card{background:#fff;border:1px solid var(--hml-vertrieb-messen-border);padding:26px;margin-bottom:18px}.messe-lang-card h2{margin:0 0 20px;font-size:20px;letter-spacing:.01em}.messe-lang-columns{display:grid;grid-template-columns:1fr 1fr;gap:24px}.messe-original{padding:20px;background:#f4f4f2;min-height:120px;overflow-wrap:anywhere}.messe-original strong,.messe-translation>label{display:block;font-size:12px;font-weight:900;letter-spacing:.07em;margin-bottom:14px}.messe-original p{margin:0;white-space:normal;line-height:1.6}.messe-translation textarea{width:100%;min-height:142px;padding:15px;border:1px solid #cfcfca;resize:vertical;font:inherit;box-sizing:border-box}.messe-translation textarea:focus{outline:2px solid var(--hml-vertrieb-messen-red);outline-offset:0}.messe-field-bottom{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:12px}.messe-field-bottom label{font-size:12px;font-weight:800}.messe-field-bottom select{padding:12px 36px 12px 12px;border:1px solid #aaa;background:#fff;color:#222;font:inherit}.messe-confirm{display:flex;align-items:center;gap:8px}.messe-stale{display:inline-block;color:var(--hml-vertrieb-messen-red-hover);font-size:11px;font-weight:900;margin-left:8px}.messe-review-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:18px}.messe-review-cell{padding:18px;border:1px solid var(--hml-vertrieb-messen-border);overflow-wrap:anywhere}.messe-review-cell>strong{font-size:17px}.messe-review-cell p{line-height:1.6}.messe-review-cell a{font-weight:800;color:var(--hml-vertrieb-messen-red-hover);font-size:12px}.messe-status{font-size:11px;color:#666;margin-left:10px}.messe-lang-actions{display:flex;justify-content:flex-end;gap:14px;margin:28px 0 80px}@media(max-width:700px){.messe-language-nav{gap:7px}.messe-language-nav>a,.messe-language-nav>span{min-height:64px;font-size:11px;padding:8px 4px}.messe-lang-columns,.messe-review-grid{grid-template-columns:1fr}.messe-lang-card{padding:16px}}
 
 /* Messen-only language selector: match the approved 3 x 2 reference. */
 .messe-language-nav{
@@ -21,7 +23,7 @@
   justify-content:center!important;
   gap:0!important;
   background:#e9e9e9!important;
-  color:#191919!important;
+  color:var(--hml-vertrieb-messen-ink)!important;
   font-size:27px!important;
   font-weight:800!important;
   letter-spacing:0!important;
@@ -31,8 +33,8 @@
   border-radius:0!important;
   opacity:1!important;
 }
-.messe-language-nav>a.active{background:#e30613!important;color:white!important}
-.messe-language-nav>a:not(.active):hover{background:#d8d8d8!important;color:#191919!important}
+.messe-language-nav>a.active{background:var(--hml-vertrieb-messen-red)!important;color:white!important}
+.messe-language-nav>a:not(.active):hover{background:#d8d8d8!important;color:var(--hml-vertrieb-messen-ink)!important}
 .messe-language-nav>span.disabled{opacity:.55!important}
 @media(max-width:700px){
  .messe-language-nav{gap:9px!important}
@@ -51,8 +53,8 @@
 .messe-field-bottom select{padding:8px 32px 8px 10px!important;font-size:13px!important;min-height:38px!important}
 .messe-lang-actions{margin:20px 0 12px!important}
 .messe-bottom-navigation{display:flex;justify-content:flex-end;margin:24px 0 64px}
-.messe-overview-button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 28px;box-sizing:border-box;background:#202020;color:#fff!important;font-size:13px;font-weight:800;letter-spacing:.055em;text-decoration:none!important;border:1px solid #202020;border-radius:0;transition:background .2s ease,border-color .2s ease,color .2s ease}
-.messe-overview-button:hover,.messe-overview-button:focus-visible{background:#e30613;border-color:#e30613;color:#fff!important}
+.messe-overview-button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 28px;box-sizing:border-box;background:var(--hml-vertrieb-messen-dark);color:#fff!important;font-size:13px;font-weight:800;letter-spacing:.055em;text-decoration:none!important;border:1px solid var(--hml-vertrieb-messen-dark);border-radius:0;transition:background .2s ease,border-color .2s ease,color .2s ease}
+.messe-overview-button:hover,.messe-overview-button:focus-visible{background:var(--hml-vertrieb-messen-red);border-color:var(--hml-vertrieb-messen-red);color:#fff!important}
 @media(max-width:700px){.messe-lang-columns{grid-template-columns:1fr!important;gap:12px!important}.messe-lang-card{padding:14px!important}.messe-bottom-navigation{justify-content:stretch}.messe-overview-button{width:100%}}
 
 /* Messen-only UI v3: compact language navigation and readable editing fields. */
@@ -65,7 +67,7 @@ main .messe-language-nav>a,main .messe-language-nav>span{
  font-size:15px!important;line-height:1.2!important;font-weight:800!important;
  border-radius:0!important;letter-spacing:.02em!important
 }
-main .messe-language-nav>.active{background:#e30613!important;color:#fff!important}
+main .messe-language-nav>.active{background:var(--hml-vertrieb-messen-red)!important;color:#fff!important}
 main .messe-current-title{
  font-size:clamp(18px,2vw,25px)!important;line-height:1.3!important;
  font-weight:800!important;letter-spacing:0!important;margin:0 0 20px!important;

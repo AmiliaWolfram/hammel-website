@@ -11,9 +11,7 @@
   position: relative;
   z-index: 3
 }
-.cosmic-hero--video .cosmic-hero__background-video {
-  opacity: 1!important
-}
+.cosmic-hero--video .cosmic-hero__background-video,
 .cosmic-hero--video .cosmic-hero__video-shade {
   opacity: 1!important
 }
@@ -847,11 +845,6 @@
   opacity: 1!important;
   pointer-events: auto!important;
   z-index: 5!important
-}
-#atlas-street-map {
-  height: 100%;
-  width: 100%;
-  background: #080a0d
 }
 .hammel-map-pin {
   width: 14px;
@@ -1918,9 +1911,7 @@
 #atlas-profile-area .atlas-light-profile .atlas-company-tags span {
   border-color: var(--partner-accent)!important
 }
-#atlas-profile-area .atlas-light-profile .atlas-company-eyebrow {
-  color: var(--partner-accent)!important
-}
+#atlas-profile-area .atlas-light-profile .atlas-company-eyebrow,
 #atlas-profile-area .atlas-light-profile .atlas-light-country {
   color: var(--partner-accent)!important
 }
@@ -2157,9 +2148,6 @@
 #atlas-profile-area .atlas-light-profile {
   background: linear-gradient(112deg,#fff 0%,#f8f8f7 72%,color-mix(in srgb,var(--partner-accent) 9%,#fff) 100%)!important;
   border-left: 6px solid var(--partner-accent)!important;
-}
-#atlas-profile-area .atlas-light-profile:before {
-  background: var(--partner-accent)!important
 }
 #atlas-profile-area .atlas-light-country {
   color: var(--partner-accent)!important
@@ -3094,9 +3082,7 @@
   border-inline-start: 0!important;
 }
 /* Persistent interactive partner details panel: visible even without selection */
-#international {
-  border-bottom: 0!important
-}
+#international,
 #international::after,#international .partner-atlas__layout::after {
   border-bottom: 0!important
 }
@@ -3464,10 +3450,7 @@ html body #atlas-profile-area .partner-atlas__details {
   padding-bottom: 0!important;
   border-bottom: 0!important
 }
-html body #atlas-profile-area .atlas-idle-panel {
-  margin-bottom: 0!important;
-  border-bottom: 0!important
-}
+html body #atlas-profile-area .atlas-idle-panel,
 html body #atlas-profile-area .atlas-light-profile {
   margin-bottom: 0!important;
   border-bottom: 0!important

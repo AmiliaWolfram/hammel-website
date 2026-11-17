@@ -182,6 +182,32 @@ def machine_dashboard(request):
         "can_add_variant": request.user.has_perm("messen.add_machinevariant"),
     })
 
+def save_machine_variant_gallery(request, variant):
+    """Apply gallery changes only to the selected variant; never delete file bytes.
+
+    This helper intentionally retains the editor's existing operation order:
+    upload, remove, reorder, then select cover.
+    """
+    for photo in request.FILES.getlist("gallery_images"):
+        MachineVariantPhoto.objects.create(
+            variant=variant, image=photo, position=variant.gallery.count()
+        )
+    for raw in request.POST.getlist("remove_photos"):
+        if raw.isdigit():
+            MachineVariantPhoto.objects.filter(variant=variant, pk=int(raw)).delete()
+    for position, raw in enumerate(request.POST.get("gallery_order", "").split(",")):
+        if raw.isdigit():
+            MachineVariantPhoto.objects.filter(variant=variant, pk=int(raw)).update(
+                position=position
+            )
+    cover = request.POST.get("cover_photo")
+    if cover and cover.isdigit():
+        selected_cover = variant.gallery.filter(pk=int(cover))
+        if selected_cover.exists():
+            variant.gallery.update(is_cover=False)
+            selected_cover.update(is_cover=True)
+
+
 def _machine_form(request, model, form_class, permission, instance=None):
     from django.core.exceptions import PermissionDenied
     from django.db import transaction
@@ -193,6 +219,14 @@ def _machine_form(request, model, form_class, permission, instance=None):
     # A draft is private to the editing workflow and never updates the published object.
     draft = MachineVariantDraft.objects.filter(variant=instance).first() if is_variant and instance else None
     initial = draft.values if draft and request.GET.get("draft") == "1" else None
+    # Capture the persisted state before ModelForm validation mutates its instance.
+    # This snapshot is only used for revision history after a successful save.
+    previous_variant_values = model_to_dict(instance, exclude=["materials"]) if is_variant and instance and request.method == "POST" else {}
+    if previous_variant_values:
+        previous_variant_values = {
+            key: str(value) if not isinstance(value, (int, float, bool, str, type(None))) else value
+            for key, value in previous_variant_values.items()
+        }
     form = form_class(request.POST or None, request.FILES or None, instance=instance, initial=initial)
     if request.method == "POST" and is_variant and request.POST.get("editor_action") == "preview":
         # Render current text values without committing the object or publication state.
@@ -220,9 +254,7 @@ def _machine_form(request, model, form_class, permission, instance=None):
             messages.error(request,"Bitte speichern Sie zuerst die neue Variante, bevor Sie einen Entwurf anlegen.")
     if request.method == "POST" and request.POST.get("editor_action") not in ("preview","draft") and form.is_valid():
         with transaction.atomic():
-            before = model_to_dict(instance,exclude=["materials"]) if is_variant and instance else {}
-            if before:
-                before={k:str(v) if not isinstance(v,(int,float,bool,str,type(None))) else v for k,v in before.items()}
+            before = previous_variant_values
             obj=form.save()
             from translations.services import save_inline
             save_inline(request, obj, form)
@@ -237,17 +269,7 @@ def _machine_form(request, model, form_class, permission, instance=None):
                             material,_=RecyclingMaterial.objects.get_or_create(area=area,name=label)
                             chosen.append(material)
                 obj.materials.set(chosen)
-                for photo in request.FILES.getlist("gallery_images"):
-                    MachineVariantPhoto.objects.create(variant=obj,image=photo,position=obj.gallery.count())
-                for raw in request.POST.getlist("remove_photos"):
-                    if raw.isdigit(): MachineVariantPhoto.objects.filter(variant=obj,pk=int(raw)).delete()
-                positions=request.POST.get("gallery_order","").split(",")
-                for position,raw in enumerate(positions):
-                    if raw.isdigit():MachineVariantPhoto.objects.filter(variant=obj,pk=int(raw)).update(position=position)
-                cover=request.POST.get("cover_photo")
-                if cover and cover.isdigit():
-                    obj.gallery.update(is_cover=False)
-                    obj.gallery.filter(pk=int(cover)).update(is_cover=True)
+                save_machine_variant_gallery(request, obj)
                 if before:MachineVariantRevision.objects.create(variant=obj,author=request.user,action="saved",snapshot=before)
                 MachineVariantDraft.objects.filter(variant=obj).delete()
             messages.success(request,"Maschinendaten gespeichert.")
@@ -429,6 +451,119 @@ def showcase_edit(request, pk):
     return render(request, 'messen/showcase_edit.html', {'form':form, 'item':obj})
 
 
+def _persist_translation_field(request, item, content_type, field, lang, previous, value, status, change_model, relation):
+    """Save one translation and its audit entry inside the caller's transaction."""
+    from translations.models import ContentTranslation
+    from translations.services import fingerprint
+
+    original_hash = fingerprint(getattr(item, field.name))
+    old_text = previous.text if previous else ""
+    old_status = previous.status if previous else ""
+    changed = previous is None or old_text != value
+    confirmed = request.POST.get("confirm_" + field.name) == "on"
+    source_hash = original_hash if changed or confirmed else previous.source_hash
+    if previous and previous.source_hash != original_hash and not (changed or confirmed) and status == "published":
+        status = "review"
+    final_status = status if value.strip() else "draft"
+    ContentTranslation.objects.update_or_create(
+        content_type=content_type, object_id=item.pk, language=lang, field_name=field.name,
+        defaults={
+            "text": value, "status": final_status, "source_hash": source_hash,
+            "updated_by": request.user,
+        },
+    )
+    if old_text != value or old_status != final_status:
+        change_model.objects.create(
+            **{relation: item}, author=request.user, language=lang,
+            field_name=field.name, field_label=str(field.verbose_name).capitalize(),
+            old_text=old_text, new_text=value, old_status=old_status, new_status=final_status,
+        )
+
+
+def _translation_editor_rows(item, fields, translations, lang, fingerprint):
+    """Prepare the field rows shared by the two language editors."""
+    rows = []
+    for field in fields:
+        original = str(getattr(item, field.name) or "")
+        label = str(field.verbose_name).capitalize()
+
+        def cell(code):
+            translation = translations.get((code, field.name))
+            return {
+                "text": translation.text if translation else "",
+                "status": translation.status if translation else "draft",
+                "stale": bool(
+                    translation and translation.text.strip()
+                    and translation.source_hash != fingerprint(original)
+                ),
+            }
+
+        row = {"name": field.name, "label": label, "original": original}
+        if lang == "review":
+            row["cells"] = [
+                {"code": code, **cell(code)}
+                for code in ("en", "fr", "es", "it")
+            ]
+        else:
+            row.update(cell(lang))
+        rows.append(row)
+    return rows
+
+
+def _translation_history(request, changes):
+    """Return filtered change history and month/year filter options."""
+    from datetime import date
+    from django.utils.formats import date_format
+
+    years = sorted(
+        {day.year for day in changes.dates("created_at", "year")},
+        reverse=True,
+    )
+    months = [
+        {"value": str(month), "label": date_format(date(2024, month, 1), "F")}
+        for month in range(1, 13)
+    ]
+    selected_year = request.GET.get("year", "")
+    selected_month = request.GET.get("month", "")
+    if selected_year.isdigit() and len(selected_year) == 4:
+        changes = changes.filter(created_at__year=int(selected_year))
+    if selected_month.isdigit() and 1 <= int(selected_month) <= 12:
+        changes = changes.filter(created_at__month=int(selected_month))
+    return list(changes[:100]), years, months
+
+
+def _save_language_review(request, item, redirect_name, published_label, update_fields):
+    """Handle visibility and publication actions shared by Messen and News."""
+    from django.http import HttpResponseBadRequest
+
+    destination = {"pk": item.pk, "lang": "review"}
+    if request.POST.get("visibility_action") == "save":
+        selected = request.POST.getlist("visible_languages")
+        item.language_visibility = {
+            code: code in selected for code in ("en", "fr", "es", "it")
+        }
+        item.save(update_fields=["language_visibility"])
+        messages.success(request, "Sichtbarkeit der Sprachversionen gespeichert.")
+        return redirect(redirect_name, **destination)
+
+    if request.POST.get("publication_confirm") != "on":
+        return HttpResponseBadRequest(
+            "Bitte bestätigen Sie die Prüfung vor der Änderung des Veröffentlichungsstatus."
+        )
+    action = request.POST.get("publication_action")
+    if action not in {"publish", "unpublish"}:
+        return HttpResponseBadRequest("Ungültige Veröffentlichungsaktion.")
+
+    item.published = action == "publish"
+    item.save(update_fields=update_fields)
+    messages.success(
+        request,
+        f"{published_label} veröffentlicht." if item.published
+        else f"{published_label} deaktiviert.",
+    )
+    return redirect(redirect_name, **destination)
+
+
 @login_required(login_url="messen_login")
 @permission_required("messen.change_messe", raise_exception=True)
 def messe_language_editor(request, pk, lang):
@@ -444,24 +579,10 @@ def messe_language_editor(request, pk, lang):
         if not request.user.has_perm("messen.change_messe"):
             from django.core.exceptions import PermissionDenied
             raise PermissionDenied
-        if request.POST.get("visibility_action") == "save":
-            # DE is the original; the other languages are individually configurable.
-            visible = {code: code in request.POST.getlist("visible_languages") for code in ("en", "fr", "es", "it")}
-            messe.language_visibility = visible
-            messe.save(update_fields=["language_visibility"])
-            messages.success(request, "Sichtbarkeit der Sprachversionen gespeichert.")
-            return redirect("messen_language_editor", pk=pk, lang="review")
-        if request.POST.get("publication_confirm") != "on":
-            from django.http import HttpResponseBadRequest
-            return HttpResponseBadRequest("Bitte bestätigen Sie die Prüfung vor der Änderung des Veröffentlichungsstatus.")
-        action = request.POST.get("publication_action")
-        if action not in {"publish", "unpublish"}:
-            from django.http import HttpResponseBadRequest
-            return HttpResponseBadRequest("Ungültige Veröffentlichungsaktion.")
-        messe.published = action == "publish"
-        messe.save(update_fields=["published", "updated_at"])
-        messages.success(request, "Messe veröffentlicht." if messe.published else "Messe deaktiviert.")
-        return redirect("messen_language_editor", pk=pk, lang="review")
+        return _save_language_review(
+            request, messe, "messen_language_editor", "Messe",
+            ["published", "updated_at"],
+        )
     if lang not in {"en", "fr", "es", "it", "review"}:
         raise Http404
     # Messe-specific fields: do not change shared translation rules or HRPortal.
@@ -479,41 +600,13 @@ def messe_language_editor(request, pk, lang):
                 requested_status = request.POST.get("status_" + field.name, "draft")
                 if requested_status not in {"draft", "review", "published"}:
                     requested_status = "draft"
-                original_hash = fingerprint(getattr(messe, field.name))
-                changed = previous is None or previous.text != value
-                confirmed = request.POST.get("confirm_" + field.name) == "on"
-                source_hash = original_hash if changed or confirmed else previous.source_hash
-                if previous and previous.source_hash != original_hash and not (changed or confirmed) and requested_status == "published":
-                    requested_status = "review"
-                ContentTranslation.objects.update_or_create(
-                    content_type=ct, object_id=messe.pk, language=lang, field_name=field.name,
-                    defaults={"text": value, "status": requested_status if value.strip() else "draft", "source_hash": source_hash, "updated_by": request.user},
+                _persist_translation_field(
+                    request, messe, ct, field, lang, previous, value,
+                    requested_status, MesseTranslationChange, "messe",
                 )
-                final_status = requested_status if value.strip() else "draft"
-                if previous is None:
-                    old_text, old_status = "", ""
-                else:
-                    old_text, old_status = previous.text, previous.status
-                if old_text != value or old_status != final_status:
-                    MesseTranslationChange.objects.create(
-                        messe=messe, author=request.user, language=lang,
-                        field_name=field.name, field_label=str(field.verbose_name).capitalize(),
-                        old_text=old_text, new_text=value, old_status=old_status, new_status=final_status,
-                    )
         messages.success(request, "Sprachversion gespeichert.")
         return redirect("messen_language_editor", pk=pk, lang=lang)
-    rows = []
-    for field in fields:
-        original = str(getattr(messe, field.name) or "")
-        if lang == "review":
-            cells = []
-            for code in ("en", "fr", "es", "it"):
-                t = translations.get((code, field.name))
-                cells.append({"code": code, "text": t.text if t else "", "status": t.status if t else "draft", "stale": bool(t and t.text.strip() and t.source_hash != fingerprint(original))})
-            rows.append({"name": field.name, "label": str(field.verbose_name).capitalize(), "original": original, "cells": cells})
-        else:
-            t = translations.get((lang, field.name))
-            rows.append({"name": field.name, "label": str(field.verbose_name).capitalize(), "original": original, "text": t.text if t else "", "status": t.status if t else "draft", "stale": bool(t and t.text.strip() and t.source_hash != fingerprint(original))})
+    rows = _translation_editor_rows(messe, fields, translations, lang, fingerprint)
     review_summary = []
     if lang == "review":
         language_names = {"en": "English", "fr": "Français", "es": "Español", "it": "Italiano"}
@@ -538,16 +631,8 @@ def messe_language_editor(request, pk, lang):
     selected_month = request.GET.get("month", "")
     selected_year = request.GET.get("year", "")
     if lang == "review":
-        from django.utils.formats import date_format
-        from datetime import date
-        all_changes = MesseTranslationChange.objects.filter(messe=messe).select_related("author")
-        history_years = sorted({d.year for d in all_changes.dates("created_at", "year")}, reverse=True)
-        history_months = [{"value": str(m), "label": date_format(date(2024, m, 1), "F")} for m in range(1, 13)]
-        if selected_year.isdigit() and len(selected_year) == 4:
-            all_changes = all_changes.filter(created_at__year=int(selected_year))
-        if selected_month.isdigit() and 1 <= int(selected_month) <= 12:
-            all_changes = all_changes.filter(created_at__month=int(selected_month))
-        history_entries = list(all_changes[:100])
+        changes = MesseTranslationChange.objects.filter(messe=messe).select_related("author")
+        history_entries, history_years, history_months = _translation_history(request, changes)
     return render(request, "messen/messe_languages.html", {"item": messe, "visible_languages": messe.language_visibility or {}, "enabled_languages": [code for code in ("en", "fr", "es", "it") if (messe.language_visibility or {}).get(code, False)], "publication_languages": [("en", "English"), ("fr", "Français"), ("es", "Español"), ("it", "Italiano")], "lang": lang, "rows": rows, "review": lang == "review", "review_summary": review_summary, "history_entries": history_entries, "history_years": history_years, "history_months": history_months, "selected_month": selected_month, "selected_year": selected_year})
 
 
@@ -568,24 +653,9 @@ def news_language_editor(request, pk, lang):
         raise Http404
     article = get_object_or_404(NewsArticle, pk=pk)
     if request.method == "POST" and lang == "review":
-        if request.POST.get("visibility_action") == "save":
-            # DE is the original; the other languages are individually configurable.
-            visible = {code: code in request.POST.getlist("visible_languages") for code in ("en", "fr", "es", "it")}
-            article.language_visibility = visible
-            article.save(update_fields=["language_visibility"])
-            messages.success(request, "Sichtbarkeit der Sprachversionen gespeichert.")
-            return redirect("news_language_editor", pk=pk, lang="review")
-        if request.POST.get("publication_confirm") != "on":
-            from django.http import HttpResponseBadRequest
-            return HttpResponseBadRequest("Bitte bestätigen Sie die Prüfung vor der Änderung des Veröffentlichungsstatus.")
-        action = request.POST.get("publication_action")
-        if action not in {"publish", "unpublish"}:
-            from django.http import HttpResponseBadRequest
-            return HttpResponseBadRequest("Ungültige Veröffentlichungsaktion.")
-        article.published = action == "publish"
-        article.save(update_fields=["published"])
-        messages.success(request, "Beitrag veröffentlicht." if article.published else "Beitrag deaktiviert.")
-        return redirect("news_language_editor", pk=pk, lang="review")
+        return _save_language_review(
+            request, article, "news_language_editor", "Beitrag", ["published"],
+        )
     fields = [article._meta.get_field(name) for name in ("title", "teaser", "body")]
     ct = ContentType.objects.get_for_model(NewsArticle)
     translations = {(t.language, t.field_name): t for t in ContentTranslation.objects.filter(content_type=ct, object_id=article.pk)}
@@ -605,43 +675,14 @@ def news_language_editor(request, pk, lang):
         with transaction.atomic():
             for field, value, status in submitted:
                 previous = translations.get((lang, field.name))
-                old_text = previous.text if previous else ""
-                old_status = previous.status if previous else ""
-                original_hash = fingerprint(getattr(article, field.name))
-                changed = previous is None or old_text != value
-                confirmed = request.POST.get("confirm_" + field.name) == "on"
-                source_hash = original_hash if changed or confirmed else previous.source_hash
-                if previous and previous.source_hash != original_hash and not (changed or confirmed) and status == "published":
-                    status = "review"
-                final_status = status if value.strip() else "draft"
-                ContentTranslation.objects.update_or_create(
-                    content_type=ct, object_id=article.pk, language=lang, field_name=field.name,
-                    defaults={"text": value, "status": final_status, "source_hash": source_hash, "updated_by": request.user},
+                _persist_translation_field(
+                    request, article, ct, field, lang, previous, value,
+                    status, NewsTranslationChange, "article",
                 )
-                if old_text != value or old_status != final_status:
-                    NewsTranslationChange.objects.create(
-                        article=article, author=request.user, language=lang,
-                        field_name=field.name, field_label=str(field.verbose_name).capitalize(),
-                        old_text=old_text, new_text=value, old_status=old_status, new_status=final_status,
-                    )
         messages.success(request, "Sprachversion gespeichert.")
         return redirect("news_language_editor", pk=pk, lang=lang)
 
-    rows = []
-    for field in fields:
-        original = str(getattr(article, field.name) or "")
-        if lang == "review":
-            cells = []
-            for code in ("en", "fr", "es", "it"):
-                t = translations.get((code, field.name))
-                cells.append({"code": code, "text": t.text if t else "", "status": t.status if t else "draft",
-                              "stale": bool(t and t.text.strip() and t.source_hash != fingerprint(original))})
-            rows.append({"name": field.name, "label": str(field.verbose_name).capitalize(), "original": original, "cells": cells})
-        else:
-            t = translations.get((lang, field.name))
-            rows.append({"name": field.name, "label": str(field.verbose_name).capitalize(), "original": original,
-                         "text": t.text if t else "", "status": t.status if t else "draft",
-                         "stale": bool(t and t.text.strip() and t.source_hash != fingerprint(original))})
+    rows = _translation_editor_rows(article, fields, translations, lang, fingerprint)
     summary = []
     history_entries, history_years, history_months = [], [], []
     selected_month, selected_year = request.GET.get("month", ""), request.GET.get("year", "")
@@ -657,13 +698,7 @@ def news_language_editor(request, pk, lang):
             total = sum(counts.values())
             summary.append({"code": code, "name": name, **counts, "total": total})
         changes = NewsTranslationChange.objects.filter(article=article).select_related("author")
-        history_years = sorted({d.year for d in changes.dates("created_at", "year")}, reverse=True)
-        history_months = [{"value": str(m), "label": date_format(date(2024, m, 1), "F")} for m in range(1, 13)]
-        if selected_year.isdigit() and len(selected_year) == 4:
-            changes = changes.filter(created_at__year=int(selected_year))
-        if selected_month.isdigit() and 1 <= int(selected_month) <= 12:
-            changes = changes.filter(created_at__month=int(selected_month))
-        history_entries = list(changes[:100])
+        history_entries, history_years, history_months = _translation_history(request, changes)
     return render(request, "messen/news_languages.html", {
         "item": article, "visible_languages": article.language_visibility or {}, "enabled_languages": [code for code in ("en", "fr", "es", "it") if (article.language_visibility or {}).get(code, False)], "publication_languages": [("en", "English"), ("fr", "Français"), ("es", "Español"), ("it", "Italiano")], "lang": lang, "rows": rows, "review": lang == "review", "review_summary": summary,
         "history_entries": history_entries, "history_years": history_years, "history_months": history_months,
