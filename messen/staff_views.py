@@ -227,6 +227,45 @@ def _machine_form(request, model, form_class, permission, instance=None):
             key: str(value) if not isinstance(value, (int, float, bool, str, type(None))) else value
             for key, value in previous_variant_values.items()
         }
+    language_codes = ("de", "en", "fr", "es", "it")
+    language_names = (("de", "Deutsch"), ("en", "Englisch"), ("fr", "Français"), ("es", "Español"), ("it", "Italiano"))
+    ready_languages = {"de"}
+    if is_variant and instance and instance.pk:
+        from django.contrib.contenttypes.models import ContentType
+        from translations.models import ContentTranslation
+        from translations.services import fields_for, fingerprint
+        required_fields = [(field.name, str(getattr(instance, field.name) or "")) for field in fields_for(instance) if str(getattr(instance, field.name) or "").strip()]
+        entries = ContentTranslation.objects.filter(content_type=ContentType.objects.get_for_model(instance), object_id=instance.pk)
+        lookup = {(entry.language, entry.field_name): entry for entry in entries}
+        for code in language_codes[1:]:
+            if required_fields and all((entry := lookup.get((code, name))) is not None and entry.status == "published" and bool(entry.text.strip()) and entry.source_hash == fingerprint(value) for name, value in required_fields):
+                ready_languages.add(code)
+    translation_counts = {code: {"finished": 0, "review": 0, "missing": 0, "stale": 0} for code in language_codes[1:]}
+    if is_variant and instance and instance.pk:
+        for code in language_codes[1:]:
+            for field_name, source_value in required_fields:
+                entry = lookup.get((code, field_name))
+                if entry is None or not (entry.text or "").strip():
+                    translation_counts[code]["missing"] += 1
+                elif entry.source_hash != fingerprint(source_value):
+                    translation_counts[code]["stale"] += 1
+                elif entry.status == "published":
+                    translation_counts[code]["finished"] += 1
+                else:
+                    translation_counts[code]["review"] += 1
+    for code in translation_counts:
+        counts = translation_counts[code]
+        counts["total"] = max(1, sum(counts[key] for key in ("finished", "review", "missing", "stale")))
+    if request.method == "POST" and is_variant and instance and request.POST.get("editor_action") == "languages":
+        selected = [code for code in language_codes if code == "de" or code in request.POST.getlist("visible_languages")]
+        invalid = [code for code in selected if code not in ready_languages]
+        if invalid:
+            messages.error(request, "Sprachversionen noch nicht vollständig geprüft: " + ", ".join(invalid))
+        else:
+            instance.visible_languages = selected
+            instance.save(update_fields=["visible_languages"])
+            messages.success(request, "Sprachauswahl gespeichert. Die Freigabe erfolgt erst bei Veröffentlichung." if not instance.published else "Sprachauswahl gespeichert.")
+        return redirect("staff_machine_variant_edit", pk=instance.pk)
     form = form_class(request.POST or None, request.FILES or None, instance=instance, initial=initial)
     if request.method == "POST" and is_variant and request.POST.get("editor_action") == "preview":
         # Render current text values without committing the object or publication state.
@@ -235,6 +274,24 @@ def _machine_form(request, model, form_class, permission, instance=None):
             from .models import RecyclingArea
             preview_variant = form.save(commit=False)
             preview_variant.pk = instance.pk if instance else None
+            preview_language = request.POST.get("preview_language", "de")
+            if preview_language not in {"de", "en", "fr", "es", "it"}:
+                preview_language = "de"
+            if preview_language != "de" and instance and instance.pk:
+                # Preview saved translations regardless of publication status,
+                # without modifying the original database record.
+                from django.contrib.contenttypes.models import ContentType
+                from translations.models import ContentTranslation
+                from translations.services import fields_for
+                ct = ContentType.objects.get_for_model(instance)
+                permitted = {field.name for field in fields_for(instance)}
+                translations = ContentTranslation.objects.filter(
+                    content_type=ct, object_id=instance.pk,
+                    language=preview_language, field_name__in=permitted,
+                )
+                for entry in translations:
+                    if entry.text.strip():
+                        setattr(preview_variant, entry.field_name, entry.text)
             selected_ids = [int(x) for x in request.POST.getlist("materials") if x.isdigit()]
             rows=[]
             for area in RecyclingArea.objects.prefetch_related("materials"):
@@ -242,7 +299,8 @@ def _machine_form(request, model, form_class, permission, instance=None):
                 if materials: rows.append((area,materials))
             return TemplateResponse(request,"messen/machine_variant_detail.html",{
                 "variant":preview_variant,"product":preview_variant.product,
-                "application_rows":rows,"custom_rows":[],"editor_preview":True})
+                "application_rows":rows,"custom_rows":[],"editor_preview":True,
+                "preview_language":preview_language})
     if request.method == "POST" and is_variant and request.POST.get("editor_action") == "draft":
         if instance:
             allowed = [name for name in form.fields if name not in ("image","hero_video","technical_drawing")]
@@ -287,19 +345,78 @@ def _machine_form(request, model, form_class, permission, instance=None):
                               "selected":assigned,"new_text":request.POST.get("new_material_%s"%area.pk,"")})
     completion=[]
     if is_variant:
-        for key,label in (("name","Modellbezeichnung"),("product","Baureihe"),("description","Beschreibung"),("engine","Motor"),("drive","Antrieb / Leistung"),("weight","Gewicht"),("image","Maschinenfoto"),("datasheet_url","Datenblatt"),("technical_drawing","Technische Zeichnung"),("hero_video","Hero-Video")):
+        for key,label in (("name","Modellbezeichnung"),("product","Baureihe"),("description","Beschreibung"),("engine","Motor"),("drive","Antrieb / Leistung"),("weight","Gewicht"),("image","Maschinenfoto"),("technical_drawing","Technische Zeichnung"),("hero_video","Hero-Video")):
             val=getattr(instance,key,None) if instance else None
             if key=="image":val=val or (instance.image_url if instance else None)
             if key=="technical_drawing":val=val or (instance.technical_drawing_url if instance else None)
             if key=="hero_video":val=val or (instance.hero_video_url if instance else None)
             completion.append({"name":label,"filled":bool(val)})
     sources=MachineVariant.objects.exclude(pk=instance.pk if instance else None).select_related("product").order_by("product__model_name","name") if is_variant else []
+    # Read-only, human-readable audit history; never modify existing revisions.
+    import ast as _ast
+    from django.forms.models import model_to_dict as _model_to_dict
+    field_labels = {
+        "name":"Name", "version":"Ausführung", "engine":"Motor", "drive":"Antrieb",
+        "weight":"Gewicht", "applications_wood":"Einsatzgebiet Holz",
+        "applications_waste":"Einsatzgebiet Abfall", "applications_other":"Weitere Einsatzgebiete",
+        "operating_principle":"Funktionsprinzip", "description":"Beschreibung",
+        "additional_specs":"Zusätzliche Angaben", "image":"Bild", "image_url":"Bild-URL",
+        "technical_drawing":"Technische Zeichnung", "technical_drawing_url":"Zeichnungs-URL",
+        "hero_media_choice":"Titelmedium", "hero_video":"Titelvideo",
+        "hero_video_url":"Video-URL", "position":"Reihenfolge",
+        "published":"Veröffentlichungsstatus", "visible_languages":"Sichtbare Sprachen",
+    }
+    language_labels = {"de":"Deutsch","en":"Englisch","fr":"Französisch","es":"Spanisch","it":"Italienisch"}
+    def _snapshot_dict(value):
+        if isinstance(value, dict):
+            return value
+        try:
+            parsed = _ast.literal_eval(value) if isinstance(value, str) else {}
+            return parsed if isinstance(parsed, dict) else {}
+        except (ValueError, SyntaxError, TypeError, MemoryError, RecursionError):
+            return {}
+    def _friendly_value(key, value):
+        if key == "published":
+            return "Veröffentlicht" if value in (True, "True", "true", 1) else "Nicht veröffentlicht"
+        if key == "visible_languages":
+            if isinstance(value, str):
+                try:
+                    value = _ast.literal_eval(value)
+                except (ValueError, SyntaxError):
+                    value = [value]
+            return ", ".join(language_labels.get(str(v),str(v)) for v in value) if isinstance(value,(list,tuple)) else str(value or "–")
+        return str(value).strip() if value not in (None, "") else "–"
+    history_entries = []
+    if is_variant and instance and instance.pk:
+        revisions_list = list(instance.revisions.select_related("author").order_by("created_at", "pk")[:100])
+        current_values = _model_to_dict(instance, exclude=["materials"])
+        current_values = {k: str(v) if not isinstance(v,(int,float,bool,str,type(None),list)) else v for k,v in current_values.items()}
+        snapshots = [_snapshot_dict(revision.snapshot) for revision in revisions_list]
+        for index, revision in enumerate(revisions_list):
+            previous = snapshots[index]
+            following = snapshots[index+1] if index+1 < len(snapshots) else current_values
+            changes = []
+            for key, label in field_labels.items():
+                if key not in previous or key not in following or previous[key] == following[key]:
+                    continue
+                before = _friendly_value(key, previous[key])
+                after = _friendly_value(key, following[key])
+                if key == "published":
+                    detail = "Maschinenvariante veröffentlicht" if after == "Veröffentlicht" else "Maschinenvariante deaktiviert"
+                else:
+                    detail = label + " geändert"
+                changes.append({"label":detail,"before":before,"after":after})
+            history_entries.append({"date":revision.created_at,"author":revision.author,"changes":changes})
+        history_entries.reverse()
     return render(request,"messen/machine_staff_form.html",{
         "form":form,"object":instance,"kind":model,"area_rows":area_rows,"completion":completion,
         "completion_done":sum(x["filled"] for x in completion),"completion_total":len(completion),
         "sources":sources,"gallery":instance.gallery.all() if is_variant and instance else [],
         "revisions":instance.revisions.select_related("author")[:12] if is_variant and instance else [],
+        "history_entries":history_entries,
         "draft":draft,
+        "translation_counts": translation_counts,
+        "publication_languages": [{"code": code, "name": name, "ready": code in ready_languages, "selected": code in (instance.visible_languages if instance and instance.visible_languages is not None else ["de"])} for code, name in language_names] if is_variant else [],
     })
 
 @login_required(login_url="messen_login")
@@ -429,6 +546,35 @@ def machine_variant_copy(request,pk):
 def showcase_dashboard(request):
     from .models import HomepageShowcase
     return render(request, 'messen/showcase_dashboard.html', {'items': HomepageShowcase.objects.all()})
+
+@login_required(login_url='messen_login')
+@permission_required('messen.change_homepageshowcase', raise_exception=True)
+@require_POST
+def showcase_reorder(request):
+    """Atomically reorder every showcase entry, preserving other fields."""
+    import json
+    from django.db import transaction
+    from django.http import JsonResponse
+    from .models import HomepageShowcase
+
+    try:
+        payload = json.loads(request.body)
+        ids = payload["ids"]
+        if not isinstance(ids, list) or any(type(pk) is not int or pk <= 0 for pk in ids) or len(set(ids)) != len(ids):
+            return JsonResponse({"error": "Ungültige Reihenfolge."}, status=400)
+    except (ValueError, TypeError, KeyError):
+        return JsonResponse({"error": "Ungültige Reihenfolge."}, status=400)
+
+    with transaction.atomic():
+        current = list(HomepageShowcase.objects.select_for_update().values_list("pk", flat=True))
+        if len(current) != len(ids) or set(current) != set(ids):
+            return JsonResponse({"error": "Liste wurde geändert. Bitte neu laden."}, status=409)
+        HomepageShowcase.objects.bulk_update(
+            [HomepageShowcase(pk=pk, position=index) for index, pk in enumerate(ids, 1)],
+            ["position"],
+        )
+    return JsonResponse({"ok": True})
+
 
 @login_required(login_url='messen_login')
 @permission_required('messen.change_homepageshowcase', raise_exception=True)

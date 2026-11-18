@@ -1,42 +1,214 @@
 {% extends "messen/base.html" %}
-{% block title %}{{ kind }} bearbeiten{% endblock %}
+{% load content_i18n %}
+{% block title %}{{ kind }} bearbeiten
+
+
+
+
+{% endblock %}
 {% block content %}
-<div class="eyebrow">HAMMEL / VERTRIEB / MASCHINEN</div>
+<style>
+/* Maschinenvariante only: media controls use full-width compact rows.
+   This avoids uneven two-column grid rows caused by tall upload widgets. */
+/* Media fields are moved into independent columns to avoid tall file inputs
+   forcing unrelated URL fields into the same row height. */
+.machine-edit-form .machine-media-columns{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;align-items:start;min-width:0}
+.machine-edit-form .machine-media-column{display:flex;flex-direction:column;gap:22px;min-width:0}
+.machine-edit-form .machine-media-column>.machine-field{display:block!important;min-width:0;margin:0!important;grid-column:auto!important}
+.machine-edit-form .machine-media-column>.machine-field>.machine-field-label-row{margin-bottom:10px}
+.machine-edit-form .machine-media-column>.machine-field input,.machine-edit-form .machine-media-column>.machine-field select{max-width:100%}
+@media(max-width:720px){.machine-edit-form .machine-media-columns{grid-template-columns:minmax(0,1fr);gap:22px}}
+
+/* Gallery belongs to the video column; no full-row panel spacing here. */
+.machine-language-layout .machine-media-column>.editor-media-manager{display:block;grid-column:auto!important;width:100%;min-width:0;box-sizing:border-box;margin:0;padding:18px;background:#fff;border:1px solid #dedede}
+.machine-language-layout .machine-media-column>.editor-media-manager h2{font-size:20px;margin:0 0 14px}
+.machine-language-layout .machine-media-column>.editor-media-manager .editor-gallery{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+/* Scope: Maschinenvariante Medien & Dokumente only. */
+@media (min-width: 721px) {
+  .machine-language-layout .machine-edit-form > .machine-media-columns {
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    grid-column:1/-1!important;
+    width:100%!important;
+    max-width:none!important;
+  }
+}
+@media (max-width: 720px) {
+  .machine-language-layout .machine-edit-form > .machine-media-columns {
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+}
+
+/* Align the media fields by shared grid rows, rather than independent flex columns. */
+@media (min-width:721px) {
+ .machine-language-layout .machine-edit-form > .machine-media-columns {
+   display:grid!important;
+   grid-template-columns:repeat(2,minmax(0,1fr))!important;
+   grid-template-rows:repeat(3,auto) auto auto!important;
+   column-gap:24px!important;
+   row-gap:18px!important;
+   align-items:stretch!important;
+ }
+ .machine-language-layout .machine-media-columns > .machine-media-column {
+   display:contents!important;
+ }
+ .machine-language-layout .machine-media-column > .machine-field {
+   align-self:stretch!important;
+   margin:0!important;
+ }
+ .machine-language-layout .machine-media-column:first-child > .machine-field:nth-child(1){grid-column:1;grid-row:1}
+ .machine-language-layout .machine-media-column:first-child > .machine-field:nth-child(2){grid-column:1;grid-row:2}
+ .machine-language-layout .machine-media-column:first-child > .machine-field:nth-child(3){grid-column:1;grid-row:3}
+ .machine-language-layout .machine-media-column:first-child > .machine-field:nth-child(4){grid-column:1;grid-row:4}
+ .machine-language-layout .machine-media-column:first-child > .machine-field:nth-child(5){grid-column:1;grid-row:5}
+ .machine-language-layout .machine-media-column:nth-child(2) > .machine-field:nth-child(1){grid-column:2;grid-row:1}
+ .machine-language-layout .machine-media-column:nth-child(2) > .machine-field:nth-child(2){grid-column:2;grid-row:2}
+ .machine-language-layout .machine-media-column:nth-child(2) > .machine-field:nth-child(3){grid-column:2;grid-row:3}
+ .machine-language-layout .machine-media-column:nth-child(2) > .editor-media-manager{grid-column:2;grid-row:4 / span 2;align-self:stretch!important}
+}
+
+/* Medien & Dokumente: real paired rows, scoped to the variant editor. */
+.machine-language-layout .machine-edit-form>.machine-media-aligned-rows{
+ grid-column:1/-1!important;width:100%!important;min-width:0!important;
+ display:flex!important;flex-direction:column!important;gap:16px!important;
+}
+.machine-language-layout .machine-media-paired-row{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:24px!important;align-items:stretch!important;
+}
+.machine-language-layout .machine-media-paired-cell{min-width:0!important;display:flex!important;flex-direction:column!important}
+.machine-language-layout .machine-media-paired-cell>.machine-field{margin:0!important;min-width:0!important;flex:1}
+.machine-language-layout .machine-media-paired-cell>.editor-media-manager{
+ margin:0!important;min-width:0!important;width:100%!important;box-sizing:border-box!important;
+}
+.machine-language-layout .machine-media-paired-cell .machine-field input:not([type=checkbox]),
+.machine-language-layout .machine-media-paired-cell .machine-field select{max-width:100%!important;box-sizing:border-box!important}
+@media(max-width:720px){
+ .machine-language-layout .machine-media-paired-row{grid-template-columns:minmax(0,1fr)!important;gap:14px!important}
+ .machine-language-layout .machine-media-paired-cell:empty{display:none!important}
+}
+
+/* Stable paired media layout: use flex rows to avoid generic grid overrides. */
+@media (min-width:721px){
+ .machine-language-layout .machine-edit-form .machine-media-aligned-rows{display:flex!important;flex-direction:column!important;width:100%!important;gap:18px!important}
+ .machine-language-layout .machine-edit-form .machine-media-aligned-rows>.machine-media-paired-row{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:stretch!important;gap:24px!important;width:100%!important;grid-template-columns:none!important}
+ .machine-language-layout .machine-edit-form .machine-media-paired-row>.machine-media-paired-cell{display:flex!important;flex-direction:column!important;flex:1 1 0!important;width:0!important;min-width:0!important;max-width:none!important;grid-column:auto!important;grid-row:auto!important}
+ .machine-language-layout .machine-edit-form .machine-media-paired-cell>.machine-field{width:100%!important;max-width:100%!important;min-width:0!important;margin:0!important}
+}
+@media (max-width:720px){
+ .machine-language-layout .machine-edit-form .machine-media-aligned-rows>.machine-media-paired-row{display:flex!important;flex-direction:column!important;gap:16px!important}
+ .machine-language-layout .machine-edit-form .machine-media-paired-row>.machine-media-paired-cell{width:100%!important;min-width:0!important}
+}
+.machine-review-site-row input[type="checkbox"]{width:18px;height:18px;accent-color:#e30613;cursor:pointer}.machine-review-site-row input:disabled{cursor:not-allowed;opacity:.45}.machine-review-language-save{width:100%;padding:14px;background:#161616;color:white;border:0;font-weight:700;cursor:pointer;margin-top:16px}
+</style>
+<style>
+.machine-language-layout.is-review .machine-review-columns{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;align-items:stretch!important;gap:20px!important}
+.machine-language-layout.is-review .machine-review-versions{height:100%!important;box-sizing:border-box!important}
+.machine-language-layout.is-review .machine-review-right{display:flex!important;flex-direction:column!important;min-width:0!important}
+.machine-language-layout.is-review .machine-review-publication{flex:1!important}
+.machine-language-layout.is-review .machine-review-status{font-size:11px!important;font-weight:700!important;white-space:nowrap!important;color:#666!important}
+.machine-language-layout.is-review .machine-review-status .count-finished{color:#15924a!important}
+.machine-language-layout.is-review .machine-review-status .count-review{color:#bb8110!important}
+.machine-language-layout.is-review .machine-review-status .count-missing{color:#e30613!important}
+.machine-language-layout.is-review .machine-review-status .count-stale{color:#65717c!important}
+.machine-language-layout.is-review .editor-history#friendly-history{grid-column:1/-1!important;width:100%!important;box-sizing:border-box!important;margin-top:20px!important}
+.machine-language-layout.is-review .machine-history-collapse>summary{list-style:none!important;cursor:pointer!important;font-weight:850!important;font-size:13px!important;padding:22px 26px!important}
+.machine-language-layout.is-review .machine-history-collapse>summary::-webkit-details-marker{display:none}
+.machine-language-layout.is-review .machine-history-collapse>summary:before{content:"▸ ";color:#111}
+.machine-language-layout.is-review .machine-history-collapse[open]>summary:before{content:"▾ "}
+.machine-language-layout.is-review .machine-history-body{padding:0 26px 24px}
+@media(max-width:900px){.machine-language-layout.is-review .machine-review-columns{grid-template-columns:minmax(0,1fr)!important}}
+</style>
+<style>
+/* Review layout: intentionally scoped to Vertriebsportal machine editor. */
+#machine-language-layout.is-review .machine-review-version-line .machine-review-status,
+#machine-language-layout.is-review .machine-review-version-line .machine-review-status span{color:inherit}
+#machine-language-layout.is-review .machine-review-version-line .count-finished{color:#16884a!important}
+#machine-language-layout.is-review .machine-review-version-line .count-review{color:#bb8110!important}
+#machine-language-layout.is-review .machine-review-version-line .count-missing{color:#e30613!important}
+#machine-language-layout.is-review .machine-review-version-line .count-stale{color:#6b7580!important}
+#machine-language-layout.is-review .machine-review-version:not([data-review-language="de"]) .machine-review-meter{background:transparent!important;display:flex!important}
+#machine-language-layout.is-review .machine-review-version:not([data-review-language="de"]) .machine-review-meter::before,
+#machine-language-layout.is-review .machine-review-version:not([data-review-language="de"]) .machine-review-meter::after{display:none!important}
+#machine-language-layout.is-review button#machine-review-open-previews{display:block!important;width:100%!important;min-height:48px!important;background:#171717!important;color:#fff!important;border:0!important;border-radius:0!important;box-shadow:none!important;font-weight:850!important;cursor:pointer!important}
+#machine-language-layout.is-review button#machine-review-publish-button,
+#machine-language-layout.is-review button#machine-review-publish-button:disabled{display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;min-height:54px!important;background:#e30613!important;color:#fff!important;border:0!important;border-radius:0!important;box-shadow:none!important;opacity:1!important;font-size:14px!important;font-weight:850!important;padding:15px!important;appearance:none!important;-webkit-appearance:none!important}
+#machine-language-layout.is-review button#machine-review-publish-button.is-deactivation,
+#machine-language-layout.is-review button#machine-review-publish-button.is-deactivation:disabled{background:#171717!important;color:#fff!important}
+#machine-language-layout.is-review button#machine-review-publish-button:disabled{cursor:not-allowed!important}
+#machine-language-layout.is-review .machine-review-confirm input[type=checkbox]{accent-color:#e30613!important}
+</style>
+<style>
+.machine-history-body{padding:4px 28px 28px!important}
+.machine-history-entry{padding:20px 0;border-top:1px solid #e6e6e6}
+.machine-history-meta{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin-bottom:14px;color:#666;font-size:13px}
+.machine-history-meta strong{font-size:15px;color:#161616}
+.machine-history-change{margin:10px 0;padding:14px 18px;background:#f5f5f4;border-left:3px solid #e30613}
+.machine-history-change>strong{font-size:14px;color:#161616}
+.machine-history-values{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:9px;font-size:13px;overflow-wrap:anywhere}
+.machine-history-old{color:#737373}.machine-history-new{color:#171717;font-weight:700}.machine-history-arrow{color:#e30613;font-weight:800}
+.machine-history-muted{color:#777;font-size:13px}
+.machine-history-collapse>summary{font-weight:800!important}
+</style>
+<style>
+/* Vertriebsportal review history: visible styles belong in the page, not the HTML title */
+#friendly-history{width:100%;box-sizing:border-box;background:#fff;border:1px solid #e4e4e4;padding:18px 24px;margin:24px 0}
+#friendly-history .machine-history-collapse>summary{display:flex;align-items:center;gap:12px;cursor:pointer;padding:15px 8px;list-style:none;font-size:14px;font-weight:800;color:#171717}
+#friendly-history .machine-history-collapse>summary::-webkit-details-marker{display:none}
+#friendly-history .machine-history-collapse>summary:before{content:"▸";font-size:15px;color:#e30613}
+#friendly-history .machine-history-collapse[open]>summary:before{content:"▾"}
+#friendly-history .machine-history-body{padding:12px 8px 20px;display:grid;gap:14px}
+#friendly-history .machine-history-entry{padding:18px 22px;border:1px solid #e5e5e5;background:#fafafa}
+#friendly-history .machine-history-meta{display:flex;gap:8px 18px;align-items:center;flex-wrap:wrap;margin-bottom:12px;font-size:13px;color:#777}
+#friendly-history .machine-history-meta strong{color:#171717;font-size:14px}
+#friendly-history .machine-history-change{border-left:3px solid #e30613;background:#fff;padding:12px 16px;margin-top:8px}
+#friendly-history .machine-history-change>strong{display:block;font-size:14px;color:#171717}
+#friendly-history .machine-history-values{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;font-size:13px;line-height:1.5}
+#friendly-history .machine-history-old{color:#777}
+#friendly-history .machine-history-arrow{color:#e30613;font-weight:800}
+#friendly-history .machine-history-new{color:#171717;font-weight:700}
+</style>
+
+<div class="eyebrow">HAMMEL</div>
 <h1>{% if kind == "Maschinenvariante" %}{% if object %}{{ object.name }}{% else %}NEUE VARIANTE{% endif %}{% else %}BAUREIHE{% endif %}</h1>
-<p class="subtitle">{% if kind == "Maschinenvariante" %}Maschinenvariante bearbeiten / Angaben prüfen, ergänzen und speichern{% elif object %}{{ object }} bearbeiten{% else %}Neuen Eintrag erstellen{% endif %}</p>
+{% if kind != "Maschinenvariante" %}<p class="subtitle">{% if object %}{{ object }} bearbeiten{% else %}Neuen Eintrag erstellen{% endif %}</p>{% endif %}
 {% if kind == "Maschinenmodell" %}<p class="machine-form-guidance">Hier werden nur gemeinsame Angaben zur Baureihe gepflegt. Einsatzmaterialien, technische Daten, Datenblätter und Videos werden für jede Modellvariante separat verwaltet.</p>{% endif %}
 {% if kind == "Maschinenvariante" %}
+<div class="machine-language-layout" id="machine-language-layout">
+  {% if object %}
+  <nav class="machine-top-languages" aria-label="Sprachversionen">
+    <button type="button" data-machine-lang="de" class="is-active" aria-pressed="true">DE <small>Original</small></button>
+    <button type="button" data-machine-lang="en" aria-pressed="false">EN <small>English</small></button>
+    <button type="button" data-machine-lang="fr" aria-pressed="false">FR <small>Français</small></button>
+    <button type="button" data-machine-lang="es" aria-pressed="false">ES <small>Español</small></button>
+    <button type="button" data-machine-lang="it" aria-pressed="false">IT <small>Italiano</small></button>
+    <button type="button" data-machine-review aria-pressed="false">PRÜFUNG <small>Veröffentlichung</small></button>
+  </nav>
+  {% else %}
+  <div class="machine-language-new-note">Speichern Sie die neue Variante, um Sprachversionen zu bearbeiten.</div>
+  {% endif %}
 <div class="friendly-editor" aria-label="Maschineneditor">
-  <div class="friendly-topline">
-    <div class="friendly-publication">{% if object and object.published %}<span class="friendly-status-dot"></span>Veröffentlicht{% else %}<span class="friendly-status-dot is-draft"></span>Nicht veröffentlicht{% endif %}</div>
-    <div class="friendly-quick-actions">
-      {% if object %}<a href="{% url 'staff_machine_fields_manage' %}?scope=variant&amp;id={{ object.pk }}" class="friendly-settings-link">Felder verwalten</a>{% endif %}
-    </div>
-  </div>
-  <div class="friendly-completion">
+
+  {% if kind != "Maschinenvariante" %}
+<div class="friendly-completion">
     <div class="friendly-completion-line"><strong>Vollständigkeit der Angaben</strong><span>{{ completion_done }} von {{ completion_total }}</span></div>
     <div class="friendly-progress" role="progressbar" aria-valuenow="{{ completion_done }}" aria-valuemin="0" aria-valuemax="{{ completion_total }}"><div style="width:{% widthratio completion_done completion_total 100 %}%"></div></div>
-    <details class="friendly-missing"><summary>Fehlende Angaben anzeigen <span aria-hidden="true">⌄</span></summary><div class="friendly-missing-content"><ul>{% for item in completion %}{% if not item.filled %}<li>{{ item.name }}</li>{% endif %}{% endfor %}</ul><p>Optionale Angaben verhindern die Veröffentlichung nicht.</p></div></details>
+    <details class="friendly-missing"><summary>Fehlende Felder <span aria-hidden="true">⌄</span></summary><div class="friendly-missing-content"><ul>{% for item in completion %}{% if not item.filled %}<li>{{ item.name }}</li>{% endif %}{% endfor %}</ul></div></details>
   </div>
-  <div class="friendly-tabs-heading">Maschinendaten bearbeiten</div>
+{% endif %}
+  <div class="friendly-tabs-heading">BEREICHE</div>
   <nav class="editor-tabs" role="tablist" aria-label="Bearbeitungsbereiche">
     <button type="button" class="is-active" data-editor-tab="general" role="tab" aria-selected="true">Allgemein</button>
     <button type="button" data-editor-tab="materials" role="tab" aria-selected="false">Einsatzgebiete</button>
     <button type="button" data-editor-tab="technical" role="tab" aria-selected="false">Technische Daten</button>
-    <button type="button" data-editor-tab="media" role="tab" aria-selected="false">Medien &amp; Dokumente</button>
+    <button type="button" data-editor-tab="media" role="tab" aria-selected="false">Medien</button>
   </nav>
+  {% if object %}<div class="friendly-sidebar-bottom"><a class="friendly-sidebar-settings" href="{% url 'staff_machine_fields_manage' %}?scope=variant&amp;id={{ object.pk }}">FELDER VERWALTEN</a></div>{% endif %}
   {% if object %}<div class="friendly-extra-field" data-editor-panel="technical"><a href="{% url 'staff_machine_custom_values' object.pk %}">Zusätzliche technische Angaben bearbeiten</a></div>{% endif %}
-  <details class="friendly-more-actions"><summary>Weitere Aktionen <span aria-hidden="true">⌄</span></summary>
-    <div class="friendly-action-items">
-      {% if object %}
-      <div class="friendly-action-item"><div><strong>Variante kopieren</strong><p>Erstellt eine zusätzliche Maschinenvariante auf Grundlage dieser Maschine. Technische Angaben und zugeordnete Materialien werden übernommen, damit Sie nicht alles erneut eingeben müssen. Die Kopie ist zunächst nicht veröffentlicht und kann anschließend unabhängig bearbeitet werden. Die ursprüngliche Maschine und ihre Daten bleiben unverändert.</p></div><form method="post" action="{% url 'staff_machine_variant_copy' object.pk %}" onsubmit="return confirm('Neue, unveröffentlichte Kopie erstellen?')">{% csrf_token %}{% load content_i18n %}{% inline_translations object|default:form.instance form %}<button type="submit">Neue Variante als Kopie anlegen</button></form></div>
-      <div class="friendly-action-item"><div><strong>Felder verwalten</strong><p>Bestimmen Sie, welche Angaben für diese Maschinenvariante auf der öffentlichen Website und im Maschinenvergleich sichtbar sind. Sie können zusätzliche Felder anlegen, Bezeichnungen und Reihenfolge anpassen oder Felder ausblenden. Ausblenden löscht keine gespeicherten Werte. Hier ändern Sie die Struktur der Anzeige – die eigentlichen Maschinenwerte bearbeiten Sie in den Reitern oben.</p></div><a href="{% url 'staff_machine_fields_manage' %}?scope=variant&amp;id={{ object.pk }}">Feldeinstellungen öffnen</a></div>
-      {% endif %}
-      <div class="friendly-action-item"><div><strong>Änderungsverlauf</strong><p>Sehen Sie nach, welche Änderungen an dieser Maschinenvariante gespeichert wurden, wann dies geschah und welcher Benutzer sie vorgenommen hat. So können Sie frühere Angaben nachvollziehen. Die Historie dient zur Kontrolle; ein automatisches Wiederherstellen älterer Versionen ist derzeit nicht verfügbar.</p></div><button type="button" data-friendly-history>Gespeicherte Änderungen ansehen</button></div>
-    </div>
-  </details>
+
 </div>
-{% if draft %}<div class="editor-draft-note">ENTWURF VORHANDEN / <a href="?draft=1">ENTWURF LADEN</a> / Der Entwurf ist nicht veröffentlicht.</div>{% endif %}
+
 {% endif %}
 {% if kind == "Maschinenmodell" and object %}<p><a href="{% url 'staff_machine_fields_manage' %}?scope=series&id={{ object.pk }}">FELDER DER BAUREIHE ANPASSEN</a></p>{% endif %}
 <form method="post" enctype="multipart/form-data" class="machine-edit-form" id="machine-main-form">
@@ -44,9 +216,11 @@
 {% if form.non_field_errors %}<div class="errors">{{ form.non_field_errors }}</div>{% endif %}
 {% if area_rows %}
 <fieldset class="machine-area-editor" data-editor-panel="materials">
-<div class="machine-step">EINSATZBEREICHE AUSWÄHLEN <button type="button" class="machine-field-help" data-help-inline="Bereiche" aria-expanded="false" title="Erklärung anzeigen">?</button></div>
 <legend>EINSATZGEBIETE UND MATERIALIEN</legend>
-<p>Aktivieren Sie zuerst einen Einsatzbereich. Danach wählen Sie die Materialien, die diese Maschine tatsächlich verarbeiten kann.</p><div class="machine-hint">Tipp: Nicht ausgewählte Bereiche erscheinen nicht auf der Website. Ihre bisherigen Einträge bleiben gespeichert, bis Sie Änderungen übernehmen.</div>
+<div class="machine-area-toolbar">
+  <div class="machine-area-selection"><span>Einsatzbereiche</span><span class="machine-area-counter" id="machine-area-counter" aria-live="polite"></span></div>
+  <details class="machine-area-help"><summary aria-label="Hilfe zur Auswahl anzeigen"><span aria-hidden="true">?</span> Hilfe</summary><div>Bereich auswählen, dann Materialien markieren. Nicht ausgewählte Bereiche werden auf der Website nicht angezeigt. Bereits gespeicherte Daten bleiben erhalten.</div></details>
+</div>
 {% for row in area_rows %}
 <div class="machine-area-card {% if row.active %}is-selected{% endif %}" data-area-card>
 <label class="machine-area-heading"><input type="checkbox" name="areas" value="{{ row.area.pk }}" data-area-toggle="{{ row.area.pk }}" {% if row.active %}checked{% endif %}><span class="machine-area-title">{{ row.area.title }}</span><span class="machine-area-state" data-area-state>{% if row.active %}AKTIV{% else %}NICHT AUSGEWÄHLT{% endif %}</span><span class="machine-area-chevron" aria-hidden="true">⌄</span></label>
@@ -66,21 +240,70 @@
 {% if kind == "Maschinenvariante" %}
 
 {% endif %}
-<div class="machine-form-section-title" {% if kind == "Maschinenvariante" %}data-editor-panel="general"{% endif %}>MASCHINENDATEN BEARBEITEN</div>{% for field in form %}<div class="machine-field" {% if kind == "Maschinenvariante" %}data-editor-panel="{% if field.name == 'engine' or field.name == 'drive' or field.name == 'weight' or field.name == 'additional_specs' or field.name == 'operating_principle' %}technical{% elif field.name == 'hero_media_choice' or field.name == 'image' or field.name == 'image_url' or field.name == 'hero_video' or field.name == 'hero_video_url' or field.name == 'datasheet_url' or field.name == 'technical_drawing' or field.name == 'technical_drawing_url' %}media{% else %}general{% endif %}"{% endif %}><div class="machine-field-label-row"><label for="{{ field.id_for_label }}">{{ field.label }}</label><button type="button" class="machine-field-help" data-field-help="{{ field.name }}" aria-label="Hilfe zu {{ field.label }}" aria-expanded="false" title="Erklärung anzeigen">?</button></div><div class="machine-field-help-text" id="help-{{ field.name }}" hidden role="note"></div>{{ field }}{% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}{{ field.errors }}</div>{% endfor %}
-{% if kind == "Maschinenvariante" %}
-<section class="editor-media-manager" data-editor-panel="media"><h2>BILDERGALERIE</h2><p>Mehrere Bilder hochladen, per Drag & Drop sortieren und ein Titelbild wählen.</p>
+{% if kind == "Maschinenvariante" %}<section class="media-static-layout" data-editor-panel="media"><div class="machine-hero-native" hidden>{{ form.hero_media_choice }}{{ form.hero_media_choice.errors }}</div><div class="media-static-row"><div class="media-static-cell"><div class="machine-field machine-media-static-field"><div class="machine-field-label-row"><label for="{{ form.image.id_for_label }}">{{ form.image.label }}</label></div>{{ form.image }}{{ form.image.errors }}<label class="machine-hero-pick"><input type="checkbox" data-hero-pick="image" aria-label="Als Hero-Darstellung Foto auswählen"><span>Als Hero anzeigen</span></label></div></div><div class="media-static-cell"><div class="machine-field machine-media-static-field"><div class="machine-field-label-row"><label for="{{ form.hero_video.id_for_label }}">{{ form.hero_video.label }}</label></div>{{ form.hero_video }}{{ form.hero_video.errors }}<label class="machine-hero-pick"><input type="checkbox" data-hero-pick="video" aria-label="Als Hero-Darstellung Video auswählen"><span>Als Hero anzeigen</span></label></div></div></div><div class="media-static-row"><div class="media-static-cell"><div class="machine-field machine-media-static-field"><div class="machine-field-label-row"><label for="{{ form.image_url.id_for_label }}">{{ form.image_url.label }}</label></div>{{ form.image_url }}{{ form.image_url.errors }}</div></div><div class="media-static-cell"><div class="machine-field machine-media-static-field"><div class="machine-field-label-row"><label for="{{ form.hero_video_url.id_for_label }}">{{ form.hero_video_url.label }}</label></div>{{ form.hero_video_url }}{{ form.hero_video_url.errors }}</div></div></div><div class="media-static-row"><div class="media-static-cell"></div><div class="media-static-cell"></div></div><div class="media-static-row"><div class="media-static-cell"><div class="machine-field machine-media-static-field"><div class="machine-field-label-row"><label for="{{ form.technical_drawing.id_for_label }}">{{ form.technical_drawing.label }}</label></div>{{ form.technical_drawing }}{{ form.technical_drawing.errors }}</div><div class="machine-field machine-media-static-field"><div class="machine-field-label-row"><label for="{{ form.technical_drawing_url.id_for_label }}">{{ form.technical_drawing_url.label }}</label></div>{{ form.technical_drawing_url }}{{ form.technical_drawing_url.errors }}</div></div><div class="media-static-cell"><section class="editor-media-manager" ><h2>BILDERGALERIE</h2>
 <input type="file" name="gallery_images" multiple accept="image/*" aria-label="Galeriebilder hochladen">
 <div class="editor-gallery" id="editor-gallery">
 {% for photo in gallery %}<div class="editor-gallery-item" draggable="true" data-photo-id="{{ photo.pk }}"><img src="{{ photo.image.url }}" alt="Galeriebild"><label><input type="radio" name="cover_photo" value="{{ photo.pk }}" {% if photo.is_cover %}checked{% endif %}> Titelbild</label><label><input type="checkbox" name="remove_photos" value="{{ photo.pk }}"> Entfernen</label><span class="editor-grip">↕ Ziehen</span></div>{% endfor %}
 </div><input type="hidden" name="gallery_order" id="gallery-order">
-<h2>DOKUMENTE</h2><p>PDF und technische Zeichnungen können über die Felder oben hochgeladen werden. Bereits gespeicherte Dateien lassen sich hier ansehen.</p>
-{% if object.datasheet_url %}<a href="{{ object.datasheet_url }}" target="_blank" rel="noopener">DATENBLATT ANSEHEN</a>{% endif %}
+
+
 {% if object.technical_drawing %}<a href="{{ object.technical_drawing.url }}" target="_blank" rel="noopener">TECHNISCHE ZEICHNUNG ANSEHEN</a>{% elif object.technical_drawing_url %}<a href="{{ object.technical_drawing_url }}" target="_blank" rel="noopener">TECHNISCHE ZEICHNUNG ANSEHEN</a>{% endif %}
-</section>
-{% if object %}<section class="editor-history" data-editor-panel="general" id="friendly-history"><h2>ÄNDERUNGSVERLAUF</h2><p>Frühere Werte werden bei jedem Speichern protokolliert.</p>{% for revision in revisions %}<details><summary>{{ revision.created_at|date:"d.m.Y H:i" }} / {{ revision.author.username|default:"System" }}</summary><pre>{{ revision.snapshot }}</pre></details>{% empty %}<p>Noch keine Änderungen protokolliert.</p>{% endfor %}</section>{% endif %}
+</section></div></div></section>{% endif %}
+<div class="machine-form-section-title" {% if kind == "Maschinenvariante" %}data-editor-panel="general"{% endif %}>MASCHINENDATEN BEARBEITEN</div>{% for field in form %}{% if kind != 'Maschinenvariante' or field.name != 'image' and field.name != 'image_url' and field.name != 'hero_media_choice' and field.name != 'hero_video' and field.name != 'hero_video_url' and field.name != 'technical_drawing' and field.name != 'technical_drawing_url' %}<div class="machine-field" {% if kind == "Maschinenvariante" %}data-editor-panel="{% if field.name == 'engine' or field.name == 'drive' or field.name == 'weight' or field.name == 'additional_specs' or field.name == 'operating_principle' %}technical{% elif field.name == 'published' %}review{% elif field.name == 'hero_media_choice' or field.name == 'image' or field.name == 'image_url' or field.name == 'hero_video' or field.name == 'hero_video_url' or field.name == 'technical_drawing' or field.name == 'technical_drawing_url' %}media{% else %}general{% endif %}"{% endif %}><div class="machine-field-label-row"><label for="{{ field.id_for_label }}">{{ field.label }}</label><button type="button" class="machine-field-help" data-field-help="{{ field.name }}" aria-label="Hilfe zu {{ field.label }}" aria-expanded="false" title="Erklärung anzeigen">?</button></div><div class="machine-field-help-text" id="help-{{ field.name }}" hidden role="note"></div>{{ field }}{% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}{{ field.errors }}</div>{% endif %}{% endfor %}
+{% if kind == "Maschinenvariante" %}
+<section class="machine-review-panel machine-review-redesign" data-editor-panel="review">
+  <div class="machine-review-columns">
+    <section class="machine-review-card machine-review-versions">
+      <div class="machine-review-eyebrow">ÜBERSETZUNGEN</div>
+      <h2>Sprachversionen</h2>
+      <p class="machine-review-description">Status und Bearbeitung der Sprachversionen</p>
+      <div class="machine-review-version-list">
+        <div class="machine-review-version" data-review-language="de"><div class="machine-review-version-line"><strong>Deutsch</strong><span class="machine-review-original">Originalversion</span><button type="button" data-review-edit="de">BEARBEITEN</button></div><div class="machine-review-meter"><span style="width:100%"></span></div></div>
+        <div class="machine-review-version" data-review-language="en"><div class="machine-review-version-line"><strong>Englisch</strong><span class="machine-review-status"><span class="count-finished" style="color:#16884a!important;font-weight:800!important">{{ translation_counts.en.finished }} fertig</span> <span class="count-review" style="color:#bb8110!important;font-weight:800!important">{{ translation_counts.en.review }} prüfen</span> <span class="count-missing" style="color:#e30613!important;font-weight:800!important">{{ translation_counts.en.missing }} fehlen</span> <span class="count-stale" style="color:#6b7580!important;font-weight:800!important">{{ translation_counts.en.stale }} veraltet</span></span><button type="button" data-review-edit="en">BEARBEITEN</button></div><div class="machine-review-meter" style="display:flex!important;gap:0!important;width:100%!important;height:7px!important;background:transparent!important;overflow:hidden!important;margin-top:12px!important"><span class="meter-finished" style="display:block!important;flex:0 0 {% widthratio translation_counts.en.finished translation_counts.en.total 100 %}%!important;width:{% widthratio translation_counts.en.finished translation_counts.en.total 100 %}%!important;height:100%!important;background:#16884a!important"></span><span class="meter-review" style="display:block!important;flex:0 0 {% widthratio translation_counts.en.review translation_counts.en.total 100 %}%!important;width:{% widthratio translation_counts.en.review translation_counts.en.total 100 %}%!important;height:100%!important;background:#bb8110!important"></span><span class="meter-missing" style="display:block!important;flex:0 0 {% widthratio translation_counts.en.missing translation_counts.en.total 100 %}%!important;width:{% widthratio translation_counts.en.missing translation_counts.en.total 100 %}%!important;height:100%!important;background:#e30613!important"></span><span class="meter-stale" style="display:block!important;flex:0 0 {% widthratio translation_counts.en.stale translation_counts.en.total 100 %}%!important;width:{% widthratio translation_counts.en.stale translation_counts.en.total 100 %}%!important;height:100%!important;background:#6b7580!important"></span></div></div>
+        <div class="machine-review-version" data-review-language="fr"><div class="machine-review-version-line"><strong>Français</strong><span class="machine-review-status"><span class="count-finished" style="color:#16884a!important;font-weight:800!important">{{ translation_counts.fr.finished }} fertig</span> <span class="count-review" style="color:#bb8110!important;font-weight:800!important">{{ translation_counts.fr.review }} prüfen</span> <span class="count-missing" style="color:#e30613!important;font-weight:800!important">{{ translation_counts.fr.missing }} fehlen</span> <span class="count-stale" style="color:#6b7580!important;font-weight:800!important">{{ translation_counts.fr.stale }} veraltet</span></span><button type="button" data-review-edit="fr">BEARBEITEN</button></div><div class="machine-review-meter" style="display:flex!important;gap:0!important;width:100%!important;height:7px!important;background:transparent!important;overflow:hidden!important;margin-top:12px!important"><span class="meter-finished" style="display:block!important;flex:0 0 {% widthratio translation_counts.fr.finished translation_counts.fr.total 100 %}%!important;width:{% widthratio translation_counts.fr.finished translation_counts.fr.total 100 %}%!important;height:100%!important;background:#16884a!important"></span><span class="meter-review" style="display:block!important;flex:0 0 {% widthratio translation_counts.fr.review translation_counts.fr.total 100 %}%!important;width:{% widthratio translation_counts.fr.review translation_counts.fr.total 100 %}%!important;height:100%!important;background:#bb8110!important"></span><span class="meter-missing" style="display:block!important;flex:0 0 {% widthratio translation_counts.fr.missing translation_counts.fr.total 100 %}%!important;width:{% widthratio translation_counts.fr.missing translation_counts.fr.total 100 %}%!important;height:100%!important;background:#e30613!important"></span><span class="meter-stale" style="display:block!important;flex:0 0 {% widthratio translation_counts.fr.stale translation_counts.fr.total 100 %}%!important;width:{% widthratio translation_counts.fr.stale translation_counts.fr.total 100 %}%!important;height:100%!important;background:#6b7580!important"></span></div></div>
+        <div class="machine-review-version" data-review-language="es"><div class="machine-review-version-line"><strong>Español</strong><span class="machine-review-status"><span class="count-finished" style="color:#16884a!important;font-weight:800!important">{{ translation_counts.es.finished }} fertig</span> <span class="count-review" style="color:#bb8110!important;font-weight:800!important">{{ translation_counts.es.review }} prüfen</span> <span class="count-missing" style="color:#e30613!important;font-weight:800!important">{{ translation_counts.es.missing }} fehlen</span> <span class="count-stale" style="color:#6b7580!important;font-weight:800!important">{{ translation_counts.es.stale }} veraltet</span></span><button type="button" data-review-edit="es">BEARBEITEN</button></div><div class="machine-review-meter" style="display:flex!important;gap:0!important;width:100%!important;height:7px!important;background:transparent!important;overflow:hidden!important;margin-top:12px!important"><span class="meter-finished" style="display:block!important;flex:0 0 {% widthratio translation_counts.es.finished translation_counts.es.total 100 %}%!important;width:{% widthratio translation_counts.es.finished translation_counts.es.total 100 %}%!important;height:100%!important;background:#16884a!important"></span><span class="meter-review" style="display:block!important;flex:0 0 {% widthratio translation_counts.es.review translation_counts.es.total 100 %}%!important;width:{% widthratio translation_counts.es.review translation_counts.es.total 100 %}%!important;height:100%!important;background:#bb8110!important"></span><span class="meter-missing" style="display:block!important;flex:0 0 {% widthratio translation_counts.es.missing translation_counts.es.total 100 %}%!important;width:{% widthratio translation_counts.es.missing translation_counts.es.total 100 %}%!important;height:100%!important;background:#e30613!important"></span><span class="meter-stale" style="display:block!important;flex:0 0 {% widthratio translation_counts.es.stale translation_counts.es.total 100 %}%!important;width:{% widthratio translation_counts.es.stale translation_counts.es.total 100 %}%!important;height:100%!important;background:#6b7580!important"></span></div></div>
+        <div class="machine-review-version" data-review-language="it"><div class="machine-review-version-line"><strong>Italiano</strong><span class="machine-review-status"><span class="count-finished" style="color:#16884a!important;font-weight:800!important">{{ translation_counts.it.finished }} fertig</span> <span class="count-review" style="color:#bb8110!important;font-weight:800!important">{{ translation_counts.it.review }} prüfen</span> <span class="count-missing" style="color:#e30613!important;font-weight:800!important">{{ translation_counts.it.missing }} fehlen</span> <span class="count-stale" style="color:#6b7580!important;font-weight:800!important">{{ translation_counts.it.stale }} veraltet</span></span><button type="button" data-review-edit="it">BEARBEITEN</button></div><div class="machine-review-meter" style="display:flex!important;gap:0!important;width:100%!important;height:7px!important;background:transparent!important;overflow:hidden!important;margin-top:12px!important"><span class="meter-finished" style="display:block!important;flex:0 0 {% widthratio translation_counts.it.finished translation_counts.it.total 100 %}%!important;width:{% widthratio translation_counts.it.finished translation_counts.it.total 100 %}%!important;height:100%!important;background:#16884a!important"></span><span class="meter-review" style="display:block!important;flex:0 0 {% widthratio translation_counts.it.review translation_counts.it.total 100 %}%!important;width:{% widthratio translation_counts.it.review translation_counts.it.total 100 %}%!important;height:100%!important;background:#bb8110!important"></span><span class="meter-missing" style="display:block!important;flex:0 0 {% widthratio translation_counts.it.missing translation_counts.it.total 100 %}%!important;width:{% widthratio translation_counts.it.missing translation_counts.it.total 100 %}%!important;height:100%!important;background:#e30613!important"></span><span class="meter-stale" style="display:block!important;flex:0 0 {% widthratio translation_counts.it.stale translation_counts.it.total 100 %}%!important;width:{% widthratio translation_counts.it.stale translation_counts.it.total 100 %}%!important;height:100%!important;background:#6b7580!important"></span></div></div>
+      </div>
+      <div class="machine-review-all-preview"><div class="machine-review-eyebrow">VORSCHAU</div><h3>Alle Sprachversionen prüfen</h3><p>Alle Sprachversionen gemeinsam ansehen und prüfen.</p><input type="hidden" name="preview_language" id="machine-preview-language" value="de"><div class="machine-review-preview-languages" aria-label="Vorschau-Sprache">
+<button type="button" id="machine-review-open-previews" class="machine-review-preview-all-button" aria-expanded="false" aria-controls="machine-review-preview-options">ALLE SPRACHVERSIONEN PRÜFEN</button>
+<div id="machine-review-preview-options" class="machine-review-preview-options" hidden>
+<button type="submit" name="editor_action" value="preview" data-preview-lang="de" formtarget="_blank">DE</button><button type="submit" name="editor_action" value="preview" data-preview-lang="en" formtarget="_blank">EN</button><button type="submit" name="editor_action" value="preview" data-preview-lang="fr" formtarget="_blank">FR</button><button type="submit" name="editor_action" value="preview" data-preview-lang="es" formtarget="_blank">ES</button><button type="submit" name="editor_action" value="preview" data-preview-lang="it" formtarget="_blank">IT</button>
+</div></div></div>
+    </section>
+    <div class="machine-review-right">
+      <section class="machine-review-card machine-review-publication"><div class="machine-review-eyebrow">LETZTER SCHRITT</div><h2>Veröffentlichung</h2><p class="machine-review-description">Prüfen Sie die Vorschau, bevor Sie den Veröffentlichungsstatus ändern.</p><div class="machine-review-site-languages"><h3>SPRACHVERSIONEN AUF DER WEBSITE</h3><p></p>{% for lang in publication_languages %}<label class="machine-review-site-row"><span>{{ lang.name }}</span><input type="checkbox" name="visible_languages" value="{{ lang.code }}" {% if lang.selected %}checked{% endif %} {% if lang.code == 'de' %}disabled title="Originalversion"{% elif not lang.ready %}disabled title="Übersetzung noch nicht vollständig geprüft"{% endif %}></label>{% endfor %}<p class="machine-review-publish-hint">Nicht verfügbare Sprachversionen müssen zuerst vollständig übersetzt und geprüft werden. Die Auswahl kann vor der Veröffentlichung gespeichert werden.</p>{% if object %}<button type="submit" name="editor_action" value="languages" formnovalidate class="machine-review-language-save">SPRACHAUSWAHL SPEICHERN</button>{% else %}<p>Bitte speichern Sie zuerst die Maschinenvariante.</p>{% endif %}</div><label class="machine-review-confirm"><input type="checkbox" id="machine-review-confirmation"> <span id="machine-review-confirmation-text">Ich habe die Vorschau geprüft und möchte die Maschinenvariante veröffentlichen.</span></label><div class="machine-review-publish-control" id="machine-review-publish-control"></div><button type="button" class="machine-review-publish-button" id="machine-review-publish-button" disabled>VERÖFFENTLICHUNGSSTATUS ÄNDERN</button><p class="machine-review-publish-hint"></p></section>
+      <section class="machine-review-card machine-review-actions"><h2>Aktionen</h2><a href="{% url 'staff_machine_dashboard' %}">ZURÜCK ZUM VERTRIEBSPORTAL</a></section>
+    </div>
+  </div>
+  </section>
 {% endif %}
-<div class="machine-staff-actions"><button type="submit" name="editor_action" value="save">ÄNDERUNGEN SPEICHERN</button>{% if kind == "Maschinenvariante" %}<button type="submit" name="editor_action" value="preview" formtarget="_blank" class="editor-secondary">VORSCHAU ANSEHEN</button><button type="submit" name="editor_action" value="draft" class="editor-secondary" formnovalidate>ENTWURF SPEICHERN</button>{% endif %}<a href="{% url 'staff_machine_dashboard' %}">ABBRECHEN</a></div>
+{% if kind == "Maschinenvariante" %}
+
+{% if object %}<section class="editor-history" data-editor-panel="review" id="friendly-history"><details class="machine-history-collapse"><summary>ÄNDERUNGSVERLAUF ANZEIGEN</summary><div class="machine-history-body">{% for entry in history_entries %}<div class="machine-history-entry"><div class="machine-history-meta"><strong>{{ entry.date|date:"d.m.Y" }}</strong><span>{{ entry.date|date:"H:i" }} Uhr</span><span>{{ entry.author.username|default:"System" }}</span></div>{% for change in entry.changes %}<div class="machine-history-change"><strong>{{ change.label }}</strong><div class="machine-history-values"><span class="machine-history-old">{{ change.before|truncatechars:180 }}</span><span class="machine-history-arrow">→</span><span class="machine-history-new">{{ change.after|truncatechars:180 }}</span></div></div>{% empty %}<p class="machine-history-muted">Gespeicherter Stand. Keine einzelnen Feldänderungen erkennbar.</p>{% endfor %}</div>{% empty %}<p>Noch keine Änderungen protokolliert.</p>{% endfor %}</div></details></section>{% endif %}
+{% endif %}
+{% if kind == "Maschinenvariante" and object %}
+<div class="machine-variant-languages">{% inline_translations object form %}</div>
+{% endif %}
+<div class="machine-staff-actions"><button type="submit" name="editor_action" value="save">ÄNDERUNGEN SPEICHERN</button>{% if kind == "Maschinenvariante" %}<button type="submit" name="editor_action" value="draft" class="editor-secondary" formnovalidate>ENTWURF SPEICHERN</button>{% endif %}<a href="{% url 'staff_machine_dashboard' %}">ABBRECHEN</a></div>
 </form>
+<script>
+document.querySelectorAll('[data-preview-lang]').forEach(function(button){
+  button.addEventListener('click',function(){
+    var input=document.getElementById('machine-preview-language');
+    if(input)input.value=button.dataset.previewLang;
+  });
+});
+</script>
+<script>
+(function(){
+ const counter=document.getElementById('machine-area-counter');
+ if(!counter)return;
+ const toggles=[...document.querySelectorAll('[data-area-toggle]')];
+ const update=()=>counter.textContent=toggles.filter(x=>x.checked).length+' ausgewählt';
+ toggles.forEach(x=>x.addEventListener('change',update));
+ update();
+})();
+</script>
 <script>
 (function(){
   // Enhance selects progressively: native form controls remain authoritative.
@@ -145,6 +368,70 @@
 @keyframes hammel-dropdown-in{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:650px){.machine-edit-form .hammel-select-popup{max-width:calc(100vw - 38px)}}
 @media(prefers-reduced-motion:reduce){.machine-edit-form .hammel-select-popup{animation:none}}
+.machine-variant-languages{grid-column:1/-1;width:100%;min-width:0;margin:28px 0 18px}
+.machine-variant-languages .hml-i18n{max-width:none}
+
+/* Maschinenvariante: clear navigation and compact management actions */
+.machine-language-layout{grid-template-columns:minmax(230px,270px) minmax(0,1fr)!important;gap:20px 26px!important}
+.machine-language-layout>.friendly-editor{padding:20px!important;background:#f8f8f8!important;border:1px solid #e3e3e3!important;border-radius:0!important}
+.machine-language-layout .friendly-topline{gap:12px!important}
+.machine-language-layout .friendly-tabs-heading{margin:22px 0 8px!important;font-size:12px!important;letter-spacing:.08em!important;color:#666!important}
+.machine-language-layout .friendly-editor .editor-tabs{gap:6px!important}
+.machine-language-layout .friendly-editor .editor-tabs button{font-size:14px!important;font-weight:700!important;padding:14px 12px!important;line-height:1.3!important}
+.machine-language-layout .friendly-editor .editor-tabs button.is-active{background:#fff!important;border-left:4px solid #e30613!important;box-shadow:0 1px 5px rgba(0,0,0,.05)!important}
+.machine-language-layout .friendly-completion{padding:12px 0!important;border-top:1px solid #ddd!important}
+.machine-language-layout .friendly-missing-content{font-size:13px!important;line-height:1.5!important}
+.machine-language-layout .machine-edit-form{min-width:0!important}
+.machine-language-layout .machine-edit-form .machine-field{min-width:0!important}
+.machine-extra-actions .friendly-action-items{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important}
+.machine-extra-actions .friendly-action-item{display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:space-between!important;gap:16px!important;padding:18px!important;min-width:0!important}
+.machine-extra-actions .friendly-action-item strong{font-size:16px!important}
+.machine-extra-actions .friendly-action-item p{display:none!important}
+.machine-extra-actions .friendly-action-item form{margin:0!important}
+.machine-extra-actions .friendly-action-item a,.machine-extra-actions .friendly-action-item button{width:100%!important;min-height:44px!important;font-size:12px!important}
+.machine-top-languages button{border:1px solid transparent!important}
+.machine-top-languages button:focus-visible,.machine-language-layout button:focus-visible,.machine-language-layout a:focus-visible{outline:3px solid #e30613!important;outline-offset:3px!important}
+@media(max-width:1000px){.machine-extra-actions .friendly-action-items{grid-template-columns:1fr!important}}
+@media(max-width:900px){.machine-language-layout{grid-template-columns:minmax(0,1fr)!important}.machine-language-layout>.friendly-editor,.machine-language-layout>.machine-edit-form{grid-column:1!important;grid-row:auto!important}}
+
+/* Maschinenvariante only: field settings belong to the bottom of the sidebar. */
+.machine-language-layout>.friendly-editor{display:flex!important;flex-direction:column!important}
+.machine-language-layout .friendly-sidebar-bottom{margin-top:auto;padding-top:22px;border-top:1px solid #dedede}
+.machine-language-layout .friendly-sidebar-settings{display:flex;justify-content:center;align-items:center;min-height:46px;width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid #242424;background:transparent;color:#171717;text-align:center;font-size:12px;font-weight:800;letter-spacing:.02em;text-decoration:none;transition:background .2s,color .2s}
+.machine-language-layout .friendly-sidebar-settings:hover{background:#171717;color:#fff}
+/* Translation tabs already live in the upper navigation; omit redundant helper prose. */
+.machine-language-layout .machine-variant-languages .hml-i18n-help{display:none!important}
+/* Top language tabs replace the duplicate translation overview header on this page only. */
+.machine-language-layout .machine-variant-languages .hml-i18n-top{display:none!important}
+.machine-language-layout .machine-variant-languages .hml-i18n-top{margin-top:0}
+/* Revision history is visible only in the PRÜFUNG workspace. */
+.machine-language-layout .editor-history[data-editor-panel="review"]{grid-column:1/-1}
+.machine-language-layout .editor-history[data-editor-panel="review"][hidden]{display:none!important}
+.machine-language-layout .editor-draft-note{background:transparent!important;border:0!important;padding:6px 0!important;margin:10px 0!important;display:flex;align-items:center;gap:18px;font-size:13px;font-weight:700;color:#555}
+.machine-language-layout .editor-draft-note a{color:#bd000e;text-decoration:underline;text-underline-offset:3px}
+.machine-review-preview{margin:22px 0;padding:20px;border:1px solid #dedede;background:#fff}
+.machine-review-preview h3{margin:0 0 8px;font-size:17px}
+.machine-review-preview p{margin:0 0 15px;color:#666;font-size:14px}
+.machine-review-preview-languages{display:flex;gap:10px;flex-wrap:wrap}
+.machine-review-preview-languages button{min-width:65px;min-height:43px;padding:10px 15px;cursor:pointer;border:1px solid #bbb;background:white;color:#171717;font-weight:800}
+.machine-review-preview-languages button:hover{background:#171717;color:#fff}
+.machine-area-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 16px;flex-wrap:wrap}
+.machine-area-selection{display:flex;align-items:center;gap:12px;font-size:15px;font-weight:700;color:#222}
+.machine-area-toolbar .machine-area-counter{margin:0;padding:5px 10px;background:#f0f0f0;color:#444;font-size:12px;font-weight:700;white-space:nowrap}
+.machine-area-toolbar .machine-area-help{position:relative;margin:0;padding:0;border:0;background:transparent}
+.machine-area-toolbar .machine-area-help summary{display:flex;align-items:center;gap:7px;padding:8px 10px;border:1px solid #d6d6d6;background:#fff;color:#333;font-size:13px;font-weight:700;cursor:pointer}
+.machine-area-toolbar .machine-area-help summary:hover{background:#f4f4f4;color:#c90010}
+.machine-area-toolbar .machine-area-help summary span{display:inline-grid;place-items:center;width:18px;height:18px;border:1px solid currentColor;border-radius:50%;font-size:12px}
+.machine-area-toolbar .machine-area-help[open] summary{margin-bottom:0}
+.machine-area-toolbar .machine-area-help>div{position:absolute;z-index:5;right:0;top:calc(100% + 6px);width:min(340px,80vw);padding:14px 16px;border:1px solid #ddd;box-shadow:0 8px 22px rgba(0,0,0,.09);background:#fff;color:#555;font-size:13px;font-weight:400;line-height:1.55}
+@media(max-width:500px){.machine-area-toolbar .machine-area-help>div{right:-5px}}
+.machine-area-editor .machine-hint{border-left:0!important}
+.machine-area-help{margin:12px 0 20px;border:1px solid #dedede;background:#fff;padding:12px 16px}
+.machine-area-help summary{cursor:pointer;font-weight:700;color:#333;list-style:none;display:flex;justify-content:space-between}
+.machine-area-help summary::-webkit-details-marker{display:none}
+.machine-area-help[open] summary{margin-bottom:10px}
+.machine-area-help div{color:#666;line-height:1.5}
+.machine-area-counter{font-size:13px;color:#666;font-weight:600;margin-left:auto}
 </style>
 
 <script>
@@ -193,10 +480,6 @@ document.querySelectorAll('[data-area-toggle]').forEach(function(toggle){
 </style>
 <script>
 (function(){
-const tabs=document.querySelectorAll('[data-editor-tab]'),panels=document.querySelectorAll('[data-editor-panel]');
-function activate(key){tabs.forEach(t=>{const active=t.dataset.editorTab===key;t.classList.toggle('is-active',active);t.setAttribute('aria-selected',String(active));});panels.forEach(p=>p.hidden=p.dataset.editorPanel!==key);}
-if(tabs.length){tabs.forEach(t=>t.addEventListener('click',()=>activate(t.dataset.editorTab)));activate('general');}
-document.querySelectorAll('[data-friendly-history]').forEach(btn=>btn.addEventListener('click',()=>{const h=document.getElementById('friendly-history');if(h){activate('general');h.scrollIntoView({behavior:'smooth',block:'start'});}}));
 const gallery=document.getElementById('editor-gallery'),order=document.getElementById('gallery-order');
 if(gallery){let dragging=null;function sync(){order.value=Array.from(gallery.children).map(x=>x.dataset.photoId).join(',');}
 gallery.querySelectorAll('[draggable]').forEach(item=>{item.addEventListener('dragstart',()=>{dragging=item;item.classList.add('dragging');});item.addEventListener('dragend',()=>{item.classList.remove('dragging');dragging=null;sync();});item.addEventListener('dragover',e=>{e.preventDefault();if(dragging&&dragging!==item){const r=item.getBoundingClientRect();gallery.insertBefore(dragging,e.clientX<r.left+r.width/2?item:item.nextSibling);}});});sync();}
@@ -299,7 +582,7 @@ const form=document.getElementById('machine-main-form');if(form){let dirty=false
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const descriptions = {"category": {"main": "Passende Kategorie wählen.", "example": "Vorbrecher", "where": "Zuordnung im Maschinenkatalog und in der Navigation."}, "model_name": {"main": "Kurze Serienbezeichnung.", "example": "VB 450", "where": "Serienübersicht und Auswahl der Varianten."}, "headline": {"main": "Ein prägnanter Satz ohne Variantenwerte.", "example": "Vorbrecher mit zwei langsam laufenden Werkzeugwellen", "where": "Einleitung der Baureihe."}, "advantages": {"main": "Einen Vorteil pro Zeile.", "example": "Niedriger Energieverbrauch", "where": "Vorteile auf der Baureihenseite, sofern aktiviert."}, "product": {"main": "Wählen Sie die Baureihe, zu der diese Variante gehört.", "example": "VB 450", "where": "Die Zuordnung bestimmt die Maschinenfamilie und den Variantenvergleich."}, "name": {"main": "Geben Sie die vollständige Modellbezeichnung ein.", "example": "VB 450 D", "where": "Der Name erscheint als Titel auf der Maschinenseite."}, "version": {"main": "Tragen Sie die Ausführung dieser Variante ein.", "example": "Hakenlift", "where": "Die Ausführung hilft Kunden beim Vergleich der Varianten."}, "description": {"main": "Beschreiben Sie kurz, wie die Maschine funktioniert und was sie besonders macht.", "example": "Hydraulisch arbeitender Vorbrecher mit zwei langsam laufenden Werkzeugwellen.", "where": "Wird auf der Maschinenseite angezeigt."}, "position": {"main": "Bestimmt die Position der Variante in der Übersicht. Kleinere Zahlen erscheinen zuerst.", "example": "10", "where": "Die Zahl selbst wird auf der Website nicht angezeigt."}, "published": {"main": "Aktivieren Sie diese Option, wenn die Variante öffentlich sichtbar sein soll.", "example": "", "where": "Ohne Häkchen bleibt die Variante intern gespeichert."}, "operating_principle": {"main": "Arbeitsablauf statt reiner Zahlenwerte.", "example": "Zwei langsam laufende Werkzeugwellen zerkleinern das Material", "where": "Abschnitt Funktionsprinzip."}, "engine": {"main": "Tragen Sie die genaue Motorbezeichnung dieser Variante ein.", "example": "Cummins F3.8 Stage 5", "where": "Erscheint in den technischen Daten und gegebenenfalls im Vergleich."}, "drive": {"main": "Nur die zur Variante gehörende Angabe.", "example": "Dieselhydraulisch oder elektrisch", "where": "technische Daten und Vergleich."}, "weight": {"main": "Geben Sie das Maschinengewicht mit Einheit an. Zubehör bei Bedarf getrennt nennen.", "example": "8 t Maschine + 1 t Magnet", "where": "Erscheint in den technischen Daten und gegebenenfalls im Vergleich."}, "additional_specs": {"main": "Ergänzen Sie technische Werte, die noch kein eigenes Feld haben. Verwenden Sie möglichst eine Angabe pro Zeile.", "example": "Leistung: 145 PS", "where": "Die Angaben können in den technischen Daten und im Vergleich erscheinen."}, "image": {"main": "Passende Bilddatei hochladen.", "example": "freigestelltes Foto der VB 450 D", "where": "Maschinenprofil und ggf. Katalogkarte."}, "image_url": {"main": "Vollständige HTTPS-URL zu einer Bilddatei.", "example": "https://example.org/vb450d.jpg", "where": "Bild auf der Maschinenseite, falls vom Projekt verwendet."}, "hero_media_choice": {"main": "Wählen Sie, was ganz oben auf der öffentlichen Seite dieser Maschinenvariante erscheint. Automatisch zeigt ein vorhandenes Video, sonst ein Maschinenfoto. Foto zeigt immer ein Bild. Video verwendet ein Video, falls vorhanden, sonst ebenfalls ein Foto.", "example": "Automatisch", "where": "Maschinenseite → oberster Bereich hinter der Überschrift."}, "hero_video": {"main": "Laden Sie ein Video der Maschine als MP4 oder WebM hoch.", "example": "Kurze Aufnahme der Maschine im Einsatz", "where": "Das Video wird im großen Einstiegsbereich der Maschinenseite verwendet."}, "hero_video_url": {"main": "Fügen Sie alternativ einen direkten Link zu einer MP4- oder WebM-Datei ein.", "example": "https://example.org/video.mp4", "where": "Das Video wird im Einstiegsbereich der Maschinenseite verwendet."}, "datasheet_url": {"main": "Direkte URL zum passenden PDF der Variante.", "example": "https://example.org/vb450d.pdf", "where": "Download/Link auf der Maschinenseite."}, "technical_drawing": {"main": "Maßhaltige Zeichnung dieser Variante als PDF oder Bild.", "example": "", "where": "Zeichnungsansicht oder Dokumentenlink."}, "technical_drawing_url": {"main": "Direkte HTTPS-Adresse zum richtigen PDF/Bild.", "example": "", "where": "Dokumentenlink, falls verwendet."}};
+  const descriptions = {"category": {"main": "Passende Kategorie wählen.", "example": "Vorbrecher", "where": "Zuordnung im Maschinenkatalog und in der Navigation."}, "model_name": {"main": "Kurze Serienbezeichnung.", "example": "VB 450", "where": "Serienübersicht und Auswahl der Varianten."}, "headline": {"main": "Ein prägnanter Satz ohne Variantenwerte.", "example": "Vorbrecher mit zwei langsam laufenden Werkzeugwellen", "where": "Einleitung der Baureihe."}, "advantages": {"main": "Einen Vorteil pro Zeile.", "example": "Niedriger Energieverbrauch", "where": "Vorteile auf der Baureihenseite, sofern aktiviert."}, "product": {"main": "Wählen Sie die Baureihe, zu der diese Variante gehört.", "example": "VB 450", "where": "Die Zuordnung bestimmt die Maschinenfamilie und den Variantenvergleich."}, "name": {"main": "Geben Sie die vollständige Modellbezeichnung ein.", "example": "VB 450 D", "where": "Der Name erscheint als Titel auf der Maschinenseite."}, "version": {"main": "Tragen Sie die Ausführung dieser Variante ein.", "example": "Hakenlift", "where": "Die Ausführung hilft Kunden beim Vergleich der Varianten."}, "description": {"main": "Beschreiben Sie kurz, wie die Maschine funktioniert und was sie besonders macht.", "example": "Hydraulisch arbeitender Vorbrecher mit zwei langsam laufenden Werkzeugwellen.", "where": "Wird auf der Maschinenseite angezeigt."}, "position": {"main": "Bestimmt die Position der Variante in der Übersicht. Kleinere Zahlen erscheinen zuerst.", "example": "10", "where": "Die Zahl selbst wird auf der Website nicht angezeigt."}, "published": {"main": "Aktivieren Sie diese Option, wenn die Variante öffentlich sichtbar sein soll.", "example": "", "where": "Ohne Häkchen bleibt die Variante intern gespeichert."}, "operating_principle": {"main": "Arbeitsablauf statt reiner Zahlenwerte.", "example": "Zwei langsam laufende Werkzeugwellen zerkleinern das Material", "where": "Abschnitt Funktionsprinzip."}, "engine": {"main": "Tragen Sie die genaue Motorbezeichnung dieser Variante ein.", "example": "Cummins F3.8 Stage 5", "where": "Erscheint in den technischen Daten und gegebenenfalls im Vergleich."}, "drive": {"main": "Nur die zur Variante gehörende Angabe.", "example": "Dieselhydraulisch oder elektrisch", "where": "technische Daten und Vergleich."}, "weight": {"main": "Geben Sie das Maschinengewicht mit Einheit an. Zubehör bei Bedarf getrennt nennen.", "example": "8 t Maschine + 1 t Magnet", "where": "Erscheint in den technischen Daten und gegebenenfalls im Vergleich."}, "additional_specs": {"main": "Ergänzen Sie technische Werte, die noch kein eigenes Feld haben. Verwenden Sie möglichst eine Angabe pro Zeile.", "example": "Leistung: 145 PS", "where": "Die Angaben können in den technischen Daten und im Vergleich erscheinen."}, "image": {"main": "Passende Bilddatei hochladen.", "example": "freigestelltes Foto der VB 450 D", "where": "Maschinenprofil und ggf. Katalogkarte."}, "image_url": {"main": "Vollständige HTTPS-URL zu einer Bilddatei.", "example": "https://example.org/vb450d.jpg", "where": "Bild auf der Maschinenseite, falls vom Projekt verwendet."}, "hero_media_choice": {"main": "Wählen Sie, was ganz oben auf der öffentlichen Seite dieser Maschinenvariante erscheint. Automatisch zeigt ein vorhandenes Video, sonst ein Maschinenfoto. Foto zeigt immer ein Bild. Video verwendet ein Video, falls vorhanden, sonst ebenfalls ein Foto.", "example": "Automatisch", "where": "Maschinenseite → oberster Bereich hinter der Überschrift."}, "hero_video": {"main": "Laden Sie ein Video der Maschine als MP4 oder WebM hoch.", "example": "Kurze Aufnahme der Maschine im Einsatz", "where": "Das Video wird im großen Einstiegsbereich der Maschinenseite verwendet."}, "hero_video_url": {"main": "Fügen Sie alternativ einen direkten Link zu einer MP4- oder WebM-Datei ein.", "example": "https://example.org/video.mp4", "where": "Das Video wird im Einstiegsbereich der Maschinenseite verwendet."}, "technical_drawing": {"main": "Maßhaltige Zeichnung dieser Variante als PDF oder Bild.", "example": "", "where": "Zeichnungsansicht oder Dokumentenlink."}, "technical_drawing_url": {"main": "Direkte HTTPS-Adresse zum richtigen PDF/Bild.", "example": "", "where": "Dokumentenlink, falls verwendet."}};
   document.querySelectorAll(".machine-field-help").forEach(function(button){
     const field = button.dataset.fieldHelp;
     const target = document.getElementById("help-" + field);
@@ -329,6 +612,47 @@ document.addEventListener("DOMContentLoaded", function () {
 .machine-field-help:focus-visible{outline:2px solid #e30613;outline-offset:3px}
 .machine-field-help-text{padding:12px 15px;margin:0 0 12px;background:#f3f3f3;border-left:2px solid #e30613;color:#444;font-size:13px;line-height:1.6}
 .machine-field-help-text[hidden]{display:none!important}
+
+/* Maschinenvariante: neutral navigation and concise utility actions. */
+.machine-language-layout>.friendly-editor{background:#f7f7f7!important;border-color:#e3e3e3!important;padding:22px 18px!important}
+.machine-language-layout .friendly-topline{justify-content:flex-end!important;margin:0 0 20px!important}
+.machine-language-layout .friendly-quick-actions{margin-left:auto}
+.machine-language-layout .friendly-settings-link{color:#444!important;text-decoration:none!important;border-bottom:1px solid #bdbdbd!important}
+.machine-language-layout .friendly-settings-link:hover{color:#e30613!important;border-bottom-color:#e30613!important}
+.machine-language-layout .friendly-completion{padding:0 0 20px!important;margin:0 0 20px!important;border-bottom:1px solid #e0e0e0!important}
+.machine-language-layout .friendly-completion-line{align-items:start!important;gap:10px!important}
+.machine-language-layout .friendly-completion-line strong{font-size:15px!important;line-height:1.35!important}
+.machine-language-layout .friendly-completion-line span{white-space:nowrap!important;font-size:14px!important}
+.machine-language-layout .friendly-progress>div{background:#202020!important}
+.machine-language-layout .friendly-tabs-heading{font-size:14px!important;letter-spacing:0!important;margin:8px 0 12px!important}
+.machine-language-layout .friendly-editor .editor-tabs{gap:5px!important}
+.machine-language-layout .friendly-editor .editor-tabs button{
+  border:0!important;border-left:0!important;border-radius:0!important;
+  background:transparent!important;color:#595959!important;
+  padding:13px 16px!important;font-size:14px!important;
+  transition:background .15s,color .15s!important;
+}
+.machine-language-layout .friendly-editor .editor-tabs button.is-active{
+  background:#1b1b1b!important;color:#fff!important;
+  border:0!important;border-left:0!important;
+}
+.machine-language-layout .friendly-editor .editor-tabs button:hover:not(.is-active){
+  background:#fce9eb!important;color:#d50012!important;
+}
+.machine-language-layout .machine-review-progress span{background:#202020!important}
+.machine-language-layout>.machine-extra-actions{margin:18px 0 30px!important}
+.machine-extra-actions .friendly-more-actions{border:1px solid #e1e1e1!important;background:#f8f8f8!important;padding:0!important}
+.machine-extra-actions .friendly-more-actions>summary{display:flex!important;justify-content:space-between!important;padding:18px 22px!important;font-size:16px!important;color:#171717!important}
+.machine-extra-actions .friendly-more-actions>summary:hover{color:#d50012!important}
+.machine-extra-actions .friendly-action-items{padding:0 18px 18px!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important}
+.machine-extra-actions .friendly-action-item{
+  display:flex!important;flex-direction:column!important;align-items:stretch!important;
+  justify-content:space-between!important;gap:18px!important;
+  padding:22px!important;border:1px solid #e2e2e2!important;background:#fff!important;
+}
+.machine-extra-actions .friendly-action-item strong{font-size:16px!important}
+.machine-extra-actions .friendly-action-item a,.machine-extra-actions .friendly-action-item button{width:100%!important;min-height:46px!important;white-space:normal!important}
+@media(max-width:1050px){.machine-extra-actions .friendly-action-items{grid-template-columns:1fr!important}}
 </style>
 <script>
 document.addEventListener("DOMContentLoaded",function(){
@@ -407,4 +731,492 @@ document.querySelectorAll("[data-help-inline]").forEach(function(btn){
   const where=document.createElement("div");where.className="help-where";where.textContent=info.where;box.append(where);
 });
 });
-</script>{% endblock %}
+</script>
+<style>
+/* Review tab: existing publication field is shown here, not duplicated. */
+.machine-review-panel{padding:24px;border:1px solid #dedede;background:#fff;margin:12px 0 22px}
+.machine-review-panel h2{margin:0 0 12px;font-size:22px}
+.machine-review-panel p{color:#555;line-height:1.55}
+.machine-review-summary{display:flex;justify-content:space-between;gap:12px;font-weight:750;margin:22px 0 10px}
+.machine-review-progress{height:8px;background:#e5e5e5;overflow:hidden}
+.machine-review-progress span{display:block;height:100%;background:#e30613}
+.machine-review-missing{margin-top:18px}
+.machine-review-missing summary{cursor:pointer;font-weight:700}
+.machine-review-missing ul{columns:2;line-height:1.8}
+.machine-review-language-note{border-top:1px solid #e5e5e5;padding-top:16px;margin-top:18px}
+.machine-review-save-note{font-size:13px}
+/* Scoped HR-style workspace, only for Maschinenvariante editor. */
+.machine-language-layout{display:grid;grid-template-columns:minmax(210px,260px) minmax(0,1fr);gap:22px 28px;align-items:start;width:100%;margin-top:22px}
+.machine-language-layout>.machine-top-languages,.machine-language-layout>.machine-language-new-note{grid-column:1/-1}
+.machine-top-languages{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px}
+.machine-top-languages button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:64px;padding:11px 8px;border:0;background:#e9e9e9;color:#171717;font:inherit;font-weight:850;font-size:16px;cursor:pointer;transition:background .18s,color .18s}
+.machine-top-languages button small{font-size:11px;font-weight:600;opacity:.75}
+.machine-top-languages button.is-active{background:#e30613;color:#fff}
+.machine-top-languages button:hover:not(.is-active){background:#292929;color:#fff}
+.machine-language-layout>.friendly-editor{grid-column:1;grid-row:2;margin:0!important;padding:18px 12px!important;border:1px solid #e1e1e1;background:#f7f7f7;min-width:0;position:sticky;top:18px}
+.machine-language-layout>.machine-edit-form{grid-column:2;grid-row:2;min-width:0;width:100%;margin:0!important}
+.machine-language-layout .friendly-editor .editor-tabs{display:flex!important;flex-direction:column!important;gap:4px!important;margin:15px 0!important;padding:0!important;border:0!important}
+.machine-language-layout .friendly-editor .editor-tabs button{width:100%!important;min-height:44px!important;padding:11px 13px!important;text-align:left!important;justify-content:flex-start!important;border:0!important;border-left:3px solid transparent!important;white-space:normal!important;font-size:13px!important;background:transparent!important}
+.machine-language-layout .friendly-editor .editor-tabs button.is-active{background:#fff!important;border-left-color:#e30613!important;color:#171717!important}
+.machine-language-layout .friendly-editor .editor-tabs button:hover:not(.is-active){background:#e9e9e9!important}
+.machine-language-layout .friendly-completion{margin:12px 0!important}
+.machine-language-layout .friendly-tabs-heading{font-size:15px!important}
+.machine-language-layout .friendly-topline{flex-wrap:wrap!important;margin-bottom:14px!important}
+.machine-language-layout .machine-variant-languages .hml-i18n-top{margin-bottom:12px}
+.machine-language-layout .machine-variant-languages .hml-i18n-tabs{display:none!important}
+.machine-language-layout .machine-variant-languages{margin:16px 0!important}
+.machine-language-layout.is-translation .machine-edit-form>.machine-form-section-title,
+.machine-language-layout.is-translation .machine-edit-form>.machine-field,
+.machine-language-layout.is-translation .machine-edit-form>.machine-area-editor,
+.machine-language-layout.is-translation .machine-edit-form>.editor-media-manager,
+.machine-language-layout.is-translation .machine-edit-form>.editor-history{display:none!important}
+.machine-language-layout.is-translation .friendly-editor .editor-tabs button{opacity:.55;pointer-events:none}
+.machine-language-layout.is-translation .machine-variant-languages .hml-i18n{border-top:0;margin-top:0}
+@media(max-width:900px){.machine-language-layout{grid-template-columns:1fr;gap:14px}.machine-language-layout>.friendly-editor,.machine-language-layout>.machine-edit-form{grid-column:1;grid-row:auto;position:static}.machine-language-layout .friendly-editor .editor-tabs{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important}.machine-top-languages{gap:5px}}
+@media(max-width:520px){.machine-top-languages{grid-template-columns:repeat(3,minmax(0,1fr))}.machine-top-languages button{font-size:12px;padding:8px 2px;min-height:52px}.machine-top-languages button small{font-size:9px}}
+
+/* Keep optional management actions full-width, below the editor workspace. */
+.machine-language-layout>.machine-extra-actions{grid-column:1/-1;grid-row:3;min-width:0;width:100%;margin:8px 0 20px}
+.machine-extra-actions .friendly-more-actions{border-top:1px solid #dedede;margin:0;padding:18px 0}
+.machine-extra-actions .friendly-action-items{max-width:none;display:grid;gap:12px;padding-top:16px}
+.machine-extra-actions .friendly-action-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px 26px;align-items:center;border:1px solid #e3e3e3;background:#fff;padding:20px;min-width:0}
+.machine-extra-actions .friendly-action-item>div{min-width:0}
+.machine-extra-actions .friendly-action-item p{max-width:75ch;overflow-wrap:anywhere;line-height:1.55;margin-top:8px}
+.machine-extra-actions .friendly-action-item form{display:block;min-width:0;max-width:100%}
+.machine-extra-actions .friendly-action-item button,.machine-extra-actions .friendly-action-item a{display:inline-flex;align-items:center;justify-content:center;min-height:42px;max-width:100%;padding:10px 15px;border:1px solid #222;background:#fff;color:#171717;font-size:13px;font-weight:750;line-height:1.3;white-space:normal;text-align:center;overflow-wrap:anywhere;cursor:pointer;text-decoration:none}
+.machine-extra-actions .friendly-action-item button:hover,.machine-extra-actions .friendly-action-item a:hover{background:#171717;color:#fff}
+@media(max-width:850px){.machine-extra-actions .friendly-action-item{grid-template-columns:1fr}.machine-extra-actions .friendly-action-item form{width:100%}.machine-extra-actions .friendly-action-item button,.machine-extra-actions .friendly-action-item a{width:100%}}
+
+/* Only Maschinenvariante: remove the empty translation shell on the DE/review
+   workspace while retaining the actual editor for EN/FR/ES/IT. */
+.machine-language-layout:not(.is-translation) .machine-variant-languages{
+  display:none!important;
+}
+.machine-language-layout.is-translation .machine-variant-languages{
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+.machine-language-layout.is-translation .machine-variant-languages .hml-i18n{
+  background:transparent!important;
+  border:0!important;
+  padding:0!important;
+  box-shadow:none!important;
+}
+.machine-language-layout>.machine-staff-actions{
+  margin-top:12px!important;
+  padding-top:18px!important;
+}
+/* Variant editor only: remove the faint divider above completeness. */
+.machine-language-layout .friendly-completion{border-top:0!important;padding-top:0!important}
+/* Read-only German reference beside each translated field. */
+.machine-language-layout .machine-original-reference{margin:10px 0 14px;padding:13px 16px;background:#f3f3f3;border:1px solid #e0e0e0;min-width:0}
+.machine-language-layout .machine-original-reference-title{display:block;font-size:11px;font-weight:800;letter-spacing:.06em;color:#555;margin-bottom:7px}
+.machine-language-layout .machine-original-reference-value{white-space:pre-wrap;overflow-wrap:anywhere;color:#222;font-size:14px;line-height:1.5;max-height:180px;overflow:auto}
+
+.media-static-layout{display:flex!important;flex-direction:column!important;gap:18px!important;grid-column:1/-1!important;min-width:0!important;width:100%!important}
+.media-static-layout .media-static-row{display:flex!important;flex-flow:row nowrap!important;gap:24px!important;width:100%!important;align-items:stretch!important}
+.media-static-layout .media-static-cell{display:flex!important;flex:1 1 0!important;min-width:0!important;max-width:calc(50% - 12px)!important;flex-direction:column!important}
+.media-static-layout .media-static-cell>.machine-field{display:flex!important;flex-direction:column!important;flex:1!important;margin:0!important;width:100%!important}
+.media-static-layout .media-static-cell>.editor-media-manager{display:block!important;width:100%!important;min-width:0!important;box-sizing:border-box!important;margin:0!important}
+.media-static-layout .machine-field-label-row{margin-bottom:12px!important}
+.media-static-layout input:not([type=checkbox]):not([type=radio]),.media-static-layout select{width:100%!important;box-sizing:border-box!important}
+@media(max-width:720px){.media-static-layout .media-static-row{flex-direction:column!important;gap:14px!important}.media-static-layout .media-static-cell{max-width:100%!important;flex-basis:auto!important}.media-static-layout .media-static-cell:empty{display:none!important}}
+
+.media-static-layout .machine-hero-pick{display:inline-flex!important;align-items:center!important;gap:10px!important;margin-top:12px!important;font-weight:700!important;cursor:pointer!important;align-self:flex-start!important}
+.media-static-layout .machine-hero-pick input{width:20px!important;height:20px!important;accent-color:#b60016!important;cursor:pointer!important}
+.media-static-layout .machine-hero-native{display:none!important}
+
+/* Variant media: gallery shares the full height of the two technical-drawing fields. */
+.media-static-layout .media-static-row:has(.editor-media-manager){align-items:stretch!important}
+.media-static-layout .media-static-row:has(.editor-media-manager)>.media-static-cell:first-child{display:flex!important;flex-direction:column!important;gap:18px!important}
+.media-static-layout .media-static-row:has(.editor-media-manager)>.media-static-cell:first-child>.machine-field{flex:0 0 auto!important}
+.media-static-layout .media-static-row:has(.editor-media-manager)>.media-static-cell:last-child>.editor-media-manager{height:100%!important;flex:1 1 auto!important;box-sizing:border-box!important}
+
+/* Variant translation tabs: compact, consistent form controls; scoped to this editor only. */
+.machine-language-layout .hml-i18n-fields{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px 22px!important;width:100%!important;align-items:start!important}
+.machine-language-layout .hml-i18n-field{min-width:0!important;display:flex!important;flex-direction:column!important;gap:8px!important;padding:16px!important;background:#fff!important;border:1px solid #dedede!important;box-sizing:border-box!important}
+.machine-language-layout .hml-i18n-field label{margin:0!important;font-size:14px!important;line-height:1.4!important}
+.machine-language-layout .hml-i18n-field textarea{display:block!important;width:100%!important;min-width:0!important;min-height:110px!important;height:110px!important;max-height:220px!important;resize:vertical!important;padding:12px!important;box-sizing:border-box!important;border:1px solid #ccc!important;background:#fff!important;color:#202020!important;font-size:14px!important;line-height:1.5!important}
+.machine-language-layout .hml-i18n-field select{display:block!important;width:100%!important;max-width:none!important;height:46px!important;min-height:46px!important;margin:0!important;padding:8px 12px!important;box-sizing:border-box!important;background:#fff!important;color:#202020!important;border:1px solid #ccc!important;font-size:14px!important}
+.machine-language-layout .hml-i18n-field .hml-i18n-original{max-height:90px!important;overflow:auto!important}
+@media(max-width:850px){.machine-language-layout .hml-i18n-fields{grid-template-columns:minmax(0,1fr)!important}}
+
+/* Medien sind sprachunabhängig: nur im deutschen Originaleditor anzeigen.
+   Die Formularelemente bleiben im DOM, damit gespeicherte Medien unverändert bleiben. */
+.machine-language-layout.is-translation .machine-edit-form > .media-static-layout,
+.machine-language-layout.is-translation .machine-edit-form .media-static-layout,
+.machine-language-layout.is-translation .machine-edit-form [data-editor-panel="media"] {display:none!important;}
+
+/* German-only section navigation. Keep tabs functional on the original editor. */
+.machine-language-layout:not(.is-translation) .friendly-editor .editor-tabs button{pointer-events:auto!important;opacity:1!important;cursor:pointer!important}
+.machine-language-layout:not(.is-translation) .friendly-editor .editor-tabs button.is-active{background:#fff!important;color:#171717!important;border-left-color:#e30613!important}
+
+/* Navigation must remain usable in every language, with Medien limited to DE. */
+.machine-language-layout.is-translation .friendly-editor .editor-tabs button{opacity:1!important;pointer-events:auto!important}
+.machine-language-layout.is-translation .friendly-editor .editor-tabs button[data-editor-tab="media"]{display:none!important}
+.machine-language-layout .machine-edit-form [data-editor-panel][hidden],
+.machine-language-layout .machine-edit-form .hml-i18n-field[hidden],
+.machine-language-layout .machine-edit-form .media-static-layout[hidden]{display:none!important}
+.machine-language-layout.is-translation .machine-variant-languages{grid-column:1/-1!important;min-width:0!important;width:100%!important}
+.machine-language-layout.is-translation .machine-variant-languages .hml-i18n-fields{grid-template-columns:repeat(2,minmax(0,1fr))!important;align-items:stretch!important}
+.machine-language-layout.is-translation .machine-variant-languages .hml-i18n-field{min-width:0!important;max-width:100%!important;box-sizing:border-box!important;gap:10px!important}
+.machine-language-layout.is-translation .machine-variant-languages .hml-i18n-field textarea{height:116px!important;min-height:116px!important}
+@media(max-width:950px){.machine-language-layout.is-translation .machine-variant-languages .hml-i18n-fields{grid-template-columns:minmax(0,1fr)!important}}
+
+.machine-language-layout.is-translation .machine-variant-languages .hml-i18n-fields:not([hidden]){display:grid!important;visibility:visible!important}
+.machine-language-layout.is-translation .machine-variant-languages .hml-i18n-field:not([hidden]){display:flex!important;visibility:visible!important}
+.machine-language-layout .machine-translation-empty-note{margin:0 0 18px;padding:18px 20px;border:1px solid #dedede;background:#fff;color:#333;font-size:14px;line-height:1.5}
+.machine-language-layout .machine-translation-empty-note[hidden]{display:none!important}
+
+/* Shared material selections: editorial information layout rather than a generic note. */
+.machine-language-layout .machine-translation-empty-note{display:flex!important;align-items:flex-start!important;gap:22px!important;margin:12px 0 24px!important;padding:32px 34px!important;border:0!important;border-top:3px solid #e30613!important;background:#f4f4f4!important;color:#202020!important;box-shadow:none!important;max-width:100%!important;box-sizing:border-box!important}
+.machine-language-layout .machine-translation-empty-note[hidden]{display:none!important}
+.machine-language-layout .machine-info-symbol{flex:0 0 52px;display:flex;align-items:center;justify-content:center;width:52px;height:52px;background:#fff;color:#e30613}
+.machine-language-layout .machine-info-symbol svg{width:26px;height:26px}
+.machine-language-layout .machine-info-copy{flex:1;min-width:0}
+.machine-language-layout .machine-info-eyebrow{display:block;font-size:11px;font-weight:800;letter-spacing:.11em;color:#e30613;margin:0 0 9px}
+.machine-language-layout .machine-info-copy h3{margin:0 0 11px!important;font-size:23px!important;line-height:1.25!important;color:#202020!important;font-weight:800!important}
+.machine-language-layout .machine-info-copy p{margin:0!important;font-size:15px!important;line-height:1.65!important;max-width:660px;color:#4c4c4c!important}
+.machine-language-layout .machine-info-foot{display:flex;align-items:center;gap:9px;margin-top:21px;padding-top:15px;border-top:1px solid #dedede;font-size:13px;font-weight:600;color:#595959}
+.machine-language-layout .machine-info-dot{width:7px;height:7px;flex:0 0 7px;border-radius:50%;background:#e30613}
+@media(max-width:650px){.machine-language-layout .machine-translation-empty-note{padding:23px 20px!important;gap:13px!important}.machine-language-layout .machine-info-symbol{width:38px;height:38px;flex-basis:38px}.machine-language-layout .machine-info-copy h3{font-size:19px!important}}
+
+/* Vertriebsportal: review workspace in the HRPortal visual language. */
+.machine-language-layout.is-review{grid-template-columns:minmax(0,1fr)!important}
+.machine-language-layout.is-review>.friendly-editor{display:none!important}
+.machine-language-layout.is-review>.machine-edit-form{grid-column:1!important;grid-row:2!important}
+.machine-language-layout.is-review .machine-review-redesign{display:block!important;border:0!important;padding:0!important;margin:0!important;background:transparent!important}
+/* Review occupies the full form grid, not its first half-column. */
+.machine-language-layout.is-review .machine-edit-form>.machine-review-redesign{grid-column:1 / -1!important;width:100%!important;max-width:none!important;min-width:0!important;box-sizing:border-box!important}
+.machine-language-layout.is-review .machine-review-columns{width:100%;grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.machine-language-layout.is-review .machine-review-columns>*{min-width:0}
+@media(max-width:900px){.machine-language-layout.is-review .machine-review-columns{grid-template-columns:minmax(0,1fr)!important}}
+.machine-review-columns{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.machine-review-card{background:#fff;border:1px solid #e4e4e4;padding:28px;margin-bottom:20px;min-width:0}
+.machine-review-card h2{font-size:24px!important;margin:8px 0 10px!important;color:#181818}
+.machine-review-card h3{font-size:16px!important;margin:0 0 15px!important}
+.machine-review-eyebrow{color:#e30613;font-size:12px;font-weight:800;letter-spacing:.035em}
+.machine-review-description{font-size:14px;color:#666;margin:0 0 24px}
+.machine-review-version{border-bottom:1px solid #eee;padding:15px 0}
+.machine-review-version-line{display:flex;align-items:center;gap:12px;min-width:0}
+.machine-review-version-line strong{font-size:15px;margin-right:auto}
+.machine-review-version-line>span{font-size:12px;color:#777}
+.machine-review-version-line .machine-review-original{color:#15924a;font-weight:700}
+.machine-review-version-line button{border:0;background:transparent;color:#e30613;font-size:12px;font-weight:800;cursor:pointer;padding:8px 0}
+.machine-review-meter{height:6px;background:#e2e2e2;margin-top:10px}
+.machine-review-meter span{display:block;height:100%;background:#e9ae35;width:0}
+.machine-review-version[data-review-language="de"] .machine-review-meter span{background:#15924a}
+.machine-review-all-preview,.machine-review-site-languages{background:#f3f3f2;padding:22px;margin-top:22px}
+.machine-review-all-preview h3{margin:10px 0!important;font-size:19px!important}
+.machine-review-all-preview p,.machine-review-site-languages p{font-size:13px;color:#666}
+.machine-review-preview-languages{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.machine-review-preview-languages button{flex:1;min-width:45px;border:1px solid #ccc;background:#fff;color:#171717;padding:12px 6px;cursor:pointer;font-weight:800}
+.machine-review-preview-languages button:hover{background:#191919;color:#fff}
+.machine-review-site-row{display:flex;justify-content:space-between;border-bottom:1px solid #dedede;padding:12px 0;font-size:14px}
+.machine-review-site-row span:last-child{color:#777;font-size:12px}
+.machine-review-confirm{display:flex;gap:12px;align-items:flex-start;margin:22px 0 12px;font-size:13px;line-height:1.5}
+.machine-review-confirm input{margin-top:3px}
+.machine-review-publish-control{margin:15px 0}
+.machine-review-publish-control .machine-field{display:block!important;margin:0!important}
+.machine-review-publish-control .machine-field-label-row{margin-bottom:10px}
+.machine-review-publish-hint{font-size:12px!important;color:#666}
+.machine-review-actions a{display:block;text-align:center;padding:13px;border:1px solid #ddd;text-decoration:none;color:#222;font-weight:800;font-size:12px}
+.machine-language-layout.is-review .editor-history{display:block!important;grid-column:1/-1;margin-top:10px}
+.machine-language-layout.is-review .machine-staff-actions{display:flex!important}
+.machine-language-layout:not(.is-review) .machine-review-redesign{display:none!important}
+@media(max-width:900px){.machine-review-columns{grid-template-columns:1fr}.machine-review-card{padding:20px}}
+@media(max-width:560px){.machine-review-version-line{flex-wrap:wrap}.machine-review-version-line strong{width:100%}}
+
+/* Vertriebsportal review only: HRPortal-inspired publication presentation */
+.machine-language-layout.is-review .machine-review-columns{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:20px!important;align-items:start}
+.machine-language-layout.is-review .machine-review-card{padding:clamp(24px,2.4vw,36px)!important;border:1px solid #e5e5e5!important;background:#fff!important;margin:0 0 20px!important;box-shadow:none!important}
+.machine-language-layout.is-review .machine-review-eyebrow{font-size:12px!important;letter-spacing:.075em!important;font-weight:850!important;color:#e30613!important}
+.machine-language-layout.is-review .machine-review-card h2{font-size:clamp(24px,2.1vw,30px)!important;line-height:1.2!important;margin:10px 0 12px!important}
+.machine-language-layout.is-review .machine-review-description{font-size:14px!important;line-height:1.6!important;margin-bottom:26px!important;color:#696969!important}
+.machine-language-layout.is-review .machine-review-version{padding:17px 0!important}
+.machine-language-layout.is-review .machine-review-version-line{gap:12px!important;flex-wrap:wrap}
+.machine-language-layout.is-review .machine-review-version-line strong{font-size:15px!important}
+.machine-language-layout.is-review .machine-review-version-line button{font-size:12px!important;letter-spacing:.02em!important}
+.machine-language-layout.is-review .machine-review-all-preview,.machine-language-layout.is-review .machine-review-site-languages{background:#f2f2f0!important;padding:clamp(20px,2.1vw,28px)!important;margin-top:24px!important;border:0!important;box-sizing:border-box!important}
+.machine-language-layout.is-review .machine-review-site-languages h3{font-size:16px!important;line-height:1.4!important;margin:0 0 14px!important;font-weight:850!important}
+.machine-language-layout.is-review .machine-review-site-languages>p{font-size:13px!important;line-height:1.6!important;margin:0 0 20px!important;color:#696969!important}
+.machine-language-layout.is-review .machine-review-site-row{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:16px!important;padding:15px 0!important;border-bottom:1px solid #dcdcdc!important;cursor:pointer!important;font-size:14px!important;color:#171717!important}
+.machine-language-layout.is-review .machine-review-site-row span{font-size:14px!important;color:#171717!important}
+.machine-language-layout.is-review .machine-review-site-row input[type=checkbox],.machine-language-layout.is-review .machine-review-confirm input[type=checkbox]{appearance:auto!important;-webkit-appearance:checkbox!important;accent-color:#e30613!important;width:18px!important;height:18px!important;min-width:18px!important;margin:0!important;flex:0 0 18px!important;cursor:pointer!important}
+.machine-language-layout.is-review .machine-review-site-row input:disabled{cursor:not-allowed!important;opacity:.55!important}
+.machine-language-layout.is-review .machine-review-language-save{display:flex!important;width:100%!important;min-height:48px!important;align-items:center!important;justify-content:center!important;background:#171717!important;color:#fff!important;border:1px solid #171717!important;padding:13px 18px!important;margin:20px 0 0!important;font:800 12px/1.3 inherit!important;font-family:inherit!important;font-size:12px!important;font-weight:850!important;letter-spacing:.025em!important;text-align:center!important;cursor:pointer!important;border-radius:0!important;box-shadow:none!important;text-transform:uppercase!important}
+.machine-language-layout.is-review .machine-review-language-save:hover{background:#333!important;border-color:#333!important;color:#fff!important}
+.machine-language-layout.is-review .machine-review-confirm{display:flex!important;gap:12px!important;align-items:flex-start!important;margin:25px 0 18px!important;font-size:14px!important;line-height:1.55!important;cursor:pointer!important}
+.machine-language-layout.is-review .machine-review-publish-control{margin:18px 0!important}
+.machine-language-layout.is-review .machine-review-publish-control .machine-field{padding:0!important}
+.machine-language-layout.is-review .machine-review-actions a{min-height:46px!important;display:flex!important;align-items:center!important;justify-content:center!important;border:1px solid #d4d4d4!important;background:#fff!important;font-size:12px!important}
+.machine-language-layout.is-review .machine-review-actions a:hover{background:#171717!important;color:#fff!important;border-color:#171717!important}
+.machine-language-layout.is-review .machine-review-preview-languages button{min-height:46px!important;border:1px solid #d4d4d4!important;background:#fff!important;color:#171717!important;font-size:13px!important;font-weight:850!important;border-radius:0!important}
+.machine-language-layout.is-review .machine-review-preview-languages button:hover{background:#171717!important;color:#fff!important}
+.machine-language-layout.is-review .machine-review-completion{margin-top:4px!important}
+@media(max-width:900px){.machine-language-layout.is-review .machine-review-columns{grid-template-columns:minmax(0,1fr)!important}}
+
+/* Screenshot-matched review controls, scoped to Vertriebsportal */
+.machine-language-layout.is-review .machine-review-preview-languages{display:block!important;margin-top:30px!important}
+.machine-language-layout.is-review .machine-review-preview-all-button{display:block!important;width:100%!important;min-height:52px!important;padding:16px 20px!important;border:0!important;border-radius:0!important;background:#171717!important;color:#fff!important;font-size:14px!important;font-weight:850!important;text-align:center!important;cursor:pointer!important}
+.machine-language-layout.is-review .machine-review-preview-all-button:hover{background:#e30613!important}
+.machine-language-layout.is-review .machine-review-preview-options[hidden]{display:none!important}
+.machine-language-layout.is-review .machine-review-preview-options:not([hidden]){display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:8px!important;margin-top:12px!important}
+.machine-language-layout.is-review .machine-review-preview-options button{min-height:42px!important;border:1px solid #ddd!important;background:white!important;color:#171717!important;font-weight:800!important;cursor:pointer!important}
+.machine-language-layout.is-review .machine-review-preview-options button:hover{background:#171717!important;color:#fff!important}
+.machine-language-layout.is-review .machine-review-all-preview{padding:28px 30px!important}
+.machine-language-layout.is-review .machine-review-all-preview h3{font-size:23px!important;font-weight:850!important;margin:16px 0!important}
+.machine-language-layout.is-review .machine-review-all-preview p{font-size:16px!important;margin-bottom:0!important}
+.machine-language-layout.is-review .machine-review-site-languages{padding:24px!important}
+.machine-language-layout.is-review .machine-review-language-save{min-height:52px!important;padding:15px!important;font-size:13px!important;background:#e30613!important;color:white!important}
+.machine-language-layout.is-review .machine-review-publish-control input[type=checkbox]{accent-color:#e30613!important}
+.machine-language-layout.is-review .machine-review-confirm{margin:26px 0 20px!important}
+.machine-language-layout.is-review .machine-review-site-row input[type=checkbox]{accent-color:#e30613!important}
+@media(max-width:600px){.machine-language-layout.is-review .machine-review-preview-options:not([hidden]){grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+
+/* FINAL Vertriebsportal review override: target real DOM classes, not a nonexistent ID. */
+.machine-language-layout.is-review .machine-review-columns{
+ display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+ align-items:stretch!important;gap:20px!important;width:100%!important;
+}
+.machine-language-layout.is-review .machine-review-columns>.machine-review-versions{
+ height:100%!important;margin:0!important;box-sizing:border-box!important;
+}
+.machine-language-layout.is-review .machine-review-columns>.machine-review-right{
+ display:flex!important;flex-direction:column!important;gap:20px!important;
+ min-width:0!important;height:100%!important;
+}
+.machine-language-layout.is-review .machine-review-right>.machine-review-publication{
+ flex:1 1 auto!important;margin:0!important;
+}
+.machine-language-layout.is-review .machine-review-right>.machine-review-actions{
+ flex:0 0 auto!important;margin:0!important;
+}
+.machine-language-layout.is-review .machine-review-publish-button,
+.machine-language-layout.is-review .machine-review-publish-button:disabled{
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ width:100%!important;max-width:none!important;min-height:52px!important;
+ padding:14px 18px!important;border:0!important;border-radius:0!important;
+ background:#e30613!important;color:#fff!important;opacity:1!important;
+ box-shadow:none!important;text-shadow:none!important;
+ font:800 13px/1.3 Arial,sans-serif!important;letter-spacing:.02em!important;
+ -webkit-appearance:none!important;appearance:none!important;
+ cursor:pointer!important;
+}
+.machine-language-layout.is-review .machine-review-publish-button.is-deactivation,
+.machine-language-layout.is-review .machine-review-publish-button.is-deactivation:disabled{
+ background:#171717!important;color:#fff!important;
+}
+.machine-language-layout.is-review .machine-review-publish-button:disabled{cursor:not-allowed!important}
+.machine-language-layout.is-review .machine-review-publish-button:not(:disabled):hover{filter:brightness(.85)!important}
+.machine-language-layout.is-review .machine-review-preview-languages button{background:#171717!important;color:#fff!important}
+@media(max-width:900px){
+ .machine-language-layout.is-review .machine-review-columns{grid-template-columns:minmax(0,1fr)!important}
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  const layout=document.getElementById('machine-language-layout');
+  if(!layout)return;
+  const top=Array.from(layout.querySelectorAll('[data-machine-lang]'));
+  const reviewButton=layout.querySelector('[data-machine-review]');
+  const reviewPanel=layout.querySelector('.machine-review-panel');
+  const editorTabs=Array.from(layout.querySelectorAll('[data-editor-tab]'));
+  const editorPanels=Array.from(layout.querySelectorAll('[data-editor-panel]'));
+  let currentPanel='general';
+  const groupForName=function(name){
+    if(['engine','drive','weight','additional_specs','operating_principle'].includes(name))return 'technical';
+    if(['areas','materials','applications','application_areas','application','materials_text','areas_text'].includes(name))return 'materials';
+    return 'general';
+  };
+  function filterTranslationFields(){
+    const source=document.getElementById('hml-inline-data');
+    const container=layout.querySelector('[data-hml-fields]');
+    if(!source||!container)return;
+    let rows=[];try{rows=JSON.parse(source.textContent).rows||[];}catch(e){}
+    const fields=Array.from(container.querySelectorAll('.hml-i18n-field'));
+    const assigned=fields.map(function(field,index){
+      const row=rows[index];
+      const group=row?groupForName(row.name):'general';
+      field.dataset.translationGroup=group;
+      return {field:field,group:group};
+    });
+    // Einsatzgebiete uses shared material/area selections, not text fields
+    // on the Maschinenvariante model. Never render a blank editor.
+    const matches=assigned.filter(function(item){return item.group===currentPanel;});
+    assigned.forEach(function(item){
+      item.field.hidden=item.group!==currentPanel;
+      item.field.style.removeProperty('display');
+    });
+    let note=container.parentElement.querySelector('.machine-translation-empty-note');
+    if(!note){
+      note=document.createElement('p');
+      note.className='machine-translation-empty-note';
+      container.parentElement.insertBefore(note,container);
+    }
+    const translating=layout.classList.contains('is-translation');
+    note.hidden=!translating || currentPanel!=='materials';
+    if(currentPanel==='materials'){
+      note.innerHTML='<div class="machine-info-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></div><div class="machine-info-copy"><h3>Einsatzgebiete und Materialien</h3><p>Die Auswahl der Einsatzgebiete und Materialien erfolgt in der deutschen Originalversion. Die Zuordnung gilt automatisch für alle Sprachversionen.</p><div class="machine-info-foot"><span class="machine-info-dot"></span>Hier sind keine zusätzlichen Übersetzungsfelder erforderlich.</div></div>';
+    }
+    if(translating && currentPanel==='materials'){
+      // Leave the actual translation fields untouched; this section has
+      // no variant-specific editable translation rows.
+      assigned.forEach(function(item){item.field.hidden=true;});
+    }
+    if(translating && currentPanel!=='materials' && matches.length===0){
+      // Avoid a silent empty screen for a model with differently named fields.
+      assigned.forEach(function(item){item.field.hidden=false;});
+    }
+  }
+  function showEditorPanel(key){
+    currentPanel=key;
+    editorTabs.forEach(function(tab){const active=tab.dataset.editorTab===key;tab.classList.toggle('is-active',active);tab.setAttribute('aria-selected',String(active));});
+    editorPanels.forEach(function(panel){panel.hidden=panel.dataset.editorPanel!==key;});
+    filterTranslationFields();
+  }
+  showEditorPanel('general');
+  layout.querySelectorAll('[data-review-edit]').forEach(function(button){button.addEventListener('click',function(){switchLanguage(button.dataset.reviewEdit);});});
+  const publishField=layout.querySelector('.machine-field[data-editor-panel="review"]');
+  const publishHost=layout.querySelector('#machine-review-publish-control');
+  const confirmation=layout.querySelector('#machine-review-confirmation');
+  if(publishField&&publishHost&&confirmation){
+    publishHost.appendChild(publishField);
+    const checkbox=publishField.querySelector('input[type="checkbox"]');
+    const actionButton=layout.querySelector('#machine-review-publish-button');
+    if(checkbox && actionButton){
+      const initiallyPublished=checkbox.checked;
+      // The original Django form field remains the source of truth.
+      // The visible button only changes it after explicit confirmation.
+      checkbox.disabled=false;
+      publishHost.hidden=true;
+      actionButton.textContent=initiallyPublished?'MASCHINENVARIANTE DEAKTIVIEREN':'MASCHINENVARIANTE VERÖFFENTLICHEN';
+      const confirmationText=layout.querySelector('#machine-review-confirmation-text');
+      if(confirmationText){
+        confirmationText.textContent=initiallyPublished
+          ? 'Ich bestätige, dass diese Maschinenvariante deaktiviert wird und anschließend nicht mehr auf der Website angezeigt wird.'
+          : 'Ich habe die Vorschau geprüft und möchte diese Maschinenvariante auf der Website veröffentlichen.';
+      }
+      actionButton.classList.toggle('is-deactivation',initiallyPublished);
+      actionButton.disabled=true;
+      confirmation.addEventListener('change',function(){actionButton.disabled=!confirmation.checked;});
+      actionButton.addEventListener('click',function(){
+        if(!confirmation.checked)return;
+        checkbox.checked=!initiallyPublished;
+        const form=layout.querySelector('#machine-main-form');
+        if(!form)return;
+        const save=form.querySelector('button[name="editor_action"][value="save"]');
+        if(save)form.requestSubmit(save);else form.requestSubmit();
+      });
+    }
+  }
+
+  const original=layout.querySelector('[data-hml-i18n]');
+  if(!original)return;
+  const output=original.querySelector('[data-hml-output]');
+  if(output && !output.closest('form'))output.setAttribute('form','machine-main-form');
+  const switchLanguage=function(lang){
+    const inner=original.querySelector('[data-hml-lang="'+lang+'"]');
+    if(!inner)return;
+    inner.click();
+    layout.classList.toggle('is-translation',lang!=='de');
+    layout.classList.remove('is-review');
+    if(reviewButton){reviewButton.classList.remove('is-active');reviewButton.setAttribute('aria-pressed','false');}
+    showEditorPanel('general');
+    requestAnimationFrame(filterTranslationFields);
+    top.forEach(function(button){const active=button.dataset.machineLang===lang;button.classList.toggle('is-active',active);button.setAttribute('aria-pressed',String(active));});
+  };
+  top.forEach(function(button){button.addEventListener('click',function(){switchLanguage(button.dataset.machineLang);});});
+  if(reviewButton){reviewButton.addEventListener('click',function(){
+    // Review is a sixth top-level workspace, not another translation.
+    layout.classList.remove('is-translation');
+    layout.classList.add('is-review');
+    top.forEach(function(button){button.classList.remove('is-active');button.setAttribute('aria-pressed','false');});
+    reviewButton.classList.add('is-active');reviewButton.setAttribute('aria-pressed','true');
+    showEditorPanel('review');
+    if(reviewPanel)reviewPanel.scrollIntoView({block:'nearest'});
+  });}
+  editorTabs.forEach(function(tab){tab.addEventListener('click',function(){
+    if(layout.classList.contains('is-translation') && tab.dataset.editorTab==='media')return;
+    showEditorPanel(tab.dataset.editorTab);
+    if(layout.classList.contains('is-translation'))return;
+    if(reviewButton){reviewButton.classList.remove('is-active');reviewButton.setAttribute('aria-pressed','false');}
+    const de=top.find(function(button){return button.dataset.machineLang==='de';});
+    if(de){de.classList.add('is-active');de.setAttribute('aria-pressed','true');}
+  });});
+  // Read-only source reference for each translation field. No data is changed.
+  const translationPanel=original.querySelector('[data-hml-fields]');
+  const sourceData=document.getElementById('hml-inline-data');
+  if(translationPanel && sourceData){
+    let sourceRows=[];
+    try{sourceRows=JSON.parse(sourceData.textContent).rows||[];}catch(error){sourceRows=[];}
+    const sourceForm=document.getElementById('machine-main-form');
+    const observer=new MutationObserver(function(){
+      if(translationPanel.hidden || !translationPanel.children.length)return;
+      observer.disconnect();
+      Array.from(translationPanel.querySelectorAll('.hml-i18n-field')).forEach(function(field,index){
+        if(field.querySelector('.machine-original-reference'))return;
+        const row=sourceRows[index];
+        if(!row)return;
+        const source=sourceForm && sourceForm.elements.namedItem(row.name);
+        let value='';
+        if(source){
+          if(typeof source.value==='string')value=source.value;
+          else if(source.length){value=Array.from(source).filter(function(input){return input.checked}).map(function(input){return input.value}).join(', ');}
+        }
+        // The translation editor should only offer fields that have German content.
+        // Keep the underlying translation state untouched: hiding is presentation-only.
+        // Show translation fields even when the German original is empty.
+        field.style.removeProperty('display');
+        const box=document.createElement('div');
+        box.className='machine-original-reference';
+        const heading=document.createElement('strong');
+        heading.className='machine-original-reference-title';
+        heading.textContent='DEUTSCH';
+        const content=document.createElement('div');
+        content.className='machine-original-reference-value';
+        content.textContent=value.trim()||'–';
+        box.append(heading,content);
+        const textarea=field.querySelector('textarea');
+        if(textarea)field.insertBefore(box,textarea);
+        else field.appendChild(box);
+      });
+      filterTranslationFields();
+      observer.observe(translationPanel,{childList:true});
+    });
+    observer.observe(translationPanel,{childList:true});
+  }
+  const innerTabs=original.querySelector('.hml-i18n-tabs');
+  if(innerTabs)innerTabs.addEventListener('click',function(event){const tab=event.target.closest('[data-hml-lang]');if(tab)requestAnimationFrame(function(){layout.classList.toggle('is-translation',tab.dataset.hmlLang!=='de');top.forEach(function(button){const active=button.dataset.machineLang===tab.dataset.hmlLang;button.classList.toggle('is-active',active);button.setAttribute('aria-pressed',String(active));});});});
+});
+</script>
+
+<script>
+(function(){
+ function initHeroPicks(){
+  document.querySelectorAll('.media-static-layout').forEach(function(section){
+   const select=section.querySelector('select[name="hero_media_choice"]');
+   const picks=Array.from(section.querySelectorAll('input[data-hero-pick]'));
+   if(!select||picks.length!==2||section.dataset.heroPicksReady)return;
+   section.dataset.heroPicksReady='1';
+   function sync(){picks.forEach(function(p){p.checked=select.value===p.dataset.heroPick;});}
+   picks.forEach(function(p){p.addEventListener('change',function(){
+    select.value=p.checked?p.dataset.heroPick:'auto';
+    select.dispatchEvent(new Event('change',{bubbles:true}));sync();
+   });});
+   select.addEventListener('change',sync);sync();
+  });
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initHeroPicks);else initHeroPicks();
+})();
+</script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+ const trigger=document.getElementById('machine-review-open-previews');
+ const options=document.getElementById('machine-review-preview-options');
+ if(trigger&&options){trigger.addEventListener('click',function(){options.hidden=!options.hidden;trigger.setAttribute('aria-expanded',String(!options.hidden));});}
+});
+</script>
+{% endblock %}

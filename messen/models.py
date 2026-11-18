@@ -132,13 +132,13 @@ class MachineVariant(models.Model):
     additional_specs = models.TextField("Weitere technische Daten (eine Zeile: Merkmal: Wert)", blank=True)
     image = models.ImageField("Maschinenfoto", upload_to="machine-variants/", blank=True)
     image_url = models.URLField("Foto-URL", blank=True)
-    datasheet_url = models.URLField("Datenblatt", blank=True)
     technical_drawing = models.FileField("Technische Zeichnung (PDF oder Bild)", upload_to="machine-variants/drawings/", blank=True)
     technical_drawing_url = models.URLField("Technische Zeichnung URL", blank=True)
     hero_media_choice = models.CharField("Hero-Darstellung", max_length=10, choices=(("auto", "Automatisch"), ("video", "Video"), ("image", "Foto")), default="auto")
     hero_video = models.FileField("Hero-Video (MP4/WebM)", upload_to="machine-variants/videos/", blank=True)
     hero_video_url = models.URLField("Hero-Video URL (MP4/WebM)", blank=True)
     published = models.BooleanField("Veröffentlicht", default=False)
+    visible_languages = models.JSONField("Aktivierte Sprachversionen", null=True, blank=True, default=None)
     position = models.PositiveIntegerField("Reihenfolge", default=0)
     class Meta:
         ordering = ["position", "name"]
