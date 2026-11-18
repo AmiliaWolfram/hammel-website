@@ -485,6 +485,17 @@ def hr_edit(request, kind, pk=None):
         required = [(field, value) for field, value in required if value.strip()]
         summary = _vacancy_translation_summary(required, translations, LANGUAGES, fingerprint)
         missing_german = _vacancy_publication_checks(obj)
+        ready_languages = {"de"}
+        for language_code in ("en", "fr", "es", "it"):
+            records = {entry.field_name: entry for entry in translations if entry.language == language_code}
+            if required and all(
+                (entry := records.get(field)) is not None
+                and entry.status == "published"
+                and bool(entry.text.strip())
+                and entry.source_hash == fingerprint(value)
+                for field, value in required
+            ):
+                ready_languages.add(language_code)
         if request.method == "POST":
             if not request.user.has_perm("recruiting.change_vacancy"):
                 return HttpResponseForbidden("Keine Berechtigung")
@@ -496,15 +507,16 @@ def hr_edit(request, kind, pk=None):
                 selected = [code for code in ("de", "en", "fr", "es", "it") if code in request.POST.getlist("visible_languages")]
                 with transaction.atomic():
                     locked = Vacancy.objects.select_for_update().get(pk=obj.pk)
-                    if not locked.published:
-                        messages.error(request, "Bitte zuerst die Stelle veröffentlichen.")
+                    invalid = [code for code in selected if code not in ready_languages]
+                    if invalid:
+                        messages.error(request, "Sprachversionen noch nicht vollständig geprüft: " + ", ".join(invalid))
                     else:
                         old = locked.visible_languages or []
                         locked.visible_languages = selected
                         locked.save(update_fields=["visible_languages"])
                         if old != selected:
                             HREditLog.objects.create(vacancy=locked, user=request.user, action="update", detail="Sprachsichtbarkeit geändert", changes=[{"field":"Sichtbare Sprachen", "old":", ".join(old), "new":", ".join(selected)}])
-                        messages.success(request, "Sprachsichtbarkeit gespeichert.")
+                        messages.success(request, "Sprachauswahl gespeichert.")
                 return redirect(request.path + "?step=review")
             if action in ("publish", "unpublish"):
                 if action == "publish" and missing_german:
@@ -538,7 +550,7 @@ def hr_edit(request, kind, pk=None):
         history = history[:200]
         return render(request, "recruiting/staff_review.html", {
             "object": obj, "summary": summary, "missing_german": missing_german,
-            "language_visibility": [{"code": code, "name": name, "visible": code in (obj.visible_languages or [])} for code, name in (("de","Deutsch"),("en","English"),("fr","Français"),("es","Español"),("it","Italiano"))],
+            "language_visibility": [{"code": code, "name": name, "ready": code in ready_languages, "visible": code in (obj.visible_languages or (["de"] if not obj.published else []))} for code, name in (("de","Deutsch"),("en","English"),("fr","Français"),("es","Español"),("it","Italiano"))],
             "translation_url": reverse("translation_edit", args=[obj._meta.app_label, obj._meta.model_name, obj.pk]),
             "history": history,
             "months": [{"value": str(i), "label": name} for i, name in enumerate(("Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"), 1)],

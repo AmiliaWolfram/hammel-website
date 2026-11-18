@@ -60,7 +60,7 @@ class MachineVariantAdmin(admin.ModelAdmin):
     fieldsets = (("Modell", {"fields": ("product", "name", "version", "description")}),
       ("Einsatzgebiete", {"fields": ("applications_wood", "applications_waste", "applications_other")}),
       ("Technik", {"fields": ("engine", "drive", "weight", "operating_principle", "additional_specs")}),
-      ("Medien", {"fields": ("image", "image_url", "hero_video", "hero_video_url", "datasheet_url")}),
+      ("Medien", {"fields": ("image", "image_url", "hero_video", "hero_video_url")}),
       ("Veröffentlichung", {"fields": ("published", "position")}))
 
 @admin.register(MachineProduct)

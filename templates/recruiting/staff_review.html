@@ -158,9 +158,9 @@ html:has(#hr-review-page),body:has(#hr-review-page){background:#f5f5f3!important
         <strong style="display:block;margin-bottom:14px">SPRACHVERSIONEN AUF DER WEBSITE</strong>
         {% for lang in language_visibility %}
         <label style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid #ddd">
-          <span>{{ lang.name }}</span><input type="checkbox" name="visible_languages" value="{{ lang.code }}" {% if lang.visible %}checked{% endif %} {% if not object.published %}disabled{% endif %} style="width:20px;height:20px;accent-color:#e30613">
+          <span>{{ lang.name }}</span><input type="checkbox" name="visible_languages" value="{{ lang.code }}" {% if lang.visible %}checked{% endif %} {% if not lang.ready %}disabled title="Übersetzung noch nicht vollständig geprüft"{% endif %} style="width:20px;height:20px;accent-color:#e30613">
         </label>{% endfor %}
-        {% if object.published %}<button class="review-btn review-btn--red" type="submit" style="width:100%;margin-top:16px">SICHTBARKEIT SPEICHERN</button>{% else %}<p class="review-muted">Die Sprachversionen können nach Veröffentlichung aktiviert werden.</p>{% endif %}
+        <p class="review-muted">Nicht verfügbare Sprachversionen müssen zuerst vollständig übersetzt und geprüft werden. Die Auswahl kann vor der Veröffentlichung gespeichert werden.</p><button class="review-btn review-btn--red" type="submit" style="width:100%;margin-top:16px">SPRACHAUSWAHL SPEICHERN</button>
       </form>
       <form method="post" id="hr-publication-form">{% csrf_token %}
         <label class="review-confirm"><input type="checkbox" name="confirm_publication" value="yes" required><span>Ich habe die Vorschau geprüft und möchte den Veröffentlichungsstatus ausdrücklich ändern.</span></label>

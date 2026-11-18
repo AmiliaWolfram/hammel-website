@@ -1,6 +1,128 @@
 {% extends 'messen/base.html' %}{% block title %}Startseiten-Showcase{% endblock %}{% block content %}
-<div class="eyebrow">HAMMEL / VERTRIEB</div><h1>STARTSEITEN-SHOWCASE</h1><p class="subtitle">Reihenfolge, Texte und Maschinen der Startseite bearbeiten. Die niedrigste Reihenfolge erscheint zuerst.</p>
-<p><a href="{% url 'staff_machine_dashboard' %}">← MASCHINENVERWALTUNG</a></p>
-<div class="machine-staff-list">{% for item in items %}<div class="machine-staff-item"><div><strong>{{ item.category }}</strong><small>{{ item.headline }} / {% if item.is_default %}STARTAUSWAHL / {% endif %}{% if item.published %}ONLINE{% else %}VERBORGEN{% endif %} / Reihenfolge {{ item.position }}</small></div><a href="{% url 'showcase_edit' item.pk %}">BEARBEITEN</a></div>{% endfor %}</div>
-<style>.machine-staff-item{display:flex;justify-content:space-between;align-items:center;padding:22px 0;border-bottom:1px solid #ddd}.machine-staff-item strong{display:block;font-size:24px}.machine-staff-item small{display:block;color:#666;margin-top:6px}.machine-staff-item a{color:#e30613;font-weight:800;text-decoration:none}</style>
+<div class="eyebrow">HAMMEL</div>
+<h1>STARTSEITEN-SHOWCASE</h1>
+<div class="showcase-order-list" id="showcase-order" data-url="{% url 'showcase_reorder' %}">
+{% for item in items %}
+<div class="showcase-order-item" data-id="{{ item.pk }}" draggable="false">
+  <div class="showcase-order-controls">
+    <button type="button" class="showcase-move" data-direction="-1" aria-label="{{ item.category }} nach oben verschieben" title="Nach oben">↑</button>
+    <button type="button" class="showcase-move" data-direction="1" aria-label="{{ item.category }} nach unten verschieben" title="Nach unten">↓</button>
+    <button type="button" class="showcase-grip" draggable="true" aria-label="{{ item.category }} ziehen" title="Zum Sortieren ziehen">⠿</button>
+    <strong class="showcase-position">{{ forloop.counter }}</strong>
+  </div>
+  <div class="showcase-order-details">
+    <strong>{{ item.category }}</strong>
+    <small>{{ item.headline }}{% if item.is_default %} · STARTAUSWAHL{% endif %}</small>
+  </div>
+  <span class="showcase-status {% if item.published %}is-online{% endif %}">{% if item.published %}ONLINE{% else %}VERBORGEN{% endif %}</span>
+  <a class="showcase-edit" href="{% url 'showcase_edit' item.pk %}">BEARBEITEN</a>
+</div>
+{% endfor %}
+</div>
+<p class="showcase-order-feedback" id="showcase-order-feedback" role="status" aria-live="polite"></p>
+<div class="showcase-bottom-nav"><a href="{% url 'staff_machine_dashboard' %}">MASCHINENVERWALTUNG</a></div>
+<style>
+.showcase-order-list{display:grid;gap:10px;margin-top:30px}
+.showcase-order-item{display:flex;align-items:center;gap:24px;padding:19px 22px;border:1px solid #ddd;background:#fff;transition:border-color .15s,background .15s}
+.showcase-order-item.is-dragging{opacity:.5}
+.showcase-order-controls{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.showcase-order-controls button{width:38px;height:38px;background:#fff;border:1px solid #d8d8d8;color:#d4000e;font-size:22px;cursor:pointer}
+.showcase-order-controls button:hover:not(:disabled){background:#f2f2f2}
+.showcase-order-controls button:disabled{color:#c8c8c8;cursor:default;opacity:.55}
+.showcase-grip{cursor:grab!important;touch-action:none}
+.showcase-position{min-width:24px;margin-left:8px;font-variant-numeric:tabular-nums;text-align:center}
+.showcase-order-details{flex:1;min-width:0}
+.showcase-order-details strong{display:block;font-size:19px}
+.showcase-order-details small{display:block;color:#666;margin-top:5px;overflow-wrap:anywhere}
+.showcase-status{padding:7px 12px;background:#eee;color:#555;font-weight:700;font-size:12px}
+.showcase-status.is-online{background:#e8f5ee;color:#087c43}
+.showcase-edit{font-weight:800;color:#b8000d;text-decoration:none}
+.showcase-order-feedback{min-height:22px;color:#555;margin:12px 0}
+.showcase-bottom-nav{display:flex;justify-content:center;margin:46px 0 20px}
+.showcase-bottom-nav a{border:1px solid #222;padding:17px 26px;color:#222;text-decoration:none;font-weight:800;transition:background .2s,color .2s}
+.showcase-bottom-nav a:hover{background:#222;color:#fff}
+@media(max-width:740px){.showcase-order-item{flex-wrap:wrap;gap:12px;padding:14px}.showcase-order-details{flex-basis:50%}.showcase-status{margin-left:0}}
+</style>
+<script>
+(function(){
+  const list=document.getElementById('showcase-order');
+  if(!list)return;
+  const feedback=document.getElementById('showcase-order-feedback');
+  const rows=()=>Array.from(list.querySelectorAll('.showcase-order-item'));
+  const renumber=()=>rows().forEach((row,i)=>{
+    row.querySelector('.showcase-position').textContent=String(i+1);
+    row.querySelector('[data-direction="-1"]').disabled=i===0;
+    row.querySelector('[data-direction="1"]').disabled=i===rows().length-1;
+  });
+  const csrf=(document.cookie.split('; ').find(p=>p.startsWith('csrftoken='))||'').split('=').slice(1).join('=');
+  let saving=false,dragged=null,before=null;
+  async function save(previous){
+    if(saving)return;
+    saving=true;
+    list.querySelectorAll('button').forEach(b=>b.disabled=true);
+    feedback.textContent='Reihenfolge wird gespeichert…';
+    try{
+      const response=await fetch(list.dataset.url,{
+        method:'POST',credentials:'same-origin',
+        headers:{'Content-Type':'application/json','X-CSRFToken':decodeURIComponent(csrf)},
+        body:JSON.stringify({ids:rows().map(row=>Number(row.dataset.id))})
+      });
+      if(!response.ok)throw new Error('Save failed');
+      feedback.textContent='Reihenfolge gespeichert.';
+    }catch(e){
+      previous.forEach(row=>list.appendChild(row));
+      feedback.textContent='Speichern fehlgeschlagen. Bitte erneut versuchen.';
+    }finally{saving=false;renumber()}
+  }
+  list.addEventListener('click',event=>{
+    const button=event.target.closest('.showcase-move');
+    if(!button||saving)return;
+    const row=button.closest('.showcase-order-item');
+    const previous=rows();
+    const index=previous.indexOf(row);
+    const next=index+Number(button.dataset.direction);
+    if(next<0||next>=previous.length)return;
+    if(next<index)list.insertBefore(row,previous[next]);
+    else list.insertBefore(previous[next],row);
+    renumber();
+    save(previous);
+  });
+  list.addEventListener('dragstart',event=>{
+    const grip=event.target.closest('.showcase-grip');
+    if(!grip||saving){event.preventDefault();return}
+    dragged=grip.closest('.showcase-order-item');
+    before=rows();
+    dragged.classList.add('is-dragging');
+    event.dataTransfer.effectAllowed='move';
+    event.dataTransfer.setData('text/plain',dragged.dataset.id);
+  });
+  list.addEventListener('dragover',event=>{
+    if(!dragged)return;
+    const target=event.target.closest('.showcase-order-item');
+    if(!target||target===dragged)return;
+    event.preventDefault();
+    const mid=target.getBoundingClientRect().top+target.offsetHeight/2;
+    list.insertBefore(dragged,event.clientY<mid?target:target.nextSibling);
+    renumber();
+  });
+  list.addEventListener('drop',event=>{
+    if(!dragged)return;
+    event.preventDefault();
+    dragged.classList.remove('is-dragging');
+    dragged=null;
+    const previous=before;
+    before=null;
+    save(previous);
+  });
+  list.addEventListener('dragend',()=>{
+    if(!dragged)return;
+    dragged.classList.remove('is-dragging');
+    dragged=null;
+    before.forEach(row=>list.appendChild(row));
+    before=null;
+    renumber();
+  });
+  renumber();
+})();
+</script>
 {% endblock %}

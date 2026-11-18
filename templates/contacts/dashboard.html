@@ -1,10 +1,42 @@
 {% extends 'messen/base.html' %}{% block title %}Kontakte{% endblock %}{% block content %}
 
 <div class="eyebrow">HAMMEL</div><div class="heading-row"><div><h1>KONTAKT<span class="red">VERWALTUNG</span></h1><p class="subtitle">Ansprechpartner, Telefonnummern und Gruppen zentral verwalten.</p></div><div class="row-actions">{% if perms.contacts.add_contactgroup %}<a class="btn" href="{% url 'contacts_create' 'gruppe' %}">+ GRUPPE</a>{% endif %} {% if perms.contacts.add_contactperson %}<a class="btn primary" href="{% url 'contacts_create' 'person' %}">+ KONTAKTPERSON</a>{% endif %}</div></div>
-<details class="contact-accordion"><summary class="contact-accordion-summary"><div class="panel-top"><h2>KONTAKTGRUPPEN</h2></div><span class="contact-accordion-chevron" aria-hidden="true"></span></summary><div class="table-wrap"><table><thead><tr><th>GRUPPE</th><th>REIHENFOLGE</th><th>STATUS</th><th>AKTIONEN</th></tr></thead><tbody>{% for item in groups %}<tr><td><strong>{{ item.name }}</strong></td><td>{{ item.sort_order }}</td><td>{% if item.published %}<span class="status live">ONLINE</span>{% else %}<span class="status draft">VERBORGEN</span>{% endif %}</td><td><div class="row-actions">{% if perms.contacts.change_contactgroup %}<a href="{% url 'contacts_edit' 'gruppe' item.pk %}">Bearbeiten</a>{% endif %}{% if perms.contacts.delete_contactgroup %}<a class="danger-link" href="{% url 'contacts_delete' 'gruppe' item.pk %}">Löschen</a>{% endif %}</div></td></tr>{% endfor %}</tbody></table></div></details>
+<details class="contact-accordion"><summary class="contact-accordion-summary"><div class="panel-top"><h2>KONTAKTGRUPPEN</h2></div><span class="contact-accordion-chevron" aria-hidden="true"></span></summary><div class="table-wrap"><table class="contact-groups-table"><thead class="contact-groups-heading"><tr><th>GRUPPE</th><th>REIHENFOLGE</th><th>STATUS</th><th>AKTIONEN</th></tr></thead><tbody id="contact-groups-sort" data-sort-url="{% url 'contacts_reorder' 'gruppe' %}">{% for item in groups %}<tr data-contact-id="{{ item.pk }}"><td><strong>{{ item.name }}</strong></td><td>{% if perms.contacts.change_contactgroup %}<span class="contact-sort-controls"><button type="button" class="contact-sort-arrow" data-direction="-1" aria-label="Eine Position nach oben" title="Nach oben">↑</button><button type="button" class="contact-sort-arrow" data-direction="1" aria-label="Eine Position nach unten" title="Nach unten">↓</button><button type="button" class="contact-drag-handle" aria-label="Gruppe {{ item.name }} verschieben" title="Zum Sortieren ziehen">⠿</button></span>{% endif %}<span class="contact-sort-number">{{ forloop.counter }}</span></td><td>{% if item.published %}<span class="status live">ONLINE</span>{% else %}<span class="status draft">VERBORGEN</span>{% endif %}</td><td><div class="row-actions">{% if perms.contacts.change_contactgroup %}<a href="{% url 'contacts_edit' 'gruppe' item.pk %}">Bearbeiten</a>{% endif %}{% if perms.contacts.delete_contactgroup %}<a class="danger-link" href="{% url 'contacts_delete' 'gruppe' item.pk %}">Löschen</a>{% endif %}</div></td></tr>{% endfor %}</tbody></table></div></details>
 <details class="contact-accordion"><summary class="contact-accordion-summary"><div class="panel-top"><h2>ANSPRECHPARTNER</h2><span>{{ people|length }} Einträge</span></div><span class="contact-accordion-chevron" aria-hidden="true"></span></summary><div class="table-wrap"><table><thead><tr><th>NAME</th><th>GRUPPE / FUNKTION</th><th>TELEFON</th><th>E-MAIL</th><th>STATUS</th><th>AKTIONEN</th></tr></thead><tbody>{% for item in people %}<tr><td><strong>{{ item.name }}</strong></td><td>{{ item.group.name|default:'—' }}<small>{{ item.role }}</small></td><td>{{ item.phone|linebreaksbr }}</td><td>{{ item.email|default:'—' }}</td><td>{% if item.published %}<span class="status live">ONLINE</span>{% else %}<span class="status draft">VERBORGEN</span>{% endif %}</td><td><div class="row-actions">{% if perms.contacts.change_contactperson %}<a href="{% url 'contacts_edit' 'person' item.pk %}">Bearbeiten</a>{% endif %}{% if perms.contacts.delete_contactperson %}<a class="danger-link" href="{% url 'contacts_delete' 'person' item.pk %}">Löschen</a>{% endif %}</div></td></tr>{% empty %}<tr><td colspan="6">Noch keine Ansprechpartner vorhanden</td></tr>{% endfor %}</tbody></table></div></details>
+<details class="contact-accordion" id="website-contact-order"><summary class="contact-accordion-summary"><div class="panel-top"><h2>REIHENFOLGE AUF DER WEBSITE</h2><span>Nach Kontaktgruppe</span></div><span class="contact-accordion-chevron" aria-hidden="true"></span></summary><div class="website-order-workspace"><div class="website-order-tabs" role="tablist" aria-label="Kontaktgruppen">{% for group in website_groups %}<button type="button" class="website-order-tab{% if forloop.first %} is-active{% endif %}" data-group-tab="{{ group.pk }}" role="tab" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">{{ group.name }}</button>{% endfor %}</div>{% for group in website_groups %}<section class="website-order-panel" data-group-panel="{{ group.pk }}" {% if not forloop.first %}hidden{% endif %}><div class="website-order-list" data-sort-url="{% url 'contacts_group_people_reorder' group.pk %}">{% for person in group.people.all %}<div class="website-order-item" data-contact-id="{{ person.pk }}"><span class="website-order-position">{{ forloop.counter }}</span><div class="website-order-identity"><strong>{{ person.name }}</strong><small>{% if person.published %}ONLINE{% else %}VERBORGEN{% endif %}{% if person.role %} · {{ person.role }}{% endif %}</small></div>{% if perms.contacts.change_contactperson %}<div class="website-order-actions"><button type="button" class="website-order-arrow" data-step="-1" aria-label="{{ person.name }} nach oben" title="Nach oben">↑</button><button type="button" class="website-order-arrow" data-step="1" aria-label="{{ person.name }} nach unten" title="Nach unten">↓</button><button type="button" class="website-order-handle" aria-label="{{ person.name }} verschieben" title="Ziehen oder Alt + Pfeiltasten">⠿</button></div>{% endif %}</div>{% empty %}<p class="website-order-empty">Keine Ansprechpartner in dieser Gruppe.</p>{% endfor %}</div></section>{% endfor %}<p id="website-order-feedback" role="status" aria-live="polite"></p></div></details>
 <div class="contact-bottom-navigation"><a class="contact-return-button" href="{% url 'staff_home' %}">VERTRIEBSPORTAL</a></div>
+<div id="contact-sort-feedback" role="status" aria-live="polite"></div>
 <style>
+/* Accessible arrow controls alongside drag-and-drop (only Kontaktverwaltung) */
+.contact-sort-controls{display:inline-flex;gap:3px;align-items:center;margin-right:7px;vertical-align:middle}
+.contact-sort-arrow{width:25px;height:29px;padding:0;border:1px solid #ddd;background:#fff;color:#b5000a;font-size:16px;font-weight:700;cursor:pointer;line-height:1}
+.contact-sort-arrow:hover,.contact-sort-arrow:focus-visible{background:#b5000a;color:#fff;border-color:#b5000a}
+.contact-sort-arrow:disabled{opacity:.28;cursor:not-allowed;background:#fff;color:#777;border-color:#ddd}
+.contact-sort-controls .contact-drag-handle{margin-right:0;padding:3px 6px;font-size:18px}
+#contact-people-sort .contact-sort-controls{white-space:nowrap}
+/* Compact, two-column group cards (only Kontaktverwaltung) */
+.contact-groups-heading{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+#contact-groups-sort{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:14px 16px}
+#contact-groups-sort tr{display:grid;grid-template-columns:minmax(0,1fr) 142px 80px 150px;align-items:center;gap:10px;border:1px solid #e5e5e5;background:#fff;padding:14px 16px;min-width:0;transition:box-shadow .15s,border-color .15s}
+#contact-groups-sort td{display:block;border:0!important;padding:0!important;min-width:0}
+#contact-groups-sort td:first-child{overflow-wrap:anywhere}
+#contact-groups-sort td:last-child .row-actions{display:flex;gap:10px;flex-wrap:wrap}
+#contact-groups-sort td:last-child a{white-space:nowrap}
+.contact-drag-handle{touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab}
+.contact-drag-handle.contact-handle-active{cursor:grabbing;background:#fff1f1}
+tr.contact-drop-target{outline:2px dashed #e30613!important;outline-offset:-2px}
+#contact-groups-sort tr.contact-dragging,#contact-people-sort tr.contact-dragging{opacity:.5}
+@media(max-width:1050px){#contact-groups-sort tr{grid-template-columns:minmax(0,1fr) 142px 75px 125px;gap:7px;padding:12px}}
+@media(max-width:760px){#contact-groups-sort{grid-template-columns:1fr}#contact-groups-sort tr{grid-template-columns:minmax(0,1fr) 142px 75px 125px}}
+@media(max-width:450px){#contact-groups-sort tr{grid-template-columns:minmax(0,1fr) 142px 70px;row-gap:12px}#contact-groups-sort td:last-child{grid-column:1/-1}}
+
+.contact-drag-handle{cursor:grab;border:1px solid #ddd;background:#fff;color:#b3000b;padding:4px 9px;margin-right:12px;font-size:20px;line-height:1;vertical-align:middle}
+.contact-drag-handle:active{cursor:grabbing}
+.contact-sort-number{font-weight:700;font-variant-numeric:tabular-nums}
+tr.contact-dragging{opacity:.45}
+tr.contact-drop-target{outline:2px dashed #e30613;outline-offset:-2px}
+#contact-sort-feedback{margin-top:10px;color:#a80000;font-weight:600}
+
 .contact-accordion{background:#fff;border:1px solid #e1e1e1;margin-top:20px;overflow:hidden}
 .contact-accordion-summary{display:flex;align-items:center;justify-content:space-between;gap:20px;cursor:pointer;padding:22px 26px;list-style:none;transition:background .2s ease}
 .contact-accordion-summary::-webkit-details-marker{display:none}
@@ -21,4 +53,166 @@
 .contact-bottom-navigation .contact-return-button:hover{background:#e30613;border-color:#e30613;color:#fff}
 .contact-bottom-navigation .contact-return-button:focus-visible{outline:2px solid #e30613;outline-offset:3px}
 @media(max-width:700px){.contact-accordion-summary{padding:17px}.contact-accordion-summary .panel-top{flex-wrap:wrap}.contact-accordion .table-wrap{padding:0 8px 10px}}
-</style>{% endblock %}
+
+/* Group-scoped website contact order – no shared site styles */
+.website-order-workspace{padding:22px 26px}.website-order-description{margin:0 0 18px;color:#555}.website-order-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}.website-order-tab{border:1px solid #ddd;background:#fff;color:#222;padding:10px 15px;font-weight:700;cursor:pointer}.website-order-tab.is-active,.website-order-tab:hover{background:#222;border-color:#222;color:#ffdc00}.website-order-panel[hidden]{display:none!important}.website-order-list{display:grid;gap:8px}.website-order-item{display:flex;align-items:center;gap:15px;border:1px solid #e2e2e2;background:#fff;padding:12px 16px}.website-order-item.is-dragging{opacity:.5}.website-order-position{display:grid;place-items:center;background:#f1f1f1;min-width:38px;height:38px;font-weight:800}.website-order-identity{flex:1;min-width:0}.website-order-identity small{display:block;color:#777;margin-top:4px}.website-order-actions{display:flex;gap:5px}.website-order-arrow,.website-order-handle{background:#fff;border:1px solid #ddd;color:#b6000a;width:35px;height:35px;cursor:pointer;font-size:19px;font-weight:700}.website-order-arrow:disabled{opacity:.25;cursor:default}.website-order-handle{touch-action:none;cursor:grab}#website-order-feedback{font-weight:600;color:#b6000a;min-height:1.2em;margin:12px 0 0}@media(max-width:600px){.website-order-workspace{padding:15px}.website-order-item{padding:10px;gap:8px}.website-order-actions{gap:2px}.website-order-arrow,.website-order-handle{width:30px;height:32px}}
+</style>
+<script>
+(function () {
+  'use strict';
+  const feedback = document.getElementById('contact-sort-feedback');
+  const cookie = document.cookie.split('; ').find(part => part.startsWith('csrftoken='));
+  const csrfToken = cookie ? decodeURIComponent(cookie.substring('csrftoken='.length)) : '';
+
+  for (const body of [document.getElementById('contact-groups-sort')]) {
+    if (!body) continue;
+    const rows = () => Array.from(body.querySelectorAll('tr[data-contact-id]'));
+    const renumber = () => rows().forEach((row, i) => {
+      const label = row.querySelector('.contact-sort-number');
+      if (label) label.textContent = String(i + 1);
+    });
+    let active = null;
+    let saving = false;
+
+    async function save(previous) {
+      const ids = rows().map(row => Number(row.dataset.contactId));
+      feedback.textContent = 'Reihenfolge wird gespeichert…';
+      saving = true;
+      refreshArrows();
+      try {
+        const response = await fetch(body.dataset.sortUrl, {
+          method: 'POST', credentials: 'same-origin',
+          headers: {'Content-Type': 'application/json', 'X-CSRFToken': csrfToken},
+          body: JSON.stringify({ids})
+        });
+        if (!response.ok) throw new Error(String(response.status));
+        feedback.textContent = 'Reihenfolge gespeichert.';
+      } catch (error) {
+        previous.forEach(row => body.appendChild(row));
+        renumber();
+        feedback.textContent = 'Speichern fehlgeschlagen. Bitte Seite aktualisieren und erneut versuchen.';
+      } finally {
+        saving = false;
+        refreshArrows();
+      }
+    }
+
+    // Arrow buttons provide a simple, click-based alternative to dragging.
+    function refreshArrows() {
+      const ordered = rows();
+      ordered.forEach((row, index) => {
+        row.querySelectorAll('.contact-sort-arrow').forEach(button => {
+          const direction = Number(button.dataset.direction);
+          button.disabled = saving || index + direction < 0 || index + direction >= ordered.length;
+        });
+      });
+    }
+    body.addEventListener('click', event => {
+      const button = event.target.closest('.contact-sort-arrow');
+      if (!button || saving) return;
+      const row = button.closest('tr[data-contact-id]');
+      const previous = rows();
+      const index = previous.indexOf(row);
+      const direction = Number(button.dataset.direction);
+      const target = previous[index + direction];
+      if (!target) return;
+      if (direction < 0) body.insertBefore(row, target);
+      else body.insertBefore(target, row);
+      renumber();
+      refreshArrows();
+      button.focus();
+      save(previous);
+    });
+
+    body.addEventListener('pointerdown', event => {
+      const handle = event.target.closest('.contact-drag-handle');
+      if (!handle || saving || event.button !== 0) return;
+      const row = handle.closest('tr[data-contact-id]');
+      if (!row) return;
+      event.preventDefault();
+      active = {row, handle, pointerId: event.pointerId, original: rows(), moved: false};
+      handle.setPointerCapture(event.pointerId);
+      handle.classList.add('contact-handle-active');
+      row.classList.add('contact-dragging');
+    });
+    body.addEventListener('pointermove', event => {
+      if (!active || event.pointerId !== active.pointerId) return;
+      const target = document.elementFromPoint(event.clientX, event.clientY)?.closest('tr[data-contact-id]');
+      if (!target || target === active.row || target.parentElement !== body) return;
+      const rect = target.getBoundingClientRect();
+      const middleY = rect.top + rect.height / 2;
+      const middleX = rect.left + rect.width / 2;
+      const before = body.id === 'contact-groups-sort'
+        ? (Math.abs(event.clientY - middleY) > rect.height * .3 ? event.clientY < middleY : event.clientX < middleX)
+        : event.clientY < middleY;
+      const sibling = before ? target : target.nextSibling;
+      if (sibling !== active.row) {
+        body.insertBefore(active.row, sibling);
+        active.moved = true;
+        renumber();
+        refreshArrows();
+      }
+    });
+    function finish(event, canceled) {
+      if (!active || event.pointerId !== active.pointerId) return;
+      const current = active;
+      active = null;
+      current.handle.classList.remove('contact-handle-active');
+      current.row.classList.remove('contact-dragging');
+      if (current.handle.hasPointerCapture(event.pointerId)) current.handle.releasePointerCapture(event.pointerId);
+      if (canceled) {
+        current.original.forEach(row => body.appendChild(row));
+        renumber();
+        refreshArrows();
+      } else if (current.moved && current.original.some((row, i) => rows()[i] !== row)) {
+        save(current.original);
+      }
+    }
+    body.addEventListener('pointerup', event => finish(event, false));
+    body.addEventListener('pointercancel', event => finish(event, true));
+    // Keyboard alternative: focus a handle and use Alt + Arrow keys.
+    body.addEventListener('keydown', event => {
+      const handle = event.target.closest('.contact-drag-handle');
+      if (!handle || saving || !event.altKey || !['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+      event.preventDefault();
+      const row = handle.closest('tr[data-contact-id]');
+      const original = rows();
+      const step = (event.key === 'ArrowUp' || event.key === 'ArrowLeft') ? -1 : 1;
+      const index = original.indexOf(row), next = original[index + step];
+      if (!next) return;
+      if (step < 0) body.insertBefore(row, next);
+      else body.insertBefore(next, row);
+      renumber();
+      refreshArrows();
+      handle.focus();
+      save(original);
+    });
+    renumber();
+    refreshArrows();
+  }
+})();
+</script><script>
+(function(){
+'use strict';
+const feedback=document.getElementById('website-order-feedback');
+const csrf=(document.cookie.split('; ').find(p=>p.startsWith('csrftoken='))||'').slice(10);
+const tabs=[...document.querySelectorAll('[data-group-tab]')];
+const panels=[...document.querySelectorAll('[data-group-panel]')];
+tabs.forEach(tab=>tab.addEventListener('click',()=>{tabs.forEach(t=>{const selected=t===tab;t.classList.toggle('is-active',selected);t.setAttribute('aria-selected',String(selected));});panels.forEach(p=>p.hidden=p.dataset.groupPanel!==tab.dataset.groupTab);feedback.textContent='';}));
+panels.forEach(panel=>{
+ const list=panel.querySelector('.website-order-list');
+ const rows=()=>[...list.querySelectorAll('.website-order-item')];
+ let busy=false,drag=null;
+ function update(){const all=rows();all.forEach((r,i)=>{r.querySelector('.website-order-position').textContent=String(i+1);r.querySelectorAll('.website-order-arrow').forEach(b=>b.disabled=busy||i+Number(b.dataset.step)<0||i+Number(b.dataset.step)>=all.length);});}
+ async function save(previous){busy=true;update();feedback.textContent='Reihenfolge wird gespeichert…';try{const response=await fetch(list.dataset.sortUrl,{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','X-CSRFToken':decodeURIComponent(csrf)},body:JSON.stringify({ids:rows().map(r=>Number(r.dataset.contactId))})});if(!response.ok)throw Error(String(response.status));feedback.textContent='Reihenfolge gespeichert.';}catch(e){previous.forEach(r=>list.appendChild(r));feedback.textContent='Speichern fehlgeschlagen. Bitte erneut versuchen.';}finally{busy=false;update();}}
+ function move(row,step){if(busy)return;const previous=rows(),i=previous.indexOf(row),target=previous[i+step];if(!target)return;if(step<0)list.insertBefore(row,target);else list.insertBefore(target,row);update();save(previous);}
+ list.addEventListener('click',e=>{const b=e.target.closest('.website-order-arrow');if(b)move(b.closest('.website-order-item'),Number(b.dataset.step));});
+ list.addEventListener('keydown',e=>{if(!e.altKey||!['ArrowUp','ArrowDown'].includes(e.key)||!e.target.closest('.website-order-handle'))return;e.preventDefault();move(e.target.closest('.website-order-item'),e.key==='ArrowUp'?-1:1);});
+ list.addEventListener('pointerdown',e=>{const handle=e.target.closest('.website-order-handle');if(!handle||busy||e.button!==0)return;e.preventDefault();drag={handle,row:handle.closest('.website-order-item'),id:e.pointerId,previous:rows()};handle.setPointerCapture(e.pointerId);drag.row.classList.add('is-dragging');});
+ list.addEventListener('pointermove',e=>{if(!drag||drag.id!==e.pointerId)return;const target=document.elementFromPoint(e.clientX,e.clientY)?.closest('.website-order-item');if(!target||target===drag.row||target.parentNode!==list)return;const rect=target.getBoundingClientRect();list.insertBefore(drag.row,e.clientY<rect.top+rect.height/2?target:target.nextSibling);update();});
+ function finish(e,cancel){if(!drag||drag.id!==e.pointerId)return;const d=drag;drag=null;d.row.classList.remove('is-dragging');if(d.handle.hasPointerCapture(e.pointerId))d.handle.releasePointerCapture(e.pointerId);if(cancel)d.previous.forEach(r=>list.appendChild(r));else if(d.previous.some((r,i)=>rows()[i]!==r))save(d.previous);update();}
+ list.addEventListener('pointerup',e=>finish(e,false));list.addEventListener('pointercancel',e=>finish(e,true));update();
+});
+})();
+</script>
+{% endblock %}

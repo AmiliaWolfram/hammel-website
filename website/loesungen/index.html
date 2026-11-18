@@ -202,15 +202,14 @@ main > section[style*="background"], .section.white {
 </div></section>
 <div class="wrap solutions-layout">
 <nav class="solutions-nav" aria-label="Einsatzbereiche auswählen" role="tablist">
-<button type="button" role="tab" aria-selected="true" aria-controls="solution-panel" data-solution="0">METALLRECYCLING</button>
-<button type="button" role="tab" aria-selected="false" aria-controls="solution-panel" data-solution="1">ALTHOLZ &amp; GRÜNABFÄLLE</button>
-<button type="button" role="tab" aria-selected="false" aria-controls="solution-panel" data-solution="2">GEWERBE-, INDUSTRIE- &amp; HAUSMÜLL</button>
-<button type="button" role="tab" aria-selected="false" aria-controls="solution-panel" data-solution="3">BAUSCHUTT</button>
-<button type="button" role="tab" aria-selected="false" aria-controls="solution-panel" data-solution="4">GUMMI-/KUNSTSTOFF &amp; KUNSTSTOFFABFÄLLE</button>
+<button type="button" role="tab" aria-selected="true" aria-controls="solution-panel" data-solution="0">ALTHOLZ &amp; GRÜNABFÄLLE</button>
+<button type="button" role="tab" aria-selected="false" aria-controls="solution-panel" data-solution="1">GEWERBE-, INDUSTRIE- &amp; HAUSMÜLL</button>
+<button type="button" role="tab" aria-selected="false" aria-controls="solution-panel" data-solution="2">METALLRECYCLING</button>
+<button type="button" role="tab" aria-selected="false" aria-controls="solution-panel" data-solution="3">SPEZIAL ANWENDUNG</button>
 </nav>
 <article class="solutions-feature" id="solution-panel" role="tabpanel" aria-live="polite">
-<img id="solution-image" src="../assets/video/materials/metall.jpg" alt="Metallaufbereitung mit Recyclingtechnik" loading="lazy">
-<div class="solutions-feature__body"><div class="solutions-feature__tag" id="solution-tag">EINSATZBEREICH</div><h3 id="solution-title">Metallrecycling</h3><p id="solution-description">Metallhaltige Materialien müssen vor der weiteren Sortierung und Verwertung häufig zerkleinert werden. HAMMEL-Technik kann die Aufbereitung von Mischschrott und weiteren Metallfraktionen unterstützen.</p><ul class="solutions-feature__chips" id="solution-chips"><li>Mischschrott</li><li>Metallschrott</li><li>Metallhaltige Mischfraktionen</li></ul>
+<img id="solution-image" src="../assets/video/materials/holz.jpg" alt="Holz und Grünabfälle" loading="lazy">
+<div class="solutions-feature__body"><div class="solutions-feature__tag" id="solution-tag">EINSATZBEREICH</div><h3 id="solution-title">Altholz &amp; Grünabfälle</h3><p id="solution-description">Metallhaltige Materialien müssen vor der weiteren Sortierung und Verwertung häufig zerkleinert werden. HAMMEL-Technik kann die Aufbereitung von Mischschrott und weiteren Metallfraktionen unterstützen.</p><ul class="solutions-feature__chips" id="solution-chips"><li>Mischschrott</li><li>Metallschrott</li><li>Metallhaltige Mischfraktionen</li></ul>
 <section class="solution-machines" aria-labelledby="solution-machines-heading">
 <h4 id="solution-machines-heading">PASSENDE HAMMEL MASCHINEN</h4>
 <div id="solution-machines-list" aria-live="polite"><p class="solution-machines__empty">Maschinendaten werden geladen …</p></div>
@@ -301,11 +300,10 @@ update(false);
 <script>
 (function(){
 const data=[
-{title:"Metallrecycling",image:"../assets/video/materials/metall.jpg",alt:"Metallaufbereitung",description:"Metallhaltige Materialien müssen vor der weiteren Sortierung und Verwertung häufig zerkleinert werden. HAMMEL-Technik kann die Aufbereitung von Mischschrott und weiteren Metallfraktionen unterstützen.",chips:["Mischschrott","Metallschrott","Metallhaltige Mischfraktionen"]},
 {title:"Altholz & Grünabfälle",image:"../assets/video/materials/holz.jpg",alt:"Holz und Grünabfälle",description:"Ob Paletten, Bau- und Abbruchholz oder Grünschnitt: Unterschiedliche Holz- und Grünfraktionen erfordern eine auf das Material abgestimmte Zerkleinerung als Vorbereitung für weitere Verarbeitungsschritte.",chips:["Altholz","Paletten","Baum- und Strauchschnitt","Grünschnitt"]},
 {title:"Gewerbe-, Industrie- & Hausmüll",image:"../assets/video/materials/abfall.jpg",alt:"Aufbereitung gemischter Abfälle",description:"Gemischte Abfallströme stellen besondere Anforderungen an robuste Technik. Die Vorzerkleinerung bereitet Materialien auf nachfolgende Trenn-, Sortier- und Verwertungsschritte vor.",chips:["Gewerbeabfälle","Industrieabfälle","Gemischte Siedlungsabfälle"]},
-{title:"Bauschutt",image:"../assets/video/materials/abfall.jpg",alt:"Materialaufbereitung im Baubereich",description:"Bei Bau- und Abbruchmaterialien kommt es auf die Zusammensetzung und die gewünschte Weiterverarbeitung an. Die geeignete Aufbereitung wird anhand der konkreten Materialfraktion geplant.",chips:["Bau- und Abbruchabfälle","Beton- und Ziegelbruch","Mineralische Materialien"]},
-{title:"Gummi- & Kunststoffabfälle",image:"../assets/video/materials/abfall.jpg",alt:"Aufbereitung von Kunststoffabfällen",description:"Gummi- und Kunststoffabfälle können sich in Form, Elastizität und Materialmischung stark unterscheiden. Die Zerkleinerung ist häufig ein wichtiger Vorbereitungsschritt für die weitere Verarbeitung.",chips:["Kunststoffabfälle","Gummiabfälle","Gemischte Kunststofffraktionen"]}
+{title:"Metallrecycling",image:"../assets/video/materials/metall.jpg",alt:"Metallaufbereitung",description:"Metallhaltige Materialien müssen vor der weiteren Sortierung und Verwertung häufig zerkleinert werden. HAMMEL-Technik kann die Aufbereitung von Mischschrott und weiteren Metallfraktionen unterstützen.",chips:["Mischschrott","Metallschrott","Metallhaltige Mischfraktionen"]},
+{title:"Spezial Anwendung",image:"../assets/video/materials/sonstiges.jpg",alt:"Weitere Recyclinganwendungen",description:"Weitere Materialien und spezielle Anwendungen, darunter Bau- und Abbruchmaterialien sowie Gummi- und Kunststoffabfälle.",chips:["Bau- und Abbruchabfälle","Beton- und Ziegelbruch","Kunststoffabfälle","Gummiabfälle"]}
 ];
 const tabs=[...document.querySelectorAll('[data-solution]')];
 function select(i){const d=data[i];tabs.forEach((b,j)=>{b.setAttribute('aria-selected',String(i===j));b.tabIndex=i===j?0:-1});document.getElementById('solution-image').src=d.image;document.getElementById('solution-image').alt=d.alt;document.getElementById('solution-title').textContent=d.title;document.getElementById('solution-description').textContent=d.description;document.getElementById('solution-chips').replaceChildren(...d.chips.map(x=>{const s=document.createElement('li');s.textContent=x;return s}));}
@@ -314,7 +312,7 @@ let machineAreas=[];let selectedSolution=0;
 const originalSelect=select;
 function areaMatch(area,index){
  const text=(area.title+' '+area.slug).toLocaleLowerCase('de');
- const patterns=[/schrott|metall/,/holz|grün|gruen/,/gewerbe|industrie|hausmüll|hausmuell|siedlung|abfall|müll|muell/,/bau|abbruch|beton|ziegel/,/gummi|kunststoff|reifen|plastik/];
+ const patterns=[/holz|grün|gruen/,/gewerbe|industrie|hausmüll|hausmuell|siedlung|abfall|müll|muell/,/schrott|metall/,/bau|abbruch|beton|ziegel|gummi|kunststoff|reifen|plastik|sonstig|spezial/];
  return patterns[index].test(text);
 }
 function renderMachines(index){

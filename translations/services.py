@@ -26,6 +26,10 @@ def translated(obj, field_name, language="de"):
     if obj._meta.app_label == "messen" and obj._meta.model_name in {"messe", "newsarticle"}:
         if not (getattr(obj, "language_visibility", None) or {}).get(language, False):
             return original
+    if obj._meta.app_label == "messen" and obj._meta.model_name == "machinevariant":
+        visibility = getattr(obj, "visible_languages", None)
+        if visibility is not None and language not in visibility:
+            return original
     entry = ContentTranslation.objects.filter(content_type=ContentType.objects.get_for_model(obj), object_id=obj.pk, field_name=field_name, language=language, status="published").first()
     return entry.text if entry and entry.source_hash == fingerprint(original) and entry.text.strip() else original
 

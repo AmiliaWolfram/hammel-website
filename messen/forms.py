@@ -43,7 +43,7 @@ class MachineProductForm(forms.ModelForm):
 class MachineVariantForm(forms.ModelForm):
     class Meta:
         model = MachineVariant
-        fields = ("product","name","version","description","operating_principle","engine","drive","weight","additional_specs","image","image_url","hero_media_choice","hero_video","hero_video_url","datasheet_url","technical_drawing","technical_drawing_url","position","published")
+        fields = ("product","name","version","description","operating_principle","engine","drive","weight","additional_specs","image","image_url","hero_media_choice","hero_video","hero_video_url","technical_drawing","technical_drawing_url","published")
         widgets = {key:forms.Textarea(attrs={"rows":4}) for key in ("description","operating_principle","additional_specs")}
 
 

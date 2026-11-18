@@ -140,7 +140,7 @@ body.machine-detail-page .mv-actions .mv-home-compare .cinematic-link__icon svg{
     </dl>
   </section>
   <div class="mv-actions">
-    {% if variant.datasheet_url %}<a class="mv-compare-button mv-secondary" href="{{ variant.datasheet_url }}" target="_blank" rel="noopener">DATENBLATT</a>{% elif product.datasheet_url %}<a class="mv-compare-button mv-secondary" href="{{ product.datasheet_url }}" target="_blank" rel="noopener">DATENBLATT</a>{% endif %}
+    {% if product.datasheet_url %}<a class="mv-compare-button mv-secondary" href="{{ product.datasheet_url }}" target="_blank" rel="noopener">DATENBLATT</a>{% endif %}
     {% if variant.technical_drawing %}<a class="mv-compare-button mv-secondary" href="{{ variant.technical_drawing.url }}" target="_blank" rel="noopener">TECHNISCHE ZEICHNUNG</a>{% elif variant.technical_drawing_url %}<a class="mv-compare-button mv-secondary" href="{{ variant.technical_drawing_url }}" target="_blank" rel="noopener">TECHNISCHE ZEICHNUNG</a>{% endif %}
     <a class="cinematic-link mv-home-compare" href="{% url 'machine_series_compare' product.pk %}"><span class="cinematic-link__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 19 19 5M8 5h11v11"></path></svg></span><span class="cinematic-link__label" style="color:#ffffff!important;-webkit-text-fill-color:#ffffff!important;opacity:1!important">MODELLE DER {{ product.model_name }} SERIE VERGLEICHEN</span></a>
   </div>

@@ -138,7 +138,7 @@ function init(){
   const box=document.createElement('div');box.className='vp-upload';
   const current=document.createElement('div');current.className='vp-upload__current';
   const preview=document.createElement(isImage?'img':'div');preview.className='vp-upload__preview'+(isImage?'':' vp-upload__placeholder');
-  if(!isImage)preview.textContent='▣';else{preview.alt='Bildvorschau';preview.style.display='none';}
+  if(!isImage && /^\/staff\/maschinen\/varianten\//.test(location.pathname)){preview.style.display='none';}else if(!isImage){preview.textContent='▣';}else{preview.alt='Bildvorschau';preview.style.display='none';}
   const info=document.createElement('div');info.className='vp-upload__info';
   const title=document.createElement('strong');title.className='vp-upload__title';
   const filename=document.createElement('span');filename.className='vp-upload__filename';

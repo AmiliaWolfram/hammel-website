@@ -202,12 +202,11 @@ def machine_series_compare(request, pk):
         v._comparison_specs = parsed
     for key in specs:
         add(key.upper(), [v._comparison_specs.get(key, "") for v in variants])
-    add("DATENBLATT", [v.datasheet_url for v in variants])
     add("TECHNISCHE ZEICHNUNG", [v.technical_drawing.url if v.technical_drawing else v.technical_drawing_url for v in variants])
     from .models import MachineField, MachineFieldValue
     from .staff_views import machine_field_visibility
     definitions={f.key:f for f in MachineField.objects.filter(archived=False)}
-    standard_labels={"version":"AUSFÜHRUNG","engine":"MOTOR","drive":"ANTRIEB / LEISTUNG","weight":"GEWICHT","operating_principle":"FUNKTIONSprinzip".upper(),"description":"BESCHREIBUNG","datasheet_url":"DATENBLATT","technical_drawing":"TECHNISCHE ZEICHNUNG"}
+    standard_labels={"version":"AUSFÜHRUNG","engine":"MOTOR","drive":"ANTRIEB / LEISTUNG","weight":"GEWICHT","operating_principle":"FUNKTIONSprinzip".upper(),"description":"BESCHREIBUNG","technical_drawing":"TECHNISCHE ZEICHNUNG"}
     reverse_labels={v:k for k,v in standard_labels.items()}
     filtered=[]
     for row in rows:

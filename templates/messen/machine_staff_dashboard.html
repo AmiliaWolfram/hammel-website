@@ -1,24 +1,103 @@
 {% extends "messen/base.html" %}
 {% block title %}Maschinenverwaltung{% endblock %}
 {% block content %}
-<div class="eyebrow">HAMMEL / VERTRIEB</div>
+<div class="eyebrow">HAMMEL</div>
 <h1>MASCHINEN<span class="red">VERWALTUNG</span></h1>
-<p class="subtitle">Baureihen und einzelne Maschinenvarianten zentral bearbeiten.</p>
 <div class="machine-staff-actions">
 {% if can_add_product %}<a href="{% url 'staff_machine_product_create' %}">+ NEUE BAUREIHE</a>{% endif %}
 {% if can_add_variant %}<a href="{% url 'staff_machine_variant_create' %}">+ NEUE VARIANTE</a>{% endif %}
-<a href="{% url 'staff_home' %}">← VERTRIEBSPORTAL</a>
+<a href="{% url 'showcase_dashboard' %}">STARTSEITEN-SHOWCASE</a>
 </div>
-<p><a href="{% url 'showcase_dashboard' %}" style="display:inline-block;background:#e30613;color:white;padding:18px 24px;text-decoration:none;font-weight:800">STARTSEITEN-SHOWCASE VERWALTEN</a></p>
-<h2>BAUREIHEN</h2><p class="subtitle">Allgemeine Informationen zur Serie. Technische Daten und Einsatzmaterialien bearbeiten Sie unter Modellvarianten.</p>
-<div class="machine-staff-list">
-{% for p in products %}<div class="machine-staff-item"><div><strong>{{ p.model_name }}</strong><small>{{ p.get_category_display }} / {% if p.published %}Veröffentlicht{% else %}Entwurf{% endif %} / {{ p.variants.count }} Varianten</small></div>{% if perms.messen.change_machineproduct %}<a href="{% url 'staff_machine_product_edit' p.pk %}">BEARBEITEN</a>{% endif %}</div>{% empty %}<p>Noch keine Baureihen angelegt.</p>{% endfor %}
+<div class="machine-catalog" id="machine-catalog">
+  <div class="machine-catalog-toolbar">
+    <label class="machine-catalog-search-label" for="machine-catalog-search">SUCHE</label>
+    <input id="machine-catalog-search" type="search" placeholder="Baureihe oder Variante suchen…" autocomplete="off">
+    <div class="machine-catalog-filters" role="group" aria-label="Status filtern">
+      <button type="button" class="is-active" data-filter="all" aria-pressed="true">ALLE</button>
+      <button type="button" data-filter="online" aria-pressed="false">ONLINE</button>
+      <button type="button" data-filter="draft" aria-pressed="false">ENTWURF</button>
+    </div>
+  </div>
+  <div class="machine-catalog-summary" aria-live="polite"><span id="machine-catalog-count"></span></div>
+  <div class="machine-catalog-items">
+    {% regroup products|dictsort:"category" by category as category_groups %}
+    {% for category_group in category_groups %}
+    <section class="machine-catalog-category" aria-label="{{ category_group.list.0.get_category_display }}">
+      <div class="machine-catalog-category-heading"><h2>{{ category_group.list.0.get_category_display }}</h2><span class="machine-catalog-category-count">{{ category_group.list|length }} Baureihen</span></div>
+      <div class="machine-catalog-category-grid">
+    {% for p in category_group.list %}
+    <details class="machine-catalog-card" data-status="{% if p.published %}online{% else %}draft{% endif %}" data-name="{{ p.model_name|lower }} {{ p.get_category_display|lower }}">
+      <summary class="machine-catalog-heading">
+        
+        <span class="machine-catalog-heading-text"><strong>{{ p.model_name }}</strong><small>{{ p.variants.count }} Varianten</small></span>
+        <span class="machine-catalog-status {% if p.published %}is-online{% endif %}">{% if p.published %}ONLINE{% else %}ENTWURF{% endif %}</span>
+        <span class="machine-catalog-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="machine-catalog-content">
+        <div class="machine-catalog-product-actions">
+          {% if perms.messen.change_machineproduct %}<a href="{% url 'staff_machine_product_edit' p.pk %}">BAUREIHE BEARBEITEN</a>{% endif %}
+        </div>
+        <div class="machine-catalog-variant-title">MODELLVARIANTEN</div>
+        <div class="machine-catalog-variants">
+          {% for v in p.variants.all %}
+          <div class="machine-catalog-variant" data-variant-name="{{ v.name|lower }}" data-variant-status="{% if v.published %}online{% else %}draft{% endif %}">
+            <span class="machine-catalog-variant-name">{{ v.name }}</span>
+            <span class="machine-catalog-status {% if v.published %}is-online{% endif %}">{% if v.published %}ONLINE{% else %}ENTWURF{% endif %}</span>
+            {% if perms.messen.change_machinevariant %}<a href="{% url 'staff_machine_variant_edit' v.pk %}">BEARBEITEN</a>{% endif %}
+            {% if can_add_variant %}<form class="machine-catalog-copy-form" method="post" action="{% url 'staff_machine_variant_copy' v.pk %}" onsubmit="return confirm('Neue, unveröffentlichte Kopie von {{ v.name|escapejs }} erstellen?');">{% csrf_token %}<button type="submit">KOPIEREN</button></form>{% endif %}
+          </div>
+          {% empty %}<p class="machine-catalog-empty-variants">Noch keine Varianten angelegt.</p>{% endfor %}
+        </div>
+      </div>
+    </details>
+    {% endfor %}
+      </div>
+    </section>
+    {% empty %}<p>Noch keine Baureihen angelegt.</p>{% endfor %}
+    <p id="machine-catalog-no-results" hidden>Keine passenden Maschinen gefunden.</p>
+  </div>
 </div>
-<h2>MODELLVARIANTEN</h2>
-<div class="machine-staff-list">
-{% for v in variants %}<div class="machine-staff-item"><div><strong>{{ v.name }}</strong><small>{{ v.product.model_name }} / {% if v.published %}Veröffentlicht{% else %}Entwurf{% endif %}</small></div>{% if perms.messen.change_machinevariant %}<a href="{% url 'staff_machine_variant_edit' v.pk %}">BEARBEITEN</a>{% endif %}</div>{% empty %}<p>Noch keine Varianten angelegt.</p>{% endfor %}
-</div>
+<div class="machine-staff-bottom-navigation"><a href="{% url 'staff_home' %}">VERTRIEBSPORTAL</a></div>
 <style>
-.machine-staff-actions{display:flex;flex-wrap:wrap;gap:12px;margin:32px 0 45px}.machine-staff-actions a{padding:14px 18px;border:1px solid #242424;text-decoration:none;color:#181818;font-weight:800}.machine-staff-actions a:hover{background:#181818;color:#fff}.machine-staff-list{margin:20px 0 50px}.machine-staff-item{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:20px 0;border-bottom:1px solid #d6d6d6}.machine-staff-item strong{display:block;font-size:23px}.machine-staff-item small{display:block;margin-top:6px;color:#666}.machine-staff-item a{font-weight:800;color:#e30613;text-decoration:none}@media(max-width:600px){.machine-staff-item{align-items:flex-start;flex-direction:column}}
+.machine-staff-actions{display:flex;flex-wrap:wrap;gap:10px;margin:28px 0 32px}.machine-staff-actions a{display:inline-flex;align-items:center;padding:13px 17px;border:1px solid #242424;text-decoration:none;color:#181818;font-weight:800;font-size:13px;transition:background .2s,color .2s}.machine-staff-actions a:hover{background:#181818;color:#fff}
+.machine-catalog-category{margin:0 0 28px}.machine-catalog-category-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 12px;padding-bottom:10px;border-bottom:1px solid #dedede}.machine-catalog-category-heading h2{font-size:19px;font-weight:900;margin:0;text-transform:uppercase}.machine-catalog-category-count{font-size:12px;color:#777;white-space:nowrap}.machine-catalog-category-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}.machine-catalog-category-grid .machine-catalog-copy-form{display:inline-flex;margin:0;flex:0 0 auto}.machine-catalog-copy-form button{border:1px solid #222;background:#fff;color:#222;padding:9px 12px;font:inherit;font-size:12px;font-weight:800;cursor:pointer;transition:background .2s,color .2s}.machine-catalog-copy-form button:hover,.machine-catalog-copy-form button:focus-visible{background:#222;color:#fff}.machine-catalog-variant{flex-wrap:wrap;gap:10px}
+.machine-catalog-card{margin-bottom:0;min-width:0}.machine-catalog-category[hidden]{display:none!important}.machine-staff-bottom-navigation{display:flex;justify-content:flex-end;margin:35px 0 12px}.machine-staff-bottom-navigation a{display:inline-flex;align-items:center;padding:13px 17px;border:1px solid #242424;text-decoration:none;color:#181818;font-size:13px;font-weight:800;transition:background .2s,color .2s}.machine-staff-bottom-navigation a:hover{background:#181818;color:#fff}@media(max-width:850px){.machine-catalog-category-grid{grid-template-columns:1fr}}.machine-catalog{max-width:100%}.machine-catalog-toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin:0 0 12px}.machine-catalog-search-label{font-weight:800;font-size:12px;letter-spacing:.06em}.machine-catalog-toolbar input{flex:1 1 270px;min-width:180px;padding:13px 15px;border:1px solid #bbb;background:#fff;color:#181818;font:inherit}.machine-catalog-toolbar input:focus-visible{outline:2px solid #e30613;outline-offset:2px}.machine-catalog-filters{display:flex;gap:5px;flex-wrap:wrap}.machine-catalog-filters button{padding:12px 14px;border:1px solid #ddd;background:#fff;color:#222;font-weight:800;font-size:12px;cursor:pointer}.machine-catalog-filters button.is-active{background:#242424;color:#fff;border-color:#242424}.machine-catalog-summary{color:#666;font-size:13px;margin-bottom:14px}
+.machine-catalog-card{border:1px solid #dedede;background:#fff;margin-bottom:12px}.machine-catalog-heading{display:flex;align-items:center;gap:16px;padding:20px 22px;cursor:pointer;list-style:none}.machine-catalog-heading::-webkit-details-marker{display:none}.machine-catalog-heading:hover{background:#f8f8f8}.machine-catalog-heading:focus-visible{outline:2px solid #e30613;outline-offset:-3px}.machine-catalog-heading-text{display:flex;flex:1;min-width:0;flex-direction:column;gap:5px}.machine-catalog-heading-text strong{font-size:21px}.machine-catalog-heading-text small{font-size:13px;color:#777}.machine-catalog-status{display:inline-block;white-space:nowrap;padding:6px 10px;background:#f1f1f1;color:#555;font-weight:800;font-size:11px;letter-spacing:.03em}.machine-catalog-status.is-online{background:#e9f6ef;color:#168247}.machine-catalog-chevron{height:10px;width:10px;border-right:2px solid #e30613;border-bottom:1px solid #dedede;transform:rotate(45deg);margin:0 5px 5px 9px}.machine-catalog-card[open] .machine-catalog-chevron{transform:rotate(225deg);margin-top:8px;margin-bottom:0}.machine-catalog-content{border-top:1px solid #eee;padding:17px 22px 22px}.machine-catalog-product-actions{display:flex;justify-content:flex-end;margin-bottom:12px}.machine-catalog-product-actions a,.machine-catalog-variant a{color:#b9000c;font-size:12px;font-weight:800;text-decoration:none}.machine-catalog-product-actions a:hover,.machine-catalog-variant a:hover{text-decoration:underline}.machine-catalog-variant-title{font-weight:800;color:#777;font-size:12px;letter-spacing:.06em;margin-bottom:9px}.machine-catalog-variant{display:flex;align-items:center;gap:15px;padding:13px 0;border-top:1px solid #eee}.machine-catalog-variant-name{flex:1;font-weight:700;min-width:0}.machine-catalog-empty-variants{color:#777}.machine-catalog-card[hidden],.machine-catalog-variant[hidden],#machine-catalog-no-results[hidden]{display:none!important}#machine-catalog-no-results{padding:24px;background:#f6f6f6;color:#666}
+@media(max-width:650px){.machine-catalog-heading{padding:15px 12px;gap:9px}.machine-catalog-heading-text strong{font-size:17px}.machine-catalog-content{padding:14px}.machine-catalog-variant{flex-wrap:wrap}.machine-catalog-variant-name{flex-basis:100%}.machine-catalog-toolbar input{flex-basis:100%}}
 </style>
+<script>
+(function(){
+  const root=document.getElementById('machine-catalog');if(!root)return;
+  const search=root.querySelector('#machine-catalog-search');
+  const buttons=Array.from(root.querySelectorAll('[data-filter]'));
+  const cards=Array.from(root.querySelectorAll('.machine-catalog-card'));
+  const counter=root.querySelector('#machine-catalog-count');
+  const empty=root.querySelector('#machine-catalog-no-results');
+  let filter='all';
+  function update(){
+    const term=search.value.trim().toLocaleLowerCase();let shown=0;
+    cards.forEach(card=>{
+      const variants=Array.from(card.querySelectorAll('[data-variant-name]'));
+      const matchesSeries=card.dataset.name.includes(term);
+      const matchesVariant=variants.some(v=>v.dataset.variantName.includes(term));
+      const matchesText=!term||matchesSeries||matchesVariant;
+      const matchesStatus=filter==='all'||card.dataset.status===filter||variants.some(v=>v.dataset.variantStatus===filter);
+      const visible=matchesText&&matchesStatus;
+      card.hidden=!visible;
+      if(visible){shown++;if(term&&matchesVariant&&!matchesSeries)card.open=true;}
+      variants.forEach(v=>{v.hidden=Boolean(term&&!matchesSeries&&!v.dataset.variantName.includes(term));});
+    });
+    root.querySelectorAll('.machine-catalog-category').forEach(section=>{
+      const visible=Array.from(section.querySelectorAll('.machine-catalog-card')).filter(card=>!card.hidden).length;
+      section.hidden=visible===0;
+      const count=section.querySelector('.machine-catalog-category-count');
+      if(count)count.textContent=visible+' Baureihen';
+    });
+    counter.textContent=shown+' von '+cards.length+' Baureihen';empty.hidden=shown!==0;
+  }
+  search.addEventListener('input',update);
+  buttons.forEach(button=>button.addEventListener('click',()=>{filter=button.dataset.filter;buttons.forEach(b=>{const active=b===button;b.classList.toggle('is-active',active);b.setAttribute('aria-pressed',String(active));});update();}));
+  update();
+})();
+</script>
 {% endblock %}

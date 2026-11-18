@@ -1,8 +1,13 @@
 """Staff views for managing contact groups and contact people."""
 
+import json
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.db import transaction
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import ContactGroupForm, ContactPersonForm
@@ -38,6 +43,7 @@ def dashboard(request):
     context = {
         "people": ContactPerson.objects.select_related("group").all(),
         "groups": ContactGroup.objects.all(),
+        "website_groups": ContactGroup.objects.prefetch_related("people").all(),
     }
     return render(request, "contacts/dashboard.html", context)
 
@@ -85,3 +91,56 @@ def delete(request, kind, pk):
         return redirect("contacts_dashboard")
 
     return render(request, "contacts/delete.html", {"item": instance})
+
+
+@login_required(login_url="messen_login")
+@require_POST
+def reorder(request, kind):
+    """Persist an exact drag-and-drop order without changing other contact data."""
+    model, _ = require_model_permission(request, kind, "change")
+    try:
+        payload = json.loads(request.body)
+        ids = payload["ids"]
+        if (
+            not isinstance(ids, list)
+            or any(type(pk) is not int or pk <= 0 for pk in ids)
+            or len(ids) != len(set(ids))
+        ):
+            raise ValueError
+    except (ValueError, TypeError, KeyError, json.JSONDecodeError):
+        return JsonResponse({"error": "Ungültige Reihenfolge."}, status=400)
+
+    with transaction.atomic():
+        existing = list(model.objects.select_for_update().values_list("pk", flat=True))
+        if len(ids) != len(existing) or set(ids) != set(existing):
+            return JsonResponse(
+                {"error": "Liste wurde geändert. Bitte neu laden."}, status=409
+            )
+        model.objects.bulk_update(
+            [model(pk=pk, sort_order=position) for position, pk in enumerate(ids, 1)],
+            ["sort_order"],
+        )
+    return JsonResponse({"ok": True})
+
+
+@login_required(login_url="messen_login")
+@require_POST
+def reorder_group_people(request, group_id):
+    """Order contacts inside one group only, preserving every other group."""
+    require_model_permission(request, "person", "change")
+    group = get_object_or_404(ContactGroup, pk=group_id)
+    try:
+        ids = json.loads(request.body)["ids"]
+        if not isinstance(ids, list) or any(type(pk) is not int or pk <= 0 for pk in ids) or len(ids) != len(set(ids)):
+            raise ValueError
+    except (ValueError, TypeError, KeyError, json.JSONDecodeError):
+        return JsonResponse({"error": "Ungültige Reihenfolge."}, status=400)
+    with transaction.atomic():
+        existing = set(ContactPerson.objects.select_for_update().filter(group=group).values_list("pk", flat=True))
+        if set(ids) != existing or len(ids) != len(existing):
+            return JsonResponse({"error": "Liste wurde geändert. Bitte neu laden."}, status=409)
+        ContactPerson.objects.bulk_update(
+            [ContactPerson(pk=pk, sort_order=i) for i, pk in enumerate(ids, 1)],
+            ["sort_order"],
+        )
+    return JsonResponse({"ok": True})
