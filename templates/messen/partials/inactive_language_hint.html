@@ -1,0 +1,1 @@
+{% if inactive_languages %}<div class="vertrieb-inactive-hint" role="note"><strong>Hinweis:</strong> Inaktive Sprachen: {% for name in inactive_languages %}{{ name }}{% if not forloop.last %}, {% endif %}{% endfor %}. <a href="?{{ toggle_query }}">{% if show_inactive %}Ausblenden{% else %}Zur Bearbeitung anzeigen{% endif %}</a></div>{% endif %}

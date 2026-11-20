@@ -16,7 +16,14 @@
 .top-actions a:hover{color:#f2b705!important}
 .top-actions a.is-active,.top-actions a[aria-current="page"]{color:#f2b705!important;background:transparent!important;text-shadow:0 0 12px rgba(242,183,5,.28);text-decoration:none!important}
 .top-actions a.is-active::after,.top-actions a[aria-current="page"]::after{content:none!important;display:none!important}
-</style><style id="hammel-stats-border-fix">.stats>div,.stats>article,.stats>.stat,.stats>.stat-card,.stat-card,.stat-box,.stats-card,.dashboard-stat{border-top:1px solid #e6e6e6!important;box-shadow:none!important;background-image:none!important}.stats>div::before,.stat-card::before,.stat-box::before,.stats-card::before{display:none!important}</style></head><body>
+</style><style id="hammel-stats-border-fix">.stats>div,.stats>article,.stats>.stat,.stats>.stat-card,.stat-card,.stat-box,.stats-card,.dashboard-stat{border-top:1px solid #e6e6e6!important;box-shadow:none!important;background-image:none!important}.stats>div::before,.stat-card::before,.stat-box::before,.stats-card::before{display:none!important}</style>
+<style>
+.vertrieb-inactive-hint{font-size:12px;line-height:1.6;color:#666;margin:8px 0 19px;padding:0;background:transparent;border:0;display:block}
+.vertrieb-inactive-hint strong{color:#171717;font-weight:700}
+.vertrieb-inactive-hint a{color:#171717!important;text-decoration:none!important;font-weight:700;border-bottom:2px solid #efc400;padding-bottom:2px}
+.vertrieb-inactive-hint a:hover{color:#e30613!important;border-bottom-color:#e30613}
+</style>
+</head><body>
 <header class="top"><div class="top-inner"><a class="brand" href="{% url 'staff_home' %}" aria-label="HAMMEL Messenverwaltung"><img class="vertrieb-brand-logo" src="/assets/img/hammel-logo-dark.svg" alt="HAMMEL Recyclingtechnik"></a><nav class="top-actions" aria-label="Vertriebsportal Navigation">{% if perms.messen.view_messe %}<a href="{% url 'messen_dashboard' %}" {% if request.path|slice:':14' == '/staff/messen/' %}class="is-active" aria-current="page"{% endif %}>Messen</a>{% endif %}{% if perms.messen.view_newsarticle %}<a href="{% url 'news_dashboard' %}" {% if request.path|slice:':12' == '/staff/news/' %}class="is-active" aria-current="page"{% endif %}>News & Stories</a>{% endif %}{% if perms.contacts.view_contactperson or perms.contacts.view_contactgroup %}<a href="{% url 'contacts_dashboard' %}" {% if request.path|slice:':16' == '/staff/kontakte/' %}class="is-active" aria-current="page"{% endif %}>Kontakte</a>{% endif %}{% if perms.messen.view_machineproduct or perms.messen.view_machinevariant %}<a href="{% url 'staff_machine_dashboard' %}" {% if request.path|slice:':17' == '/staff/maschinen/' and request.path|slice:':23' != '/staff/maschinen/felder/' %}class="is-active" aria-current="page"{% endif %}>Maschinen</a>{% endif %}{% if perms.messen.view_usedmachine %}<a href="{% url 'used_dashboard' %}" {% if request.path|slice:':26' == '/staff/gebrauchtmaschinen/' %}class="is-active" aria-current="page"{% endif %}>Gebrauchtmaschinen</a>{% endif %}{% if perms.messen.change_machinevariant %}<a href="{% url 'staff_machine_fields_manage' %}" {% if request.path|slice:':24' == '/staff/maschinen/felder/' %}class="is-active" aria-current="page"{% endif %}>Feldverwaltung</a>{% endif %}<a href="{% url 'translation_catalog' 'vertrieb' %}">Sprachversionen</a>{% if user.is_superuser %}<a href="{% url 'site_language_settings' %}">Spracheinstellungen</a>{% endif %}<a href="/aktuelles/index.html" target="_blank" rel="noopener">Öffentliche Seite</a></nav><div class="vertrieb-account"><div class="vertrieb-account-grid"><div class="vertrieb-account-part"><div class="vertrieb-account-heading vertrieb-account-heading-yellow">VERTRIEBS</div>{% if user.is_authenticated %}<div class="vertrieb-account-user"><span class="vertrieb-account-dot"></span>{{ user.get_full_name|default:user.username }}</div>{% endif %}</div><div class="vertrieb-account-part"><div class="vertrieb-account-heading vertrieb-account-heading-white">PORTAL</div>{% if user.is_authenticated %}<form method="post" action="{% url 'messen_logout' %}">{% csrf_token %}<button type="submit" class="vertrieb-logout">Abmelden</button></form>{% endif %}</div></div></div></header>
 <main class="main">{% if messages %}<div class="messages" role="status">{% for message in messages %}<div class="message">{{ message }}</div>{% endfor %}</div>{% endif %}{% block content %}{% endblock %}</main><footer class="footer"><span>HAMMEL RECYCLINGTECHNIK</span><span>INTERNES VERTRIEBSPORTAL / NUR FÜR BERECHTIGTE MITARBEITENDE</span></footer><style>
 .vp-help-button{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;margin-left:9px;border:1px solid #bdbdbd;border-radius:50%;background:#fff;color:#666;font:700 13px Arial,sans-serif;vertical-align:middle;cursor:pointer;transition:background .18s,color .18s,border-color .18s}
@@ -174,5 +181,19 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 .vp-help-button,.vp-help-panel,.custom-help-button,.fv-help-button,.machine-field-help,[data-field-help],button[aria-label^="Hilfe zu"]{display:none!important}
 </style>
 <script>document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.vp-help-button,.vp-help-panel,.custom-help-button,.fv-help-button,.machine-field-help,[data-field-help],button[aria-label^="Hilfe zu"]').forEach(function(el){el.remove()})});</script>
+
+<script>
+/* Keep the temporary edit visibility while switching between editor tabs. */
+(function(){
+  if(new URLSearchParams(location.search).get('show_inactive')!=='1')return;
+  document.querySelectorAll('a[href]').forEach(function(a){
+    if(a.closest('.vertrieb-inactive-hint'))return;
+    try{var u=new URL(a.href,location.href);
+      if(u.origin!==location.origin || !u.pathname.startsWith('/staff/'))return;
+      if(u.searchParams.get('show_inactive')!=='1'){u.searchParams.set('show_inactive','1');a.href=u.pathname+u.search+u.hash;}
+    }catch(e){}
+  });
+})();
+</script>
 </body></html>
 <style>main form label:has(> .vp-help-button){display:inline-flex!important;align-items:center!important;gap:9px!important;flex-wrap:nowrap!important;width:auto!important;max-width:100%!important}main form label>.vp-help-button{display:inline-flex!important;flex:0 0 24px!important;margin:0!important;vertical-align:middle!important}.vp-help-panel{max-width:100%;box-sizing:border-box}</style>

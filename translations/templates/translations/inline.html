@@ -1,20 +1,31 @@
 {% if inline %}
-<section class="hml-i18n" data-hml-i18n>
+<section class="hml-i18n{% if contact_mode %} hml-i18n-contact{% endif %}" data-hml-i18n {% if contact_mode %}data-contact-all-languages="1"{% endif %}>
   <div class="hml-i18n-top"><strong>SPRACHVERSIONEN</strong><a href="{% url 'translation_catalog' portal %}" style="color:#e30613;text-decoration:none;font-weight:800;font-size:12px">ÜBERSETZUNGSÜBERSICHT</a></div>
+  {% if contact_mode %}
+  <p class="hml-i18n-help">Deutsch ist der Originaltext. Alle aktiven Übersetzungen können unten gleichzeitig bearbeitet werden.</p>
+  {% if inactive_languages %}
+  <p class="hml-i18n-inactive"><strong>Hinweis:</strong> Inaktive Sprachen: {% for code,label in inactive_languages %}{{ label }}{% if not forloop.last %}, {% endif %}{% endfor %}.
+    <a href="?show_inactive={% if show_inactive %}0{% else %}1{% endif %}" data-contact-inactive-toggle aria-expanded="{% if show_inactive %}true{% else %}false{% endif %}">{% if show_inactive %}Ausblenden{% else %}Zur Bearbeitung anzeigen{% endif %}</a>
+  </p>{% endif %}
+  <div class="hml-i18n-contact-languages" data-contact-languages>
+    {% for code,label in active_languages %}<div data-contact-language="{{ code }}" data-label="{{ label }}"></div>{% endfor %}
+    {% for code,label in inactive_languages %}<div data-contact-language="{{ code }}" data-label="{{ label }}" data-contact-inactive="1" {% if not show_inactive %}hidden{% endif %}></div>{% endfor %}
+  </div>
+  {% else %}
   <div class="hml-i18n-tabs" role="tablist" aria-label="Sprache wählen">
     <button type="button" data-hml-lang="de" class="active">DE <small>Original</small></button>
-    <button type="button" data-hml-lang="en">EN <small data-count="en"></small></button>
-    <button type="button" data-hml-lang="fr">FR <small data-count="fr"></small></button>
-    <button type="button" data-hml-lang="es">ES <small data-count="es"></small></button>
-    <button type="button" data-hml-lang="it">IT <small data-count="it"></small></button>
+    {% for code,label in active_languages %}<button type="button" data-hml-lang="{{ code }}">{{ code|upper }} <small data-count="{{ code }}"></small></button>{% endfor %}
+    {% if machine_product_mode %}{% for code,label in inactive_languages %}<button type="button" data-hml-lang="{{ code }}" data-inactive-language hidden>{{ code|upper }} <small data-count="{{ code }}"></small></button>{% endfor %}{% endif %}
   </div>
-  <p class="hml-i18n-help" data-hml-help>Deutsch ist der Originaltext. Die Felder unten bearbeiten den deutschen Inhalt.</p>
-  <div class="hml-i18n-fields" data-hml-fields hidden></div>
+  {% endif %}
+  {% if machine_product_mode and inactive_languages %}<p class="hml-i18n-inactive" style="font-size:13px;margin:14px 0"><strong>Hinweis:</strong> Inaktive Sprachen: {% for code,label in inactive_languages %}{{ label }}{% if not forloop.last %}, {% endif %}{% endfor %}. <button type="button" data-machine-inactive-toggle aria-expanded="false" style="border:0;background:none;padding:0;cursor:pointer;font:inherit;font-weight:700;text-decoration:underline;text-decoration-color:#f5bd00;text-underline-offset:3px">Zur Bearbeitung anzeigen</button></p>{% endif %}
+  {% if not contact_mode %}<p class="hml-i18n-help" data-hml-help>Deutsch ist der Originaltext. Die Felder unten bearbeiten den deutschen Inhalt.</p>{% endif %}
+  {% if not contact_mode %}<div class="hml-i18n-fields" data-hml-fields hidden></div>{% endif %}
   <input type="hidden" name="inline_translations" data-hml-output>
 </section>
 {{ inline|json_script:"hml-inline-data" }}
 <link rel="stylesheet" href="/assets/css/hml-inline-translations.css">
-<script defer src="/assets/js/hml-inline-translations.js"></script>
+{% if contact_mode %}<script defer src="/assets/js/hml-inline-contact-one-status-v5.js"></script>{% else %}<script defer src="/assets/js/hml-inline-translations-baureihe-v3.js"></script>{% endif %}
 {% endif %}
 
 <link rel="stylesheet" href="/assets/css/hml-dropdown.css?v=2">

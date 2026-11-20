@@ -112,13 +112,15 @@
 <nav class="used-machine-languages" aria-label="Sprachversionen">
 <a href="{% if editing %}{% url 'used_edit' item.pk %}{% else %}{% url 'used_create' %}{% endif %}" class="{% if tab == 'de' %}active{% endif %}">DE<small>Original</small></a>
 {% if editing %}
-{% if "en"|language_visible %}<a href="{% url 'used_edit' item.pk %}?tab=translations#used-language-en" class="{% if tab == 'translations' %}active{% endif %}">EN<small>English</small></a>{% endif %}
-{% if "fr"|language_visible %}<a href="{% url 'used_edit' item.pk %}?tab=translations#used-language-fr">FR<small>Français</small></a>{% endif %}
-{% if "es"|language_visible %}<a href="{% url 'used_edit' item.pk %}?tab=translations#used-language-es">ES<small>Español</small></a>{% endif %}
-{% if "it"|language_visible %}<a href="{% url 'used_edit' item.pk %}?tab=translations#used-language-it">IT<small>Italiano</small></a>{% endif %}
+{% if "en"|language_visible or request.GET.show_inactive == "1" %}<a href="{% url 'used_edit' item.pk %}?tab=translations#used-language-en" class="{% if tab == 'translations' %}active{% endif %}">EN<small>English</small></a>{% endif %}
+{% if "fr"|language_visible or request.GET.show_inactive == "1" %}<a href="{% url 'used_edit' item.pk %}?tab=translations#used-language-fr">FR<small>Français</small></a>{% endif %}
+{% if "es"|language_visible or request.GET.show_inactive == "1" %}<a href="{% url 'used_edit' item.pk %}?tab=translations#used-language-es">ES<small>Español</small></a>{% endif %}
+{% if "it"|language_visible or request.GET.show_inactive == "1" %}<a href="{% url 'used_edit' item.pk %}?tab=translations#used-language-it">IT<small>Italiano</small></a>{% endif %}
 <a href="{% url 'used_edit' item.pk %}?tab=review" class="{% if tab == 'review' %}active{% endif %}">PRÜFUNG<small>Veröffentlichung</small></a>
 {% endif %}
 </nav>
+{% vertrieb_inactive_hint %}
+
 {% if tab == 'de' %}
 <div class="used-machine-workspace">
 <aside class="used-machine-sidebar"><div class="used-machine-sidebar-heading">BEREICHE</div>
@@ -199,7 +201,7 @@
 <div class="used-review-language"><strong>{{ state.label }}</strong><span class="used-pill {{ state.state }}">{% if state.state == 'ready' %}FERTIG{% elif state.state == 'review' %}PRÜFEN{% elif state.state == 'stale' %}VERALTET{% else %}FEHLEN{% endif %}</span></div>
 {% endfor %}
 </div>
-{% if "en"|language_visible %}<a class="used-btn black full" href="{% url 'used_edit' item.pk %}?tab=translations#used-language-en">SPRACHVERSIONEN BEARBEITEN</a>{% endif %}
+{% if "en"|language_visible or request.GET.show_inactive == "1" %}<a class="used-btn black full" href="{% url 'used_edit' item.pk %}?tab=translations#used-language-en">SPRACHVERSIONEN BEARBEITEN</a>{% endif %}
 <div class="used-review-preview"><strong>VORSCHAU</strong><p>Alle Sprachversionen gemeinsam ansehen und prüfen.</p><a class="used-btn black full" href="{% url 'used_machine_detail' item.pk %}?preview=1">ALLE SPRACHVERSIONEN PRÜFEN</a></div>
 </section>
 <section class="used-review-card used-publication-card">

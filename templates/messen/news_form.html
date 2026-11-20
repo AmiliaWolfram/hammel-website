@@ -25,9 +25,11 @@
 <nav class="news-nav" aria-label="Sprachversionen und Prüfung">
 <a class="active" href="{% if editing %}{% url 'news_edit' item.pk %}{% else %}#{% endif %}">DE</a>
 {% if editing %}
-{% if "en"|language_visible %}<a href="{% url 'news_language_editor' item.pk 'en' %}">EN</a>{% endif %}{% if "fr"|language_visible %}<a href="{% url 'news_language_editor' item.pk 'fr' %}">FR</a>{% endif %}{% if "es"|language_visible %}<a href="{% url 'news_language_editor' item.pk 'es' %}">ES</a>{% endif %}{% if "it"|language_visible %}<a href="{% url 'news_language_editor' item.pk 'it' %}">IT</a>{% endif %}<a href="{% url 'news_language_editor' item.pk 'review' %}">PRÜFUNG</a>
+{% if "en"|language_visible or request.GET.show_inactive == "1" %}<a href="{% url 'news_language_editor' item.pk 'en' %}">EN</a>{% endif %}{% if "fr"|language_visible or request.GET.show_inactive == "1" %}<a href="{% url 'news_language_editor' item.pk 'fr' %}">FR</a>{% endif %}{% if "es"|language_visible or request.GET.show_inactive == "1" %}<a href="{% url 'news_language_editor' item.pk 'es' %}">ES</a>{% endif %}{% if "it"|language_visible or request.GET.show_inactive == "1" %}<a href="{% url 'news_language_editor' item.pk 'it' %}">IT</a>{% endif %}<a href="{% url 'news_language_editor' item.pk 'review' %}">PRÜFUNG</a>
 {% else %}<span>EN</span><span>FR</span><span>ES</span><span>IT</span><span>PRÜFUNG</span>{% endif %}
 </nav>
+{% vertrieb_inactive_hint %}
+
 {% if editing %}<h2 class="news-current-title">{{ item.title }}</h2>{% endif %}
 <form method="post" enctype="multipart/form-data" class="edit-form">{% csrf_token %}
 {{ form.non_field_errors }}

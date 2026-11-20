@@ -172,21 +172,59 @@
 #friendly-history .machine-history-new{color:#171717;font-weight:700}
 </style>
 
+
+<style>
+.baureihe-heading-row{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:24px}
+.baureihe-heading-row h1{margin:0}
+.baureihe-fields-button{display:inline-flex;align-items:center;justify-content:center;background:#171717;color:white!important;text-decoration:none!important;padding:17px 23px;font-size:13px;font-weight:800;letter-spacing:.02em;border:1px solid #171717;transition:background .2s,color .2s}
+.baureihe-fields-button:hover{background:#e30613;border-color:#e30613;color:white!important}
+.baureihe-language-workspace{margin:22px 0 30px}
+.baureihe-language-workspace .hml-i18n{margin:0;border:0;padding:0;background:transparent}
+.baureihe-language-workspace .hml-i18n-top{display:none!important}
+.baureihe-language-workspace .hml-i18n-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 28px}
+ .baureihe-language-workspace .hml-i18n-tabs button{border:0;border-radius:0;background:#e6e6e6;color:#171717;min-height:76px;padding:16px;text-align:center;font-size:16px;font-weight:800;letter-spacing:0;transition:background .2s,color .2s}
+.baureihe-language-workspace .hml-i18n-tabs button.active,.baureihe-language-workspace .hml-i18n-tabs button:hover{background:#e30613;color:#fff}
+.baureihe-language-workspace .hml-i18n-tabs button small{display:none}
+.baureihe-language-workspace .hml-i18n-tabs button[data-hml-lang="review"]{display:block}
+.baureihe-language-workspace .baureihe-review{background:#f3f3f3;padding:28px 32px}
+.baureihe-language-workspace .baureihe-review h2{font-size:23px;margin:0 0 12px}
+.baureihe-language-workspace .baureihe-review p{margin:0 0 20px;color:#555}
+.baureihe-language-workspace .baureihe-review table{width:100%;border-collapse:collapse;background:#fff}
+.baureihe-language-workspace .baureihe-review th,.baureihe-language-workspace .baureihe-review td{text-align:left;padding:13px 15px;border-bottom:1px solid #ddd}
+.baureihe-language-workspace .baureihe-review th{font-weight:800}
+.baureihe-language-workspace .baureihe-review .baureihe-review-empty{color:#b40000}
+.baureihe-language-workspace .hml-i18n-help{display:none!important}
+.baureihe-language-workspace .hml-i18n-inactive{font-size:13px!important;margin:0 0 26px!important}
+.baureihe-language-workspace .hml-i18n-fields:not([hidden]){background:#f3f3f3;padding:28px 32px}
+@media(max-width:650px){.baureihe-language-workspace .hml-i18n-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.baureihe-language-workspace .hml-i18n-tabs button{min-height:60px}.baureihe-language-workspace .hml-i18n-fields:not([hidden]){padding:18px}}
+.baureihe-language-workspace .hml-i18n-inactive{margin:10px 0 22px!important}
+.baureihe-language-workspace .hml-i18n-help{margin:16px 0 20px}
+.baureihe-language-workspace .hml-i18n-fields:not([hidden]){display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.baureihe-language-workspace .hml-i18n-field{min-width:0}
+.baureihe-language-workspace .hml-i18n-field textarea{width:100%;box-sizing:border-box;min-height:115px}
+.baureihe-german-reference{background:#f2f2f2;border:1px solid #dedede;padding:15px 18px;margin:8px 0 12px;white-space:pre-wrap;overflow-wrap:anywhere}
+.baureihe-german-reference strong{display:block;font-size:11px;letter-spacing:.05em;color:#666;margin-bottom:9px}
+.baureihe-german-reference div{font-size:14px;line-height:1.55}
+.machine-edit-form.baureihe-translating > .machine-field,
+.machine-edit-form.baureihe-translating > .machine-form-section-title,
+.machine-edit-form.baureihe-translating > .machine-area-editor{display:none!important}
+@media(max-width:850px){.baureihe-language-workspace .hml-i18n-fields:not([hidden]){grid-template-columns:minmax(0,1fr)}}
+</style>
 <div class="eyebrow">HAMMEL</div>
-<h1>{% if kind == "Maschinenvariante" %}{% if object %}{{ object.name }}{% else %}NEUE VARIANTE{% endif %}{% else %}BAUREIHE{% endif %}</h1>
-{% if kind != "Maschinenvariante" %}<p class="subtitle">{% if object %}{{ object }} bearbeiten{% else %}Neuen Eintrag erstellen{% endif %}</p>{% endif %}
-{% if kind == "Maschinenmodell" %}<p class="machine-form-guidance">Hier werden nur gemeinsame Angaben zur Baureihe gepflegt. Einsatzmaterialien, technische Daten, Datenblätter und Videos werden für jede Modellvariante separat verwaltet.</p>{% endif %}
+<div class="baureihe-heading-row"><h1>{% if kind == "Maschinenvariante" %}{% if object %}{{ object.name }}{% else %}NEUE VARIANTE{% endif %}{% else %}BAUREIHE{% endif %}</h1>{% if kind == "Maschinenmodell" and object %}<a class="baureihe-fields-button" href="{% url 'staff_machine_fields_manage' %}?scope=series&amp;id={{ object.pk }}">FELDER DER BAUREIHE ANPASSEN</a>{% endif %}</div>{% if kind != "Maschinenvariante" and kind != "Maschinenmodell" %}<p class="subtitle">{% if object %}{{ object }} bearbeiten{% else %}Neuen Eintrag erstellen{% endif %}</p>{% endif %}
 {% if kind == "Maschinenvariante" %}
 <div class="machine-language-layout" id="machine-language-layout">
   {% if object %}
   <nav class="machine-top-languages" aria-label="Sprachversionen">
     <button type="button" data-machine-lang="de" class="is-active" aria-pressed="true">DE <small>Original</small></button>
-    {% if "en"|language_visible %}<button type="button" data-machine-lang="en" aria-pressed="false">EN <small>English</small></button>{% endif %}
-    {% if "fr"|language_visible %}<button type="button" data-machine-lang="fr" aria-pressed="false">FR <small>Français</small></button>{% endif %}
-    {% if "es"|language_visible %}<button type="button" data-machine-lang="es" aria-pressed="false">ES <small>Español</small></button>{% endif %}
-    {% if "it"|language_visible %}<button type="button" data-machine-lang="it" aria-pressed="false">IT <small>Italiano</small></button>{% endif %}
+    {% if "en"|language_visible or request.GET.show_inactive == "1" %}<button type="button" data-machine-lang="en" aria-pressed="false">EN <small>English</small></button>{% endif %}
+    {% if "fr"|language_visible or request.GET.show_inactive == "1" %}<button type="button" data-machine-lang="fr" aria-pressed="false">FR <small>Français</small></button>{% endif %}
+    {% if "es"|language_visible or request.GET.show_inactive == "1" %}<button type="button" data-machine-lang="es" aria-pressed="false">ES <small>Español</small></button>{% endif %}
+    {% if "it"|language_visible or request.GET.show_inactive == "1" %}<button type="button" data-machine-lang="it" aria-pressed="false">IT <small>Italiano</small></button>{% endif %}
     <button type="button" data-machine-review aria-pressed="false">PRÜFUNG <small>Veröffentlichung</small></button>
   </nav>
+{% vertrieb_inactive_hint %}
+
   {% else %}
   <div class="machine-language-new-note">Speichern Sie die neue Variante, um Sprachversionen zu bearbeiten.</div>
   {% endif %}
@@ -212,9 +250,52 @@
 </div>
 
 {% endif %}
-{% if kind == "Maschinenmodell" and object %}<p><a href="{% url 'staff_machine_fields_manage' %}?scope=series&id={{ object.pk }}">FELDER DER BAUREIHE ANPASSEN</a></p>{% endif %}
+
 <form method="post" enctype="multipart/form-data" class="machine-edit-form" id="machine-main-form">
 {% csrf_token %}
+{% if kind == "Maschinenmodell" and object and object.pk %}
+
+<style>
+/* Baureihe editor occupies the complete machine form grid, not a single column. */
+#machine-main-form > #baureihe-language-workspace {
+  grid-column: 1 / -1 !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  display: block !important;
+}
+#baureihe-language-workspace [data-hml-i18n],
+#baureihe-language-workspace .hml-i18n-tabs {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+#baureihe-language-workspace .hml-i18n-tabs {
+  display: grid !important;
+  grid-template-columns: repeat(3,minmax(0,1fr)) !important;
+  gap: 10px !important;
+}
+#baureihe-language-workspace .hml-i18n-tabs > button {
+  width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+#baureihe-language-workspace .hml-i18n-tabs > button[data-hml-lang="review"] {
+  display: block !important;
+}
+@media(max-width:650px){
+  #baureihe-language-workspace .hml-i18n-tabs {
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+}
+</style>
+<div class="baureihe-language-workspace" id="baureihe-language-workspace">
+  {% inline_translations object form %}
+</div>
+{% endif %}
+
 {% if form.non_field_errors %}<div class="errors">{{ form.non_field_errors }}</div>{% endif %}
 {% if area_rows %}
 <fieldset class="machine-area-editor" data-editor-panel="materials">
@@ -279,9 +360,7 @@
 
 {% if object %}<section class="editor-history" data-editor-panel="review" id="friendly-history"><details class="machine-history-collapse"><summary>ÄNDERUNGSVERLAUF ANZEIGEN</summary><div class="machine-history-body">{% for entry in history_entries %}<div class="machine-history-entry"><div class="machine-history-meta"><strong>{{ entry.date|date:"d.m.Y" }}</strong><span>{{ entry.date|date:"H:i" }} Uhr</span><span>{{ entry.author.username|default:"System" }}</span></div>{% for change in entry.changes %}<div class="machine-history-change"><strong>{{ change.label }}</strong><div class="machine-history-values"><span class="machine-history-old">{{ change.before|truncatechars:180 }}</span><span class="machine-history-arrow">→</span><span class="machine-history-new">{{ change.after|truncatechars:180 }}</span></div></div>{% empty %}<p class="machine-history-muted">Gespeicherter Stand. Keine einzelnen Feldänderungen erkennbar.</p>{% endfor %}</div>{% empty %}<p>Noch keine Änderungen protokolliert.</p>{% endfor %}</div></details></section>{% endif %}
 {% endif %}
-{% if kind == "Maschinenvariante" and object %}
-<div class="machine-variant-languages">{% inline_translations object form %}</div>
-{% endif %}
+{% if kind == "Maschinenvariante" and object and object.pk %}<div class="machine-variant-languages">{% inline_translations object form %}</div>{% endif %}
 <div class="machine-staff-actions"><button type="submit" name="editor_action" value="save">ÄNDERUNGEN SPEICHERN</button>{% if kind == "Maschinenvariante" %}<button type="submit" name="editor_action" value="draft" class="editor-secondary" formnovalidate>ENTWURF SPEICHERN</button>{% endif %}<a href="{% url 'staff_machine_dashboard' %}">ABBRECHEN</a></div>
 </form>
 <script>
