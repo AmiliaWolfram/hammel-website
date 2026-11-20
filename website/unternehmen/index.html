@@ -42,7 +42,104 @@ main > section[style*="background"], .section.white {
 }
 </style></link></link><style>.story__chapter .story__text h3{font-size:clamp(2rem,3.2vw,3.6rem);line-height:1.08;overflow-wrap:break-word}.story__chapter .story__eyebrow{font-size:.82rem;letter-spacing:.11em}.story__intro h2{overflow-wrap:break-word}</style><link href="../assets/css/unternehmen-no-drawings.css?v=20261111allphotolayers5" rel="stylesheet"/>
 <link rel="stylesheet" href="../assets/css/unternehmen-scroll-magnetic.css?v=20261111a"/>
-</head>
+<style id="unternehmen-hero-match-anwendungen-1">
+/* The shared HOME header is intentionally not overridden here. */
+html body > .hammel-page-hero[data-page="unternehmen"]{
+  height:auto!important;min-height:0!important;max-height:none!important;
+  box-sizing:border-box!important;position:relative!important;
+  display:flex!important;align-items:center!important;
+  margin:0!important;padding:0!important;
+}
+html body > .hammel-page-hero[data-page="unternehmen"] > .hammel-page-hero__inner{
+  position:relative!important;inset:auto!important;transform:none!important;
+  box-sizing:border-box!important;min-height:0!important;height:auto!important;
+  width:calc(100% - 2 * clamp(20px,4vw,80px))!important;max-width:none!important;
+  margin:0 auto!important;padding:clamp(145px,11vw,180px) 0 clamp(70px,6vw,100px)!important;
+}
+html body > .hammel-page-hero[data-page="unternehmen"] .hammel-page-hero__title{
+  font-size:clamp(52px,7.3vw,125px)!important;line-height:.98!important;
+}
+html body > .hammel-page-hero[data-page="unternehmen"] .hammel-page-hero__description{margin-bottom:0!important}
+@media(max-width:760px){
+ html body > .hammel-page-hero[data-page="unternehmen"] > .hammel-page-hero__inner{padding:125px 0 65px!important}
+ html body > .hammel-page-hero[data-page="unternehmen"] .hammel-page-hero__title{font-size:clamp(42px,11vw,72px)!important}
+}
+</style>
+<style id="unternehmen-hero-match-anwendungen-2">
+/* Full viewport bleed, independent of parent width and cinematic gutters. */
+html body > section.hammel-page-hero[data-page="unternehmen"]{
+ position:relative!important;
+ left:50%!important;
+ right:auto!important;
+ width:100vw!important;
+ max-width:100vw!important;
+ margin-left:-50vw!important;
+ margin-right:0!important;
+ padding-left:0!important;
+ padding-right:0!important;
+ border:0!important;
+ border-radius:0!important;
+ overflow:hidden!important;
+ box-sizing:border-box!important;
+}
+html body > section.hammel-page-hero[data-page="unternehmen"] > video.hammel-page-hero__video,
+html body > section.hammel-page-hero[data-page="unternehmen"] > .hammel-page-hero__shade{
+ position:absolute!important;
+ top:0!important;
+ left:0!important;
+ right:0!important;
+ bottom:0!important;
+ inset:0!important;
+ width:100%!important;
+ height:100%!important;
+ max-width:none!important;
+ margin:0!important;
+ padding:0!important;
+ border:0!important;
+ border-radius:0!important;
+}
+html body > section.hammel-page-hero[data-page="unternehmen"] > video.hammel-page-hero__video{
+ display:block!important;
+ object-fit:cover!important;
+ object-position:center!important;
+}
+html body > section.hammel-page-hero[data-page="unternehmen"] > .hammel-page-hero__inner{
+ position:relative!important;
+ z-index:2!important;
+}
+</style>
+<style id="hammel-unified-subpage-hero-20261120">
+html body section.hammel-page-hero:not([data-page="home"]){
+ position:relative!important;box-sizing:border-box!important;
+ height:620px!important;min-height:620px!important;max-height:620px!important;
+ width:100vw!important;max-width:100vw!important;
+ left:50%!important;margin-left:-50vw!important;margin-right:0!important;
+ padding:0!important;border:0!important;overflow:hidden!important;
+ display:flex!important;align-items:center!important;
+}
+html body section.hammel-page-hero:not([data-page="home"]) > .hammel-page-hero__inner{
+ position:relative!important;inset:auto!important;transform:none!important;
+ box-sizing:border-box!important;height:auto!important;min-height:0!important;
+ width:calc(100% - 2 * clamp(20px,4vw,80px))!important;max-width:none!important;
+ margin:0 auto!important;padding:0!important;z-index:2!important;
+}
+html body section.hammel-page-hero:not([data-page="home"]) > video.hammel-page-hero__video,
+html body section.hammel-page-hero:not([data-page="home"]) > .hammel-page-hero__shade{
+ position:absolute!important;inset:0!important;width:100%!important;
+ height:100%!important;max-width:none!important;object-fit:cover!important;
+}
+html body section.hammel-page-hero:not([data-page="home"]) > video.hammel-page-hero__video{
+ transform:scale(1.14)!important;transform-origin:center center!important;
+}
+@media(max-width:760px){
+ html body section.hammel-page-hero:not([data-page="home"]){
+ height:480px!important;min-height:480px!important;max-height:480px!important;
+ }
+ html body section.hammel-page-hero:not([data-page="home"]) .hammel-page-hero__title{
+ font-size:clamp(40px,10vw,70px)!important;
+ }
+}
+</style></head>
 <body>
 <!-- PUBLIC_SHARED_HEADER -->
 <section aria-label="ÜBER UNS" class="hammel-page-hero" data-page="unternehmen">
@@ -52,7 +149,7 @@ main > section[style*="background"], .section.white {
 <span class="hammel-page-hero__eyebrow">ÜBER UNS</span>
 <h1 class="hammel-page-hero__title">THE ORIGINAL<em>SINCE 1996</em></h1>
 <p class="hammel-page-hero__description">Innovative Recyclingtechnik. Entwickelt in Thüringen. Weltweit im Einsatz.</p>
-<a class="cinematic-link" href="#geschichte"><span aria-hidden="true" class="cinematic-link__icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 19 19 5M8 5h11v11"></path></svg></span><span class="cinematic-link__label">MEHR ENTDECKEN</span></a>
+
 </div>
 <span class="hammel-page-hero__signature">THE ORIGINAL SINCE 1996</span>
 </section>

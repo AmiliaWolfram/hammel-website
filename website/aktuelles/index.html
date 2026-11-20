@@ -32,6 +32,37 @@ main > section::before, main > .section::before {
 main > section[style*="background"], .section.white {
   border-top-color: transparent !important;
 }
+</style><style id="hammel-unified-subpage-hero-20261120">
+html body section.hammel-page-hero:not([data-page="home"]){
+ position:relative!important;box-sizing:border-box!important;
+ height:620px!important;min-height:620px!important;max-height:620px!important;
+ width:100vw!important;max-width:100vw!important;
+ left:50%!important;margin-left:-50vw!important;margin-right:0!important;
+ padding:0!important;border:0!important;overflow:hidden!important;
+ display:flex!important;align-items:center!important;
+}
+html body section.hammel-page-hero:not([data-page="home"]) > .hammel-page-hero__inner{
+ position:relative!important;inset:auto!important;transform:none!important;
+ box-sizing:border-box!important;height:auto!important;min-height:0!important;
+ width:calc(100% - 2 * clamp(20px,4vw,80px))!important;max-width:none!important;
+ margin:0 auto!important;padding:0!important;z-index:2!important;
+}
+html body section.hammel-page-hero:not([data-page="home"]) > video.hammel-page-hero__video,
+html body section.hammel-page-hero:not([data-page="home"]) > .hammel-page-hero__shade{
+ position:absolute!important;inset:0!important;width:100%!important;
+ height:100%!important;max-width:none!important;object-fit:cover!important;
+}
+html body section.hammel-page-hero:not([data-page="home"]) > video.hammel-page-hero__video{
+ transform:scale(1.14)!important;transform-origin:center center!important;
+}
+@media(max-width:760px){
+ html body section.hammel-page-hero:not([data-page="home"]){
+ height:480px!important;min-height:480px!important;max-height:480px!important;
+ }
+ html body section.hammel-page-hero:not([data-page="home"]) .hammel-page-hero__title{
+ font-size:clamp(40px,10vw,70px)!important;
+ }
+}
 </style></head>
 <body>
 <!-- PUBLIC_SHARED_HEADER -->

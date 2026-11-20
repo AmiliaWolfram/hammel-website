@@ -86,10 +86,106 @@ main > section::before, main > .section::before {
 main > section[style*="background"], .section.white {
   border-top-color: transparent !important;
 }
+</style><style id="service-used-machines-layout">
+.service-used-machines{background:#fff;color:#17191a;padding:clamp(72px,8vw,132px) 0}
+.service-used-machines__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(36px,6vw,100px);align-items:center}
+.service-used-machines__intro h2{font-size:clamp(42px,6vw,92px);line-height:1;letter-spacing:-.045em;margin:18px 0 24px;color:#17191a;overflow-wrap:anywhere}
+.service-used-machines__intro p{font-size:clamp(17px,1.3vw,21px);line-height:1.65;color:#4d5152;max-width:640px;margin:0 0 32px}
+.service-used-machines__button{display:inline-flex;align-items:center;justify-content:center;background:#17191a;color:#fff;text-decoration:none;font-weight:800;font-size:13px;letter-spacing:.035em;padding:21px 28px;transition:background .25s}
+.service-used-machines__button:hover,.service-used-machines__button:focus-visible{background:#e30613;color:#fff}
+.service-used-machines__visual{display:block;overflow:hidden;aspect-ratio:1.35;background:#17191a}
+.service-used-machines__visual img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.service-used-machines__visual:hover img{transform:scale(1.035)}
+@media(max-width:850px){.service-used-machines__grid{grid-template-columns:1fr}.service-used-machines__visual{aspect-ratio:1.7}}
+</style><style id="service-compact-hero-match-anwendungen">
+/* The shared HOME header is intentionally not overridden here. */
+html body > .hammel-page-hero[data-page="service"]{
+  height:auto!important;min-height:0!important;max-height:none!important;
+  box-sizing:border-box!important;position:relative!important;
+  display:flex!important;align-items:center!important;
+  margin:0!important;padding:0!important;
+}
+html body > .hammel-page-hero[data-page="service"] > .hammel-page-hero__inner{
+  position:relative!important;inset:auto!important;transform:none!important;
+  box-sizing:border-box!important;min-height:0!important;height:auto!important;
+  width:calc(100% - 2 * clamp(20px,4vw,80px))!important;max-width:none!important;
+  margin:0 auto!important;padding:clamp(145px,11vw,180px) 0 clamp(70px,6vw,100px)!important;
+}
+html body > .hammel-page-hero[data-page="service"] .hammel-page-hero__title{
+  font-size:clamp(52px,7.3vw,125px)!important;line-height:.98!important;
+}
+html body > .hammel-page-hero[data-page="service"] .hammel-page-hero__description{margin-bottom:0!important}
+@media(max-width:760px){
+ html body > .hammel-page-hero[data-page="service"] > .hammel-page-hero__inner{padding:125px 0 65px!important}
+ html body > .hammel-page-hero[data-page="service"] .hammel-page-hero__title{font-size:clamp(42px,11vw,72px)!important}
+}
+</style><style id="service-used-machine-types">
+.service-used-machines__types{display:grid;grid-template-columns:1fr;align-content:center}
+.service-used-machines__type{display:flex;align-items:center;gap:24px;border-bottom:1px solid #d5d5d5;padding:22px 0}
+.service-used-machines__type:first-child{border-top:1px solid #d5d5d5}
+.service-used-machines__type span{font-size:12px;color:#e30613;font-weight:800;min-width:25px}
+.service-used-machines__type strong{font-size:clamp(22px,2.6vw,40px);font-weight:900;line-height:1.1;text-transform:uppercase}
+@media(max-width:850px){.service-used-machines__type{padding:17px 0}}
+</style><style id="service-used-machine-transparent">
+.service-used-machines__machine{display:flex;align-items:center;justify-content:center;min-height:350px;background:transparent!important}
+.service-used-machines__machine img{display:block;width:100%;max-width:780px;height:auto;max-height:590px;object-fit:contain;background:transparent!important;filter:drop-shadow(0 20px 22px rgba(0,0,0,.12))}
+@media(max-width:850px){.service-used-machines__machine{min-height:220px}.service-used-machines__machine img{max-height:380px}}
+</style><style id="hammel-unified-subpage-hero-20261120">
+html body section.hammel-page-hero:not([data-page="home"]){
+ position:relative!important;box-sizing:border-box!important;
+ height:620px!important;min-height:620px!important;max-height:620px!important;
+ width:100vw!important;max-width:100vw!important;
+ left:50%!important;margin-left:-50vw!important;margin-right:0!important;
+ padding:0!important;border:0!important;overflow:hidden!important;
+ display:flex!important;align-items:center!important;
+}
+html body section.hammel-page-hero:not([data-page="home"]) > .hammel-page-hero__inner{
+ position:relative!important;inset:auto!important;transform:none!important;
+ box-sizing:border-box!important;height:auto!important;min-height:0!important;
+ width:calc(100% - 2 * clamp(20px,4vw,80px))!important;max-width:none!important;
+ margin:0 auto!important;padding:0!important;z-index:2!important;
+}
+html body section.hammel-page-hero:not([data-page="home"]) > video.hammel-page-hero__video,
+html body section.hammel-page-hero:not([data-page="home"]) > .hammel-page-hero__shade{
+ position:absolute!important;inset:0!important;width:100%!important;
+ height:100%!important;max-width:none!important;object-fit:cover!important;
+}
+html body section.hammel-page-hero:not([data-page="home"]) > video.hammel-page-hero__video{
+ transform:scale(1.14)!important;transform-origin:center center!important;
+}
+@media(max-width:760px){
+ html body section.hammel-page-hero:not([data-page="home"]){
+ height:480px!important;min-height:480px!important;max-height:480px!important;
+ }
+ html body section.hammel-page-hero:not([data-page="home"]) .hammel-page-hero__title{
+ font-size:clamp(40px,10vw,70px)!important;
+ }
+}
 </style></head>
 <body>
 <!-- PUBLIC_SHARED_HEADER -->
-<section class="hammel-page-hero service-hero" data-page="service"><video aria-hidden="true" autoplay loop muted playsinline poster="../assets/img/machines/vb850.webp" preload="metadata"><source src="../assets/video/hammel-hero.mp4" type="video/mp4"></video><div class="service-hero-shade"></div><div class="wrap service-hero-content"><span class="service-kicker">HAMMEL RECYCLINGTECHNIK</span><h1>SERVICE</h1><p class="service-hero-description">Entdecken Sie unseren Mietpark mit flexiblen Mietmöglichkeiten für HAMMEL Recyclingtechnik. Kontaktieren Sie unser Team für eine individuelle Beratung und ein passendes Angebot.</p><a class="cinematic-link cinematic-link--section service-action" href="#mietpark-kontakt"><span class="cinematic-link__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 19 19 5M8 5h11v11"/></svg></span><span class="cinematic-link__label">MIETPARK ENTDECKEN</span></a></div><span class="hammel-page-hero__signature">THE ORIGINAL SINCE 1996</span></section><main id="leistungen" class="service-editorial"><section class="service-mietpark-details" id="mietpark-kontakt" aria-labelledby="mietpark-details-title"><div class="wrap service-mietpark-details__grid"><div class="service-mietpark-details__intro"><span class="service-kicker">HAMMEL SERVICE</span><h2 id="mietpark-details-title">MIETPARK</h2></div><div class="service-mietpark-details__content"><p>Wir vermieten HAMMEL Vorbrecher. Bei Interesse nehmen Sie bitte direkt Kontakt mit uns auf.</p><p>Für Mietanfragen erreichen Sie uns telefonisch oder per E-Mail. Eine Online-Buchung ist nicht vorgesehen.</p><a class="cinematic-link cinematic-link--section service-action" href="mailto:susi.panse@hammel.de?subject=Mietanfrage%20HAMMEL%20Vorbrecher"><span class="cinematic-link__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 19 19 5M8 5h11v11"/></svg></span><span class="cinematic-link__label">PER E-MAIL KONTAKTIEREN</span></a><p class="mietpark-contact-secondary">Alternativ: <a href="mailto:info@hammel.de">info@hammel.de</a></p></div><aside class="service-rental-list" aria-label="HAMMEL Mietmaschinen"><h3 class="service-rental-list__title">UNSERE MIETMASCHINEN</h3><nav class="service-rental-list__links" aria-label="Mietmaschinen Baureihen"><!-- SERVICE_RENTAL_MACHINE_LINKS --></nav></aside></div></section></main><!-- PUBLIC_SHARED_FOOTER -->
+<section aria-label="SERVICE" class="hammel-page-hero" data-page="service">
+<video aria-hidden="true" autoplay loop muted playsinline class="hammel-page-hero__video" poster="../assets/video/hammel-poster.jpg" preload="metadata"><source src="../assets/video/hammel-hero.mp4" type="video/mp4"></video>
+<div aria-hidden="true" class="hammel-page-hero__shade"></div>
+<div class="wrap hammel-page-hero__inner">
+<span class="hammel-page-hero__eyebrow">HAMMEL SERVICE</span>
+<h1 class="hammel-page-hero__title">SERVICE</h1>
+<p class="hammel-page-hero__description">Mietmaschinen und Gebrauchtmaschinen von HAMMEL. Entdecken Sie unsere Angebote und kontaktieren Sie unser Team.</p>
+</div>
+<span class="hammel-page-hero__signature">THE ORIGINAL SINCE 1996</span>
+</section><main id="leistungen" class="service-editorial"><section class="service-mietpark-details" id="mietpark-kontakt" aria-labelledby="mietpark-details-title"><div class="wrap service-mietpark-details__grid"><div class="service-mietpark-details__intro"><span class="service-kicker">HAMMEL SERVICE</span><h2 id="mietpark-details-title">MIETPARK</h2></div><div class="service-mietpark-details__content"><p>Wir vermieten HAMMEL Vorbrecher. Bei Interesse nehmen Sie bitte direkt Kontakt mit uns auf.</p><p>Für Mietanfragen erreichen Sie uns telefonisch oder per E-Mail. Eine Online-Buchung ist nicht vorgesehen.</p><a class="cinematic-link cinematic-link--section service-action" href="mailto:susi.panse@hammel.de?subject=Mietanfrage%20HAMMEL%20Vorbrecher"><span class="cinematic-link__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 19 19 5M8 5h11v11"/></svg></span><span class="cinematic-link__label">PER E-MAIL KONTAKTIEREN</span></a><p class="mietpark-contact-secondary">Alternativ: <a href="mailto:info@hammel.de">info@hammel.de</a></p></div><aside class="service-rental-list" aria-label="HAMMEL Mietmaschinen"><h3 class="service-rental-list__title">UNSERE MIETMASCHINEN</h3><nav class="service-rental-list__links" aria-label="Mietmaschinen Baureihen"><!-- SERVICE_RENTAL_MACHINE_LINKS --></nav></aside></div></section><section class="service-used-machines" id="gebrauchtmaschinen" aria-labelledby="service-used-title">
+<div class="wrap service-used-machines__grid">
+<div class="service-used-machines__intro">
+<span class="service-kicker">HAMMEL SERVICE</span>
+<h2 id="service-used-title">GEBRAUCHTMASCHINEN</h2>
+<p>Gebrauchte HAMMEL Maschinen für unterschiedliche Einsatzbereiche.</p>
+<a class="service-used-machines__button" href="gebrauchtmaschinen/index.html">GEBRAUCHTMASCHINEN ANSEHEN</a>
+</div>
+<div class="service-used-machines__machine">
+<img src="../assets/img/machines/vb750.webp" alt="HAMMEL Vorbrecher" loading="lazy" decoding="async">
+</div>
+</div>
+</section></main><!-- PUBLIC_SHARED_FOOTER -->
 <script src="../assets/js/app.js">
 </script>
 <script defer="" src="../assets/js/cinematic-unified.js">
