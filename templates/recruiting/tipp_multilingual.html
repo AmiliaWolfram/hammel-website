@@ -7,7 +7,12 @@
 <link rel="stylesheet" href="/assets/css/style.css">
 <link rel="stylesheet" href="/assets/css/recruiting.css">
 <link rel="stylesheet" href="/assets/css/hr-portal-header.css?v=20261030-sticky2">
-<style>body{margin:0;background:#f5f5f3;color:#171717} .bereich-editor{box-sizing:border-box}</style>
+<style>body{margin:0;background:#f5f5f3;color:#171717} .bereich-editor{box-sizing:border-box}
+.bereich-language-hint{margin:0 0 24px;font-size:13px;line-height:1.6;color:#555}
+.bereich-language-hint strong{color:#171717}
+.bereich-language-hint a{color:#171717!important;text-decoration:none!important;border-bottom:2px solid #f4c400;padding-bottom:2px;font-weight:700}
+.bereich-language-hint a:hover{color:#e30613!important;border-bottom-color:#e30613}
+</style>
 </head>
 <body>
 {% include "recruiting/staff_header.html" %}
@@ -36,6 +41,8 @@
 <main class="bereich-editor"><div class="kicker">HAMMEL</div><h1>HR-TIPP <span>{% if object %}BEARBEITEN{% else %}ERSTELLEN{% endif %}</span></h1>
 <form method="post" class="bereich-card">{% csrf_token %}
 <h2>Inhalte in allen Sprachen</h2>
+{% if inactive_languages %}<div class="bereich-language-hint" role="note"><strong>Hinweis:</strong> Inaktive Sprachen: {% for code,label in inactive_languages %}{{ label }}{% if not forloop.last %}, {% endif %}{% endfor %}. <a href="?show_inactive={% if show_inactive %}0{% else %}1{% endif %}">{% if show_inactive %}Ausblenden{% else %}Zur Bearbeitung anzeigen{% endif %}</a></div>{% endif %}
+
 {% for error in errors %}<p class="bereich-error" role="alert">{{ error }}</p>{% endfor %}
 <div class="bereich-grid">{% for language in languages %}
 <section class="bereich-field {% if language.code == 'de' %}bereich-field--de{% endif %}">

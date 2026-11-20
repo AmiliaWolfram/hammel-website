@@ -1,1 +1,271 @@
-{% extends 'messen/base.html' %}{% block title %}Gebrauchtmaschine{% endblock %}{% block content %}<a class="back" href="{% url 'used_dashboard' %}">← ZUR ÜBERSICHT</a><div class="eyebrow">HAMMEL / GEBRAUCHTMASCHINEN</div><h1>{% if editing %}MASCHINE <span class="red">BEARBEITEN</span>{% else %}MASCHINE <span class="red">ANLEGEN</span>{% endif %}</h1><form method="post" enctype="multipart/form-data" class="edit-form">{% csrf_token %}{% load content_i18n %}{% inline_translations object|default:item form %}{{ form.non_field_errors }}<section class="form-card"><h2>MASCHINENDATEN</h2><div class="form-grid">{% for field in form %}{% if field.name != 'published' %}<div class="field {% if field.name == 'description' or field.name == 'condition' or field.name == 'equipment' or field.name == 'shafts' %}wide{% endif %}"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{{ field.errors }}</div>{% endif %}{% endfor %}</div></section><section class="form-card"><h2>FOTOGALERIE</h2>{% if editing %}{% for photo in item.photos.all %}<label class="check-row"><input type="checkbox" name="remove_photos" value="{{ photo.pk }}"><span>Foto entfernen: {{ photo.caption|default:photo.image.name }}</span></label>{% endfor %}{% endif %}<div class="field"><label for="gallery_images">Weitere Fotos hochladen</label><input id="gallery_images" type="file" name="gallery_images" accept="image/*" multiple></div></section><section class="form-card publish"><h2>VERÖFFENTLICHUNG</h2><label class="check-row">{{ form.published }}<span><strong>Auf der Website veröffentlichen</strong><small>Entwürfe bleiben intern</small></span></label></section><div class="form-actions"><a class="btn outline" href="{% url 'used_dashboard' %}">ABBRECHEN</a><button class="btn primary" type="submit">SPEICHERN</button></div></form>{% endblock %}
+{% extends 'messen/base.html' %}
+{% load site_language_visibility %}
+
+{% block title %}Gebrauchtmaschinen bearbeiten
+{% endblock %}
+{% block content %}
+<style>
+.used-editor{--red:#e30613;--ink:#171717;--line:#dedede;width:100%;max-width:none;margin:0 auto;color:var(--ink)}
+.used-editor .eyebrow{font-size:13px;font-weight:900;letter-spacing:.22em;color:var(--red);margin:12px 0 16px}
+.used-editor h1{font-size:clamp(44px,5vw,76px);line-height:1;letter-spacing:-.025em;margin:0 0 22px;font-weight:950;text-transform:uppercase}
+.used-editor .red{color:var(--red)}
+.used-machine-languages{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:22px 0 20px}
+.used-machine-languages a{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0;min-height:64px;gap:3px;padding:10px 5px;background:#e9e9e9;color:#171717;text-decoration:none;text-align:center;font-size:16px;font-weight:900;border:0;box-sizing:border-box}
+.used-machine-languages a small{font-size:11px;font-weight:650;color:#555}.used-machine-languages a.active{background:var(--red);color:#fff}.used-machine-languages a.active small{color:#fff}
+.used-machine-languages a:hover:not(.active){background:#d9d9d9}
+.used-machine-workspace{display:grid;grid-template-columns:275px minmax(0,1fr);gap:26px;align-items:start}
+.used-machine-sidebar{background:#f7f7f7;border:1px solid #e5e5e5;padding:22px 12px 18px}
+.used-machine-sidebar-heading{padding:0 0 22px;font-size:14px;color:#777;font-weight:900}
+.used-machine-sidebar button{display:block;width:100%;text-align:left;padding:16px;background:transparent;border:0;font-size:14px;font-weight:800;color:#555;cursor:pointer}
+.used-machine-sidebar button.active{background:white;color:#171717}.used-machine-sidebar button:hover{background:#ededed}
+.used-machine-main{min-width:0;border-top:1px solid #ddd;padding:32px 0 0}
+.used-machine-form{min-width:0}.used-machine-section-heading{font-size:14px;letter-spacing:.08em;color:var(--red);font-weight:900;margin:0 0 28px}
+.used-machine-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 28px}
+.used-machine-field{min-width:0}.used-machine-field.wide{grid-column:1/-1}
+.used-machine-field label{display:block;margin:0 0 14px;font-weight:800;font-size:15px}
+.used-machine-field input:not([type=checkbox]),.used-machine-field select,.used-machine-field textarea{display:block;width:100%;max-width:100%;box-sizing:border-box;min-height:51px;padding:13px 15px;background:#fff;color:#171717;border:1px solid #ccc;border-radius:0;font:inherit}
+.used-machine-field textarea{min-height:115px}
+.used-machine-field input:focus,.used-machine-field textarea:focus,.used-machine-field select:focus{outline:1px solid var(--red);border-color:var(--red)}
+.used-machine-section[hidden]{display:none!important}
+.used-machine-actions{display:flex;gap:12px;align-items:center;margin-top:48px;padding-top:24px;border-top:1px solid #ddd}
+.used-btn{display:inline-flex;justify-content:center;align-items:center;padding:15px 20px;border:1px solid #ddd;background:#fff;color:#171717;font-weight:900;font-size:12px;text-decoration:none;cursor:pointer;border-radius:0}
+.used-btn.red{background:var(--red);color:#fff;border-color:var(--red)}.used-btn.black{background:#171717;color:#fff;border-color:#171717}.used-btn.light{background:#fff;color:#171717}
+.used-machine-actions .used-btn.light{margin-left:auto;order:2}
+.used-panel{background:#fff;border:1px solid #dedede;padding:28px;margin-bottom:20px}
+.used-panel h2{font-size:22px;margin:0 0 20px}.used-panel h3{font-size:17px}
+.used-muted{color:#666}.used-grid,.used-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.used-field label{display:block;font-weight:800;margin-bottom:8px}.used-field input,.used-field textarea,.used-field select{box-sizing:border-box;width:100%;padding:12px;border:1px solid #ccc;font:inherit}
+.used-language{border-top:1px solid #ddd;padding:22px 0}.used-check{display:flex;gap:12px;align-items:center;margin:12px 0}.used-check input{accent-color:var(--red)}
+.used-preview{padding:20px;background:#f5f5f5}.used-state{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #ddd}
+.used-pill{font-weight:800;font-size:12px;padding:5px 8px;background:#ddd}.used-pill.ready{background:#dcefe0;color:#14692a}.used-pill.review{background:#fff0c5;color:#8a5b00}.used-pill.missing{background:#fce1e1;color:#b40000}
+.used-history{border-top:1px solid #ddd;margin-top:30px;padding:18px 0}.used-history summary{cursor:pointer;font-weight:900}.used-history-entry{padding:15px 0;border-bottom:1px solid #ddd}
+.used-editor-bottom-nav{display:flex;justify-content:flex-end;margin:32px 0 18px;padding-top:20px;border-top:1px solid #dedede}
+.used-editor-bottom-nav a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 24px;border:1px solid #202020;background:transparent;color:#202020;text-decoration:none;font-size:13px;font-weight:850;box-sizing:border-box}
+.used-editor-bottom-nav a:hover{background:#202020;color:white}
+@media(max-width:900px){.used-machine-workspace{grid-template-columns:1fr}.used-machine-languages{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:600px){.used-machine-fields,.used-grid,.used-two{grid-template-columns:1fr}.used-machine-languages{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.used-translation-workspace .used-machine-sidebar{padding:24px 12px 18px}
+.used-translation-workspace .used-machine-sidebar-heading{padding:0 12px 20px}
+.used-translation-workspace .used-machine-sidebar button{padding:16px;margin:0 0 2px}
+.used-translation-workspace .used-machine-sidebar button.active{background:#fff;color:#171717}
+.used-translation-workspace .used-machine-main{padding-top:32px}
+.used-translation-panel[hidden]{display:none!important}
+.used-translation-intro{margin:0 0 26px}
+.used-translation-panel .used-original{font-size:13px;color:#666;margin:-5px 0 8px;overflow-wrap:anywhere}
+.used-translation-panel .used-machine-field textarea{min-height:105px}
+.used-translation-panel .used-machine-field.wide textarea{min-height:145px}
+.used-translation-panel .used-machine-actions{margin-top:30px}
+
+.used-translation-workspace .used-machine-sidebar{padding:24px 12px 18px;background:#f7f7f7}
+.used-translation-workspace .used-machine-sidebar-heading{padding:0 12px 20px}
+.used-translation-workspace .used-machine-sidebar button{padding:16px;margin:0 0 2px}
+.used-translation-workspace .used-machine-sidebar button.active{background:#fff;color:#171717}
+.used-translation-workspace .used-machine-main{padding:16px 0 0;border-top:1px solid #ddd}
+.used-translation-panel[hidden],.used-translation-section[hidden]{display:none!important}
+.used-translation-cards{align-items:start;gap:20px 22px}
+.used-translation-card{min-width:0;border:1px solid #dedede;background:#fff;padding:16px;box-sizing:border-box}
+.used-translation-card>label{display:block;font-weight:800;font-size:15px;margin-bottom:18px}
+.used-source-box{background:#f3f3f3;border:1px solid #e5e5e5;padding:16px;margin-bottom:20px;min-height:72px;box-sizing:border-box;overflow-wrap:anywhere}
+.used-source-box span{display:block;font-size:12px;font-weight:900;letter-spacing:.035em;color:#666;margin-bottom:10px}
+.used-source-box div{font-size:14px;line-height:1.5}
+.used-translation-card textarea{width:100%;min-height:118px;resize:vertical;padding:14px;box-sizing:border-box;background:#fff;border:1px solid #d3d3d3;border-radius:0;font:inherit}
+.used-translation-card textarea:focus{outline:1px solid #e30613;border-color:#e30613}
+.used-translation-actions{justify-content:space-between;flex-wrap:wrap}
+.used-translation-actions .used-check{margin:0}
+@media(max-width:650px){.used-translation-cards{grid-template-columns:1fr}}
+
+.used-sidebar-actions{border-top:1px solid #ddd;margin-top:20px;padding-top:18px;display:flex;flex-direction:column;gap:10px}
+.used-sidebar-actions .used-btn{width:100%;box-sizing:border-box;text-align:center;margin:0;min-height:48px}
+.used-sidebar-actions .used-btn.light{order:initial}
+.used-sidebar-actions .used-sidebar-history{font-size:12px}
+.used-editor .used-history.in-sidebar{margin:12px 0 0;padding:14px 0;border-top:1px solid #ddd}
+.used-editor .used-history.in-sidebar summary{font-size:12px;line-height:1.5}
+.used-editor .used-editor-bottom-nav.in-sidebar{display:block;margin:0;padding:0;border:0}
+.used-editor .used-editor-bottom-nav.in-sidebar a{width:100%;font-size:11px;min-height:48px;padding:10px 8px;text-align:center}
+.used-editor .used-sidebar-actions .used-check{font-size:12px}
+
+.used-review-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;align-items:stretch}
+.used-review-card{border:1px solid #dedede;background:#fff;padding:36px;min-width:0}
+.used-review-kicker{color:#e30613;font-size:17px;letter-spacing:.06em;font-weight:900;margin-bottom:16px}
+.used-review-card h2{font-family:inherit;font-size:36px;line-height:1.15;font-weight:900;margin:0 0 22px;color:#171717}
+.used-review-description{font-size:20px;line-height:1.5;color:#686868;margin:0 0 30px}
+.used-publication-languages{background:#f1f1f0;padding:30px;margin:0 0 30px}
+.used-publication-languages h3{font-size:23px;line-height:1.25;font-weight:900;margin:0 0 24px}
+.used-publication-language{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:20px 0;border-bottom:1px solid #d5d5d5;font-size:21px;cursor:pointer}
+.used-publication-language input,.used-publication-confirm-label input{width:23px;height:23px;flex:0 0 23px;accent-color:#e30613;cursor:pointer}
+.used-publication-language input:disabled{cursor:not-allowed;opacity:.55}
+.used-publication-note{font-size:17px;line-height:1.55;color:#666;margin:0 0 28px}
+.used-publication-card .used-btn.full,.used-review-card .used-btn.full{display:flex;width:100%;box-sizing:border-box;min-height:61px;text-align:center;font-size:15px}
+.used-publication-confirm-label{display:flex;align-items:flex-start;gap:18px;margin:25px 0 30px;font-size:18px;line-height:1.5}
+.used-review-language-list{margin:0 0 24px}
+.used-review-language{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid #ddd;font-size:18px}
+.used-review-preview{background:#f1f1f0;padding:25px;margin-top:26px}
+.used-review-preview>strong{font-size:22px}.used-review-preview p{color:#666}
+@media(max-width:950px){.used-review-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.used-review-card{padding:22px}.used-publication-languages{padding:20px}.used-review-card h2{font-size:30px}}
+</style>
+<div class="used-editor">
+<div class="eyebrow">HAMMEL</div>
+<h1>GEBRAUCHT<span class="red">MASCHINEN</span></h1>
+
+<nav class="used-machine-languages" aria-label="Sprachversionen">
+<a href="{% if editing %}{% url 'used_edit' item.pk %}{% else %}{% url 'used_create' %}{% endif %}" class="{% if tab == 'de' %}active{% endif %}">DE<small>Original</small></a>
+{% if editing %}
+{% if "en"|language_visible %}<a href="{% url 'used_edit' item.pk %}?tab=translations#used-language-en" class="{% if tab == 'translations' %}active{% endif %}">EN<small>English</small></a>{% endif %}
+{% if "fr"|language_visible %}<a href="{% url 'used_edit' item.pk %}?tab=translations#used-language-fr">FR<small>Français</small></a>{% endif %}
+{% if "es"|language_visible %}<a href="{% url 'used_edit' item.pk %}?tab=translations#used-language-es">ES<small>Español</small></a>{% endif %}
+{% if "it"|language_visible %}<a href="{% url 'used_edit' item.pk %}?tab=translations#used-language-it">IT<small>Italiano</small></a>{% endif %}
+<a href="{% url 'used_edit' item.pk %}?tab=review" class="{% if tab == 'review' %}active{% endif %}">PRÜFUNG<small>Veröffentlichung</small></a>
+{% endif %}
+</nav>
+{% if tab == 'de' %}
+<div class="used-machine-workspace">
+<aside class="used-machine-sidebar"><div class="used-machine-sidebar-heading">BEREICHE</div>
+<button type="button" class="active" data-used-section="general">Allgemein</button>
+<button type="button" data-used-section="technical">Technische Daten</button>
+<button type="button" data-used-section="media">Medien</button>
+<div class="used-sidebar-actions">
+<button type="submit" form="used-de-form" class="used-btn red">MASCHINENDATEN SPEICHERN</button>
+<a class="used-btn light" href="{% url 'used_dashboard' %}">ABBRECHEN</a>
+</div></aside>
+<div class="used-machine-main">
+<form id="used-de-form" method="post" enctype="multipart/form-data" class="used-machine-form">{% csrf_token %}<input type="hidden" name="action" value="save_de">
+{{ form.non_field_errors }}
+<section class="used-machine-section" data-used-panel="general"><div class="used-machine-section-heading">ALLGEMEIN</div><div class="used-machine-fields">
+{% for field in form %}{% if field.name == 'title' or field.name == 'number' or field.name == 'description' or field.name == 'condition' or field.name == 'equipment' %}<div class="used-machine-field {% if field.name == 'description' or field.name == 'condition' or field.name == 'equipment' %}wide{% endif %}"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}<div class="used-errors">{{ field.errors }}</div></div>{% endif %}{% endfor %}
+</div></section>
+<section class="used-machine-section" data-used-panel="technical" hidden><div class="used-machine-section-heading">TECHNISCHE DATEN</div><div class="used-machine-fields">
+{% for field in form %}{% if field.name != 'title' and field.name != 'number' and field.name != 'description' and field.name != 'condition' and field.name != 'equipment' and field.name != 'image' and field.name != 'image_url' and field.name != 'video' and field.name != 'video_url' %}<div class="used-machine-field {% if field.name == 'shafts' %}wide{% endif %}"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}<div class="used-errors">{{ field.errors }}</div></div>{% endif %}{% endfor %}
+</div></section>
+<section class="used-machine-section" data-used-panel="media" hidden><div class="used-machine-section-heading">MEDIEN</div><div class="used-machine-fields">
+{% for field in form %}{% if field.name == 'image' or field.name == 'image_url' or field.name == 'video' or field.name == 'video_url' %}<div class="used-machine-field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}<div class="used-errors">{{ field.errors }}</div></div>{% endif %}{% endfor %}
+</div><div class="used-machine-section-heading">FOTOGALERIE</div>
+{% if editing %}{% for photo in item.photos.all %}<label class="used-check"><input type="checkbox" name="remove_photos" value="{{ photo.pk }}">Foto entfernen: {{ photo.caption|default:photo.image.name }}</label>{% endfor %}{% endif %}
+<div class="used-machine-field"><label for="gallery_images">Weitere Fotos hochladen</label><input id="gallery_images" type="file" name="gallery_images" accept="image/*" multiple></div>
+</section>
+
+</form></div></div>
+{% elif tab == 'translations' %}
+<div class="used-machine-workspace used-translation-workspace">
+<aside class="used-machine-sidebar" aria-label="Bereiche">
+<div class="used-machine-sidebar-heading">BEREICHE</div>
+<button type="button" class="active" data-used-translation-section="general">Allgemein</button>
+<button type="button" data-used-translation-section="technical">Technische Daten</button>
+<div class="used-sidebar-actions">
+<button type="button" class="used-btn red" id="used-save-translation">ÄNDERUNGEN SPEICHERN</button><button type="button" class="used-btn black" id="used-approve-translation">ÜBERSETZUNG FREIGEBEN</button>
+<a class="used-btn light" href="{% url 'used_dashboard' %}">ABBRECHEN</a>
+</div></aside>
+<div class="used-machine-main">
+{% for language in translation_rows %}
+<section class="used-translation-panel" data-used-language-panel="{{ language.code }}" id="used-language-{{ language.code }}" {% if not forloop.first %}hidden{% endif %}>
+<form method="post" class="used-translation-form">{% csrf_token %}
+<input type="hidden" name="action" value="save_translation"><input type="hidden" name="language" value="{{ language.code }}">
+<div class="used-translation-section" data-used-translation-panel="general">
+<div class="used-machine-fields used-translation-cards">
+{% for row in language.rows %}{% if row.name == 'title' or row.name == 'description' or row.name == 'condition' or row.name == 'equipment' %}
+<div class="used-translation-card">
+<label for="tr_{{ language.code }}_{{ row.name }}">{{ row.label }}{% if row.stale %} <span class="used-pill stale">VERALTET</span>{% endif %}</label>
+<div class="used-source-box"><span>DEUTSCH</span><div>{{ row.original|default:'–'|linebreaksbr }}</div></div>
+<textarea id="tr_{{ language.code }}_{{ row.name }}" name="translation_{{ row.name }}" aria-label="{{ row.label }} – {{ language.label }}">{{ row.text }}</textarea>
+
+</div>{% endif %}{% endfor %}
+</div></div>
+<div class="used-translation-section" data-used-translation-panel="technical" hidden>
+<div class="used-machine-fields used-translation-cards">
+{% for row in language.rows %}{% if row.name != 'title' and row.name != 'description' and row.name != 'condition' and row.name != 'equipment' %}
+<div class="used-translation-card">
+<label for="tr_{{ language.code }}_{{ row.name }}">{{ row.label }}{% if row.stale %} <span class="used-pill stale">VERALTET</span>{% endif %}</label>
+<div class="used-source-box"><span>DEUTSCH</span><div>{{ row.original|default:'–'|linebreaksbr }}</div></div>
+<textarea id="tr_{{ language.code }}_{{ row.name }}" name="translation_{{ row.name }}" aria-label="{{ row.label }} – {{ language.label }}">{{ row.text }}</textarea>
+
+</div>{% endif %}{% endfor %}
+</div></div>
+<div class="used-machine-actions used-translation-actions">
+<input type="hidden" name="translation_status" value="review">
+
+</div>
+</form></section>
+{% endfor %}
+</div></div>
+{% elif tab == 'review' %}
+<div class="used-review-grid">
+<section class="used-review-card">
+<div class="used-review-kicker">ÜBERSETZUNGEN</div>
+<h2>Sprachversionen</h2>
+<p class="used-review-description">Status der verfügbaren Sprachversionen</p>
+<div class="used-review-language-list">
+{% for state in states %}
+<div class="used-review-language"><strong>{{ state.label }}</strong><span class="used-pill {{ state.state }}">{% if state.state == 'ready' %}FERTIG{% elif state.state == 'review' %}PRÜFEN{% elif state.state == 'stale' %}VERALTET{% else %}FEHLEN{% endif %}</span></div>
+{% endfor %}
+</div>
+{% if "en"|language_visible %}<a class="used-btn black full" href="{% url 'used_edit' item.pk %}?tab=translations#used-language-en">SPRACHVERSIONEN BEARBEITEN</a>{% endif %}
+<div class="used-review-preview"><strong>VORSCHAU</strong><p>Alle Sprachversionen gemeinsam ansehen und prüfen.</p><a class="used-btn black full" href="{% url 'used_machine_detail' item.pk %}?preview=1">ALLE SPRACHVERSIONEN PRÜFEN</a></div>
+</section>
+<section class="used-review-card used-publication-card">
+<div class="used-review-kicker">LETZTER SCHRITT</div>
+<h2>Veröffentlichung</h2>
+<p class="used-review-description">{% if item.published %}Die Gebrauchtmaschine ist aktuell veröffentlicht. Sie können sie bei Bedarf deaktivieren.{% else %}Die Gebrauchtmaschine ist noch nicht veröffentlicht. Prüfen Sie die Angaben vor der Veröffentlichung.{% endif %}</p>
+<div class="used-publication-languages">
+<h3>SPRACHVERSIONEN AUF DER WEBSITE</h3>
+<form method="post">{% csrf_token %}<input type="hidden" name="action" value="save_languages">
+{% for state in states %}
+<label class="used-publication-language"><span>{{ state.label }}</span><input type="checkbox" name="visible_languages" value="{{ state.code }}" {% if state.code in item.visible_languages %}checked{% endif %} {% if not state.ready %}disabled{% endif %}></label>
+{% endfor %}
+<p class="used-publication-note">Nicht verfügbare Sprachversionen müssen zuerst vollständig übersetzt und geprüft werden. Die Auswahl kann vor der Veröffentlichung gespeichert werden.</p>
+<button class="used-btn red full" type="submit">SPRACHAUSWAHL SPEICHERN</button>
+</form></div>
+<form method="post" class="used-publication-confirm">{% csrf_token %}
+<input type="hidden" name="action" value="{% if item.published %}deactivate{% else %}publish{% endif %}">
+<label class="used-publication-confirm-label"><input type="checkbox" name="confirm_publish" value="yes" required><span>Ich habe die Vorschau geprüft und möchte den Veröffentlichungsstatus ausdrücklich ändern.</span></label>
+<button class="used-btn {% if item.published %}black{% else %}red{% endif %} full" type="submit">{% if item.published %}GEBRAUCHTMASCHINE DEAKTIVIEREN{% else %}GEBRAUCHTMASCHINE VERÖFFENTLICHEN{% endif %}</button>
+</form>
+</section>
+</div>
+{% endif %}
+{% if editing %}<details class="used-history"><summary>ÄNDERUNGSVERLAUF ANZEIGEN</summary><div class="used-history-content">{% for entry in history_entries %}<article class="used-history-entry"><div class="used-history-meta"><strong>{{ entry.created_at|date:'d.m.Y' }}</strong><span>{{ entry.created_at|date:'H:i' }} Uhr</span><span>{{ entry.author.username|default:'System' }}</span></div><strong>{{ entry.action }}</strong>{% for change in entry.changes %}<div class="used-change"><strong>{{ change.label }}</strong><div class="used-diff"><span>{{ change.before|truncatechars:250 }}</span><span>→</span><span>{{ change.after|truncatechars:250 }}</span></div></div>{% endfor %}</article>{% empty %}<p>Noch keine Änderungen protokolliert.</p>{% endfor %}</div></details>{% endif %}
+<div class="used-editor-bottom-nav"><a href="{% url 'used_dashboard' %}">ZURÜCK ZU GEBRAUCHTMASCHINEN</a></div>
+</div>
+<script>
+(function(){
+ const root=document.querySelector('.used-machine-workspace');if(!root)return;
+ const sidebarActions=root.querySelector('.used-sidebar-actions');
+ if(sidebarActions){
+  const history=document.querySelector('.used-editor > .used-history');
+  if(history){history.classList.add('in-sidebar');sidebarActions.appendChild(history)}
+  const back=document.querySelector('.used-editor > .used-editor-bottom-nav');
+  if(back){back.classList.add('in-sidebar');sidebarActions.appendChild(back)}
+  const saveTranslation=document.getElementById('used-save-translation');
+  if(saveTranslation)saveTranslation.addEventListener('click',()=>{
+   const visible=[...root.querySelectorAll('[data-used-language-panel]')].find(p=>!p.hidden);
+   if(visible){const form=visible.querySelector('form');if(form){form.querySelector('[name=translation_status]').value='review';form.requestSubmit()}}
+  });
+ }
+
+ if(root.classList.contains('used-translation-workspace')){
+  const languagePanels=[...root.querySelectorAll('[data-used-language-panel]')];
+  const tabs=[...document.querySelectorAll('.used-machine-languages a')];
+  const sectionButtons=[...root.querySelectorAll('[data-used-translation-section]')];
+  const sectionPanels=[...root.querySelectorAll('[data-used-translation-panel]')];
+  function selectSection(name){
+   sectionButtons.forEach(b=>{const on=b.dataset.usedTranslationSection===name;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on))});
+   sectionPanels.forEach(p=>p.hidden=p.dataset.usedTranslationPanel!==name);
+  }
+  function chooseLanguage(code){
+   if(!languagePanels.some(p=>p.dataset.usedLanguagePanel===code))return;
+   languagePanels.forEach(p=>p.hidden=p.dataset.usedLanguagePanel!==code);
+   tabs.forEach(t=>{if(t.hash.startsWith('#used-language-'))t.classList.toggle('active',t.hash==='#used-language-'+code)});
+  }
+  sectionButtons.forEach(b=>b.addEventListener('click',()=>selectSection(b.dataset.usedTranslationSection)));
+  function syncLanguage(){chooseLanguage(location.hash.match(/^#used-language-(en|fr|es|it)$/)?.[1]||'en')}
+  syncLanguage();selectSection('general');
+  window.addEventListener('hashchange',syncLanguage);
+  return;
+ }
+ const buttons=[...root.querySelectorAll('[data-used-section]')];const panels=[...root.querySelectorAll('[data-used-panel]')];
+ function select(name){buttons.forEach(b=>{let active=b.dataset.usedSection===name;b.classList.toggle('active',active);b.setAttribute('aria-pressed',active?'true':'false')});panels.forEach(p=>p.hidden=p.dataset.usedPanel!==name)}
+ buttons.forEach(b=>b.addEventListener('click',()=>select(b.dataset.usedSection)));
+ const error=root.querySelector('.used-errors:not(:empty)');if(error){let panel=error.closest('[data-used-panel]');if(panel)select(panel.dataset.usedPanel)}
+})();
+</script>
+{% endblock %}

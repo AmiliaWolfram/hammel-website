@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <title>
-   LÖSUNGEN | HAMMEL
+   ANWENDUNGEN | HAMMEL
   </title>
 <link href="../assets/css/style.css" rel="stylesheet"/>
 <link href="../assets/css/cinematic-unified.css" rel="stylesheet"/>
@@ -165,6 +165,29 @@ body .solutions-page .wrap{box-sizing:border-box;width:calc(100% - 2 * var(--cin
 .solution-machines__category-panel[hidden]{display:none!important}
 .solution-machines__category-panel .solution-machines__items{margin-top:0}
 @media(max-width:600px){.solution-machines__category-tabs{gap:6px}.solution-machines__category-tab{padding:11px 12px;font-size:11px}}
+
+/* Full-height Leistungsdaten table: right panel fills the height of the left column. */
+.solutions-page .solutions-workspace .solutions-performance__table-wrap{
+ flex:1 1 auto!important;display:flex!important;min-height:0!important;
+ width:100%!important;overflow-x:auto!important;
+}
+.solutions-page .solutions-workspace .solutions-performance__table{
+ flex:1 1 auto!important;height:100%!important;width:100%!important;
+ table-layout:fixed!important;border-collapse:collapse!important;
+}
+.solutions-page .solutions-workspace .solutions-performance__table thead{height:12%!important}
+.solutions-page .solutions-workspace .solutions-performance__table tbody tr{height:auto!important}
+.solutions-page .solutions-workspace .solutions-performance__table th,
+.solutions-page .solutions-workspace .solutions-performance__table td{
+ vertical-align:middle!important;padding:clamp(12px,1.2vw,22px) clamp(6px,.7vw,14px)!important;
+}
+.solutions-page .solutions-workspace .solutions-performance__table th:first-child,
+.solutions-page .solutions-workspace .solutions-performance__table td:first-child{width:25%!important;text-align:left!important}
+.solutions-page .solutions-workspace #solution-description[hidden]{display:none!important}
+@media(max-width:900px){
+ .solutions-page .solutions-workspace .solutions-performance__table{height:auto!important}
+ .solutions-page .solutions-workspace .solutions-performance__table-wrap{display:block!important}
+}
 </style>
 <link rel="stylesheet" href="../assets/css/hammel-alignment-fix.css?v=20261030b">
 <link rel="stylesheet" href="../assets/css/hammel-transitions.css?v=2"><link rel="stylesheet" href="../assets/css/hammel-cinematic-sections.css?v=20261103b">
@@ -182,12 +205,178 @@ main > section::before, main > .section::before {
 main > section[style*="background"], .section.white {
   border-top-color: transparent !important;
 }
-</style></head><body><!-- PUBLIC_SHARED_HEADER -->
-<section aria-label="LÖSUNGEN" class="hammel-page-hero" data-page="loesungen">
+</style>
+
+<style id="anwendungen-compact-hero-only">
+/* The shared HOME header is intentionally not overridden here. */
+html body > .hammel-page-hero[data-page="loesungen"]{
+  height:auto!important;min-height:0!important;max-height:none!important;
+  box-sizing:border-box!important;position:relative!important;
+  display:flex!important;align-items:center!important;
+  margin:0!important;padding:0!important;
+}
+html body > .hammel-page-hero[data-page="loesungen"] > .hammel-page-hero__inner{
+  position:relative!important;inset:auto!important;transform:none!important;
+  box-sizing:border-box!important;min-height:0!important;height:auto!important;
+  width:calc(100% - 2 * clamp(20px,4vw,80px))!important;max-width:none!important;
+  margin:0 auto!important;padding:clamp(145px,11vw,180px) 0 clamp(70px,6vw,100px)!important;
+}
+html body > .hammel-page-hero[data-page="loesungen"] .hammel-page-hero__title{
+  font-size:clamp(52px,7.3vw,125px)!important;line-height:.98!important;
+}
+html body > .hammel-page-hero[data-page="loesungen"] .hammel-page-hero__description{margin-bottom:0!important}
+@media(max-width:760px){
+ html body > .hammel-page-hero[data-page="loesungen"] > .hammel-page-hero__inner{padding:125px 0 65px!important}
+ html body > .hammel-page-hero[data-page="loesungen"] .hammel-page-hero__title{font-size:clamp(42px,11vw,72px)!important}
+}
+</style>
+
+<style id="anwendungen-edge-to-edge-final">
+/* Full viewport bleed, independent of parent width and cinematic gutters. */
+html body > section.hammel-page-hero[data-page="loesungen"]{
+ position:relative!important;
+ left:50%!important;
+ right:auto!important;
+ width:100vw!important;
+ max-width:100vw!important;
+ margin-left:-50vw!important;
+ margin-right:0!important;
+ padding-left:0!important;
+ padding-right:0!important;
+ border:0!important;
+ border-radius:0!important;
+ overflow:hidden!important;
+ box-sizing:border-box!important;
+}
+html body > section.hammel-page-hero[data-page="loesungen"] > video.hammel-page-hero__video,
+html body > section.hammel-page-hero[data-page="loesungen"] > .hammel-page-hero__shade{
+ position:absolute!important;
+ top:0!important;
+ left:0!important;
+ right:0!important;
+ bottom:0!important;
+ inset:0!important;
+ width:100%!important;
+ height:100%!important;
+ max-width:none!important;
+ margin:0!important;
+ padding:0!important;
+ border:0!important;
+ border-radius:0!important;
+}
+html body > section.hammel-page-hero[data-page="loesungen"] > video.hammel-page-hero__video{
+ display:block!important;
+ object-fit:cover!important;
+ object-position:center!important;
+}
+html body > section.hammel-page-hero[data-page="loesungen"] > .hammel-page-hero__inner{
+ position:relative!important;
+ z-index:2!important;
+}
+</style>
+<style id="anwendungen-video-black-bars-zoom">
+/* Zoom the actual video picture, not the Hero or its text. */
+html body > section.hammel-page-hero[data-page="loesungen"] {
+  overflow: hidden !important;
+}
+html body > section.hammel-page-hero[data-page="loesungen"] > video.hammel-page-hero__video {
+  transform: scale(1.14) !important;
+  transform-origin: center center !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  will-change: transform;
+}
+</style>
+<style id="anwendungen-editorial-tables">
+/* Top navigation, narrow information column, wide data column, equal row height. */
+.solutions-page .solutions-workspace{padding-bottom:clamp(75px,7vw,120px)!important}
+.solutions-page .solutions-workspace .solutions-nav{
+ display:flex!important;position:static!important;top:auto!important;flex-direction:row!important;
+ gap:0!important;width:100%!important;overflow-x:auto!important;margin:0 0 30px!important;
+ border-bottom:1px solid #d4d4d4!important;scrollbar-width:thin
+}
+.solutions-page .solutions-workspace .solutions-nav button{
+ flex:1 0 auto!important;white-space:nowrap!important;border:0!important;
+ border-bottom:3px solid transparent!important;padding:20px clamp(12px,1.5vw,26px)!important;
+ background:transparent!important;color:#191919!important;font-size:clamp(12px,1vw,16px)!important;
+ text-align:center!important;font-weight:850!important
+}
+.solutions-page .solutions-workspace .solutions-nav button:first-child{border-top:0!important}
+.solutions-page .solutions-workspace .solutions-nav button[aria-selected="true"]{
+ background:#181818!important;color:#fff!important;border-bottom-color:transparent!important
+}
+.solutions-page .solutions-workspace .solutions-nav button:hover:not([aria-selected="true"]){background:#e9e9e9!important}
+.solutions-page .solutions-workspace .solutions-layout{
+ display:grid!important;grid-template-columns:minmax(0, 0.78fr) minmax(0,1.55fr)!important;
+ align-items:stretch!important;gap:clamp(20px,2.7vw,44px)!important;padding-bottom:0!important
+}
+.solutions-page .solutions-workspace .solutions-feature,
+.solutions-page .solutions-workspace .solutions-performance{min-width:0!important;height:100%!important;box-sizing:border-box!important}
+.solutions-page .solutions-workspace .solutions-feature{background:#171717!important;color:#fff!important}
+.solutions-page .solutions-workspace .solutions-feature__body{
+ padding:clamp(26px,2.8vw,48px)!important;display:flex!important;flex-direction:column!important;
+ min-height:100%!important;box-sizing:border-box!important
+}
+.solutions-page .solutions-workspace .solutions-feature h3{font-size:clamp(28px,2.7vw,48px)!important;line-height:1.07!important}
+.solutions-page .solutions-workspace .solutions-feature p{font-size:clamp(16px,1.15vw,19px)!important;line-height:1.55!important}
+.solutions-page .solutions-workspace .solutions-materials-heading{
+ margin:26px 0 0!important;font-size:13px!important;letter-spacing:.13em!important;color:#f2b705!important
+}
+.solutions-page .solutions-workspace .solutions-feature__chips{margin:14px 0 30px!important;gap:9px!important}
+.solutions-page .solutions-workspace .solutions-feature__chips li{font-size:15px!important}
+.solutions-page .solutions-workspace #solution-image{
+ display:block!important;position:static!important;width:100%!important;
+ height:clamp(170px,15vw,265px)!important;object-fit:cover!important;margin-top:auto!important
+}
+.solutions-page .solutions-workspace .solutions-performance{
+ background:#fff!important;border:1px solid #dedede!important;
+ display:flex!important;flex-direction:column!important;padding:clamp(24px,2.5vw,42px)!important
+}
+.solutions-performance__top h3{font-size:clamp(30px,3.1vw,54px);line-height:1.05;margin:14px 0!important;font-weight:950}
+.solutions-performance__top p{color:#666;margin:0 0 28px;font-size:16px}
+.solutions-performance__table-wrap{overflow-x:auto;width:100%}
+.solutions-performance__table{width:100%;border-collapse:collapse;min-width:560px;font-size:clamp(12px,.95vw,15px);font-variant-numeric:tabular-nums}
+.solutions-performance__table th{background:#e30613;color:#fff;padding:16px 10px;text-align:center;font-weight:900}
+.solutions-performance__table th:first-child{text-align:left}
+.solutions-performance__table td{padding:16px 10px;text-align:center;border-bottom:1px solid #ddd;color:#262626}
+.solutions-performance__table td:first-child{text-align:left;font-weight:750;background:#f3f3f3}
+.solutions-performance__table tbody tr:nth-child(even) td:not(:first-child){background:#fafafa}
+.solutions-performance__note{font-size:12px!important;line-height:1.5;color:#777;margin:18px 0 26px!important}
+.solutions-page .solutions-workspace .solution-machines{margin-top:auto!important}
+@media(max-width:900px){
+ .solutions-page .solutions-workspace .solutions-layout{grid-template-columns:1fr!important}
+ .solutions-page .solutions-workspace .solutions-feature,
+ .solutions-page .solutions-workspace .solutions-performance{height:auto!important}
+ .solutions-page .solutions-workspace .solutions-nav button{flex:0 0 auto!important}
+}
+</style>
+<style id="anwendungen-empty-performance-fact">
+.solutions-page .solutions-workspace .solutions-performance__table-wrap[hidden],
+.solutions-page .solutions-workspace .solutions-performance__note[hidden],
+.solutions-page .solutions-workspace .solutions-performance__fact[hidden],
+.solutions-page .solutions-workspace #solutions-performance-heading[hidden],
+.solutions-page .solutions-workspace #solution-materials-heading[hidden]{display:none!important}
+.solutions-page .solutions-workspace .solutions-performance__fact{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;flex:1;min-height:320px;padding:clamp(20px,3vw,55px);background:#f5f5f5;box-sizing:border-box}
+.solutions-page .solutions-workspace .solutions-performance__fact-label{font-size:13px;font-weight:800;letter-spacing:.17em;color:#e30613;margin:0 0 22px}
+.solutions-page .solutions-workspace .solutions-performance__fact-text{font-size:clamp(21px,2vw,32px);font-weight:650;line-height:1.5;color:#191919;max-width:760px;margin:0}
+</style>
+<style id="solutions-special-material-list-style">
+/* Spezial Anwendung: eine einfarbige Fläche, eine schlichte Liste ohne Karten. */
+.solutions-page .solutions-workspace .solutions-performance:has(.solutions-performance__material-list){background:#f5f5f5!important;border:0!important;box-shadow:none!important}
+.solutions-page .solutions-workspace .solutions-performance:has(.solutions-performance__material-list) .solutions-performance__fact{background:#f5f5f5!important}
+.solutions-page .solutions-workspace .solutions-performance__material-list{display:block!important;list-style:disc!important;list-style-position:outside!important;margin:0 0 0 1.3em!important;padding:0!important;max-width:none!important;width:auto!important}
+.solutions-page .solutions-workspace .solutions-performance__material-list li{display:list-item!important;background:transparent!important;border:0!important;box-shadow:none!important;min-height:0!important;padding:0!important;margin:0 0 14px!important;font-size:clamp(18px,1.55vw,25px)!important;font-weight:600!important;line-height:1.5!important}
+</style>
+</head><body><!-- PUBLIC_SHARED_HEADER -->
+
+
+
+
+<section aria-label="ANWENDUNGEN" class="hammel-page-hero" data-page="loesungen">
 <video aria-hidden="true" autoplay="" class="hammel-page-hero__video" loop="" muted="" playsinline="" poster="../assets/video/hammel-poster.jpg" preload="metadata"><source src="../assets/video/hammel-hero.mp4" type="video/mp4"/></video>
 <div aria-hidden="true" class="hammel-page-hero__shade"></div>
 <div class="wrap hammel-page-hero__inner">
-<span class="hammel-page-hero__eyebrow">LÖSUNGEN</span>
+<span class="hammel-page-hero__eyebrow">ANWENDUNGEN</span>
 <h1 class="hammel-page-hero__title">VOM MATERIAL<em>ZUM WERTSTOFF</em></h1>
 <p class="hammel-page-hero__description">Wir entwickeln durchdachte Lösungen für anspruchsvolle Recyclingaufgaben.</p>
 
@@ -195,26 +384,40 @@ main > section[style*="background"], .section.white {
 <span class="hammel-page-hero__signature">THE ORIGINAL SINCE 1996</span>
 </section>
 <main class="solutions-page" id="loesungen">
-<section class="solutions-intro"><div class="wrap">
+<section class="solutions-intro" id="einsatzbereiche"><div class="wrap">
 <div class="solutions-kicker">EINSATZBEREICHE</div>
 <h2>WAS WIR ZERKLEINERN</h2>
-<p>Fünf Einsatzbereiche, unterschiedliche Materialien und individuelle Anforderungen. Entdecken Sie, wie HAMMEL die Aufbereitung verschiedenster Stoffströme unterstützt.</p>
+
 </div></section>
-<div class="wrap solutions-layout">
+<section class="solutions-workspace wrap" aria-label="Einsatzbereiche und Leistungsdaten">
 <nav class="solutions-nav" aria-label="Einsatzbereiche auswählen" role="tablist">
 <button type="button" role="tab" aria-selected="true" aria-controls="solution-panel" data-solution="0">ALTHOLZ &amp; GRÜNABFÄLLE</button>
 <button type="button" role="tab" aria-selected="false" aria-controls="solution-panel" data-solution="1">GEWERBE-, INDUSTRIE- &amp; HAUSMÜLL</button>
 <button type="button" role="tab" aria-selected="false" aria-controls="solution-panel" data-solution="2">METALLRECYCLING</button>
 <button type="button" role="tab" aria-selected="false" aria-controls="solution-panel" data-solution="3">SPEZIAL ANWENDUNG</button>
 </nav>
+<div class="solutions-layout">
 <article class="solutions-feature" id="solution-panel" role="tabpanel" aria-live="polite">
+<div class="solutions-feature__body">
+<div class="solutions-feature__tag" id="solution-tag">EINSATZBEREICH</div>
+<h3 id="solution-title">Altholz &amp; Grünabfälle</h3>
+<p id="solution-description" hidden></p>
+<h4 class="solutions-materials-heading" id="solution-materials-heading">MATERIALIEN</h4>
+<ul class="solutions-feature__chips" id="solution-chips"><li>Altholz</li><li>Grünschnitt</li></ul>
 <img id="solution-image" src="../assets/video/materials/holz.jpg" alt="Holz und Grünabfälle" loading="lazy">
-<div class="solutions-feature__body"><div class="solutions-feature__tag" id="solution-tag">EINSATZBEREICH</div><h3 id="solution-title">Altholz &amp; Grünabfälle</h3><p id="solution-description">Metallhaltige Materialien müssen vor der weiteren Sortierung und Verwertung häufig zerkleinert werden. HAMMEL-Technik kann die Aufbereitung von Mischschrott und weiteren Metallfraktionen unterstützen.</p><ul class="solutions-feature__chips" id="solution-chips"><li>Mischschrott</li><li>Metallschrott</li><li>Metallhaltige Mischfraktionen</li></ul>
-<section class="solution-machines" aria-labelledby="solution-machines-heading">
-<h4 id="solution-machines-heading">PASSENDE HAMMEL MASCHINEN</h4>
-<div id="solution-machines-list" aria-live="polite"><p class="solution-machines__empty">Maschinendaten werden geladen …</p></div>
-</section></div>
-</article></div>
+</div>
+</article>
+<article class="solutions-performance" aria-labelledby="solutions-performance-heading">
+<div class="solutions-performance__top"><h3 id="solutions-performance-heading">LEISTUNGSDATEN</h3></div>
+<div class="solutions-performance__fact" id="solutions-performance-fact" hidden><p class="solutions-performance__fact-label">WISSENSWERTES</p><div class="solutions-performance__fact-text" id="solutions-performance-fact-text"></div></div>
+<div class="solutions-performance__table-wrap">
+<table class="solutions-performance__table"><thead><tr><th scope="col">MATERIAL</th><th scope="col">450</th><th scope="col">650</th><th scope="col">750</th><th scope="col">850</th><th scope="col">950</th><th scope="col">1500</th></tr></thead>
+<tbody id="solutions-performance-rows"></tbody></table>
+</div>
+<p class="solutions-performance__note">* Die angegebenen Leistungsdaten sind ca.-Angaben ohne Gewähr und von der entsprechenden Ausstattung der Maschine, der Wellenkonfiguration sowie der optimalen Materialaufgabe abhängig.</p>
+
+</article>
+</div></section>
 <section class="solutions-facts facts-carousel-section" aria-labelledby="facts-title">
 <div class="wrap"><div class="solutions-kicker">GUT ZU WISSEN</div><h2 class="facts-heading" id="facts-title">WISSEN RUND UMS RECYCLING</h2>
 <p class="solutions-facts__intro">Zwölf spannende Einblicke in Materialien, Technik und Recycling.</p></div>
@@ -300,82 +503,69 @@ update(false);
 <script>
 (function(){
 const data=[
-{title:"Altholz & Grünabfälle",image:"../assets/video/materials/holz.jpg",alt:"Holz und Grünabfälle",description:"Ob Paletten, Bau- und Abbruchholz oder Grünschnitt: Unterschiedliche Holz- und Grünfraktionen erfordern eine auf das Material abgestimmte Zerkleinerung als Vorbereitung für weitere Verarbeitungsschritte.",chips:["Altholz","Paletten","Baum- und Strauchschnitt","Grünschnitt"]},
-{title:"Gewerbe-, Industrie- & Hausmüll",image:"../assets/video/materials/abfall.jpg",alt:"Aufbereitung gemischter Abfälle",description:"Gemischte Abfallströme stellen besondere Anforderungen an robuste Technik. Die Vorzerkleinerung bereitet Materialien auf nachfolgende Trenn-, Sortier- und Verwertungsschritte vor.",chips:["Gewerbeabfälle","Industrieabfälle","Gemischte Siedlungsabfälle"]},
-{title:"Metallrecycling",image:"../assets/video/materials/metall.jpg",alt:"Metallaufbereitung",description:"Metallhaltige Materialien müssen vor der weiteren Sortierung und Verwertung häufig zerkleinert werden. HAMMEL-Technik kann die Aufbereitung von Mischschrott und weiteren Metallfraktionen unterstützen.",chips:["Mischschrott","Metallschrott","Metallhaltige Mischfraktionen"]},
-{title:"Spezial Anwendung",image:"../assets/video/materials/sonstiges.jpg",alt:"Weitere Recyclinganwendungen",description:"Weitere Materialien und spezielle Anwendungen, darunter Bau- und Abbruchmaterialien sowie Gummi- und Kunststoffabfälle.",chips:["Bau- und Abbruchabfälle","Beton- und Ziegelbruch","Kunststoffabfälle","Gummiabfälle"]}
+{title:"Altholz & Grünabfälle",image:"../assets/video/materials/holz.jpg",alt:"Holz und Grünabfälle",description:"",chips:["Altholz","Grünschnitt"]},
+{title:"Gewerbe-, Industrie- & Hausmüll",image:"../assets/video/materials/abfall.jpg",alt:"Aufbereitung gemischter Abfälle",description:"",chips:[]},
+{title:"Metallrecycling",image:"../assets/video/materials/metall.jpg",alt:"Metallaufbereitung",description:"",chips:[]},
+{title:"Spezial Anwendung",image:"../assets/video/materials/sonstiges.jpg",alt:"Weitere Recyclinganwendungen",description:"",chips:[]}
 ];
-const tabs=[...document.querySelectorAll('[data-solution]')];
-function select(i){const d=data[i];tabs.forEach((b,j)=>{b.setAttribute('aria-selected',String(i===j));b.tabIndex=i===j?0:-1});document.getElementById('solution-image').src=d.image;document.getElementById('solution-image').alt=d.alt;document.getElementById('solution-title').textContent=d.title;document.getElementById('solution-description').textContent=d.description;document.getElementById('solution-chips').replaceChildren(...d.chips.map(x=>{const s=document.createElement('li');s.textContent=x;return s}));}
-
-let machineAreas=[];let selectedSolution=0;
-const originalSelect=select;
-function areaMatch(area,index){
- const text=(area.title+' '+area.slug).toLocaleLowerCase('de');
- const patterns=[/holz|grün|gruen/,/gewerbe|industrie|hausmüll|hausmuell|siedlung|abfall|müll|muell/,/schrott|metall/,/bau|abbruch|beton|ziegel|gummi|kunststoff|reifen|plastik|sonstig|spezial/];
- return patterns[index].test(text);
-}
-function renderMachines(index){
- selectedSolution=index;const root=document.getElementById('solution-machines-list');
- root.replaceChildren();
- const machines=new Map();
- machineAreas.filter(a=>areaMatch(a,index)).forEach(a=>(a.machines||[]).forEach(m=>machines.set(m.url,m)));
- if(!machines.size){const p=document.createElement('p');p.className='solution-machines__empty';p.textContent=machineAreas.length?'Für diesen Einsatzbereich sind derzeit keine Maschinen zugeordnet.':'Maschinendaten sind derzeit nicht verfügbar.';root.append(p);return;}
- const categoryOrder=['vorbrecher','nachzerkleinerer','siebtechnik','sortiertechnik','anlagenbau'];
- const categoryLabels={vorbrecher:'VORBRECHER',nachzerkleinerer:'NACHZERKLEINERER',siebtechnik:'SIEBTECHNIK',sortiertechnik:'SORTIERTECHNIK',anlagenbau:'ANLAGENBAU'};
- const groups=new Map();
- machines.forEach(m=>{const key=m.category||'weitere';if(!groups.has(key))groups.set(key,[]);groups.get(key).push(m)});
- const sorted=[...groups.keys()].sort((a,b)=>{const ai=categoryOrder.indexOf(a),bi=categoryOrder.indexOf(b);return (ai<0?999:ai)-(bi<0?999:bi)});
- const wrap=document.createElement('div');wrap.className='solution-machines__groups';
- const navigation=document.createElement('div');navigation.className='solution-machines__category-tabs';
- navigation.setAttribute('role','tablist');navigation.setAttribute('aria-label','Maschinentyp auswählen');
- const panels=document.createElement('div');panels.className='solution-machines__panels';
- const buttons=[];
- const sections=[];
- function activate(position,focus=false){
-  buttons.forEach((button,i)=>{
-   const active=i===position;
-   button.classList.toggle('is-active',active);
-   button.setAttribute('aria-selected',String(active));
-   button.tabIndex=active?0:-1;
-   sections[i].hidden=!active;
-  });
-  if(focus)buttons[position].focus();
+const recyclingFacts=[
+  "Altholz kann nach entsprechender Sortierung und Aufbereitung beispielsweise für die Herstellung von Holzwerkstoffen genutzt werden. Auch die energetische Verwertung ist je nach Holzqualität möglich.",
+  "Gemischte Gewerbe- und Siedlungsabfälle enthalten häufig noch verwertbare Bestandteile. Sortieranlagen können unter anderem Metalle und Kunststoffe für weitere Verwertungsschritte abtrennen.",
+  "Metalle lassen sich wiederholt einschmelzen und zu neuen Produkten verarbeiten. Eine gute Trennung der verschiedenen Metallarten erleichtert das Recycling.",
+  "Bei speziellen Stoffströmen entscheidet die Materialzusammensetzung darüber, welche Zerkleinerungs- und Sortierschritte sinnvoll sind."
+];
+let performanceTables=[[],[],[],[]];
+fetch('/api/anwendungen/leistungsdaten/', {credentials:'same-origin'})
+ .then(response=>{if(!response.ok)throw new Error('HTTP '+response.status);return response.json()})
+ .then(payload=>{if(Array.isArray(payload.tables)){performanceTables=payload.tables;renderPerformance(selectedPerformanceIndex)}})
+ .catch(()=>{performanceTables=[[],[],[],[]];renderPerformance(selectedPerformanceIndex)});
+let selectedPerformanceIndex=0;
+function renderPerformance(index){
+ selectedPerformanceIndex=index;
+ const tbody=document.getElementById('solutions-performance-rows');if(!tbody)return;
+ const rows=performanceTables[index]||[];
+ const tableWrap=document.querySelector('.solutions-performance__table-wrap');
+ const note=document.querySelector('.solutions-performance__note');
+ const fact=document.getElementById('solutions-performance-fact');
+ const heading=document.getElementById('solutions-performance-heading');
+ // "auf Anfrage" is not a throughput figure. Do not show an empty-looking table.
+ const hasMeasuredData=rows.some(row=>row.slice(1).some(value=>{
+   const text=String(value||'').trim();
+   return text!=='' && text!=='–' && text!=='-' && !/^auf anfrage$/i.test(text);
+ }));
+ const empty=!hasMeasuredData;
+ tableWrap.hidden=empty;
+ if(note)note.hidden=empty;
+ fact.hidden=!empty;
+ heading.hidden=empty;
+ if(empty){
+  const factText=document.getElementById('solutions-performance-fact-text');
+  if(index===3){
+   document.querySelector('.solutions-performance__fact-label').textContent='MATERIALIEN';
+   const materialsList=document.createElement('ul');
+   materialsList.className='solutions-performance__material-list';
+   ['Bau- und Abbruchabfälle','Beton- und Ziegelbruch','Kunststoffabfälle','Gummiabfälle'].forEach(material=>{
+    const item=document.createElement('li');
+    item.textContent=material;
+    materialsList.appendChild(item);
+   });
+   factText.replaceChildren(materialsList);
+  }else{
+   document.querySelector('.solutions-performance__fact-label').textContent='WISSENSWERTES';
+   factText.replaceChildren(document.createTextNode(recyclingFacts[index]||''));
+  }
+  tbody.replaceChildren();return;
  }
- sorted.forEach((key,i)=>{
-  const button=document.createElement('button');button.type='button';
-  button.className='solution-machines__category-tab';
-  button.setAttribute('role','tab');
-  button.id='machine-category-tab-'+i;
-  button.setAttribute('aria-controls','machine-category-panel-'+i);
-  button.textContent=categoryLabels[key]||(groups.get(key)[0].category_label||'WEITERE MASCHINEN').toLocaleUpperCase('de');
-  button.addEventListener('click',()=>activate(i));
-  button.addEventListener('keydown',e=>{
-   if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){
-    e.preventDefault();
-    const next=e.key==='Home'?0:e.key==='End'?buttons.length-1:(i+(e.key==='ArrowRight'?1:-1)+buttons.length)%buttons.length;
-    activate(next,true);
-   }
-  });
-  navigation.append(button);buttons.push(button);
-  const section=document.createElement('section');section.className='solution-machines__category-panel';
-  section.id='machine-category-panel-'+i;
-  section.setAttribute('role','tabpanel');section.setAttribute('aria-labelledby',button.id);
-  const links=document.createElement('div');links.className='solution-machines__items';
-  groups.get(key).sort((a,b)=>a.name.localeCompare(b.name,'de',{numeric:true})).forEach(m=>{
-   const a=document.createElement('a');a.className='solution-machines__item';a.href=m.url;
-   const name=document.createElement('span');name.textContent=m.name;
-   const arrow=document.createElement('span');arrow.textContent='↗';arrow.setAttribute('aria-hidden','true');
-   a.append(name,arrow);links.append(a);
-  });
-  section.append(links);panels.append(section);sections.push(section);
- });
- wrap.append(navigation,panels);root.append(wrap);
- // The first available group (Vorbrecher when present) is selected by default.
- activate(0);
+ tbody.replaceChildren(...rows.map(row=>{
+  const tr=document.createElement('tr');
+  row.forEach((value,i)=>{const cell=document.createElement('td');cell.textContent=value;tr.append(cell)});
+  return tr;
+ }));
 }
-select=function(i){originalSelect(i);renderMachines(i)};
-fetch('/api/loesungen/maschinen/',{credentials:'same-origin'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}).then(data=>{machineAreas=data.areas||[];renderMachines(selectedSolution)}).catch(()=>renderMachines(selectedSolution));
+renderPerformance(0);
+
+const tabs=[...document.querySelectorAll('[data-solution]')];
+function select(i){const d=data[i];tabs.forEach((b,j)=>{b.setAttribute('aria-selected',String(i===j));b.tabIndex=i===j?0:-1});document.getElementById('solution-image').src=d.image;document.getElementById('solution-image').alt=d.alt;document.getElementById('solution-title').textContent=d.title;document.getElementById('solution-description').textContent=d.description;document.getElementById('solution-description').hidden=!d.description;document.getElementById('solution-chips').replaceChildren(...d.chips.map(x=>{const s=document.createElement('li');s.textContent=x;return s}));document.getElementById('solution-materials-heading').hidden=!d.chips.length;renderPerformance(i);}
 
 tabs.forEach((b,i)=>{b.addEventListener('click',()=>select(i));b.addEventListener('keydown',e=>{if(e.key==='ArrowDown'||e.key==='ArrowRight'||e.key==='ArrowUp'||e.key==='ArrowLeft'){e.preventDefault();let next=(i+(e.key==='ArrowDown'||e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;select(next);tabs[next].focus();}})});
 })();

@@ -1,0 +1,39 @@
+{% extends "messen/base.html" %}
+{% block title %}Spracheinstellungen{% endblock %}
+{% block content %}
+<style>
+/* Scoped exclusively to the language-settings page. */
+.main:has(.language-settings-page){max-width:none;width:100%;padding:clamp(28px,4vw,64px) clamp(24px,5.5vw,100px) 90px}
+.language-settings-page{width:100%;max-width:none}
+.language-settings-page .language-intro{max-width:1050px}
+.language-settings-page .language-form{width:100%;margin-top:32px;background:#fff;padding:clamp(24px,3vw,46px);border:1px solid #e9e9e9}
+.language-settings-page .language-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(22px,4vw,80px)}
+.language-settings-page .language-row{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:24px 4px;border-bottom:1px solid #e6e6e6;cursor:pointer;min-width:0;transition:background-color .18s ease}
+.language-settings-page .language-row:hover{background:#f7f7f7}
+.language-settings-page .language-name{font-size:16px;font-weight:700}
+.language-settings-page .language-toggle{display:inline-flex;align-items:center;gap:12px;font-size:14px;font-weight:700;white-space:nowrap}
+.language-settings-page .language-toggle input{appearance:auto;accent-color:#e30613;width:20px;height:20px;margin:0;cursor:pointer}
+.language-settings-page .language-toggle input:disabled{cursor:not-allowed;opacity:.6}
+.language-settings-page .language-note{font-size:14px;line-height:1.7;color:#666;margin:30px 0 24px;max-width:950px}
+.language-settings-page .language-save{background:#171717;color:#fff;border:0;padding:17px 36px;font-weight:800;cursor:pointer;transition:background-color .2s ease}
+.language-settings-page .language-save:hover{background:#e30613}
+@media(max-width:760px){.language-settings-page .language-grid{grid-template-columns:1fr}.language-settings-page .language-row{padding:20px 0}.language-settings-page .language-form{padding:20px}.language-settings-page .language-toggle{font-size:13px}}
+</style>
+<div class="language-settings-page">
+  <div class="eyebrow">HAMMEL</div>
+  <h1>SPRACH<span class="red">EINSTELLUNGEN</span></h1>
+  <p class="subtitle language-intro">Aktive Sprachen für die gesamte HAMMEL-Website. Deutsch bleibt immer aktiv. Bestehende Übersetzungen werden nicht gelöscht.</p>
+  <form class="language-form" method="post">{% csrf_token %}
+    <div class="language-grid">
+      {% for code,name,enabled in languages %}
+      <label class="language-row">
+        <span class="language-name">{{ name }}</span>
+        <span class="language-toggle"><input type="checkbox" name="languages" value="{{ code }}" {% if enabled %}checked{% endif %} {% if code == 'de' %}checked disabled{% endif %}><span>{% if enabled %}Aktiv{% else %}Inaktiv{% endif %}</span></span>
+      </label>
+      {% endfor %}
+    </div>
+    <p class="language-note">Inaktive Sprachen bleiben gespeichert. Nach dem Aktivieren müssen alle Pflichtübersetzungen vor einer neuen Veröffentlichung geprüft werden.</p>
+    <button class="language-save" type="submit">SPEICHERN</button>
+  </form>
+</div>
+{% endblock %}

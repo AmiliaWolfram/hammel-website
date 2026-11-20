@@ -1,10 +1,11 @@
+{% load site_language_visibility %}
 <nav class="messe-language-nav" aria-label="Sprachversionen und Prüfung">
 <a class="{% if not lang or lang == 'de' %}active{% endif %}" href="{% if item.pk %}{% url 'messen_edit' item.pk %}{% else %}#{% endif %}">DE</a>
 {% if editing or item.pk %}
-<a class="{% if lang == 'en' %}active{% endif %}" href="{% url 'messen_language_editor' item.pk 'en' %}">EN</a>
-<a class="{% if lang == 'fr' %}active{% endif %}" href="{% url 'messen_language_editor' item.pk 'fr' %}">FR</a>
-<a class="{% if lang == 'es' %}active{% endif %}" href="{% url 'messen_language_editor' item.pk 'es' %}">ES</a>
-<a class="{% if lang == 'it' %}active{% endif %}" href="{% url 'messen_language_editor' item.pk 'it' %}">IT</a>
+{% if "en"|language_visible %}<a class="{% if lang == 'en' %}active{% endif %}" href="{% url 'messen_language_editor' item.pk 'en' %}">EN</a>{% endif %}
+{% if "fr"|language_visible %}<a class="{% if lang == 'fr' %}active{% endif %}" href="{% url 'messen_language_editor' item.pk 'fr' %}">FR</a>{% endif %}
+{% if "es"|language_visible %}<a class="{% if lang == 'es' %}active{% endif %}" href="{% url 'messen_language_editor' item.pk 'es' %}">ES</a>{% endif %}
+{% if "it"|language_visible %}<a class="{% if lang == 'it' %}active{% endif %}" href="{% url 'messen_language_editor' item.pk 'it' %}">IT</a>{% endif %}
 <a class="{% if lang == 'review' %}active{% endif %}" href="{% url 'messen_language_editor' item.pk 'review' %}">PRÜFUNG</a>
 {% else %}
 <span class="disabled">EN</span><span class="disabled">FR</span><span class="disabled">ES</span><span class="disabled">IT</span><span class="disabled">PRÜFUNG</span>

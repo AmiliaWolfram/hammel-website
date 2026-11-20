@@ -6,7 +6,7 @@ from django.core.exceptions import PermissionDenied
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
-from .models import ContentTranslation, LANGUAGES
+from .models import ContentTranslation, LANGUAGES, SiteLanguageSettings
 from .services import ALLOWED_MODELS, fields_for, fingerprint
 
 @login_required
@@ -24,6 +24,10 @@ def edit(request, app_label, model_name, pk):
     fields = fields_for(obj)
     if not fields:
         raise Http404("Keine übersetzbaren Felder")
+    active = SiteLanguageSettings.enabled()
+    available = [(code, label) for code, label in LANGUAGES[1:] if code in active]
+    inactive = [(code, label) for code, label in LANGUAGES[1:] if code not in active]
+    show_inactive = request.GET.get("show_inactive") == "1"
     language = request.GET.get("lang", "en")
     if language not in {code for code, _ in LANGUAGES if code != "de"}:
         language = "en"
@@ -77,7 +81,7 @@ def edit(request, app_label, model_name, pk):
         original = str(getattr(obj, field.name) or "")
         item = existing.get(field.name)
         rows.append({"name": field.name, "label": str(field.verbose_name).capitalize(), "original": original, "text": item.text if item else "", "status": item.status if item else "draft", "stale": bool(item and item.text.strip() and item.source_hash != fingerprint(original)), "updated_at": item.updated_at if item else None, "updated_by": item.updated_by if item else None})
-    return render(request, "translations/editor.html", {"object": obj, "rows": rows, "language": language, "languages": LANGUAGES[1:], "portal": "HRPortal" if app_label == "recruiting" else "Vertriebsportal", "base_template": "translations/hr_portal_base.html" if app_label == "recruiting" else "translations/editor_sales_base.html", "is_hr": app_label == "recruiting", "autosave_url": __import__("django.urls", fromlist=["reverse"]).reverse("translation_autosave", args=[app_label, model_name, pk]), "is_vacancy": app_label == "recruiting" and model_name == "vacancy", "hr_kind": {"hrtip":"tip", "applicationdepartment":"department", "vacancydepartment":"job_department"}.get(model_name) if app_label == "recruiting" else None})
+    return render(request, "translations/editor.html", {"object": obj, "rows": rows, "language": language, "languages": available + (inactive if show_inactive else []), "inactive_languages": inactive, "show_inactive": show_inactive, "portal": "HRPortal" if app_label == "recruiting" else "Vertriebsportal", "base_template": "translations/hr_portal_base.html" if app_label == "recruiting" else "translations/editor_sales_base.html", "is_hr": app_label == "recruiting", "autosave_url": __import__("django.urls", fromlist=["reverse"]).reverse("translation_autosave", args=[app_label, model_name, pk]), "is_vacancy": app_label == "recruiting" and model_name == "vacancy", "hr_kind": {"hrtip":"tip", "applicationdepartment":"department", "vacancydepartment":"job_department"}.get(model_name) if app_label == "recruiting" else None})
 
 @login_required
 def catalog(request, portal):
@@ -85,9 +89,10 @@ def catalog(request, portal):
         raise Http404
     apps = ["recruiting"] if portal == "hr" else ["messen", "contacts", "partners"]
     from .services import fingerprint
+    active_languages = [(code, label) for code, label in LANGUAGES[1:] if code in SiteLanguageSettings.enabled()]
     groups = []
     missing_total = stale_total = translated_total = published_total = review_total = draft_total = total_fields = 0
-    language_stats = {code: {"code": code.upper(), "label": label, "total": 0, "translated": 0, "published": 0, "missing": 0, "draft": 0, "review": 0} for code, label in LANGUAGES[1:]}
+    language_stats = {code: {"code": code.upper(), "label": label, "total": 0, "translated": 0, "published": 0, "missing": 0, "draft": 0, "review": 0} for code, label in active_languages}
     from django.urls import reverse
     editor_routes = {
         ("recruiting", "vacancy"): ("hr_edit", ["vacancy"]),
@@ -111,7 +116,7 @@ def catalog(request, portal):
                 existing = {(x.field_name, x.language): x for x in ContentTranslation.objects.filter(content_type=ct, object_id=obj.pk)}
                 missing, stale = [], []
                 object_total = object_translated = object_published = object_review = object_draft = 0
-                for language, _ in LANGUAGES[1:]:
+                for language, _ in active_languages:
                     for field in fields:
                         original = getattr(obj, field.name) or ""
                         if not str(original).strip():
@@ -189,6 +194,11 @@ def hr_blocks(request):
     from .services import fingerprint
     if not (request.user.has_perm("recruiting.change_hrtextblock") or request.user.has_perm("recruiting.change_vacancy")):
         raise PermissionDenied
+    enabled_codes = set(SiteLanguageSettings.enabled())
+    show_inactive = request.GET.get("show_inactive") == "1"
+    active_languages = [(code, label) for code, label in LANGUAGES[1:] if code in enabled_codes]
+    inactive_languages = [(code, label) for code, label in LANGUAGES[1:] if code not in enabled_codes]
+    visible_languages = active_languages + (inactive_languages if show_inactive else [])
     ct = ContentType.objects.get_for_model(HRTextBlock)
     profession = request.GET.get("profession", "")
     category = request.GET.get("category", "")
@@ -216,7 +226,7 @@ def hr_blocks(request):
             for block in blocks:
                 if not block.active:
                     continue
-                for language, _ in LANGUAGES[1:]:
+                for language, _ in visible_languages:
                     key = f"block_{block.pk}_{language}"
                     if key not in request.POST:
                         continue
@@ -238,7 +248,7 @@ def hr_blocks(request):
     missing = stale = 0
     for block in blocks:
         versions = []
-        for language, label in LANGUAGES[1:]:
+        for language, label in visible_languages:
             entry = lookup.get((block.pk, language))
             outdated = bool(entry and entry.text and entry.source_hash != fingerprint(block.text))
             if not entry or not entry.text.strip(): missing += 1
@@ -258,6 +268,9 @@ def hr_blocks(request):
         "profession": profession, "category": category,
         "professions": HRTextBlock.objects.filter(active=True).exclude(profession="").order_by("profession").values_list("profession", flat=True).distinct(),
         "categories": HRTextBlock.CATEGORY,
+        "visible_languages": visible_languages,
+        "inactive_languages": inactive_languages,
+        "show_inactive": show_inactive,
     })
 
 

@@ -366,7 +366,12 @@ def hr_edit(request, kind, pk=None):
         from django.contrib.contenttypes.models import ContentType
         from translations.models import ContentTranslation
         from translations.services import fingerprint
-        languages = (("de", "Deutsch"), ("en", "English"), ("fr", "Français"), ("es", "Español"), ("it", "Italiano"))
+        from translations.models import SiteLanguageSettings
+        enabled_codes = set(SiteLanguageSettings.enabled())
+        all_languages = (("de", "Deutsch"), ("en", "English"), ("fr", "Français"), ("es", "Español"), ("it", "Italiano"))
+        show_inactive = request.GET.get("show_inactive") == "1"
+        inactive_languages = tuple((code, label) for code, label in all_languages if code not in enabled_codes)
+        languages = tuple((code, label) for code, label in all_languages if code in enabled_codes or show_inactive)
         ct = ContentType.objects.get_for_model(model)
         existing = {(entry.language, entry.field_name): entry for entry in ContentTranslation.objects.filter(
             content_type=ct, object_id=obj.pk, field_name__in=("title", "body"), language__in=("en", "fr", "es", "it"))} if obj else {}
@@ -410,6 +415,7 @@ def hr_edit(request, kind, pk=None):
             "object": obj, "languages": [{"code": code, "label": label,
                 "title": values[(code, "title")], "body": values[(code, "body")]} for code, label in languages],
             "published": published, "errors": errors,
+            "inactive_languages": inactive_languages, "show_inactive": show_inactive,
         })
     if kind in ("department", "job_department"):
         from django.db import transaction
@@ -417,7 +423,12 @@ def hr_edit(request, kind, pk=None):
         from translations.models import ContentTranslation
         from translations.services import fingerprint
         from django.core.exceptions import ValidationError
-        languages = (("de", "Deutsch"), ("en", "English"), ("fr", "Français"), ("es", "Español"), ("it", "Italiano"))
+        from translations.models import SiteLanguageSettings
+        enabled_codes = set(SiteLanguageSettings.enabled())
+        all_languages = (("de", "Deutsch"), ("en", "English"), ("fr", "Français"), ("es", "Español"), ("it", "Italiano"))
+        show_inactive = request.GET.get("show_inactive") == "1"
+        inactive_languages = tuple((code, label) for code, label in all_languages if code not in enabled_codes)
+        languages = tuple((code, label) for code, label in all_languages if code in enabled_codes or show_inactive)
         ct = ContentType.objects.get_for_model(model)
         existing = {item.language: item for item in ContentTranslation.objects.filter(
             content_type=ct, object_id=obj.pk, field_name="name", language__in=("en", "fr", "es", "it")
@@ -462,6 +473,7 @@ def hr_edit(request, kind, pk=None):
         return render(request, "recruiting/bereich_multilingual.html", {
             "object": obj, "kind": kind, "languages": [{"code": code, "label": label, "value": values[code]} for code, label in languages],
             "active": active, "errors": errors,
+            "inactive_languages": inactive_languages, "show_inactive": show_inactive,
         })
     Form = forms.modelform_factory(model, fields=fields, widgets={
         f.name: forms.Textarea(attrs={"rows": 5}) for f in model._meta.fields if f.name in fields and isinstance(f, db_models.TextField)

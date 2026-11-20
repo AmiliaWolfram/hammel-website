@@ -16,7 +16,11 @@ admin.site.site_header = "HAMMEL · Vertriebsportal"
 admin.site.site_title = "HAMMEL Messen"
 admin.site.index_title = "Veranstaltungen verwalten"
 
+from translations.site_languages import settings_view as site_languages_settings_view
+
 urlpatterns = [
+    path("staff/spracheinstellungen/", site_languages_settings_view, name="site_language_settings"),
+    path("api/anwendungen/leistungsdaten/", __import__("messen.views", fromlist=["application_performance_api"]).application_performance_api, name="application_performance_api"),
     path("staff/sprachversionen/hr/textbausteine/", translation_hr_blocks, name="translation_hr_blocks"),
     path("staff/sprachversionen/<str:portal>/", translation_catalog, name="translation_catalog"),
     path("staff/uebersetzungen/<str:app_label>/<str:model_name>/<int:pk>/", translation_edit, name="translation_edit"),

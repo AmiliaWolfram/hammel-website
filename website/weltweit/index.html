@@ -20,7 +20,7 @@
 <link href="../assets/css/weltweit-hero-refined.css" rel="stylesheet"/>
 <link href="../assets/css/weltweit-cosmos.css" rel="stylesheet"/>
 <link href="../assets/css/weltweit-video-hero.css" rel="stylesheet"/>
-<link href="../assets/css/weltweit-atlas.css?v=20261030-no-line-2" rel="stylesheet"/>
+<link href="../assets/css/weltweit-atlas.css?v=20261120-company-selection-final" rel="stylesheet"/>
 <link href="../assets/css/footer-unified.css" rel="stylesheet"/>
 <link href="../assets/css/page-hero.css" rel="stylesheet"/><link rel="stylesheet" href="../assets/css/hammel-eyebrow-palette.css?v=20261023palette1">
 <link rel="stylesheet" href="../assets/css/hammel-alignment-fix.css?v=20261030b">
@@ -39,6 +39,36 @@ main > section::before, main > .section::before {
 main > section[style*="background"], .section.white {
   border-top-color: transparent !important;
 }
+</style><style id="weltweit-compact-hero-only">
+/* The shared HOME header is intentionally not overridden here. */
+html body > .hammel-page-hero[data-page="weltweit"]{
+  height:auto!important;min-height:0!important;max-height:none!important;
+  box-sizing:border-box!important;position:relative!important;
+  display:flex!important;align-items:center!important;
+  margin:0!important;padding:0!important;
+}
+html body > .hammel-page-hero[data-page="weltweit"] > .hammel-page-hero__inner{
+  position:relative!important;inset:auto!important;transform:none!important;
+  box-sizing:border-box!important;min-height:0!important;height:auto!important;
+  width:calc(100% - 2 * clamp(20px,4vw,80px))!important;max-width:none!important;
+  margin:0 auto!important;padding:clamp(145px,11vw,180px) 0 clamp(70px,6vw,100px)!important;
+}
+html body > .hammel-page-hero[data-page="weltweit"] .hammel-page-hero__title{
+  font-size:clamp(52px,7.3vw,125px)!important;line-height:.98!important;
+}
+html body > .hammel-page-hero[data-page="weltweit"] .hammel-page-hero__description{margin-bottom:0!important}
+@media(max-width:760px){
+ html body > .hammel-page-hero[data-page="weltweit"] > .hammel-page-hero__inner{padding:125px 0 65px!important}
+ html body > .hammel-page-hero[data-page="weltweit"] .hammel-page-hero__title{font-size:clamp(42px,11vw,72px)!important}
+}
+</style>
+<style>
+/* WELTWEIT partner list: final selected/hover styling, no red border. */
+html body #international #atlas-partner-list .atlas-list-item {border:0!important;border-left:0!important;border-inline-start:0!important;box-shadow:none!important;outline:none!important;background:transparent!important;padding-left:12px!important;transition:background-color .18s ease,color .18s ease!important}
+html body #international #atlas-partner-list .atlas-list-item::before,html body #international #atlas-partner-list .atlas-list-item::after {content:none!important;display:none!important;border:0!important}
+html body #international #atlas-partner-list .atlas-list-item:not(.is-selected):not(.is-active):hover,html body #international #atlas-partner-list .atlas-list-item:not(.is-selected):not(.is-active):focus-visible {background:#33363b!important;color:#fff!important}
+html body #international #atlas-partner-list .atlas-list-item.is-selected,html body #international #atlas-partner-list .atlas-list-item.is-active,html body #international #atlas-partner-list .atlas-list-item.is-selected:hover,html body #international #atlas-partner-list .atlas-list-item.is-active:hover {background:#f4cf24!important;color:#151515!important}
+html body #international #atlas-partner-list .atlas-list-item.is-selected *,html body #international #atlas-partner-list .atlas-list-item.is-active * {color:#151515!important}
 </style></head>
 <body>
 <!-- PUBLIC_SHARED_HEADER -->
@@ -49,7 +79,7 @@ main > section[style*="background"], .section.white {
 <span class="hammel-page-hero__eyebrow">WELTWEIT</span>
 <h1 class="hammel-page-hero__title">WELTWEIT<em>VERNETZT</em></h1>
 <p class="hammel-page-hero__description">Aus Thüringen in die Welt. Entdecken Sie unser internationales Partnernetzwerk.</p>
-<a class="hammel-page-hero__cta" href="#international"><span aria-hidden="true" class="hammel-page-hero__cta-icon">↗</span><span>MEHR ENTDECKEN</span></a>
+
 </div>
 <span class="hammel-page-hero__signature">THE ORIGINAL SINCE 1996</span>
 </section>
@@ -108,7 +138,7 @@ main > section[style*="background"], .section.white {
 <div class="wrap partner-atlas__layout">
 <aside class="partner-atlas__filter">
 <div class="atlas-sidebar-heading">
-       REGION WÄHLEN
+       LAND WÄHLEN
       </div>
 <div class="partner-atlas__regions" id="atlas-regions">
 </div>
@@ -769,7 +799,7 @@ main > section[style*="background"], .section.white {
 </div>
 </aside>
 </div>
-<div class="wrap atlas-profile-area" id="atlas-profile-area">
+<div class="wrap atlas-profile-area" id="atlas-profile-area" hidden>
 <div class="atlas-profile-kicker">
       PARTNERNETZWERK
       <span>
@@ -816,7 +846,7 @@ main > section[style*="background"], .section.white {
        WELTWEIT
       </h2>
 <p>
-       Wählen Sie oben eine Region aus, um die dort aufgeführten Partner und Ansprechpartner zu entdecken. Für weitere Informationen steht Ihnen unser offizielles Partnerverzeichnis zur Verfügung.
+       Wählen Sie oben ein Land aus, um die dort aufgeführten Partner und Ansprechpartner zu entdecken. Für weitere Informationen steht Ihnen unser offizielles Partnerverzeichnis zur Verfügung.
       </p>
 </div>
 <a class="weltweit-link weltweit-link--dark" href="https://www.hammel.de/index.php/de/unternehmen/hammel-weltweit" rel="noopener noreferrer" target="_blank">
@@ -836,7 +866,7 @@ main > section[style*="background"], .section.white {
 <script defer="" src="../assets/js/global-cinema.js">
 </script>
 
-<script defer="" src="../assets/js/weltweit-atlas.js?v=20261027-standard-inrema">
+<script defer="" src="../assets/js/weltweit-atlas.js?v=20261119-countries">
 </script>
 <script defer="" src="../assets/js/page-hero.js"></script><script defer src="../assets/js/hammel-transitions.js?v=2"></script><script defer src="../assets/js/hammel-cinematic-sections.js?v=20261103b"></script>
 </body>

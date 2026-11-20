@@ -17,3 +17,19 @@ class ContentTranslation(models.Model):
     class Meta:
         constraints = [models.UniqueConstraint(fields=["content_type", "object_id", "field_name", "language"], name="unique_content_translation")]
         indexes = [models.Index(fields=["content_type", "object_id", "language"], name="trans_ct_obj_lang_idx")]
+
+
+class SiteLanguageSettings(models.Model):
+    """One site-wide set of enabled languages. Existing translations are never deleted."""
+    singleton_key = models.PositiveSmallIntegerField(primary_key=True, default=1, editable=False)
+    enabled_languages = models.JSONField(default=list)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    @classmethod
+    def enabled(cls):
+        try:
+            row = cls.objects.filter(pk=1).first()
+            return ["de"] + [code for code in (row.enabled_languages if row else ["en", "fr", "es", "it"]) if code in {"en", "fr", "es", "it"}]
+        except (Exception):
+            # Safe during the initial migration; do not interrupt the website.
+            return ["de", "en", "fr", "es", "it"]

@@ -29,7 +29,7 @@ from .models import UsedMachine
 class UsedMachineForm(forms.ModelForm):
     class Meta:
         model = UsedMachine
-        fields = ("title", "serial_number", "build_year", "build_month", "operating_hours", "engine", "power", "shafts", "condition", "equipment", "weight", "description", "image", "video_url", "position", "published")
+        fields = ("title", "serial_number", "build_year", "build_month", "operating_hours", "engine", "power", "shafts", "condition", "equipment", "weight", "description", "image", "video_url", "position")
         widgets = {"shafts": forms.Textarea(attrs={"rows": 3}), "condition": forms.Textarea(attrs={"rows": 4}), "equipment": forms.Textarea(attrs={"rows": 4}), "description": forms.Textarea(attrs={"rows": 5})}
 
 from .models import MachineProduct, MachineVariant
@@ -49,3 +49,36 @@ class MachineVariantForm(forms.ModelForm):
 
 # These controls are handled explicitly in the Vertrieb form to keep area/material
 # selection structured, rather than a free-text comma-separated field.
+
+
+# The same server-side readiness rule applies to both public editorial forms.
+def _validate_publication(form):
+    if not form.cleaned_data.get("published"):
+        return
+    from translations.services import missing_active_translations
+    from translations.models import SiteLanguageSettings
+    instance = form.instance
+    if not instance.pk:
+        if len(SiteLanguageSettings.enabled()) > 1:
+            raise forms.ValidationError("Bitte zuerst als Entwurf speichern und die aktiven Sprachen vervollständigen.")
+        return
+    for field, value in form.cleaned_data.items():
+        if hasattr(instance, field) and field not in ("published",):
+            # Validate the exact new source text, not the stale database value.
+            setattr(instance, field, value)
+    missing = missing_active_translations(instance)
+    if missing:
+        raise forms.ValidationError("Veröffentlichung gesperrt. Übersetzungen fehlen oder sind nicht freigegeben: " + ", ".join(missing[:12]))
+
+def _messe_clean(self):
+    cleaned = super(MesseForm, self).clean()
+    _validate_publication(self)
+    return cleaned
+
+def _news_clean(self):
+    cleaned = super(NewsArticleForm, self).clean()
+    _validate_publication(self)
+    return cleaned
+
+MesseForm.clean = _messe_clean
+NewsArticleForm.clean = _news_clean

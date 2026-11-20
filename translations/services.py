@@ -14,17 +14,24 @@ ALLOWED_MODELS = {
 def fields_for(obj):
     if obj._meta.model_name not in ALLOWED_MODELS.get(obj._meta.app_label, set()):
         return []
-    return [f for f in obj._meta.fields if isinstance(f, (models.CharField, models.TextField)) and not isinstance(f, (models.SlugField, models.URLField, models.EmailField)) and f.name not in EXCLUDED and not f.choices and f.editable]
+    excluded = EXCLUDED - {"engine", "power", "weight", "operating_hours"} if obj._meta.app_label == "messen" and obj._meta.model_name == "usedmachine" else EXCLUDED
+    return [f for f in obj._meta.fields if isinstance(f, (models.CharField, models.TextField)) and not isinstance(f, (models.SlugField, models.URLField, models.EmailField)) and f.name not in excluded and not f.choices and f.editable]
 
 def fingerprint(value):
     return hashlib.sha256(str(value or "").encode("utf-8")).hexdigest()
 
 def translated(obj, field_name, language="de"):
     original = getattr(obj, field_name)
+    from .models import SiteLanguageSettings
+    if language not in SiteLanguageSettings.enabled():
+        return original
     if language == "de" or field_name not in {f.name for f in fields_for(obj)}:
         return original
     if obj._meta.app_label == "messen" and obj._meta.model_name in {"messe", "newsarticle"}:
         if not (getattr(obj, "language_visibility", None) or {}).get(language, False):
+            return original
+    if obj._meta.app_label == "messen" and obj._meta.model_name == "usedmachine":
+        if language not in (getattr(obj, "visible_languages", None) or []):
             return original
     if obj._meta.app_label == "messen" and obj._meta.model_name == "machinevariant":
         visibility = getattr(obj, "visible_languages", None)
@@ -159,3 +166,24 @@ def fill_vacancy_from_library(vacancy):
                 defaults={"text": "\n".join(rendered), "status": "draft",
                           "source_hash": fingerprint(original), "updated_by": None},
             )
+
+
+def missing_active_translations(obj):
+    """Missing, unapproved or outdated required translations for a saved object."""
+    from .models import SiteLanguageSettings
+    if not obj.pk:
+        return ["Bitte zuerst als Entwurf speichern."]
+    required = [f for f in fields_for(obj) if str(getattr(obj, f.name, "") or "").strip()]
+    if not required:
+        return []
+    ct = ContentType.objects.get_for_model(obj)
+    existing = {(x.language, x.field_name): x for x in ContentTranslation.objects.filter(content_type=ct, object_id=obj.pk)}
+    errors = []
+    for code in SiteLanguageSettings.enabled():
+        if code == "de":
+            continue
+        for field in required:
+            entry = existing.get((code, field.name))
+            if not entry or not entry.text.strip() or entry.status != "published" or entry.source_hash != fingerprint(getattr(obj, field.name)):
+                errors.append(f"{code.upper()}: {field.verbose_name}")
+    return errors

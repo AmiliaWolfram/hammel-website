@@ -4,6 +4,7 @@ Public static HTML uses markers; Django templates are normalized at response tim
 Internal staff/admin pages are deliberately excluded.
 """
 import re
+from translations.models import SiteLanguageSettings
 from pathlib import Path
 from django.conf import settings
 
@@ -46,6 +47,12 @@ class PublicChromeMiddleware:
             html = html[:match.start()] + footer + html[match.end():]
         else:
             html = re.sub(r"</body>", footer + "</body>", html, count=1, flags=re.I)
+        # Apply the same enabled language selection to every public page.
+        import json
+        enabled = SiteLanguageSettings.enabled()
+        html = re.sub(r'<a\b(?=[^>]*data-lang=["\'](de|en|fr|es|it)["\'])[^>]*>.*?</a>', lambda m: m.group(0) if re.search(r'data-lang=["\']('+ '|'.join(enabled) +r')["\']', m.group(0)) else '', html, flags=re.I|re.S)
+        language_script = '<script>window.HAMMEL_ENABLED_LANGUAGES=' + json.dumps(enabled) + ';(function(){var a=window.HAMMEL_ENABLED_LANGUAGES;try{if(!a.includes(localStorage.getItem("hammelLang")))localStorage.setItem("hammelLang","de")}catch(e){}document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("[data-lang]").forEach(function(n){if(!a.includes(n.dataset.lang))n.remove()});var b=document.getElementById("langBtn");if(b&&!a.includes((b.textContent||"").trim().slice(0,2).toLowerCase()))b.textContent="DE ▾"})})();</script>'
+        html = re.sub(r'</head>', language_script + '</head>', html, count=1, flags=re.I)
         # Canonical CSS is always loaded last, after every page-specific stylesheet.
         # Existing footer-unified.css alone is not sufficient to isolate legacy page CSS.
         chrome_css = '<link rel="stylesheet" href="/assets/css/public-chrome-canonical.css?v=20261030-home-aligned">'

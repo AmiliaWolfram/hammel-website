@@ -84,3 +84,18 @@ class RecyclingMaterialAdmin(admin.ModelAdmin):
     list_display = ("name", "area", "position")
     list_filter = ("area",)
     search_fields = ("name",)
+
+
+from .models import ApplicationPerformance
+
+@admin.register(ApplicationPerformance)
+class ApplicationPerformanceAdmin(admin.ModelAdmin):
+    list_display = ("material", "area", "value_450", "value_650", "value_750", "value_850", "value_950", "value_1500", "position", "published")
+    list_filter = ("area", "published")
+    search_fields = ("material",)
+    list_editable = ("value_450", "value_650", "value_750", "value_850", "value_950", "value_1500", "position", "published")
+    ordering = ("area", "position", "pk")
+    fieldsets = (
+        ("Einsatzbereich und Material", {"fields": ("area", "material", "position", "published")}),
+        ("Leistungsdaten (t/h)", {"fields": (("value_450", "value_650", "value_750"), ("value_850", "value_950", "value_1500"))}),
+    )

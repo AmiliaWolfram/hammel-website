@@ -98,19 +98,74 @@ def news_story(request, pk, slug):
 @require_GET
 def used_machines(request):
     from .models import UsedMachine
+    from translations.services import translated
+    language = request.GET.get("lang", "de")
+    if language not in ("de", "en", "fr", "es", "it"):
+        language = "de"
     items = UsedMachine.objects.filter(published=True).prefetch_related("photos")
-    return JsonResponse([{"id": m.pk, "title": m.title, "serial_number": m.serial_number,
+    items = [m for m in items if language == "de" or language in (m.visible_languages or [])]
+    return JsonResponse([{"id": m.pk, "title": translated(m, "title", language), "serial_number": m.serial_number,
         "build_year": m.build_year, "build_month": m.build_month, "operating_hours": m.operating_hours,
-        "engine": m.engine, "power": m.power, "shafts": m.shafts, "equipment": m.equipment,
-        "weight": m.weight, "condition": m.condition, "description": m.description, "image": m.image.url if m.image else None,
+        "engine": m.engine, "power": m.power, "shafts": translated(m, "shafts", language), "equipment": translated(m, "equipment", language),
+        "weight": m.weight, "condition": translated(m, "condition", language), "description": translated(m, "description", language), "image": m.image.url if m.image else None,
         "photos": [{"image": p.image.url, "caption": p.caption} for p in m.photos.all()],
         "video_url": m.video_url, "url": f"/service/gebrauchtmaschinen/maschine/{m.pk}/"} for m in items], safe=False)
 
 @require_GET
 def used_machine_detail(request, pk):
     from .models import UsedMachine
-    machine = get_object_or_404(UsedMachine.objects.prefetch_related("photos"), pk=pk, published=True)
-    return render(request, "messen/used_detail.html", {"machine": machine})
+    from translations.services import fields_for, translated
+    machine = get_object_or_404(UsedMachine.objects.prefetch_related("photos"), pk=pk)
+    preview = request.GET.get("preview") == "1" and request.user.is_authenticated and request.user.has_perm("messen.view_usedmachine")
+    if not machine.published and not preview:
+        from django.http import Http404
+        raise Http404
+    language = request.GET.get("lang", "de")
+    if language not in ("de", "en", "fr", "es", "it"):
+        language = "de"
+    if language != "de" and not preview and language not in (machine.visible_languages or []):
+        from django.http import Http404
+        raise Http404
+    # Preview: distinguish missing, awaiting review and approved field translations.
+    # Public rendering keeps its existing translation rules.
+    from translations.models import ContentTranslation
+    from translations.services import fingerprint
+    from django.contrib.contenttypes.models import ContentType
+    fields = list(fields_for(machine))
+    values = {f.name: translated(machine, f.name, language) for f in fields}
+    preview_field_states = {}
+    preview_language_states = {}
+    if preview:
+        entries = ContentTranslation.objects.filter(
+            content_type=ContentType.objects.get_for_model(machine),
+            object_id=machine.pk,
+            language__in=("en", "fr", "es", "it"),
+        )
+        lookup = {(e.language, e.field_name): e for e in entries}
+        for code in ("en", "fr", "es", "it"):
+            statuses = []
+            for field in fields:
+                original = getattr(machine, field.name)
+                if not str(original or "").strip():
+                    continue
+                entry = lookup.get((code, field.name))
+                valid = bool(entry and entry.text.strip() and entry.source_hash == fingerprint(original))
+                state = ("missing" if not valid else
+                         "approved" if entry.status == "published" else "review")
+                statuses.append(state)
+                if code == language:
+                    preview_field_states[field.name] = state
+                    if valid:
+                        values[field.name] = entry.text
+                    else:
+                        values[field.name] = original
+            preview_language_states[code] = (
+                "missing" if "missing" in statuses else
+                "review" if "review" in statuses else "approved"
+            )
+    preview_tabs = [(code, label, preview_language_states.get(code, "approved"))
+                    for code, label in (("de", "Deutsch"), ("en", "English"), ("fr", "Français"), ("es", "Español"), ("it", "Italiano"))]
+    return render(request, "messen/used_detail.html", {"machine": machine, "display": values, "language": language, "preview": preview, "languages": (("de", "Deutsch"), ("en", "English"), ("fr", "Français"), ("es", "Español"), ("it", "Italiano")), "preview_field_states": preview_field_states, "preview_language_states": preview_language_states, "preview_tabs": preview_tabs})
 
 
 @require_GET
@@ -267,3 +322,20 @@ def recycling_machines_overview(request):
                                      "category_label": x.product.get_category_display(),
                                      "url": "/maschinen/variante/%s/" % x.pk} for x in variants]})
     return JsonResponse({"areas": result})
+
+
+from django.http import JsonResponse
+from django.views.decorators.http import require_GET
+from .models import ApplicationPerformance
+
+@require_GET
+def application_performance_api(request):
+    """Public read-only values managed in Vertriebsportal."""
+    groups = ["holz", "abfall", "metall", "spezial"]
+    result = {group: [] for group in groups}
+    for row in ApplicationPerformance.objects.filter(published=True).order_by("area", "position", "pk"):
+        result[row.area].append([
+            row.material, row.value_450, row.value_650, row.value_750,
+            row.value_850, row.value_950, row.value_1500,
+        ])
+    return JsonResponse({"tables": [result[group] for group in groups]})

@@ -1,4 +1,6 @@
 {% extends 'messen/base.html' %}
+{% load site_language_visibility %}
+
 {% block title %}News & Stories – Sprachversionen{% endblock %}
 {% block content %}
 <style>
@@ -94,7 +96,7 @@
 </style>
 <div class="news-languages">
 <div class="eyebrow">HAMMEL</div><h1>NEWS <span class="red">& STORIES</span></h1>
-<nav class="nav" aria-label="Sprachversionen und Prüfung"><a href="{% url 'news_edit' item.pk %}">DE</a><a class="{% if lang == 'en' %}active{% endif %}" href="{% url 'news_language_editor' item.pk 'en' %}">EN</a><a class="{% if lang == 'fr' %}active{% endif %}" href="{% url 'news_language_editor' item.pk 'fr' %}">FR</a><a class="{% if lang == 'es' %}active{% endif %}" href="{% url 'news_language_editor' item.pk 'es' %}">ES</a><a class="{% if lang == 'it' %}active{% endif %}" href="{% url 'news_language_editor' item.pk 'it' %}">IT</a><a class="{% if review %}active{% endif %}" href="{% url 'news_language_editor' item.pk 'review' %}">PRÜFUNG</a></nav>
+<nav class="nav" aria-label="Sprachversionen und Prüfung"><a href="{% url 'news_edit' item.pk %}">DE</a>{% if "en"|language_visible %}<a class="{% if lang == 'en' %}active{% endif %}" href="{% url 'news_language_editor' item.pk 'en' %}">EN</a>{% endif %}{% if "fr"|language_visible %}<a class="{% if lang == 'fr' %}active{% endif %}" href="{% url 'news_language_editor' item.pk 'fr' %}">FR</a>{% endif %}{% if "es"|language_visible %}<a class="{% if lang == 'es' %}active{% endif %}" href="{% url 'news_language_editor' item.pk 'es' %}">ES</a>{% endif %}{% if "it"|language_visible %}<a class="{% if lang == 'it' %}active{% endif %}" href="{% url 'news_language_editor' item.pk 'it' %}">IT</a>{% endif %}<a class="{% if review %}active{% endif %}" href="{% url 'news_language_editor' item.pk 'review' %}">PRÜFUNG</a></nav>
 <h2 class="current-title">{{ item.title }}</h2>
 {% if review %}
 <div class="review-grid"><section class="review-panel"><div class="eyebrow-small">ÜBERSETZUNGEN</div><h2>Sprachversionen</h2><p class="review-muted">Status und Bearbeitung der Sprachversionen</p>

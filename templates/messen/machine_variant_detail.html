@@ -86,7 +86,30 @@ body.machine-detail-page .mv-actions .mv-home-compare .cinematic-link__icon{bord
 body.machine-detail-page .mv-actions .mv-home-compare .cinematic-link__icon svg{stroke:#fff!important}
 </style>
 <style id="hammel-compare-text-white-enforced">body.machine-detail-page .mv-actions a.mv-home-compare span.cinematic-link__label,body.machine-detail-page .mv-actions a.mv-home-compare:hover span.cinematic-link__label,body.machine-detail-page .mv-actions a.mv-home-compare:focus-visible span.cinematic-link__label{color:#fff!important;-webkit-text-fill-color:#fff!important;opacity:1!important}</style></head>
-<body class="machine-detail-page">{% include 'public_shared/header.html' %}{% if editor_preview %}<div style="position:fixed;z-index:99999;top:0;left:0;right:0;background:#f2b705;color:#111;text-align:center;padding:12px;font-weight:900">VORSCHAU / NICHT VERÖFFENTLICHT / DATEI-UPLOADS ERST NACH DEM SPEICHERN SICHTBAR</div>{% endif %}
+<body class="machine-detail-page{% if editor_preview %} machine-editor-preview{% endif %}">{% include 'public_shared/header.html' %}{% if editor_preview %}
+<div class="machine-preview-toolbar">
+ <div class="machine-preview-legend"><strong>VORSCHAU</strong><div class="machine-preview-legend-items"><span><i class="legend-line red"></i>Rot – Übersetzung fehlt</span><span><i class="legend-line yellow"></i>Gelb – Übersetzung wird geprüft</span></div></div>
+ <form action="{{ preview_editor_url }}" method="post" id="machine-preview-switcher">{% csrf_token %}
+ {% for key, value in preview_post_items %}<input type="hidden" name="{{ key }}" value="{{ value }}">{% endfor %}
+ <input type="hidden" name="editor_action" value="preview">
+ <nav aria-label="Vorschau Sprachversionen">
+ {% for code,label in preview_languages %}<button type="submit" name="preview_language" value="{{ code }}" class="{% if preview_language == code %}active{% endif %}">{{ code|upper }}<small>{{ label }}</small></button>{% endfor %}
+ </nav></form></div>
+<style>
+/* The public fixed header overlaps the editor preview toolbar. Show only the
+   dedicated preview toolbar while preserving the actual public page below. */
+body.machine-detail-page.machine-editor-preview > header.top{display:none!important}
+body.machine-detail-page.machine-editor-preview .machine-preview-toolbar{position:relative!important;top:auto!important;z-index:1001!important}
+.machine-preview-toolbar{position:sticky;top:0;z-index:9999;background:#f1f1f1;padding:14px clamp(20px,4vw,70px);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;border-bottom:1px solid #ddd;box-sizing:border-box}
+.machine-preview-legend strong{display:block;color:#e30613;font-size:14px;letter-spacing:.12em;font-weight:900;margin-bottom:8px}
+.machine-preview-legend-items{display:flex;gap:24px;flex-wrap:wrap}.machine-preview-legend-items span{display:flex;align-items:center;gap:9px;font-size:13px;color:#444}
+.machine-preview-legend-items .legend-line{display:inline-block;width:28px;height:0;border-top:3px solid #e30613}.machine-preview-legend-items .legend-line.yellow{border-color:#d08a00}
+.machine-preview-toolbar nav{display:flex;gap:8px;flex-wrap:wrap}.machine-preview-toolbar nav button{min-width:70px;padding:9px 14px;background:#e4e4e4;color:#171717;border:0;font-weight:900;cursor:pointer}.machine-preview-toolbar nav button small{display:block;font-size:10px;font-weight:600;margin-top:2px}.machine-preview-toolbar nav button.active{background:#e30613;color:white}
+body.machine-detail-page .machine-preview-translation.translation-missing{text-decoration:underline;text-decoration-color:#e30613;text-decoration-style:solid;text-decoration-thickness:2px;text-underline-offset:5px}
+body.machine-detail-page .machine-preview-translation.translation-review{text-decoration:underline;text-decoration-color:#d08a00;text-decoration-style:solid;text-decoration-thickness:2px;text-underline-offset:5px}
+body.machine-detail-page .machine-preview-translation.translation-approved{text-decoration:none}
+</style>
+{% endif %}
 <section class="mv-video-hero" aria-label="{{ variant.name }}">
   <div class="mv-hero-media">
     {% if variant.hero_media_choice == "image" %}
@@ -110,33 +133,39 @@ body.machine-detail-page .mv-actions .mv-home-compare .cinematic-link__icon svg{
 </section>
 <main id="details" class="mv-wrap mv-details">
   <section class="mv-section mv-overview">
-    <h2>{{ variant.name }} IM ÜBERBLICK</h2>
-    {% if variant.description %}<p class="mv-intro">{{ variant.description }}</p>{% elif product.description %}<p class="mv-intro">{{ product.description }}</p>{% endif %}
+    <h2>{{ variant.name }} {% if editor_preview %}{{ preview_overview_label }}{% else %}IM ÜBERBLICK{% endif %}</h2>
+    {% if editor_preview %}{% if preview_overview_description.text %}<p class="mv-intro"><span class="machine-preview-translation translation-{{ preview_overview_description.state }}">{{ preview_overview_description.text }}</span></p>{% endif %}{% elif variant.description %}<p class="mv-intro">{{ variant.description }}</p>{% elif product.description %}<p class="mv-intro">{{ product.description }}</p>{% endif %}
     {% if application_rows %}
     <div class="mv-integrated-applications">
-      <h3>EINSATZGEBIETE</h3>
+      <h3>{% if editor_preview %}{{ preview_applications_label }}{% else %}EINSATZGEBIETE{% endif %}</h3>
       <dl class="mv-application-list">
+        {% if editor_preview %}
+        {% for row in preview_application_rows %}
+        <div><dt><span class="machine-preview-translation translation-{{ row.area.state }}">{{ row.area.text|upper }}</span></dt><dd>{% for material in row.materials %}<span class="machine-preview-translation translation-{{ material.state }}">{{ material.text }}</span>{% if not forloop.last %}, {% endif %}{% endfor %}</dd></div>
+        {% endfor %}
+        {% else %}
         {% for area, materials in application_rows %}
         <div><dt>{{ area.title|upper }}</dt><dd>{% for material in materials %}{{ material.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</dd></div>
         {% endfor %}
+        {% endif %}
       </dl>
     </div>
     {% elif variant.applications_other %}
-    <div class="mv-integrated-applications"><h3>EINSATZGEBIETE</h3><p>{{ variant.applications_other }}</p></div>
+    <div class="mv-integrated-applications"><h3>{% if editor_preview %}{{ preview_applications_label }}{% else %}EINSATZGEBIETE{% endif %}</h3><p><span class="machine-preview-translation {% if editor_preview %}translation-{{ preview_field_states.applications_other }}{% endif %}">{{ variant.applications_other }}</span></p></div>
     {% endif %}
     {% if variant.operating_principle %}
-    <div class="mv-integrated-principle"><h3>FUNKTIONSPRINZIP</h3><p>{{ variant.operating_principle }}</p></div>
+    <div class="mv-integrated-principle"><h3>{% if editor_preview %}{{ preview_principle_label }}{% else %}FUNKTIONSPRINZIP{% endif %}</h3><p><span class="machine-preview-translation {% if editor_preview %}translation-{{ preview_field_states.operating_principle }}{% endif %}">{{ variant.operating_principle }}</span></p></div>
     {% endif %}
   </section>
   {% if variant.pk and variant.gallery.exists %}<section class="mv-section mv-gallery-section"><h2>MASCHINENBILDER</h2><div class="mv-gallery-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px">{% for photo in variant.gallery.all %}<a href="{{ photo.image.url }}" target="_blank" rel="noopener"><img src="{{ photo.image.url }}" alt="{{ photo.caption|default:variant.name }}" style="width:100%;aspect-ratio:4/3;object-fit:cover"></a>{% endfor %}</div></section>{% endif %}
   <section class="mv-section mv-spec-section">
     <h2>TECHNISCHE DATEN</h2>
     <dl class="mv-specs">
-      <div><dt>AUSFÜHRUNG</dt><dd>{{ variant.version|default:'—' }}</dd></div>
-      <div><dt>MOTOR</dt><dd>{{ variant.engine|default:'—' }}</dd></div>
-      <div><dt>ANTRIEB</dt><dd>{{ variant.drive|default:'—' }}</dd></div>
-      <div><dt>GEWICHT</dt><dd>{{ variant.weight|default:'—' }}</dd></div>
-      {% if variant.additional_specs %}<div><dt>WEITERE TECHNISCHE ANGABEN</dt><dd>{{ variant.additional_specs|linebreaksbr }}</dd></div>{% endif %}
+      <div><dt>AUSFÜHRUNG</dt><dd><span class="machine-preview-translation {% if editor_preview %}translation-{{ preview_field_states.version }}{% endif %}">{{ variant.version|default:'—' }}</span></dd></div>
+      <div><dt>MOTOR</dt><dd><span class="machine-preview-translation {% if editor_preview %}translation-{{ preview_field_states.engine }}{% endif %}">{{ variant.engine|default:'—' }}</span></dd></div>
+      <div><dt>ANTRIEB</dt><dd><span class="machine-preview-translation {% if editor_preview %}translation-{{ preview_field_states.drive }}{% endif %}">{{ variant.drive|default:'—' }}</span></dd></div>
+      <div><dt>GEWICHT</dt><dd><span class="machine-preview-translation {% if editor_preview %}translation-{{ preview_field_states.weight }}{% endif %}">{{ variant.weight|default:'—' }}</span></dd></div>
+      {% if variant.additional_specs %}<div><dt>WEITERE TECHNISCHE ANGABEN</dt><dd><span class="machine-preview-translation {% if editor_preview %}translation-{{ preview_field_states.additional_specs }}{% endif %}">{{ variant.additional_specs|linebreaksbr }}</span></dd></div>{% endif %}
     </dl>
   </section>
   <div class="mv-actions">

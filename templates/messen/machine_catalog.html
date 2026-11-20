@@ -1,15 +1,90 @@
 {% extends 'base_public.html' %}
-{% block title %}<title>MASCHINEN | HAMMEL</title>{% endblock %}
-{% block page_css %}<link rel="stylesheet" href="/assets/css/page-hero.css"><link rel="stylesheet" href="/assets/css/machine-catalog-db.css?v=20261023noheader"><link rel="stylesheet" href="/assets/css/maschinen-django-home-fix.css?v=20261027c"><link rel="stylesheet" href="/assets/css/maschinen-hero-home-exact.css?v=20261027d"><link rel="stylesheet" href="/assets/css/maschinen-cards-footer-20261027.css?v=2">{% endblock %}
-{% block content %}<section aria-label="MASCHINEN" class="hammel-page-hero" data-page="maschinen">
-<video aria-hidden="true" autoplay="" class="hammel-page-hero__video" loop="" muted="" playsinline="" poster="/assets/video/hammel-poster.jpg" preload="metadata"><source src="/assets/video/hammel-hero.mp4" type="video/mp4"/></video>
-<div aria-hidden="true" class="hammel-page-hero__shade"></div>
-<div class="wrap hammel-page-hero__inner">
-<span class="hammel-page-hero__eyebrow">MASCHINEN</span>
-<h1 class="hammel-page-hero__title">ZERKLEINERUNG<em>OHNE KOMPROMISSE</em></h1>
-<p class="hammel-page-hero__description">Entdecken Sie unsere leistungsstarke Recyclingtechnik und finden Sie die passende Maschine für Ihre Anforderungen.</p>
-<a class="hammel-page-hero__cta cinematic-link" href="#maschinen-katalog"><span aria-hidden="true" class="cinematic-link__icon"><svg viewBox="0 0 24 24"><path d="M5 19 19 5M8 5h11v11"/></svg></span><span class="cinematic-link__label">MEHR ENTDECKEN</span></a>
+{% load static %}
+{% block title %}<title>PRODUKTE | HAMMEL</title>{% endblock %}
+{% block page_css %}<style id="hammel-products-hero-isolated">
+/* One source of truth: symmetric spacing inside the black hero, not the header. */
+#produkte-hero.hml-products-hero {
+  display:block; position:relative; width:100%; box-sizing:border-box;
+  height:auto; min-height:0; max-height:none; margin:0;
+  padding:100px 0; background:#171717; color:#fff; overflow:hidden;
+}
+#produkte-hero > .hml-products-hero__inner {
+  position:static; box-sizing:border-box;
+  width:calc(100% - 2 * clamp(24px,4vw,82px)); max-width:1920px;
+  margin:0 auto; padding:0; display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(250px,43%);
+  gap:clamp(24px,4vw,70px); align-items:center;
+}
+#produkte-hero .hml-products-hero__copy {
+  grid-column:1; grid-row:1; min-width:0; margin:0; padding:0;
+  display:flex; flex-direction:column; justify-content:center;
+}
+#produkte-hero .hml-products-hero__title {
+  margin:0 0 36px; padding:0; color:#fff;
+  font-size:clamp(48px,5vw,90px); font-weight:900;
+  line-height:1.02; letter-spacing:-.035em; text-transform:uppercase;
+}
+#produkte-hero .hml-products-hero__title em {display:block;color:#e30613;font-style:normal}
+#produkte-hero .hml-products-hero__description {
+  margin:0; padding:0; max-width:880px; color:#eee;
+  font-size:clamp(17px,1.2vw,24px);line-height:1.65;font-weight:400;
+}
+#produkte-hero .hml-products-hero__machine {
+  grid-column:2;grid-row:1;align-self:center;
+  display:block;position:static;width:100%;height:auto;max-height:360px;
+  object-fit:contain;filter:drop-shadow(0 15px 22px rgba(0,0,0,.3));
+}
+#produkte-hero .hml-products-hero__signature {
+  position:absolute;right:clamp(24px,4vw,82px);bottom:14px;
+  color:#888;font-size:12px;font-weight:800;letter-spacing:.1em;
+}
+@media(max-width:700px){
+  #produkte-hero.hml-products-hero {padding:60px 0}
+  #produkte-hero > .hml-products-hero__inner {grid-template-columns:1fr}
+  #produkte-hero .hml-products-hero__copy {grid-column:1;grid-row:1}
+  #produkte-hero .hml-products-hero__title {margin-bottom:26px}
+  #produkte-hero .hml-products-hero__machine {grid-column:1;grid-row:2;max-height:220px}
+  #produkte-hero .hml-products-hero__signature {font-size:10px}
+}
+</style><link rel="stylesheet" href="/assets/css/page-hero.css"><link rel="stylesheet" href="/assets/css/machine-catalog-db.css?v=20261023noheader"><link rel="stylesheet" href="/assets/css/maschinen-django-home-fix.css?v=20261027c"><link rel="stylesheet" href="/assets/css/maschinen-hero-home-exact.css?v=20261027d"><link rel="stylesheet" href="/assets/css/maschinen-cards-footer-20261027.css?v=2">{% endblock %}
+{% block content %}<style id="hml-products-header-flow-fix">
+/* This page has a normal header above the hero, never overlaying it. */
+html body:has(> #produkte-hero) > header.top,
+html body:has(> #produkte-hero) > header.top.public-header-scrolled {
+ position:relative!important;top:auto!important;left:auto!important;right:auto!important;
+ width:100%!important;transform:none!important;
+ background:#fff!important;box-shadow:none!important;
+}
+html body:has(> #produkte-hero) > #produkte-hero.hml-products-hero {
+ box-sizing:border-box!important;position:relative!important;
+ margin:0!important;padding:100px 0!important;
+ height:auto!important;min-height:0!important;max-height:none!important;
+}
+html body:has(> #produkte-hero) > #produkte-hero > .hml-products-hero__inner {
+ position:relative!important;inset:auto!important;transform:none!important;
+ margin:0 auto!important;padding:0!important;
+}
+html body:has(> #produkte-hero) > #produkte-hero .hml-products-hero__copy {
+ margin:0!important;padding:0!important;position:static!important;transform:none!important;
+}
+@media(max-width:700px){html body:has(> #produkte-hero) > #produkte-hero.hml-products-hero{padding:60px 0!important}}
+</style>
+<section aria-label="PRODUKTE" class="hml-products-hero" id="produkte-hero">
+<div class="hml-products-hero__inner">
+<div class="hml-products-hero__copy">
+<h1 class="hml-products-hero__title">UNSERE <em>PRODUKTE</em></h1>
+<p class="hml-products-hero__description">Jedes Material bringt seine eigenen Herausforderungen mit sich. Mit unseren leistungsstarken Maschinen und Anlagen für die Zerkleinerung, Siebung und Sortierung bieten wir die passende Technik für unterschiedlichste Aufgaben. Entdecken Sie unsere Produktvielfalt und finden Sie die Lösung, die zu Ihren Anforderungen passt.</p>
 </div>
-<span class="hammel-page-hero__signature">THE ORIGINAL SINCE 1996</span>
+<img class="hml-products-hero__machine" src="{% static 'img/machines/vb750.webp' %}" alt="HAMMEL VB 750" loading="eager" decoding="async">
+</div>
+<span class="hml-products-hero__signature">THE ORIGINAL SINCE 1996</span>
 </section><main class="wrap" id="maschinen-katalog"><div class="catalog-tabs" role="tablist" aria-label="Maschinenkategorien"><button type="button" role="tab" id="tab-vorbrecher" aria-controls="vorbrecher" aria-selected="true" data-category="vorbrecher">VORBRECHER</button><button type="button" role="tab" id="tab-nachzerkleinerer" aria-controls="nachzerkleinerer" aria-selected="false" tabindex="-1" data-category="nachzerkleinerer">NACHZERKLEINERER</button><button type="button" role="tab" id="tab-siebtechnik" aria-controls="siebtechnik" aria-selected="false" tabindex="-1" data-category="siebtechnik">SIEBTECHNIK</button><button type="button" role="tab" id="tab-sortiertechnik" aria-controls="sortiertechnik" aria-selected="false" tabindex="-1" data-category="sortiertechnik">SORTIERTECHNIK</button><button type="button" role="tab" id="tab-anlagenbau" aria-controls="anlagenbau" aria-selected="false" tabindex="-1" data-category="anlagenbau">ANLAGENBAU</button><button type="button" role="tab" id="tab-gebrauchtmaschinen" aria-controls="gebrauchtmaschinen" aria-selected="false" tabindex="-1" data-category="gebrauchtmaschinen">GEBRAUCHTMASCHINEN</button></div>{% for code,label in categories %}<section class="catalog-section" id="{{ code }}" role="tabpanel" aria-labelledby="tab-{{ code }}" hidden><div class="machine-grid">{% for product in products %}{% if product.category == code %}<article class="machine-card"><div class="machine-media">{% if product.image %}<img src="{{ product.image.url }}" alt="{{ product.model_name }}" loading="lazy">{% elif product.image_url %}<img src="{{ product.image_url }}" alt="{{ product.model_name }}" loading="lazy">{% else %}<span>HAMMEL</span>{% endif %}</div><div class="machine-body"><span class="eyebrow">{{ label|upper }}</span><h3>{{ product.model_name }}</h3><p>{{ product.headline }}</p><a class="cinematic-link cinematic-link--section" href="{% url 'machine_product_detail' product.pk %}"><span aria-hidden="true" class="cinematic-link__icon"><svg viewBox="0 0 24 24"><path d="M5 19 19 5M8 5h11v11"/></svg></span><span class="cinematic-link__label">MEHR ERFAHREN</span></a></div></article>{% endif %}{% endfor %}</div><p class="catalog-empty" hidden>Aktuell sind in dieser Kategorie keine Maschinen veröffentlicht.</p></section>{% endfor %}<section class="catalog-section" id="gebrauchtmaschinen" role="tabpanel" aria-labelledby="tab-gebrauchtmaschinen" hidden><div class="machine-grid">{% for m in used %}<article class="machine-card"><div class="machine-body"><span class="eyebrow">GEBRAUCHTMASCHINE</span><h3>{{ m.title }}</h3><p>Maschinennummer {{ m.serial_number }}{% if m.build_year %} / Baujahr {{ m.build_year }}{% endif %}</p><a class="cinematic-link cinematic-link--section" href="{% url 'used_machine_detail' m.pk %}"><span aria-hidden="true" class="cinematic-link__icon"><svg viewBox="0 0 24 24"><path d="M5 19 19 5M8 5h11v11"/></svg></span><span class="cinematic-link__label">DETAILS ANSEHEN</span></a></div></article>{% empty %}<p>Aktuell keine Gebrauchtmaschinen veröffentlicht.</p>{% endfor %}</div></section></main>{% endblock %}
-{% block page_js %}<script>(function(){const tabs=Array.from(document.querySelectorAll('.catalog-tabs [role="tab"]'));const panels=Array.from(document.querySelectorAll('.catalog-section[role="tabpanel"]'));function activate(id,focus){const tab=tabs.find(t=>t.dataset.category===id);if(!tab)return;tabs.forEach(t=>{const on=t===tab;t.setAttribute('aria-selected',String(on));t.tabIndex=on?0:-1});panels.forEach(p=>{p.hidden=p.id!==id});if(focus)tab.focus();const active=panels.find(p=>p.id===id);if(active){const cards=active.querySelectorAll('.machine-card');const empty=active.querySelector('.catalog-empty');if(empty)empty.hidden=cards.length!==0}}tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>{activate(tab.dataset.category,false);history.replaceState(null,'','#'+tab.dataset.category)});tab.addEventListener('keydown',e=>{let next;if(e.key==='ArrowRight')next=(index+1)%tabs.length;else if(e.key==='ArrowLeft')next=(index-1+tabs.length)%tabs.length;else if(e.key==='Home')next=0;else if(e.key==='End')next=tabs.length-1;else return;e.preventDefault();activate(tabs[next].dataset.category,true);history.replaceState(null,'','#'+tabs[next].dataset.category)})});window.addEventListener('hashchange',()=>activate(location.hash.slice(1),false));activate(location.hash.slice(1)||'vorbrecher',false)})();</script>{% endblock %}
+{% block page_js %}<script id="hml-products-start-at-hero">(function(){
+try{history.scrollRestoration='manual'}catch(e){}
+var categories=['vorbrecher','nachzerkleinerer','siebtechnik','sortiertechnik','anlagenbau','gebrauchtmaschinen'];
+var hash=decodeURIComponent(location.hash.slice(1));
+if(categories.indexOf(hash)!==-1){history.replaceState(null,'',location.pathname+location.search)}
+function startAtHero(){if(!location.hash){window.scrollTo({top:0,left:0,behavior:'instant'});}}
+window.addEventListener('pageshow',startAtHero);
+window.addEventListener('load',startAtHero);
+})();</script><script>(function(){const tabs=Array.from(document.querySelectorAll('.catalog-tabs [role="tab"]'));const panels=Array.from(document.querySelectorAll('.catalog-section[role="tabpanel"]'));function activate(id,focus){const tab=tabs.find(t=>t.dataset.category===id);if(!tab)return;tabs.forEach(t=>{const on=t===tab;t.setAttribute('aria-selected',String(on));t.tabIndex=on?0:-1});panels.forEach(p=>{p.hidden=p.id!==id});if(focus)tab.focus();const active=panels.find(p=>p.id===id);if(active){const cards=active.querySelectorAll('.machine-card');const empty=active.querySelector('.catalog-empty');if(empty)empty.hidden=cards.length!==0}}tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>{activate(tab.dataset.category,false);history.replaceState(null,'',location.pathname+location.search)});tab.addEventListener('keydown',e=>{let next;if(e.key==='ArrowRight')next=(index+1)%tabs.length;else if(e.key==='ArrowLeft')next=(index-1+tabs.length)%tabs.length;else if(e.key==='Home')next=0;else if(e.key==='End')next=tabs.length-1;else return;e.preventDefault();activate(tabs[next].dataset.category,true);history.replaceState(null,'',location.pathname+location.search)})});window.addEventListener('hashchange',()=>activate(location.hash.slice(1),false));activate(location.hash.slice(1)||'vorbrecher',false)})();</script>{% endblock %}

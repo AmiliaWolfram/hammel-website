@@ -76,6 +76,7 @@ class UsedMachine(models.Model):
     image = models.ImageField("Hauptbild", upload_to="used-machines/", blank=True)
     video_url = models.URLField("YouTube Video", blank=True)
     published = models.BooleanField("Auf Website sichtbar", default=False)
+    visible_languages = models.JSONField("Sichtbare Sprachversionen", default=list, blank=True)
     position = models.PositiveIntegerField("Reihenfolge", default=0)
     updated_at = models.DateTimeField(auto_now=True)
     class Meta:
@@ -83,6 +84,17 @@ class UsedMachine(models.Model):
         verbose_name = "Gebrauchtmaschine"
         verbose_name_plural = "Gebrauchtmaschinen"
     def __str__(self): return self.title
+
+class UsedMachineRevision(models.Model):
+    machine = models.ForeignKey(UsedMachine, on_delete=models.CASCADE, related_name="revisions")
+    author = models.ForeignKey("auth.User", on_delete=models.SET_NULL, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    action = models.CharField(max_length=100)
+    changes = models.JSONField(default=list, blank=True)
+
+    class Meta:
+        ordering = ["-created_at", "-pk"]
+
 
 class UsedMachinePhoto(models.Model):
     machine = models.ForeignKey(UsedMachine, on_delete=models.CASCADE, related_name="photos")
@@ -281,3 +293,32 @@ class NewsTranslationChange(models.Model):
 
     class Meta:
         ordering = ("-created_at", "-pk")
+
+
+class ApplicationPerformance(models.Model):
+    """Editable throughput row shown on the public Anwendungen page."""
+    AREA_CHOICES = [
+        ("holz", "Altholz & Grünabfälle"),
+        ("abfall", "Gewerbe-, Industrie- & Hausmüll"),
+        ("metall", "Metallrecycling"),
+        ("spezial", "Spezial Anwendung"),
+    ]
+    area = models.CharField("Einsatzbereich", max_length=16, choices=AREA_CHOICES, db_index=True)
+    material = models.CharField("Material", max_length=160)
+    value_450 = models.CharField("450 (t/h)", max_length=40, blank=True)
+    value_650 = models.CharField("650 (t/h)", max_length=40, blank=True)
+    value_750 = models.CharField("750 (t/h)", max_length=40, blank=True)
+    value_850 = models.CharField("850 (t/h)", max_length=40, blank=True)
+    value_950 = models.CharField("950 (t/h)", max_length=40, blank=True)
+    value_1500 = models.CharField("1500 (t/h)", max_length=40, blank=True)
+    position = models.PositiveIntegerField("Reihenfolge", default=0)
+    published = models.BooleanField("Auf Website anzeigen", default=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Leistungsdaten"
+        verbose_name_plural = "Leistungsdaten"
+        ordering = ("area", "position", "pk")
+
+    def __str__(self):
+        return f"{self.get_area_display()}: {self.material}"

@@ -2,12 +2,13 @@
     'use strict';
     // Entries transcribed from HAMMEL's public international directory (October 2026).
     // Coordinates represent the named city/municipality, not independently verified rooftop geocodes.
-    const regions = [['all', 'ALLE'], ['e', 'EUROPA'], ['a', 'ASIEN'], ['f', 'AFRIKA'], ['n', 'NORDAMERIKA'], ['s', 'SÜDAMERIKA'], ['o', 'OZEANIEN']];
+    // The country filter is populated from the partner records returned by the API.
+    let regions = [['all', 'ALLE LÄNDER']];
     let partners = [];
     // Django is the single source of truth. Failed API requests show an empty list.
     const partnerDataReady = fetch('/api/partner/', {credentials:'same-origin'})
         .then(r => {if(!r.ok) throw Error('Partner API'); return r.json()})
-        .then(rows => { partners = rows.map((p,id) => ({...p,id})); })
+        .then(rows => { partners = rows.map((p,id) => ({...p,id})); regions = [['all', 'ALLE LÄNDER'], ...[...new Set(partners.map(p => (p.country || '').trim()).filter(Boolean))].sort((a,b) => a.localeCompare(b,'de')).map(c => [c,c.toLocaleUpperCase('de')])]; })
         .catch(error => { console.error("Partnerdaten konnten nicht geladen werden", error); partners = []; });
     partnerDataReady.then(() => {
     const $ = id => document.getElementById(id), svg = $('atlas-viewport')?.querySelector('svg');
@@ -41,14 +42,21 @@
         o: [[108, -48], [180, 0]]
     };
     const idlePartnerMarkup = '<div class="atlas-idle-panel" role="status"><div class="atlas-idle-panel__copy"><span class="atlas-idle-panel__eyebrow">PARTNER AUSWÄHLEN</span><h3>ENTDECKEN SIE UNSERE PARTNER</h3><p>Wählen Sie einen Standort auf der Weltkarte oder ein Unternehmen aus der Partnerliste, um weitere Informationen und Kontaktdaten anzuzeigen.</p><a class="atlas-idle-panel__hint atlas-idle-panel__button cinematic-link" href="#international" aria-label="Zur interaktiven Partnerkarte scrollen"><span class="cinematic-link__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 19 19 5M8 5h11v11"/></svg></span><span class="cinematic-link__label">STANDORT ODER UNTERNEHMEN AUSWÄHLEN</span></a></div></div>';
-    function flyToRegion(region) {
-        if (!streetMap)
+    function flyToRegion(country) {
+        if (!streetMap) return;
+        if (country === 'all') {
+            streetMap.flyTo({ center: [12, 19], zoom: 1.45, duration: 1200 });
             return;
-        const opts = { duration: 1650, essential: true, bearing: 0, pitch: 0 };
-        if (region === 'all')
-            streetMap.flyTo({ ...opts, center: [12, 19], zoom: 1.45 });
-        else if (continentBounds[region])
-            streetMap.fitBounds(continentBounds[region], { ...opts, padding: { top: 65, bottom: 65, left: 65, right: 65 }, maxZoom: 5.1 });
+        }
+        const matches = partners.filter(p => p.country === country && Number.isFinite(Number(p.lon)) && Number.isFinite(Number(p.lat)));
+        if (!matches.length) return;
+        if (matches.length === 1) {
+            streetMap.flyTo({center:[Number(matches[0].lon),Number(matches[0].lat)],zoom:5.3,duration:1200});
+        } else {
+            const lons = matches.map(p => Number(p.lon)), lats = matches.map(p => Number(p.lat));
+            streetMap.fitBounds([[Math.min(...lons),Math.min(...lats)],[Math.max(...lons),Math.max(...lats)]],
+                {padding:65,maxZoom:6.5,duration:1200});
+        }
     }
     const homeCoordinates = [10.23, 50.81]; // Approximate Bad Salzungen city centre; not a surveyed rooftop location.
     const mapDots = [];
@@ -177,8 +185,8 @@
     function transitionToStreets() { const p = state.selected !== null ? partners[state.selected] : closestToView(); if (p) {
         showStreet(p, 12);
     } }
-    const available = () => partners.filter(p => (state.region === 'all' || p.region === state.region) && [p.name, p.country, p.city, p.address].join(' ').toLocaleLowerCase('de').includes(state.query));
-    function drawList() { const data = available(); $('atlas-count').textContent = data.length + ' PARTNER / VERTRETUNGEN'; $('atlas-partner-list').innerHTML = data.map(p => `<button class="atlas-list-item ${p.id === state.selected ? 'is-selected' : ''}" data-id="${p.id}" type="button"><span class="atlas-list-item__country">${esc(p.country)}</span><strong>${esc(p.name)}</strong><small>${esc(p.city)} <span>↗</span></small></button>`).join('') || '<p class="atlas-empty">Keine Partner gefunden.</p>'; $('atlas-partner-list').querySelectorAll('[data-id]').forEach(b => b.addEventListener('click', () => select(+b.dataset.id))); pins.querySelectorAll('.atlas-pin').forEach(g => { let ids = g.dataset.ids.split(',').map(Number); g.classList.toggle('is-hidden', !ids.some(id => data.some(p => p.id === id))); g.classList.toggle('is-selected', ids.includes(state.selected)); }); }
+    const available = () => partners.filter(p => (state.region === 'all' || p.country === state.region) && [p.name, p.country, p.city, p.address].join(' ').toLocaleLowerCase('de').includes(state.query));
+    function drawList() { const data = available(); $('atlas-count').textContent = data.length + ' PARTNER / VERTRETUNGEN'; $('atlas-partner-list').innerHTML = data.map(p => `<button class="atlas-list-item ${p.id === state.selected ? 'is-selected' : ''}" data-id="${p.id}" type="button"><span class="atlas-list-item__country">${esc(p.country)}</span><strong>${esc(p.name)}</strong><small>${esc(p.city)}</small></button>`).join('') || '<p class="atlas-empty">Keine Partner gefunden.</p>'; $('atlas-partner-list').querySelectorAll('[data-id]').forEach(b => b.addEventListener('click', () => select(+b.dataset.id))); pins.querySelectorAll('.atlas-pin').forEach(g => { let ids = g.dataset.ids.split(',').map(Number); g.classList.toggle('is-hidden', !ids.some(id => data.some(p => p.id === id))); g.classList.toggle('is-selected', ids.includes(state.selected)); }); }
     function select(id) {
         const p = partners[id];
         if (!p)
@@ -187,9 +195,10 @@
         showStreet(p, 11.5);
         drawList();
         updateNetwork();
+        $('atlas-profile-area')?.removeAttribute('hidden');
         $('atlas-profile-area')?.classList.add('has-selection');
         const url = p.domain ? 'https://' + p.domain : '';
-        const regionName = ({ e: 'EUROPA', a: 'ASIEN', f: 'AFRIKA', n: 'NORDAMERIKA', s: 'SÜDAMERIKA', o: 'OZEANIEN' })[p.region] || 'WELTWEIT';
+        const regionName = p.country || 'WELTWEIT';
         const content = p;
         const partnerLogo = p.logo || '';
         const verifiedLogo = typeof partnerLogo === 'string' && (/^https:\/\//.test(partnerLogo) || /^\/(?!\/)/.test(partnerLogo));
@@ -202,7 +211,7 @@
         $('atlas-details').innerHTML = `<div class="atlas-light-profile atlas-light-profile--${theme}" style="--partner-accent:${/^#[0-9a-fA-F]{6}$/.test(content.brandColor || '') ? content.brandColor : '#e30613'}"><div class="atlas-light-topline"><button id="atlas-close" class="atlas-light-close" aria-label="Profil schließen" type="button">×</button></div>${brandHeader}<div class="atlas-light-main"><div class="atlas-light-identity"><div class="atlas-light-intro"><span class="atlas-light-country">${esc(p.country)}</span><h3>${esc(p.name)}</h3>${about}</div></div><div class="atlas-light-contact">${brand}<div class="atlas-light-field"><span>STANDORT</span><p>${esc(p.address).replace(/\n/g, '<br>')}</p></div>${p.phone ? `<div class="atlas-light-field"><span>TELEFON</span><a href="tel:${esc(p.phone.replace(/[^+\d]/g, ''))}">${esc(p.phone)}</a></div>` : ''}${url ? `<a class="atlas-light-website cinematic-link cinematic-link--section cinematic-link--dark" href="${esc(url)}" target="_blank" rel="noopener noreferrer"><span class="cinematic-link__icon atlas-light-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 19 19 5M7 5h12v12"/></svg></span><span class="cinematic-link__label">WEBSITE BESUCHEN</span></a>` : ''}</div></div></div>`;
         $('atlas-close').onclick = () => { hideStreet(); state.selected = null; $('atlas-profile-area')?.classList.remove('has-selection'); updateNetwork(); streetMap?.flyTo({ center: [12, 19], zoom: 1.45, duration: 1200 }); $('atlas-details').innerHTML = idlePartnerMarkup; drawList(); };
     }
-    $('atlas-regions').innerHTML = regions.map(([id, label]) => `<button type="button" data-region="${id}" class="atlas-region ${id === 'all' ? 'is-active' : ''}">${label}</button>`).join('');
+    $('atlas-regions').innerHTML = regions.map(([id, label]) => `<button type="button" data-region="${esc(id)}" class="atlas-region ${id === 'all' ? 'is-active' : ''}">${label}</button>`).join('');
     $('atlas-regions').querySelectorAll('button').forEach(b => b.addEventListener('click', () => { state.region = b.dataset.region; state.selected = null; $('atlas-profile-area')?.classList.remove('has-selection'); hideStreet(); updateNetwork(); flyToRegion(state.region); $('atlas-regions').querySelectorAll('button').forEach(x => x.classList.toggle('is-active', x === b)); drawList(); let ps = available(); if (ps.length) {
         let v = ps.map(pos), minx = Math.min(...v.map(x => x.x)), maxx = Math.max(...v.map(x => x.x)), miny = Math.min(...v.map(x => x.y)), maxy = Math.max(...v.map(x => x.y));
         let w = Math.max(290, (maxx - minx) * 1.45, (maxy - miny) * 2.5);

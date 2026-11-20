@@ -71,11 +71,12 @@ def staff_home(request):
     can_used = request.user.has_perm("messen.view_usedmachine")
     can_machines = request.user.has_perm("messen.view_machineproduct") or request.user.has_perm("messen.view_machinevariant")
     can_contacts = request.user.has_perm("contacts.view_contactperson") or request.user.has_perm("contacts.view_contactgroup")
+    can_performance = request.user.has_perm("messen.view_applicationperformance")
     can_partners = request.user.has_perm("partners.view_partner")
-    if not (can_messen or can_news or can_used or can_machines or can_contacts or can_partners):
+    if not (can_messen or can_news or can_used or can_machines or can_contacts or can_partners or can_performance):
         from django.core.exceptions import PermissionDenied
         raise PermissionDenied
-    return render(request, "messen/staff_home.html", {"can_messen": can_messen, "can_news": can_news, "can_used": can_used, "can_machines": can_machines, "can_contacts": can_contacts, "can_partners": can_partners})
+    return render(request, "messen/staff_home.html", {"can_messen": can_messen, "can_news": can_news, "can_used": can_used, "can_machines": can_machines, "can_contacts": can_contacts, "can_partners": can_partners, "can_performance": can_performance})
 
 @login_required(login_url="messen_login")
 @permission_required("messen.view_newsarticle", raise_exception=True)
@@ -117,14 +118,60 @@ def news_delete(request, pk):
     return render(request, "messen/news_delete.html", {"item": item})
 
 
-from .models import UsedMachine, UsedMachinePhoto
+from .models import UsedMachine, UsedMachinePhoto, UsedMachineRevision
 from .forms import UsedMachineForm
+from translations.models import ContentTranslation, LANGUAGES
+from translations.services import fields_for, fingerprint
+from django.contrib.contenttypes.models import ContentType
+from django.db import transaction
+
+USED_LANGUAGES = (("de", "Deutsch"), ("en", "English"), ("fr", "Français"), ("es", "Español"), ("it", "Italiano"))
+
+
+def used_translation_state(machine):
+    fields = [f for f in fields_for(machine) if str(getattr(machine, f.name) or "").strip()]
+    ct = ContentType.objects.get_for_model(machine)
+    entries = ContentTranslation.objects.filter(content_type=ct, object_id=machine.pk)
+    lookup = {(e.language, e.field_name): e for e in entries}
+    result = []
+    for code, label in USED_LANGUAGES:
+        if code == "de":
+            result.append({"code": code, "label": label, "state": "ready", "ready": True, "done": len(fields), "total": len(fields)})
+            continue
+        ready, review, stale = 0, 0, 0
+        for field in fields:
+            e = lookup.get((code, field.name))
+            if not e or not e.text.strip():
+                continue
+            if e.source_hash != fingerprint(getattr(machine, field.name)):
+                stale += 1
+            elif e.status == "published":
+                ready += 1
+            else:
+                review += 1
+        state = "ready" if ready == len(fields) else ("stale" if stale else ("review" if review else "missing"))
+        result.append({"code": code, "label": label, "state": state, "ready": state == "ready", "done": ready, "total": len(fields), "review": review, "stale": stale, "missing": max(0, len(fields)-ready-review-stale)})
+    return result
+
+
+def used_history(machine, user, action, before=None):
+    changes = []
+    if before is not None:
+        for field in machine._meta.fields:
+            if field.name in ("id", "updated_at"):
+                continue
+            old, new = getattr(before, field.name), getattr(machine, field.name)
+            if str(old) != str(new):
+                changes.append({"label": str(field.verbose_name), "before": str(old or "–"), "after": str(new or "–")})
+    UsedMachineRevision.objects.create(machine=machine, author=user, action=action, changes=changes)
+
 
 @login_required(login_url="messen_login")
 @permission_required("messen.view_usedmachine", raise_exception=True)
 def used_dashboard(request):
     items = UsedMachine.objects.all()
     return render(request, "messen/used_dashboard.html", {"items": items, "total": items.count(), "live": items.filter(published=True).count()})
+
 
 def save_used_photos(request, machine):
     for f in request.FILES.getlist("gallery_images"):
@@ -133,36 +180,115 @@ def save_used_photos(request, machine):
         if photo_id.isdigit():
             UsedMachinePhoto.objects.filter(machine=machine, pk=int(photo_id)).delete()
 
+
+def used_editor(request, machine=None):
+    editing = machine is not None
+    tab = request.GET.get("tab", "de")
+    if tab not in ("de", "translations", "review"):
+        tab = "de"
+    if request.method == "POST":
+        action = request.POST.get("action", "save_de")
+        if action == "save_de":
+            form = UsedMachineForm(request.POST, request.FILES, instance=machine)
+            if form.is_valid():
+                with transaction.atomic():
+                    before = UsedMachine.objects.get(pk=machine.pk) if editing else None
+                    saved = form.save()
+                    save_used_photos(request, saved)
+                    used_history(saved, request.user, "Maschinendaten gespeichert" if editing else "Maschine angelegt", before)
+                messages.success(request, "Maschinendaten gespeichert.")
+                return redirect("used_edit", pk=saved.pk)
+        elif not editing:
+            messages.error(request, "Bitte zuerst die deutschen Maschinendaten speichern.")
+            return redirect("used_create")
+        elif action == "save_translation":
+            code = request.POST.get("language")
+            if code not in ("en", "fr", "es", "it"):
+                messages.error(request, "Ungültige Sprache.")
+            else:
+                with transaction.atomic():
+                    ct = ContentType.objects.get_for_model(machine)
+                    changed = []
+                    for field in fields_for(machine):
+                        key = "translation_" + field.name
+                        if key not in request.POST:
+                            continue
+                        value = request.POST[key].strip()
+                        old = ContentTranslation.objects.filter(content_type=ct, object_id=machine.pk, field_name=field.name, language=code).first()
+                        status = "published" if request.POST.get("translation_status") == "published" and value else "review" if value else "draft"
+                        if old and old.text == value and old.status == status and old.source_hash == fingerprint(getattr(machine, field.name)):
+                            continue
+                        ContentTranslation.objects.update_or_create(content_type=ct, object_id=machine.pk, field_name=field.name, language=code, defaults={"text": value, "status": status, "source_hash": fingerprint(getattr(machine, field.name)), "updated_by": request.user})
+                        changed.append({"label": str(field.verbose_name) + " (" + code.upper() + ")", "before": old.text if old else "–", "after": value or "–"})
+                    if changed:
+                        UsedMachineRevision.objects.create(machine=machine, author=request.user, action="Übersetzung gespeichert", changes=changed)
+                messages.success(request, "Sprachversion gespeichert.")
+            return redirect("used_edit", pk=machine.pk)
+        elif action in ("save_languages", "publish", "deactivate"):
+            states = used_translation_state(machine)
+            allowed = {s["code"] for s in states if s["ready"]}
+            chosen = [code for code, _ in USED_LANGUAGES if code in (request.POST.getlist("visible_languages") if action == "save_languages" else (machine.visible_languages or ["de"])) and code in allowed]
+            with transaction.atomic():
+                before = UsedMachine.objects.get(pk=machine.pk)
+                if action == "save_languages":
+                    machine.visible_languages = chosen
+                elif action == "publish":
+                    from translations.services import missing_active_translations
+                    missing = missing_active_translations(machine)
+                    if missing:
+                        messages.error(request, "Veröffentlichung gesperrt. Aktive Übersetzungen fehlen oder müssen geprüft werden: " + ", ".join(missing[:12]))
+                        return redirect("used_edit", pk=machine.pk)
+                    if request.POST.get("confirm_publish") != "yes":
+                        messages.error(request, "Bitte die Veröffentlichung bestätigen.")
+                        return redirect("used_edit", pk=machine.pk)
+                    machine.visible_languages = chosen
+                    machine.published = True
+                else:
+                    if request.POST.get("confirm_publish") != "yes":
+                        messages.error(request, "Bitte die Deaktivierung bestätigen.")
+                        return redirect("used_edit", pk=machine.pk)
+                    machine.published = False
+                machine.save(update_fields=["visible_languages", "published", "updated_at"])
+                used_history(machine, request.user, {"save_languages": "Sprachauswahl gespeichert", "publish": "Maschine veröffentlicht", "deactivate": "Maschine deaktiviert"}[action], before)
+            messages.success(request, "Änderungen gespeichert.")
+            return redirect("used_edit", pk=machine.pk)
+        else:
+            messages.error(request, "Unbekannte Aktion.")
+    form = UsedMachineForm(instance=machine) if request.method != "POST" or request.POST.get("action", "save_de") != "save_de" else form
+    states = used_translation_state(machine) if editing else []
+    translation_rows = []
+    if editing:
+        ct = ContentType.objects.get_for_model(machine)
+        entries = ContentTranslation.objects.filter(content_type=ct, object_id=machine.pk)
+        lookup = {(e.language, e.field_name): e for e in entries}
+        for code, label in USED_LANGUAGES[1:]:
+            rows = []
+            for field in fields_for(machine):
+                entry = lookup.get((code, field.name))
+                rows.append({"name": field.name, "label": str(field.verbose_name), "original": getattr(machine, field.name), "text": entry.text if entry else "", "status": entry.status if entry else "draft", "stale": bool(entry and entry.source_hash != fingerprint(getattr(machine, field.name)))})
+            translation_rows.append({"code": code, "label": label, "rows": rows})
+    return render(request, "messen/used_form.html", {"form": form, "editing": editing, "item": machine, "object": machine, "tab": tab, "states": states, "translation_rows": translation_rows, "languages": USED_LANGUAGES, "history_entries": machine.revisions.select_related("author").all()[:30] if editing else []})
+
+
 @login_required(login_url="messen_login")
 @permission_required("messen.add_usedmachine", raise_exception=True)
 def used_create(request):
-    form = UsedMachineForm(request.POST or None, request.FILES or None)
-    if request.method == "POST" and form.is_valid():
-        machine = form.save(); save_used_photos(request, machine)
-        messages.success(request, "Maschine wurde angelegt.")
-        return redirect("used_dashboard")
-    return render(request, "messen/used_form.html", {"form": form, "editing": False})
+    return used_editor(request)
+
 
 @login_required(login_url="messen_login")
 @permission_required("messen.change_usedmachine", raise_exception=True)
 def used_edit(request, pk):
-    machine = get_object_or_404(UsedMachine, pk=pk)
-    form = UsedMachineForm(request.POST or None, request.FILES or None, instance=machine)
-    if request.method == "POST" and form.is_valid():
-        saved = form.save()
-        from translations.services import save_inline
-        save_inline(request, saved, form)
-        save_used_photos(request, machine)
-        messages.success(request, "Maschine wurde aktualisiert.")
-        return redirect("used_dashboard")
-    return render(request, "messen/used_form.html", {"form": form, "editing": True, "item": machine, "object": machine})
+    return used_editor(request, get_object_or_404(UsedMachine, pk=pk))
+
 
 @login_required(login_url="messen_login")
 @permission_required("messen.delete_usedmachine", raise_exception=True)
 def used_delete(request, pk):
     machine = get_object_or_404(UsedMachine, pk=pk)
     if request.method == "POST":
-        machine.delete(); messages.success(request, "Maschine wurde gelöscht.")
+        machine.delete()
+        messages.success(request, "Maschine wurde gelöscht.")
         return redirect("used_dashboard")
     return render(request, "messen/used_delete.html", {"item": machine})
 
@@ -292,15 +418,81 @@ def _machine_form(request, model, form_class, permission, instance=None):
                 for entry in translations:
                     if entry.text.strip():
                         setattr(preview_variant, entry.field_name, entry.text)
+            preview_field_states = {}
+            if preview_language != "de":
+                from django.contrib.contenttypes.models import ContentType
+                from translations.models import ContentTranslation
+                from translations.services import fields_for, fingerprint
+                translatable = {field.name for field in fields_for(instance)} if instance else set()
+                saved = {}
+                if instance and instance.pk:
+                    ct = ContentType.objects.get_for_model(instance)
+                    saved = {entry.field_name: entry for entry in ContentTranslation.objects.filter(
+                        content_type=ct, object_id=instance.pk, language=preview_language,
+                        field_name__in=translatable,
+                    )}
+                for field_name in translatable:
+                    original = getattr(instance, field_name, None)
+                    if not str(original or "").strip():
+                        continue
+                    entry = saved.get(field_name)
+                    valid = bool(entry and entry.text.strip() and entry.source_hash == fingerprint(original))
+                    preview_field_states[field_name] = (
+                        "missing" if not valid else "approved" if entry.status == "published" else "review"
+                    )
+                    if not valid:
+                        setattr(preview_variant, field_name, original)
+            # Non-translatable values and the original German version have no status underline.
             selected_ids = [int(x) for x in request.POST.getlist("materials") if x.isdigit()]
             rows=[]
             for area in RecyclingArea.objects.prefetch_related("materials"):
                 materials=[m for m in area.materials.all() if m.pk in selected_ids]
                 if materials: rows.append((area,materials))
+            # Resolve translations of related objects separately: variant, product,
+            # recycling areas and materials have distinct ContentType/object IDs.
+            # No records are written by this preview.
+            from translations.models import ContentTranslation
+            from translations.services import fingerprint
+            from django.contrib.contenttypes.models import ContentType
+            def preview_text(obj, field):
+                original = str(getattr(obj, field, "") or "") if obj else ""
+                if preview_language == "de" or not original.strip() or not obj or not obj.pk:
+                    return {"text": original, "state": "approved"}
+                entry = ContentTranslation.objects.filter(
+                    content_type=ContentType.objects.get_for_model(obj),
+                    object_id=obj.pk, language=preview_language, field_name=field,
+                ).first()
+                valid = bool(entry and entry.text.strip() and entry.source_hash == fingerprint(original))
+                return {"text": entry.text if valid else original,
+                        "state": "approved" if valid and entry.status == "published" else "review" if valid else "missing"}
+            overview_description = preview_text(instance, "description") if instance and instance.description else preview_text(preview_variant.product, "description")
+            preview_application_rows = [
+                {"area": preview_text(area, "title"),
+                 "materials": [preview_text(material, "name") for material in materials]}
+                for area, materials in rows
+            ]
+            # Static interface labels are translated, not marked as missing content.
+            interface_labels = {
+                "de": ("IM ÜBERBLICK", "EINSATZGEBIETE", "FUNKTIONS­PRINZIP"),
+                "en": ("AT A GLANCE", "APPLICATIONS", "OPERATING PRINCIPLE"),
+                "fr": ("EN BREF", "DOMAINES D’APPLICATION", "PRINCIPE DE FONCTIONNEMENT"),
+                "es": ("DE UN VISTAZO", "APLICACIONES", "PRINCIPIO DE FUNCIONAMIENTO"),
+                "it": ("IN SINTESI", "CAMPI DI APPLICAZIONE", "PRINCIPIO DI FUNZIONAMENTO"),
+            }
+            overview_label, applications_label, principle_label = interface_labels[preview_language]
             return TemplateResponse(request,"messen/machine_variant_detail.html",{
                 "variant":preview_variant,"product":preview_variant.product,
                 "application_rows":rows,"custom_rows":[],"editor_preview":True,
-                "preview_language":preview_language})
+                "preview_language":preview_language,
+                "preview_post_items":[(key, val) for key, values in request.POST.lists() for val in values if key not in {"csrfmiddlewaretoken","preview_language","editor_action"}],
+                "preview_editor_url":request.path,
+                "preview_field_states":preview_field_states,
+                "preview_overview_description": overview_description,
+                "preview_application_rows": preview_application_rows,
+                "preview_overview_label": overview_label,
+                "preview_applications_label": applications_label,
+                "preview_principle_label": principle_label,
+                "preview_languages":(("de", "Deutsch"), ("en", "English"), ("fr", "Français"), ("es", "Español"), ("it", "Italiano"))})
     if request.method == "POST" and is_variant and request.POST.get("editor_action") == "draft":
         if instance:
             allowed = [name for name in form.fields if name not in ("image","hero_video","technical_drawing")]
@@ -700,6 +892,12 @@ def _save_language_review(request, item, redirect_name, published_label, update_
     if action not in {"publish", "unpublish"}:
         return HttpResponseBadRequest("Ungültige Veröffentlichungsaktion.")
 
+    if action == "publish":
+        from translations.services import missing_active_translations
+        missing = missing_active_translations(item)
+        if missing:
+            messages.error(request, "Veröffentlichung gesperrt. Aktive Übersetzungen fehlen oder müssen geprüft werden: " + ", ".join(missing[:12]))
+            return redirect(redirect_name, **destination)
     item.published = action == "publish"
     item.save(update_fields=update_fields)
     messages.success(

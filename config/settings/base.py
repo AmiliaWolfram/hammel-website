@@ -99,6 +99,7 @@ MIDDLEWARE = [
 
     # HAMMEL public website
     "config.public_chrome.PublicChromeMiddleware",
+    "config.cookie_notice.PublicCookieNoticeMiddleware",
 ]
 
 

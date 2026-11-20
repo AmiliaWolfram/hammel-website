@@ -127,6 +127,12 @@
 .translation-editor[data-vacancy-editor="true"] .hr-vacancy-sidebar-actions .preview-open:hover,
 .translation-editor[data-vacancy-editor="true"] .hr-vacancy-portal-back:hover{background:#e30613!important;border-color:#e30613!important}
 </style>
+<style>
+.translation-editor .hr-inactive-language-hint{display:flex;align-items:baseline;flex-wrap:wrap;gap:5px 9px;margin:8px 0 22px;padding:0;background:transparent;border:0;color:#555;font-size:12px;line-height:1.5}
+.translation-editor .hr-inactive-language-hint__label{font-weight:700;color:#222}
+.translation-editor .hr-inactive-language-hint__action{display:inline-block;margin-left:4px;color:#171717!important;font-weight:700;text-decoration:none!important;border:0!important;border-bottom:2px solid #f1c400!important;padding:0 0 2px;background:transparent!important;transition:border-color .15s,color .15s}
+.translation-editor .hr-inactive-language-hint__action:hover{color:#e30613!important;border-bottom-color:#e30613!important}
+</style>
 <main class="translation-editor" data-vacancy-editor="{% if is_vacancy %}true{% else %}false{% endif %}">
 
 <p class="eyebrow">HAMMEL</p><h1>ÜBERSETZUNGEN <span class="hr-accent">BEARBEITEN</span></h1>{% if is_vacancy %}{% include "recruiting/partials/wizard.html" with current_step="translations" language=language %}{% endif %}
@@ -142,6 +148,13 @@
 {% elif not is_vacancy %}
 <nav class="language-tabs" aria-label="Sprache wählen">{% for code,name in languages %}<a class="tab {% if code == language %}active{% endif %}" href="?lang={{ code }}">{{ name }}</a>{% endfor %}</nav>
 {% endif %}
+{% if not is_vacancy %}{% if inactive_languages %}
+<div class="hr-inactive-language-hint" role="note">
+  <span class="hr-inactive-language-hint__label">Hinweis:</span>
+  <span>Inaktive Sprachen: {% for code,label in inactive_languages %}{{ label }}{% if not forloop.last %}, {% endif %}{% endfor %}.</span>
+  <a class="hr-inactive-language-hint__action" href="?lang={{ language }}&amp;show_inactive={% if show_inactive %}0{% else %}1{% endif %}">{% if show_inactive %}Ausblenden{% else %}Zur Bearbeitung anzeigen{% endif %}</a>
+</div>
+{% endif %}{% endif %}
 <div class="hr-translation-progress" id="hr-translation-progress" aria-live="polite"></div><div class="filter-toolbar" role="group" aria-label="Textfelder filtern"><input id="field-search" type="search" placeholder="Textfelder durchsuchen" aria-label="Textfelder durchsuchen"><button type="button" data-filter="all" class="active">ALLE</button><button type="button" data-filter="missing">NICHT ÜBERSETZT</button><button type="button" data-filter="review">ZUR PRÜFUNG</button><button type="button" data-filter="done">FERTIG</button><span id="field-count" aria-live="polite"></span><button type="button" id="jump-missing">ZUM NÄCHSTEN OFFENEN FELD ↓</button></div><div class="edit-toolbar"><strong>TEXTFELDER</strong><button type="button" class="preview-open" id="open-preview">VORSCHAU ANZEIGEN</button><span class="save-indicator" id="save-indicator" role="status">Keine ungespeicherten Änderungen</span></div>
 <div id="draft-prompt" class="notice" hidden><span>Ein nicht gespeicherter Entwurf wurde gefunden. </span><button type="button" class="restore" id="restore-draft">ENTWURF WIEDERHERSTELLEN</button> <button type="button" class="restore" id="discard-draft">VERWERFEN</button></div>
 {% if is_vacancy %}

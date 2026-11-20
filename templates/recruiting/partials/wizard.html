@@ -1,10 +1,23 @@
+{% load site_language_tabs %}
+{% active_site_languages as enabled_site_languages %}
 <nav class="hr-unified-steps" aria-label="Sprachen und Prüfung">
 {% if current_step == "de" %}<span aria-current="page">DE</span>{% else %}<a href="{% url 'hr_edit' 'vacancy' object.pk %}">DE</a>{% endif %}
 {% if object %}
-{% if current_step == "translations" and language == "en" %}<span aria-current="page">EN</span>{% else %}<a href="{% url 'translation_edit' 'recruiting' 'vacancy' object.pk %}?lang=en">EN</a>{% endif %}
-{% if current_step == "translations" and language == "fr" %}<span aria-current="page">FR</span>{% else %}<a href="{% url 'translation_edit' 'recruiting' 'vacancy' object.pk %}?lang=fr">FR</a>{% endif %}
-{% if current_step == "translations" and language == "es" %}<span aria-current="page">ES</span>{% else %}<a href="{% url 'translation_edit' 'recruiting' 'vacancy' object.pk %}?lang=es">ES</a>{% endif %}
-{% if current_step == "translations" and language == "it" %}<span aria-current="page">IT</span>{% else %}<a href="{% url 'translation_edit' 'recruiting' 'vacancy' object.pk %}?lang=it">IT</a>{% endif %}
+{% if "en" in enabled_site_languages or request.GET.show_inactive == "1" %}{% if current_step == "translations" and language == "en" %}<span aria-current="page">EN</span>{% else %}<a href="{% url 'translation_edit' 'recruiting' 'vacancy' object.pk %}?lang=en{% if request.GET.show_inactive == '1' %}&amp;show_inactive=1{% endif %}">EN</a>{% endif %}{% endif %}
+{% if "fr" in enabled_site_languages or request.GET.show_inactive == "1" %}{% if current_step == "translations" and language == "fr" %}<span aria-current="page">FR</span>{% else %}<a href="{% url 'translation_edit' 'recruiting' 'vacancy' object.pk %}?lang=fr{% if request.GET.show_inactive == '1' %}&amp;show_inactive=1{% endif %}">FR</a>{% endif %}{% endif %}
+{% if "es" in enabled_site_languages or request.GET.show_inactive == "1" %}{% if current_step == "translations" and language == "es" %}<span aria-current="page">ES</span>{% else %}<a href="{% url 'translation_edit' 'recruiting' 'vacancy' object.pk %}?lang=es{% if request.GET.show_inactive == '1' %}&amp;show_inactive=1{% endif %}">ES</a>{% endif %}{% endif %}
+{% if "it" in enabled_site_languages or request.GET.show_inactive == "1" %}{% if current_step == "translations" and language == "it" %}<span aria-current="page">IT</span>{% else %}<a href="{% url 'translation_edit' 'recruiting' 'vacancy' object.pk %}?lang=it{% if request.GET.show_inactive == '1' %}&amp;show_inactive=1{% endif %}">IT</a>{% endif %}{% endif %}
 {% if current_step == "review" %}<span aria-current="page">PRÜFUNG</span>{% else %}<a href="{% url 'hr_edit' 'vacancy' object.pk %}?step=review">PRÜFUNG</a>{% endif %}
-{% else %}<span class="disabled">EN</span><span class="disabled">FR</span><span class="disabled">ES</span><span class="disabled">IT</span><span class="disabled">PRÜFUNG</span>{% endif %}
+{% else %}{% if "en" in enabled_site_languages %}<span class="disabled">EN</span>{% endif %}{% if "fr" in enabled_site_languages %}<span class="disabled">FR</span>{% endif %}{% if "es" in enabled_site_languages %}<span class="disabled">ES</span>{% endif %}{% if "it" in enabled_site_languages %}<span class="disabled">IT</span>{% endif %}<span class="disabled">PRÜFUNG</span>{% endif %}
 </nav>
+<style>
+.hr-inactive-language-hint{margin:8px 0 22px!important;padding:0!important;background:transparent!important;border:0!important;color:#555!important;font-size:12px!important;line-height:1.6!important}
+.hr-inactive-language-hint strong{color:#171717!important}
+.hr-inactive-language-hint a{color:#171717!important;font-weight:700!important;text-decoration:none!important;border-bottom:2px solid #f1c400!important;padding-bottom:2px!important}
+.hr-inactive-language-hint a:hover{color:#e30613!important;border-bottom-color:#e30613!important}
+</style>
+
+{% inactive_site_language_names as hidden_language_names %}
+{% if hidden_language_names and object %}
+<div class="hr-inactive-language-hint" role="note"><strong>Hinweis:</strong> Inaktive Sprachen: {% for label in hidden_language_names %}{{ label }}{% if not forloop.last %}, {% endif %}{% endfor %}. <a href="?{% if current_step == 'translations' %}lang={{ language }}&amp;{% elif current_step == 'review' %}step=review&amp;{% endif %}show_inactive={% if request.GET.show_inactive == '1' %}0{% else %}1{% endif %}">{% if request.GET.show_inactive == '1' %}Ausblenden{% else %}Zur Bearbeitung anzeigen{% endif %}</a></div>
+{% endif %}
