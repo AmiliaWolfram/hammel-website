@@ -643,6 +643,20 @@ def machine_fields_manage(request):
     else: scope = "global"
     if request.method == "POST":
         action=request.POST.get("action")
+        if action in ("move_up", "move_down") and scope == "global":
+            with transaction.atomic():
+                field=get_object_or_404(MachineField.objects.select_for_update(),pk=request.POST.get("field_id"))
+                siblings=list(MachineField.objects.select_for_update().filter(section=field.section).order_by("position","pk"))
+                index=next((i for i,item in enumerate(siblings) if item.pk==field.pk),None)
+                other=index+(-1 if action=="move_up" else 1) if index is not None else -1
+                if 0 <= other < len(siblings):
+                    siblings[index],siblings[other]=siblings[other],siblings[index]
+                    for position,item in enumerate(siblings,1):
+                        if item.position != position:
+                            item.position=position
+                            item.save(update_fields=["position"])
+            messages.success(request,"Reihenfolge innerhalb des Bereichs aktualisiert.")
+            return redirect(request.get_full_path())
         if action == "add":
             label=request.POST.get("label","").strip()[:150]
             section=request.POST.get("section","technical")
@@ -651,7 +665,7 @@ def machine_fields_manage(request):
                 base=slugify(label)[:70] or "custom"; key=base; counter=2
                 while MachineField.objects.filter(key=key).exists():
                     key=f"{base}-{counter}"; counter+=1
-                MachineField.objects.create(key=key,label=label,section=section,field_type=ftype,position=MachineField.objects.count()+1)
+                MachineField.objects.create(key=key,label=label,section=section,field_type=ftype,position=(MachineField.objects.filter(section=section).aggregate(Max("position"))["position__max"] or 0)+1)
         elif action in ("save","archive","restore"):
             field=get_object_or_404(MachineField,pk=request.POST.get("field_id"))
             if action in ("archive","restore") and not field.is_system:
@@ -659,10 +673,10 @@ def machine_fields_manage(request):
             elif action=="save":
                 if scope=="global":
                     section=request.POST.get("section",field.section)
-                    if section in dict(MachineField.SECTIONS):field.section=section
+                    if section in dict(MachineField.SECTIONS) and section != field.section:
+                        field.section=section
+                        field.position=(MachineField.objects.filter(section=section).aggregate(Max("position"))["position__max"] or 0)+1
                     field.label=request.POST.get("label",field.label).strip()[:150] or field.label
-                    try:field.position=max(0,int(request.POST.get("position",field.position)))
-                    except ValueError:pass
                     field.show_public="show_public" in request.POST
                     field.show_compare="show_compare" in request.POST
                     field.save()
@@ -675,11 +689,12 @@ def machine_fields_manage(request):
         messages.success(request,"Feldverwaltung aktualisiert.")
         return redirect(request.get_full_path())
     rows=[]
-    for field in MachineField.objects.all():
+    section_labels=dict(MachineField.SECTIONS)
+    for field in MachineField.objects.all().order_by("section","position","pk"):
         setting=None
         if scope!="global":
             setting=MachineFieldSetting.objects.filter(field=field,**({"variant":target} if scope=="variant" else {"product":target})).first()
-        rows.append({"field":field,"public_setting":("inherit" if not setting or setting.show_public is None else "yes" if setting.show_public else "no"),"compare_setting":("inherit" if not setting or setting.show_compare is None else "yes" if setting.show_compare else "no")})
+        rows.append({"field":field,"section_label":section_labels.get(field.section,field.section),"public_setting":("inherit" if not setting or setting.show_public is None else "yes" if setting.show_public else "no"),"compare_setting":("inherit" if not setting or setting.show_compare is None else "yes" if setting.show_compare else "no")})
     return render(request,"messen/machine_fields_manage.html",{"rows":rows,"scope":scope,"target":target,"sections":MachineField.SECTIONS,"types":MachineField.FIELD_TYPES})
 
 

@@ -17,7 +17,6 @@
 {% endblock %}
 {% block content %}
 <main class="fv-page">
-  <a class="fv-back" href="{% url 'staff_machine_dashboard' %}">← ZURÜCK ZU MASCHINEN</a>
   <div class="eyebrow">VERTRIEB / MASCHINEN</div>
   <h1>FELDVERWALTUNG</h1>
   <p class="fv-intro">Legen Sie fest, welche Informationen auf der Website und im Maschinenvergleich erscheinen. Änderungen können Sie für jedes Feld einzeln speichern.</p>
@@ -30,9 +29,44 @@
       <button type="submit" class="fv-primary">FELD HINZUFÜGEN</button>
     </form>
   </details>
-  <div class="fv-list">
-  {% for row in rows %}
-    <article class="fv-card {% if row.field.archived %}fv-archived{% endif %}">
+  <section class="fv-guide" aria-label="So funktioniert die Feldverwaltung">
+ <div><span class="fv-guide-num">1</span><strong>Feld auswählen</strong><p>Unten ein vorhandenes Feld suchen oder ein neues Feld anlegen.</p></div>
+ <div><span class="fv-guide-num">2</span><strong>Einstellungen anpassen</strong><p>Bestimmen, wo das Feld erscheint. Die gespeicherten Maschinenwerte bleiben erhalten.</p></div>
+ <div><span class="fv-guide-num">3</span><strong>Einzeln speichern</strong><p>Nach jeder Änderung auf „Änderungen speichern“ im jeweiligen Feld klicken.</p></div>
+ </section>
+ <div class="fv-list-toolbar">
+  <div><h2>VORHANDENE FELDER <span id="fv-visible-count"></span></h2><p>Die Felder sind nach Bereich sortiert. Mit ↑ ↓ ändern Sie die Reihenfolge innerhalb eines Bereichs.</p></div>
+  <div class="fv-list-controls">
+   <label class="fv-search-label" for="fv-search">FELD SUCHEN<input id="fv-search" type="search" placeholder="z. B. Rotordurchmesser" autocomplete="off"></label>
+   <label class="fv-search-label" for="fv-filter">ANZEIGEN<div class="fv-custom-filter">
+  <button type="button" class="fv-filter-trigger" id="fv-filter-trigger" aria-haspopup="listbox" aria-expanded="false"><span id="fv-filter-current">Alle Felder</span><span class="fv-filter-chevron">⌄</span></button>
+  <div class="fv-filter-menu" id="fv-filter-menu" role="listbox" hidden>
+   <button type="button" role="option" aria-selected="true" data-value="all">Alle Felder</button>
+   <button type="button" role="option" aria-selected="false" data-value="system">Systemfelder</button>
+   <button type="button" role="option" aria-selected="false" data-value="custom">Eigene Felder</button>
+   <button type="button" role="option" aria-selected="false" data-value="archived">Archivierte Felder</button>
+  </div>
+  <input type="hidden" id="fv-filter" value="all">
+ </div></label>
+  </div>
+ </div>
+ <p class="fv-no-results" id="fv-no-results" hidden>Keine passenden Felder gefunden. Versuchen Sie einen anderen Suchbegriff oder Filter.</p>
+ {% regroup rows by section_label as field_groups %}
+ <div class="fv-section-list">
+ {% for group in field_groups %}
+ <section class="fv-section" aria-label="{{ group.grouper }}">
+ <header class="fv-section-head"><h3>{{ group.grouper }}</h3><span>{{ group.list|length }} FELDER</span></header>
+ <div class="fv-list">
+  {% for row in group.list %}
+    <article class="fv-card {% if row.field.archived %}fv-archived{% endif %}" data-field-kind="{% if row.field.is_system %}system{% else %}custom{% endif %}" data-archived="{% if row.field.archived %}true{% else %}false{% endif %}">
+      <button class="fv-card-toggle" type="button" aria-expanded="false"><span class="fv-card-toggle-name">{{ row.field.label }}</span><span class="fv-card-toggle-meta">{% if row.field.is_system %}SYSTEMFELD{% else %}EIGENES FELD{% endif %}{% if row.field.archived %} · ARCHIVIERT{% endif %}</span><span class="fv-card-toggle-arrow" aria-hidden="true">⌄</span></button>
+      {% if scope == 'global' %}
+      <div class="fv-order-actions" aria-label="Reihenfolge innerhalb von {{ row.section_label }} ändern">
+        <form method="post" class="fv-order-form">{% csrf_token %}<input type="hidden" name="action" value="move_up"><input type="hidden" name="field_id" value="{{ row.field.pk }}"><button type="submit" title="Feld nach oben verschieben" aria-label="{{ row.field.label }} nach oben verschieben">↑</button></form>
+        <form method="post" class="fv-order-form">{% csrf_token %}<input type="hidden" name="action" value="move_down"><input type="hidden" name="field_id" value="{{ row.field.pk }}"><button type="submit" title="Feld nach unten verschieben" aria-label="{{ row.field.label }} nach unten verschieben">↓</button></form>
+      </div>
+      {% endif %}
+      <div class="fv-card-body" hidden>
       <form method="post" class="fv-edit">{% csrf_token %}
         <input type="hidden" name="action" value="save"><input type="hidden" name="field_id" value="{{ row.field.pk }}">
         <header class="fv-card-head"><div class="fv-name"><strong>{{ row.field.label }}</strong><span class="fv-tag">{% if row.field.is_system %}SYSTEMFELD{% else %}EIGENES FELD{% endif %}</span>{% if row.field.archived %}<span class="fv-tag">ARCHIVIERT</span>{% endif %}</div>
@@ -41,8 +75,8 @@
         {% if scope == 'global' %}
         <div class="fv-global-settings">
           <label>FELDNAME<input name="label" value="{{ row.field.label }}" aria-label="Feldname"></label>
-          <label>BEREICH<select name="section">{% for key,label in sections %}<option value="{{ key }}" {% if row.field.section == key %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
-          <label>REIHENFOLGE<input name="position" type="number" min="0" value="{{ row.field.position }}" aria-label="Reihenfolge"></label>
+          <label>BEREICH<select name="section">{% for key,label in sections %}<option value="{{ key }}" {% if row.field.section == key %}selected{% endif %}>{{ label }}</option>{% endfor %}</select><small class="fv-section-help">Bereich ändern und anschließend „ÄNDERUNGEN SPEICHERN“ klicken. Erst dann wird das Feld verschoben.</small></label>
+          
         </div>
         <div class="fv-options">
           <div class="fv-option"><div><strong>AUF DER WEBSITE</strong><small>Im Maschinenprofil anzeigen</small></div><label class="fv-toggle"><input type="checkbox" name="show_public" {% if row.field.show_public %}checked{% endif %}><span class="fv-track"></span><span class="fv-toggle-label">SICHTBAR</span></label></div>
@@ -64,10 +98,104 @@
         {% endif %}
       </form>
       {% if not row.field.is_system %}<form method="post" class="fv-archive">{% csrf_token %}<input type="hidden" name="field_id" value="{{ row.field.pk }}"><button name="action" value="{% if row.field.archived %}restore{% else %}archive{% endif %}">{% if row.field.archived %}↺ FELD WIEDERHERSTELLEN{% else %}ARCHIVIEREN{% endif %}</button></form>{% endif %}
+      </div>
     </article>
-  {% empty %}<p>Für diesen Bereich sind noch keine Felder vorhanden.</p>{% endfor %}
+  {% endfor %}
   </div>
+ </section>
+ {% empty %}<p>Für diesen Bereich sind noch keine Felder vorhanden.</p>
+ {% endfor %}
+ </div>
+  <div class="fv-footer-nav"><a class="fv-back" href="{% url 'staff_machine_dashboard' %}">ZURÜCK ZU MASCHINEN</a></div>
 </main>
+<style id="fv-layout-polish-20261120">
+.fv-scope{border-left:0!important;border:1px solid #e8e8e8!important;padding:22px 25px!important;gap:24px!important}
+.fv-scope>span{font-size:12px!important}.fv-scope strong{font-size:20px}
+.fv-footer-nav{display:flex;justify-content:flex-start;margin-top:40px}
+.fv-footer-nav .fv-back{display:inline-flex;align-items:center;justify-content:center;background:#171717;color:#fff!important;text-decoration:none;border:0;margin:0!important;padding:18px 28px;font-size:12px;letter-spacing:.04em;font-weight:800;transition:background .2s}
+.fv-footer-nav .fv-back:hover{background:#e30613}
+.fv-card{position:relative;padding-right:0!important}
+.fv-card-toggle{padding-right:112px!important}
+.fv-order-actions{position:absolute;top:11px;right:12px;display:flex;gap:5px;z-index:3}
+.fv-order-form{margin:0}.fv-order-form button{height:37px;width:37px;border:1px solid #ddd;background:#f6f6f6;color:#202020;font-size:20px;cursor:pointer;line-height:1}
+.fv-order-form button:hover,.fv-order-form button:focus-visible{background:#171717;color:white;border-color:#171717}
+.fv-custom-filter{position:relative;min-width:205px}
+.fv-filter-trigger{display:flex;justify-content:space-between;align-items:center;gap:20px;width:100%;height:46px;border:1px solid #cfcfcf;background:white;color:#222;padding:0 13px;text-align:left;font-size:14px;cursor:pointer}
+.fv-filter-trigger[aria-expanded="true"]{border:2px solid #e30613}
+.fv-filter-chevron{font-size:19px;color:#e30613}
+.fv-filter-menu{position:absolute;top:calc(100% + 3px);left:0;right:0;z-index:100;background:#fff;border:1px solid #ccc;box-shadow:0 9px 25px #0002;padding:5px}
+.fv-filter-menu[hidden]{display:none!important}
+.fv-filter-menu button{display:block;width:100%;text-align:left;background:white;border:0;color:#222;padding:13px 12px;font-size:14px;cursor:pointer}
+.fv-filter-menu button:hover,.fv-filter-menu button:focus-visible{background:#f1f1f1;color:#e30613}
+.fv-filter-menu button[aria-selected="true"]{background:#292929;color:#f4d600}
+.fv-filter-menu button[aria-selected="true"]:hover{background:#292929;color:#f4d600}
+.fv-global-settings{grid-template-columns:1fr 1fr!important}
+@media(max-width:540px){.fv-card-toggle{padding-right:95px!important}.fv-order-actions{right:7px}.fv-order-form button{width:32px;height:32px}.fv-global-settings{grid-template-columns:1fr!important}.fv-custom-filter{min-width:0}}
+</style>
+<style id="fv-user-friendly-20261120">
+.fv-page{max-width:1320px!important}.fv-guide{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0 0 35px}
+.fv-guide>div{background:#f5f5f5;padding:23px 24px;border:1px solid #e7e7e7}
+.fv-guide-num{display:block;font-size:12px;font-weight:900;color:#d60011;margin-bottom:12px}
+.fv-guide strong{font-size:16px;color:#1c1c1c}.fv-guide p{font-size:13px;line-height:1.55;color:#666;margin:8px 0 0}
+.fv-list-toolbar{display:flex;justify-content:space-between;align-items:end;gap:22px;margin:20px 0 16px}
+.fv-list-toolbar h2{font-size:23px;margin:0 0 5px;letter-spacing:-.02em}
+.fv-list-toolbar h2 span{font-size:13px;color:#888;vertical-align:middle}
+.fv-list-toolbar p{color:#777;font-size:13px;margin:0}
+.fv-list-controls{display:flex;gap:12px;align-items:end}
+.fv-search-label{display:flex;flex-direction:column;gap:7px;font-size:10px;font-weight:800;letter-spacing:.05em;color:#555}
+.fv-search-label input,.fv-search-label select{height:46px;border:1px solid #cfcfcf;background:white;padding:0 13px;font-size:14px;min-width:205px;box-sizing:border-box}
+.fv-search-label input:focus,.fv-search-label select:focus{outline:2px solid #e30613;outline-offset:1px}
+.fv-list{gap:9px!important}.fv-card{padding:0!important;overflow:hidden;box-shadow:none!important}
+.fv-card-toggle{width:100%;background:#fff;border:0;padding:19px 23px;display:flex;gap:14px;align-items:center;text-align:left;cursor:pointer;color:#1b1b1b}
+.fv-card-toggle:hover{background:#f7f7f7}.fv-card-toggle:focus-visible{outline:2px solid #e30613;outline-offset:-2px}
+.fv-card-toggle-name{font-size:17px;font-weight:800;flex:1}.fv-card-toggle-meta{font-size:10px;font-weight:800;color:#777;letter-spacing:.04em}
+.fv-card-toggle-arrow{font-size:25px;color:#777;line-height:1;transition:transform .2s}
+.fv-card-toggle[aria-expanded="true"] .fv-card-toggle-arrow{transform:rotate(180deg)}
+.fv-card-body{border-top:1px solid #e5e5e5;padding:22px 24px 20px;background:#fff}
+.fv-card[hidden],.fv-card-body[hidden],.fv-no-results[hidden]{display:none!important}
+.fv-no-results{padding:24px;background:#f5f5f5;color:#555}
+.fv-card-head{margin-bottom:18px}.fv-archived .fv-card-toggle{background:#fafafa}
+@media(max-width:900px){.fv-guide{grid-template-columns:1fr}.fv-list-toolbar{align-items:stretch;flex-direction:column}.fv-list-controls{width:100%}.fv-search-label{flex:1}.fv-search-label input,.fv-search-label select{min-width:0;width:100%}}
+@media(max-width:540px){.fv-list-controls{flex-direction:column;align-items:stretch}.fv-card-toggle{padding:16px;flex-wrap:wrap}.fv-card-toggle-meta{order:3;width:100%}.fv-card-body{padding:16px}}
+</style>
+<script id="fv-user-friendly-behavior-20261120">
+document.addEventListener("DOMContentLoaded",function(){
+ const cards=Array.from(document.querySelectorAll(".fv-list .fv-card"));
+ const search=document.getElementById("fv-search"),filter=document.getElementById("fv-filter");
+ const count=document.getElementById("fv-visible-count"),empty=document.getElementById("fv-no-results");
+ const trigger=document.getElementById("fv-filter-trigger"),menu=document.getElementById("fv-filter-menu"),current=document.getElementById("fv-filter-current");
+ function closeMenu(){menu.hidden=true;trigger.setAttribute("aria-expanded","false");}
+ trigger.addEventListener("click",()=>{const open=menu.hidden;menu.hidden=!open;trigger.setAttribute("aria-expanded",String(open));});
+ menu.querySelectorAll("[role=option]").forEach(option=>option.addEventListener("click",()=>{
+  filter.value=option.dataset.value;current.textContent=option.textContent;
+  menu.querySelectorAll("[role=option]").forEach(o=>o.setAttribute("aria-selected",String(o===option)));
+  closeMenu();update();trigger.focus();
+ }));
+ document.addEventListener("click",e=>{if(!e.target.closest(".fv-custom-filter"))closeMenu();});
+ trigger.addEventListener("keydown",e=>{if(e.key==="Escape")closeMenu();if(e.key==="ArrowDown"){e.preventDefault();menu.hidden=false;trigger.setAttribute("aria-expanded","true");menu.querySelector("[role=option]").focus();}});
+ menu.addEventListener("keydown",e=>{if(e.key==="Escape"){closeMenu();trigger.focus();}if(e.key==="ArrowDown"||e.key==="ArrowUp"){e.preventDefault();const options=[...menu.querySelectorAll("[role=option]")];const i=options.indexOf(document.activeElement);options[(i+(e.key==="ArrowDown"?1:options.length-1))%options.length].focus();}});
+
+ function update(){
+  const q=(search.value||"").toLocaleLowerCase("de").trim(),f=filter.value;
+  let shown=0;
+  cards.forEach(card=>{
+   const matchText=card.querySelector(".fv-card-toggle-name").textContent.toLocaleLowerCase("de").includes(q);
+   const matchType=f==="all"||(f==="archived"?card.dataset.archived==="true":card.dataset.fieldKind===f);
+   const visible=matchText&&matchType;card.hidden=!visible;if(visible)shown++;
+  });
+  document.querySelectorAll(".fv-section").forEach(section=>{
+   section.hidden=![...section.querySelectorAll(".fv-card")].some(card=>!card.hidden);
+  });
+  count.textContent="("+shown+" / "+cards.length+")";empty.hidden=shown!==0;
+ }
+ cards.forEach(card=>{
+  const toggle=card.querySelector(".fv-card-toggle"),body=card.querySelector(".fv-card-body");
+  toggle.addEventListener("click",()=>{const open=toggle.getAttribute("aria-expanded")!=="true";toggle.setAttribute("aria-expanded",String(open));body.hidden=!open;});
+  card.querySelectorAll("input,select").forEach(el=>el.addEventListener("change",()=>{card.classList.add("fv-has-changes");toggle.setAttribute("aria-expanded","true");body.hidden=false;}));
+ });
+ search.addEventListener("input",update);update();
+});
+</script>
 <style>
 .fv-page{max-width:1200px;margin:0 auto;padding:40px 28px 110px;color:#191919}.fv-page h1{font-size:clamp(36px,5vw,68px);line-height:1.05;margin:14px 0 20px}.fv-back{display:inline-block;margin-bottom:45px;color:#555;font-size:12px;font-weight:800;text-decoration:none;letter-spacing:.05em}.fv-intro{max-width:730px;color:#666;line-height:1.6;margin-bottom:30px}.fv-scope{display:flex;align-items:center;flex-wrap:wrap;gap:14px;background:#f3f3f3;border-left:4px solid #e30613;padding:16px 20px;margin-bottom:22px}.fv-scope>span,.fv-scope a{font-size:11px;font-weight:800;letter-spacing:.05em}.fv-scope>span{color:#777}.fv-scope a{margin-left:auto;color:#202020}.fv-add{border:1px solid #d9d9d9;background:white;margin-bottom:28px}.fv-add summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:16px;padding:20px}.fv-add summary::-webkit-details-marker{display:none}.fv-add summary strong,.fv-add summary small{display:block}.fv-add summary small{font-size:12px;color:#777;margin-top:4px}.fv-plus{background:#e30613;color:white;font-size:24px;display:grid;place-items:center;width:42px;height:42px}.fv-chevron{margin-left:auto;font-size:25px}.fv-add[open] .fv-chevron{transform:rotate(180deg)}.fv-add-form{display:grid;grid-template-columns:2fr 1fr 1fr auto;align-items:end;gap:14px;padding:20px;border-top:1px solid #eee}.fv-add-form label,.fv-global-settings label{font-size:11px;letter-spacing:.04em;font-weight:800}.fv-add-form input,.fv-add-form select,.fv-global-settings input,.fv-global-settings select{display:block;width:100%;box-sizing:border-box;margin-top:8px;background:white;border:1px solid #ccc;padding:13px;font-size:14px;min-height:46px}.fv-primary{background:#e30613;color:white;border:0;padding:15px 20px;font-weight:900;cursor:pointer}.fv-list{display:grid;gap:18px}.fv-card{background:#fff;border:1px solid #ddd;padding:24px 26px;box-shadow:0 3px 14px rgba(0,0,0,.025)}.fv-card:focus-within{border-color:#999}.fv-card-head{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:20px}.fv-name{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.fv-name>strong{font-size:21px}.fv-tag{font-size:10px;font-weight:900;letter-spacing:.05em;background:#f0f0f0;color:#777;padding:6px 9px}.fv-save{background:#171717;border:1px solid #171717;color:white;font-size:12px;font-weight:900;letter-spacing:.02em;padding:14px 17px;cursor:pointer;white-space:nowrap}.fv-save:hover{background:#e30613;border-color:#e30613}.fv-save span{padding-left:8px}.fv-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.fv-option{background:#f8f8f8;border:1px solid #e9e9e9;padding:16px;display:flex;flex-direction:column;gap:15px}.fv-option>div:first-child strong{font-size:12px;letter-spacing:.06em}.fv-option>div:first-child small{display:block;color:#777;margin-top:5px;font-size:12px}.fv-segment{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;background:#e9e9e9;border-radius:7px;padding:5px}.fv-segment label{position:relative;min-width:0;cursor:pointer}.fv-segment input{position:absolute;opacity:0;width:1px;height:1px}.fv-segment span{display:flex;align-items:center;justify-content:center;min-height:43px;padding:7px 5px;box-sizing:border-box;border-radius:5px;text-align:center;font-size:12px;font-weight:800;color:#666;transition:background .15s,color .15s}.fv-segment input:checked+span{background:#171717;color:white;box-shadow:0 1px 5px #0002}.fv-segment input:focus-visible+span{outline:3px solid #e30613;outline-offset:2px}.fv-segment label:hover span{color:#e30613}.fv-segment input:checked+span:hover{color:white}.fv-global-settings{display:grid;grid-template-columns:2fr 2fr 100px;gap:14px;margin-bottom:18px}.fv-toggle{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:11px;font-weight:900}.fv-toggle input{position:absolute;opacity:0}.fv-track{width:47px;height:27px;background:#bbb;border-radius:20px;position:relative;transition:background .15s}.fv-track:before{content:'';position:absolute;left:4px;top:4px;width:19px;height:19px;border-radius:50%;background:white;transition:transform .15s}.fv-toggle input:checked+.fv-track{background:#e30613}.fv-toggle input:checked+.fv-track:before{transform:translateX(20px)}.fv-toggle input:focus-visible+.fv-track{outline:3px solid #222;outline-offset:3px}.fv-archive{text-align:right;margin-top:14px}.fv-archive button{border:0;background:transparent;color:#777;font-size:11px;font-weight:900;cursor:pointer}.fv-archive button:hover{color:#e30613}.fv-archived{opacity:.7}@media(max-width:950px){.fv-options{grid-template-columns:1fr}.fv-add-form{grid-template-columns:1fr 1fr}.fv-global-settings{grid-template-columns:1fr 1fr}}@media(max-width:560px){.fv-page{padding:28px 15px 80px}.fv-card{padding:17px}.fv-card-head{align-items:flex-start;flex-direction:column}.fv-save{width:100%}.fv-add-form,.fv-global-settings{grid-template-columns:1fr}.fv-segment span{font-size:11px}.fv-scope a{margin-left:0}}
 </style>
